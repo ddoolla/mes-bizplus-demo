@@ -1,0 +1,35 @@
+.login-wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: url(../images/bg.jpg);
+    background-position: center center;
+    background-size: cover;
+    /*background: white;*/
+}
+
+.login-container {
+    width: 330px;
+    margin: 25vh auto;
+    padding-bottom: 10px;
+}
+
+.login-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.login-header > h1 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.login-body {
+    padding: .7rem;
+    background: #fff;
+    border-radius: 5px;
+    line-grid: initial;
+}

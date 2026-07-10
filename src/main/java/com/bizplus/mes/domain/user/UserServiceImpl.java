@@ -53,6 +53,8 @@ public class UserServiceImpl implements UserService {
                 positionCode
         );
 
+        // todo 권한 관련 로직
+
         return userRepository.save(newUser).getId();
     }
 
@@ -73,6 +75,8 @@ public class UserServiceImpl implements UserService {
                 departmentCode,
                 positionCode
         );
+
+        // todo 권한 관련 로직
     }
 
     @Transactional

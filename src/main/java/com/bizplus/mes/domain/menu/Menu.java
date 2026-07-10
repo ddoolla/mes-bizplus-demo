@@ -46,4 +46,18 @@ public class Menu {
         this.path = path;
         this.sortOrder = sortOrder;
     }
+
+    public void update(Menu parent,
+                       String code,
+                       String name,
+                       MenuType type,
+                       String path,
+                       Integer sortOrder) {
+        this.parent = parent;
+        this.code = code;
+        this.name = name;
+        this.type = type;
+        this.path = path;
+        this.sortOrder = sortOrder;
+    }
 }

@@ -39,6 +39,8 @@ public class AdminUserInitializer implements ApplicationRunner {
                 null
         );
 
+        // todo 권한 관련 로직
+
         userRepository.save(admin);
     }
 }

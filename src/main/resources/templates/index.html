@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout (_, ~{}, ~{}, _, ~{::#content}, ~{})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-hello
+<!--    <div id="content">-->
+<!--        <div th:replace="~{/fragments/content/default :: content ('test', 'test, test', ~{::#content-body})}">-->
+<!--            <div id="content-body">-->
+<!--                test-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div id="content">
+        <div class="box box-bg" style="height: 97vh"></div>
+    </div>
 </body>
 </html>

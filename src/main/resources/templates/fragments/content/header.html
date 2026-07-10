@@ -1,0 +1,13 @@
+<!-- 콘텐츠 헤더 -->
+<!-- navigation 파라미터 전달 시 쉼표를 구분자로 전달 -->
+<div class="content-header" th:fragment="header (title, navigation)">
+    <div>
+        <p class="title" th:text="${title}"></p>
+    </div>
+    <div>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home" aria-hidden="true"></i></li>
+            <li th:each="menu : ${#strings.arraySplit(navigation, ',')}" th:text="${menu}"></li>
+        </ol>
+    </div>
+</div>

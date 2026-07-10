@@ -1,0 +1,21 @@
+<!--/* 기본 레이아웃 */-->
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout (title, links, headScripts, active, content, bodyScript)"
+>
+<head th:replace="~{fragments/layout/head :: head (${title}, ${links}, ${headScripts})}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrapper">
+    <!--/* 사이드바 */-->
+    <div th:replace="~{fragments/layout/sidebar :: sidebar (${active})}"></div>
+
+    <!--/* 콘텐츠 */-->
+    <div class="container" th:insert="${content}"></div>
+</div>
+<script th:replace="${bodyScript}"></script>
+</body>
+</html>

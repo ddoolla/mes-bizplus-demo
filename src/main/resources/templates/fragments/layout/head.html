@@ -1,0 +1,23 @@
+<!--/* 헤더 */-->
+<head th:fragment="head (title, links, scripts)">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${title} ?: _">BizPlus MES</title>
+    <!--/* 공통 스타일 */-->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/lib/jquery-ui/jquery-ui.min.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <!--/* 추가 스타일 */-->
+    <th:block th:replace="${links}"></th:block>
+    <!--/* 공통 스크립트 */-->
+    <script th:src="@{/lib/jquery/jquery-4.0.0.min.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/jquery-ui/jquery-ui.min.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/jquery-validation/jquery.validate.min.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/jquery-validation/additional-methods.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/common.js}" type="text/javascript"></script>
+    <!--/* 추가 스크립트 */-->
+    <th:block th:replace="${scripts}"></th:block>
+</head>
+

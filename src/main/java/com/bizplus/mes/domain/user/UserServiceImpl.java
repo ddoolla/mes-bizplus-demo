@@ -20,8 +20,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+
+    private final UserReader userReader;
     private final CommonCodeReader commonCodeReader;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserListDto getUsers(UserSearchDto dto, Pageable pageable) {
@@ -62,19 +65,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(Long id, UserUpdateDto dto) {
 
-        User user = userRepository.findByIdAndDeletedAtIsNull(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, id));
-
         CommonCode departmentCode = commonCodeReader.getOrNull(dto.getDepartmentId());
         CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
 
-        user.update(
-                dto.getName(),
-                dto.getEmail(),
-                dto.getPhone(),
-                departmentCode,
-                positionCode
-        );
+        userReader.getById(id)
+                .update(dto.getName(),
+                        dto.getEmail(),
+                        dto.getPhone(),
+                        departmentCode,
+                        positionCode);
 
         // todo 권한 관련 로직
     }
@@ -82,10 +81,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void deleteUsers(List<Long> ids) {
+
         ids.forEach(id -> {
-            userRepository.findByIdAndDeletedAtIsNull(id)
-                    .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, id))
-                    .delete();
+            userReader.getById(id).delete();
         });
     }
 }

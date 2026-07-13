@@ -18,12 +18,12 @@ public class PermissionInitializeService {
     @Transactional
     public void initialize() {
 
-        for (PermissionSeed seed : PermissionSeed.values()) {
+        for (PermissionInitialData data : PermissionInitialData.values()) {
 
-            String menuCode = seed.getMenu().getCode();
-            String code = seed.name();
-            String name = seed.getName();
-            PermissionAction action = seed.getAction();
+            String menuCode = data.getMenu().getCode();
+            String code = data.name();
+            String name = data.getName();
+            PermissionAction action = data.getAction();
 
             Menu menu = menuRepository.findByCode(menuCode)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, menuCode));

@@ -18,6 +18,8 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
+    private final RoleReader roleReader;
+
     @Override
     public RoleListDto getRoles(RoleSearchDto dto, Pageable pageable) {
 
@@ -47,19 +49,15 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void updateRole(Long id, RoleUpdateDto dto) {
 
-        Role role = roleRepository.findByIdAndDeletedAtIsNull(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.ROLE_NOT_FOUND, id));
-
-        role.update(dto.getName(), dto.getDescription());
+        roleReader.getById(id)
+                .update(dto.getName(), dto.getDescription());
     }
 
     @Transactional
     @Override
     public void deleteRoles(List<Long> ids) {
         ids.forEach(id -> {
-            roleRepository.findByIdAndDeletedAtIsNull(id)
-                    .orElseThrow(() -> new NotFoundException(ErrorCode.ROLE_NOT_FOUND, id))
-                    .delete();
+            roleReader.getById(id).delete();
         });
     }
 }

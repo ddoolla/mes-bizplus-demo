@@ -8,5 +8,5 @@ public interface RoleRepository extends JpaRepository<Role, Long>, RoleQueryRepo
 
     Optional<Role> findByIdAndDeletedAtIsNull(Long id);
 
-    boolean existsByCode(String code);
+    Optional<Role> findByCode(String code);
 }

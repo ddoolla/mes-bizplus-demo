@@ -15,36 +15,36 @@ public class MenuInitializeService {
     @Transactional
     public void initialize() {
 
-        for (MenuSeed menuSeed : MenuSeed.values()) {
+        for (MenuInitialData data : MenuInitialData.values()) {
 
             Menu parentMenu = null;
 
-            if (menuSeed.getParentMenu() != null) {
-                parentMenu = menuRepository.findByCode(menuSeed.getParentMenu())
-                        .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, menuSeed.getCode()));
+            if (data.getParentMenu() != null) {
+                parentMenu = menuRepository.findByCode(data.getParentMenu().getCode())
+                        .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, data.getCode()));
             }
 
-            Menu menu = menuRepository.findByCode(menuSeed.getCode())
+            Menu menu = menuRepository.findByCode(data.getCode())
                     .orElse(null);
 
             if (menu != null) {
                 menu.update(
                         parentMenu,
-                        menuSeed.getCode(),
-                        menuSeed.getName(),
-                        menuSeed.getType(),
-                        menuSeed.getPath(),
-                        menuSeed.getSortOrder()
+                        data.getCode(),
+                        data.getName(),
+                        data.getType(),
+                        data.getPath(),
+                        data.getSortOrder()
                 );
             } else {
 
                 Menu newMenu = new Menu(
                         parentMenu,
-                        menuSeed.getCode(),
-                        menuSeed.getName(),
-                        menuSeed.getType(),
-                        menuSeed.getPath(),
-                        menuSeed.getSortOrder()
+                        data.getCode(),
+                        data.getName(),
+                        data.getType(),
+                        data.getPath(),
+                        data.getSortOrder()
                 );
 
                 menuRepository.save(newMenu);

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
+ * 확장성을 위해 중간 테이블을 두었지만, 현재는 사용자별 1개의 역할만 부여.
  * 물리 삭제 데이터
  */
 @Entity
@@ -30,6 +31,10 @@ public class UserRole {
 
     public UserRole(User user, Role role) {
         this.user = user;
+        this.role = role;
+    }
+
+    public void updateRole(Role role) {
         this.role = role;
     }
 }

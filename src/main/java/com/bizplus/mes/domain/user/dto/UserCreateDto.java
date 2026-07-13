@@ -1,12 +1,16 @@
 package com.bizplus.mes.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class UserCreateDto {
+
+    @NotNull
+    private Long roleId;
 
     @NotBlank
     private String userId;

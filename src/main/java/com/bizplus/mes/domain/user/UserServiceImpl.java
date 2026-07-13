@@ -5,7 +5,11 @@ import com.bizplus.mes.common.exception.NotFoundException;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.role.Role;
+import com.bizplus.mes.domain.role.RoleReader;
 import com.bizplus.mes.domain.user.dto.*;
+import com.bizplus.mes.domain.user.role.UserRole;
+import com.bizplus.mes.domain.user.role.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +24,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    private final UserReader userReader;
     private final CommonCodeReader commonCodeReader;
+    private final UserReader userReader;
+    private final RoleReader roleReader;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -43,22 +49,26 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, id));
     }
 
+    @Transactional
     @Override
     public Long createUser(UserCreateDto dto) {
 
         CommonCode departmentCode = commonCodeReader.getOrNull(dto.getDepartmentId());
         CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
 
-        User newUser = UserMapper.toEntity(
-                dto,
-                passwordEncoder.encode(dto.getPassword()),
-                departmentCode,
-                positionCode
-        );
+        User newUser = userRepository.save(UserMapper
+                .toEntity(
+                        dto,
+                        passwordEncoder.encode(dto.getPassword()),
+                        departmentCode,
+                        positionCode
+                ));
 
-        // todo 권한 관련 로직
+        Role role = roleReader.getById(dto.getRoleId());
 
-        return userRepository.save(newUser).getId();
+        userRoleRepository.save(new UserRole(newUser, role));
+
+        return newUser.getId();
     }
 
     @Transactional
@@ -68,14 +78,19 @@ public class UserServiceImpl implements UserService {
         CommonCode departmentCode = commonCodeReader.getOrNull(dto.getDepartmentId());
         CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
 
-        userReader.getById(id)
-                .update(dto.getName(),
-                        dto.getEmail(),
-                        dto.getPhone(),
-                        departmentCode,
-                        positionCode);
+        User user = userReader.getById(id);
 
-        // todo 권한 관련 로직
+        user.update(dto.getName(),
+                dto.getEmail(),
+                dto.getPhone(),
+                departmentCode,
+                positionCode);
+
+        Role role = roleReader.getById(dto.getRoleId());
+
+        // 사용자별 1개의 역할만 부여
+        userRoleRepository.deleteByUser(user);
+        userRoleRepository.save(new UserRole(user, role));
     }
 
     @Transactional

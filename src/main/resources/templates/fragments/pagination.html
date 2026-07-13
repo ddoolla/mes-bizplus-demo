@@ -1,0 +1,30 @@
+<div th:fragment="pagination (pagination)">
+    <div class="pagination" th:if="${pagination.totalPages > 0}">
+        <a class="first"
+           th:if="${pagination.hasFirst}"
+           th:href="@{${path}(page=0)}">
+            처음
+        </a>
+        <a class="prev"
+           th:if="${pagination.hasPrevious}"
+           th:href="@{${path}(page=${pagination.blockStartPage - 2})}">
+            이전
+        </a>
+        <a class="page-link"
+           th:each="page : ${#numbers.sequence(pagination.blockStartPage, pagination.blockEndPage)}"
+           th:href="@{${path}(page=${page - 1})}"
+           th:text="${page}"
+           th:classappend="${page == pagination.page} ? ' active'">
+        </a>
+        <a class="next"
+           th:if="${pagination.hasNext}"
+           th:href="@{${path}(page=${pagination.blockEndPage})}">
+            다음
+        </a>
+        <a class="last"
+           th:if="${pagination.hasLast}"
+           th:href="@{${path}(page=${pagination.totalPages - 1})}">
+            마지막
+        </a>
+    </div>
+</div>

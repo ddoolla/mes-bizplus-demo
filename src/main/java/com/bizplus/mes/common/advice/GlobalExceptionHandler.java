@@ -1,5 +1,6 @@
-package com.bizplus.mes.common.exception;
+package com.bizplus.mes.common.advice;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,7 +1,6 @@
 package com.bizplus.mes.domain.user.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
@@ -14,6 +13,7 @@ public class UserDto {
     private final String phone;
     private final String department;
     private final String position;
+    private final String role;
 
     @QueryProjection
     public UserDto(Long id,
@@ -22,7 +22,8 @@ public class UserDto {
                    String email,
                    String phone,
                    String department,
-                   String position) {
+                   String position,
+                   String role) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -30,5 +31,6 @@ public class UserDto {
         this.phone = phone;
         this.department = department;
         this.position = position;
+        this.role = role;
     }
 }

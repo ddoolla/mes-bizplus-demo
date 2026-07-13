@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtil.*;
+import static com.bizplus.mes.domain.role.QRole.role;
 import static com.bizplus.mes.domain.user.QUser.user;
+import static com.bizplus.mes.domain.user.role.QUserRole.userRole;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -44,11 +46,14 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                         user.email,
                         user.phone,
                         departmentCode.name,
-                        positionCode.name
+                        positionCode.name,
+                        role.name
                 ))
                 .from(user)
                 .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
                 .leftJoin(positionCode).on(user.position.id.eq(positionCode.id))
+                .innerJoin(userRole).on(user.id.eq(userRole.user.id))
+                .innerJoin(role).on(userRole.role.id.eq(role.id))
                 .where(searchCondition)
                 .orderBy(user.userId.asc(), user.name.asc())
                 .limit(pageable.getPageSize())
@@ -60,6 +65,8 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                 .from(user)
                 .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
                 .leftJoin(positionCode).on(user.position.id.eq(positionCode.id))
+                .innerJoin(userRole).on(user.id.eq(userRole.user.id))
+                .innerJoin(role).on(userRole.role.id.eq(role.id))
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
@@ -80,11 +87,14 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                                 user.email,
                                 user.phone,
                                 departmentCode.name,
-                                positionCode.name
+                                positionCode.name,
+                                role.name
                         ))
                         .from(user)
                         .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
                         .leftJoin(positionCode).on(user.position.id.eq(positionCode.id))
+                        .innerJoin(userRole).on(user.id.eq(userRole.user.id))
+                        .innerJoin(role).on(userRole.role.id.eq(role.id))
                         .where(
                                 notDeleted(user.deletedAt),
                                 eq(user.id, id)

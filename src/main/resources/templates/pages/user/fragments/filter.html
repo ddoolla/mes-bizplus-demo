@@ -1,0 +1,69 @@
+<div th:fragment="filter (url, count, showActions)">
+    <form method="GET" th:action="${url}">
+        <table class="table-input">
+            <colgroup>
+                <col style="width: 10%">
+                <col style="width: 22%">
+                <col style="width: 10%">
+                <col style="width: 22%">
+                <col style="width: 10%">
+                <col style="width: auto">
+            </colgroup>
+
+            <tbody>
+            <tr>
+                <th>
+                    <label for="userId">ID</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="userId"
+                           name="code"
+                           class="form-control xs"
+                           th:value="${param.code}">
+                </td>
+                <th>
+                    <label for="name">이름</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           class="form-control xs"
+                           th:value="${param.name}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-1 mb-1 txt-right">
+            <button type="submit" class="btn">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+
+        <div class="flex-content-between mb-1">
+            <div class="ft-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <th:block th:if="${showActions}">
+                    <button type="button"
+                            class="btn btn-primary"
+                            th:onclick="|location.href='@{/equipments/new}'|">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> 등록
+                    </button>
+                    <button type="button"
+                            id="deleteBtn"
+                            class="btn btn-danger">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
+                    </button>
+                    <!--<button type="button" class="btn btn-success"
+                            th:onclick="|location.href='/accountExcel'|">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"> Excel 다운로드</i>
+                    </button>-->
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>

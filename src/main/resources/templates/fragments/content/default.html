@@ -1,9 +1,0 @@
-<!--/* 콘텐츠 */-->
-<div th:fragment="content (title, navigation, contentBody)">
-    <!--/* 콘텐츠 헤더 */-->
-    <div th:replace="~{/fragments/content/header :: header (${title}, ${navigation})}"></div>
-    <!--/* 콘텐츠 바디 */-->
-    <div class="box box-bg">
-        <th:block th:replace="${contentBody}"></th:block>
-    </div>
-</div>

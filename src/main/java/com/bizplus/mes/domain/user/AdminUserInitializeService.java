@@ -36,10 +36,11 @@ public class AdminUserInitializeService {
         if (admin == null) {
 
             admin = userRepository.save(new User(
+                    null,
+                    null,
                     userId,
                     passwordEncoder.encode(password),
                     "관리자",
-                    null,
                     null,
                     null,
                     null

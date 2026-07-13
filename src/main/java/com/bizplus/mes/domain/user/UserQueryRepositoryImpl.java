@@ -47,7 +47,8 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                         user.phone,
                         departmentCode.name,
                         positionCode.name,
-                        role.name
+                        role.name,
+                        user.remark
                 ))
                 .from(user)
                 .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
@@ -88,7 +89,8 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                                 user.phone,
                                 departmentCode.name,
                                 positionCode.name,
-                                role.name
+                                role.name,
+                                user.remark
                         ))
                         .from(user)
                         .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))

@@ -12,6 +12,10 @@ public class UserCreateDto {
     @NotNull
     private Long roleId;
 
+    private Long departmentId;
+
+    private Long positionId;
+
     @NotBlank
     private String userId;
 
@@ -25,7 +29,5 @@ public class UserCreateDto {
 
     private String phone;
 
-    private Long departmentId;
-
-    private Long positionId;
+    private String remark;
 }

@@ -80,11 +80,12 @@ public class UserServiceImpl implements UserService {
 
         User user = userReader.getById(id);
 
-        user.update(dto.getName(),
+        user.update(departmentCode,
+                positionCode,
+                dto.getName(),
                 dto.getEmail(),
                 dto.getPhone(),
-                departmentCode,
-                positionCode);
+                dto.getRemark());
 
         Role role = roleReader.getById(dto.getRoleId());
 

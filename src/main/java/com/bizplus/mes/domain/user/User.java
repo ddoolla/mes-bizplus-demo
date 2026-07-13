@@ -17,6 +17,14 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_code_id")
+    private CommonCode department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_code_id")
+    private CommonCode position;
+
     @Column(nullable = false)
     private String userId;
 
@@ -30,40 +38,37 @@ public class User extends BaseEntity {
 
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_code_id")
-    private CommonCode department;
+    private String remark;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "position_code_id")
-    private CommonCode position;
-
-
-    public User(String userId,
+    public User(CommonCode department,
+                CommonCode position,
+                String userId,
                 String password,
                 String name,
                 String email,
                 String phone,
-                CommonCode department,
-                CommonCode position) {
+                String remark) {
+        this.department = department;
+        this.position = position;
         this.userId = userId;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.department = department;
-        this.position = position;
+        this.remark = remark;
     }
 
-    public void update(String name,
+    public void update(CommonCode department,
+                       CommonCode position,
+                       String name,
                        String email,
                        String phone,
-                       CommonCode department,
-                       CommonCode position) {
+                       String remark) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.department = department;
         this.position = position;
+        this.remark = remark;
     }
 }

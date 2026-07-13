@@ -10,13 +10,14 @@ public class UserMapper {
                                 CommonCode departmentCode,
                                 CommonCode positionCode) {
         return new User(
+                departmentCode,
+                positionCode,
                 dto.getUserId(),
                 encodedPassword,
                 dto.getName(),
                 dto.getEmail(),
                 dto.getPhone(),
-                departmentCode,
-                positionCode
+                dto.getRemark()
         );
     }
 }

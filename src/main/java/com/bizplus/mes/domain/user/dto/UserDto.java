@@ -14,6 +14,7 @@ public class UserDto {
     private final String department;
     private final String position;
     private final String role;
+    private final String remark;
 
     @QueryProjection
     public UserDto(Long id,
@@ -23,7 +24,8 @@ public class UserDto {
                    String phone,
                    String department,
                    String position,
-                   String role) {
+                   String role,
+                   String remark) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -32,5 +34,6 @@ public class UserDto {
         this.department = department;
         this.position = position;
         this.role = role;
+        this.remark = remark;
     }
 }

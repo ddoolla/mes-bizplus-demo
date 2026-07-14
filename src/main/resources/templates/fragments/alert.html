@@ -1,0 +1,11 @@
+<!--/* 알림 메시지 */-->
+<script type="text/javascript"
+        th:fragment="alert"
+        th:inline="javascript">
+
+  const message = /*[[${message}]]*/ null;
+
+  if (message) {
+    alert(message);
+  }
+</script>

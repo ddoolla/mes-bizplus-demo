@@ -105,7 +105,13 @@
     border: 1px solid #ddd;
 }
 
+.sidebar-label::after {
+    content: " ▼";
+}
 
+.sidebar-label.expanded::after {
+    content: " ▲";
+}
 
 /* Nav */
 

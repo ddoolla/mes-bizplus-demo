@@ -87,7 +87,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_CREATE')")
     public String createUser(UserCreateDto dto, RedirectAttributes reAtt) {
 
-        Long createdId = userService.createUser(dto);
+        userService.createUser(dto);
 
         reAtt.addFlashAttribute("message", messageService.get("common.created"));
 

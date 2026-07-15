@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Long createUser(UserCreateDto dto) {
+    public void createUser(UserCreateDto dto) {
 
         CommonCode departmentCode = commonCodeReader.getOrNull(dto.getDepartmentId());
         CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
@@ -75,8 +75,6 @@ public class UserServiceImpl implements UserService {
         Role role = roleReader.getById(dto.getRoleId());
 
         userRoleRepository.save(new UserRole(newUser, role));
-
-        return newUser.getId();
     }
 
     @Transactional

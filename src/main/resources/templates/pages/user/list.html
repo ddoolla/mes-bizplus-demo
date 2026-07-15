@@ -13,7 +13,7 @@
 <!--/* 콘텐츠 */-->
 <div id="content">
     <!--/* 헤더 */-->
-    <div th:replace="~{fragments/content :: header ('사용자 목록', '기준정보관리, 사용자정보관리')}">
+    <div th:replace="~{fragments/content :: header ('사용자 목록', '시스템관리, 사용자관리')}">
     </div>
 
     <!--/* 바디 */-->
@@ -52,7 +52,8 @@
                     <td>
                         <input type="checkbox"
                                class="check-item"
-                               th:value="${user.id}"/>
+                               th:value="${user.id}"
+                               th:unless="${user.userId == 'admin'}"/>
                     </td>
                     <td class="ft-bold">
                         <a th:href="@{/users/{id}(id=${user.id})}"

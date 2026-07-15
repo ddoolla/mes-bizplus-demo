@@ -1,5 +1,5 @@
 /**
- * <div class="checkbox-group">
+ * <div class="some-group">
  *     <table>
  *         ...
  *         <th>
@@ -14,32 +14,29 @@
  */
 window.Checkbox = {
 
-    init() {
+    init(group) {
 
-        document.querySelectorAll('.checkbox-group').forEach(group => {
+        const checkAll = group.querySelector('.check-all');
+        const checkboxes = group.querySelectorAll('.check-item');
 
-            const checkAll = group.querySelector('.check-all');
-            const checkboxes = group.querySelectorAll('.check-item');
-
-            checkAll.addEventListener('change', function () {
-
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-
-                checkAll.indeterminate = false;
-            });
+        checkAll.addEventListener('change', function () {
 
             checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
 
-                checkbox.addEventListener('change', () => {
+            checkAll.indeterminate = false;
+        });
 
-                    const checkedCount = group.querySelectorAll('.check-item:checked').length;
-                    const totalCount = checkboxes.length;
+        checkboxes.forEach(checkbox => {
 
-                    checkAll.checked = checkedCount === totalCount;
-                    checkAll.indeterminate = checkedCount > 0 && checkedCount < totalCount;
-                });
+            checkbox.addEventListener('change', () => {
+
+                const checkedCount = group.querySelectorAll('.check-item:checked').length;
+                const totalCount = checkboxes.length;
+
+                checkAll.checked = checkedCount === totalCount;
+                checkAll.indeterminate = checkedCount > 0 && checkedCount < totalCount;
             });
         });
     },

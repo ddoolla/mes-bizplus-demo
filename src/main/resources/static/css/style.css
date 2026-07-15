@@ -214,6 +214,18 @@
     border: 1px solid #dfdfdf;
 }
 
+/* ================================ action-bar ================================ */
+
+.action-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5px;
+    background: #d1d1d1;
+    border: 1px solid #d1d1d1;
+}
+
 /* ================================ Form ================================ */
 
 .form-group {
@@ -643,4 +655,9 @@ tr.no-hover:hover {
 
 .readonly-bg {
     background-color: #e5e5e5
+}
+
+.required {
+    color: #e53e3e;
+    font-weight: bold;
 }

@@ -45,6 +45,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public boolean checkCode(Long id, String code) {
+
+        boolean exists = roleRepository.existsByCodeAndIdNot(code, id);
+
+        return !exists;
+    }
+
+    @Override
     public Long createRole(RoleCreateDto dto) {
 
         Role newRole = RoleMapper.toEntity(dto);
@@ -63,6 +71,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void deleteRoles(List<Long> ids) {
+
         ids.forEach(id -> {
             roleReader.getById(id).delete();
         });

@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:fragment="layout (title, links, headScripts, active, content, bodyScript)"
+      th:fragment="layout (title, links, scripts, active, content)"
 >
-<head th:replace="~{fragments/layout/head :: head (${title}, ${links}, ${headScripts})}">
+<head th:replace="~{fragments/layout/head :: head (${title}, ${links}, ${scripts})}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -16,6 +16,8 @@
     <!--/* 콘텐츠 */-->
     <div class="container" th:insert="${content}"></div>
 </div>
-<script th:replace="${bodyScript}"></script>
+
+<!--/* 알림 메시지 */-->
+<th:block th:replace="~{fragments/alert :: alert}"/>
 </body>
 </html>

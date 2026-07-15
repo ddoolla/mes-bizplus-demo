@@ -5,7 +5,7 @@
             <a th:href="@{/}" class="logo">MES DEMO</a>
         </div>
         <div class="logout">
-            <!-- 이거 post로 보내야 시큐리티 작동함 나중에 form 으로 교체 -->
+            <!--/* 이거 post로 보내야 시큐리티 작동함 나중에 form 으로 교체 */-->
             <a th:href="@{/logout}" class="btn-xs">로그아웃</a>
         </div>
         <ul class="sidebar-nav">
@@ -23,131 +23,6 @@
                 </nav>
             </li>
         </ul>
-<!--        <ul class="sidebar-nav">-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">기준정보관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/account/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active eq 'accountList' ? 'active' : ''}">거래처정보관리</a>-->
-<!--                    <a th:href="@{/material/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialList' ? 'active' : ''}">자재정보관리</a>-->
-<!--                    <a th:href="@{/product/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'productList' ? 'active' : ''}">제품정보관리</a>-->
-<!--                    <a th:href="@{/inspectionCode/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'inspectionCodeList' ? 'active' : ''}">검사항목 카테고리관리</a>-->
-<!--                    <a th:href="@{/inspectionContent/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'inspectionContentList' ? 'active' : ''}">검사항목관리</a>-->
-<!--                    <a th:href="@{/users}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'USER' ? 'active' : ''}">사용자관리</a>-->
-<!--                    &lt;!&ndash;<a th:href="@{/user/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'List5' ? 'active' : ''}">사용자권한관리</a>&ndash;&gt;-->
-<!--                    <a th:href="@{/company/info}" class="sidebar-link companyPopup"-->
-<!--                       th:classappend="${active == 'companyList' ? 'active' : ''}">회사정보관리</a>-->
-<!--                    <a th:href="@{/equipments}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'equipmentList' ? 'active' : ''}">설비정보관리</a>-->
-<!--                    <a th:href="@{/userLog/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'userLogList' ? 'active' : ''}">로그인 기록 조회</a>-->
-<!--                    &lt;!&ndash;                    <a th:href="@{/login-logs}" class="sidebar-link"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                       th:classappend="${active == 'loginLogList' ? 'active' : ''}">로그인 기록 조회</a>&ndash;&gt;-->
-<!--                    &lt;!&ndash;<a th:href="@{/userLog/status}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'userLogStatus' ? 'active' : ''}">로그 전송 현황</a>&ndash;&gt;-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">자재관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/materialInbound/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialInboundList' ? 'active' : ''}">자재입고관리</a>-->
-<!--                    <a th:href="@{/materialSelf/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialSelfList' ? 'active' : ''}">자재자가처리관리</a>-->
-<!--                    <a th:href="@{/materialFeed/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialFeedList' ? 'active' : ''}">자재생산투입관리</a>-->
-<!--                    <a th:href="@{/materialFeedReturn/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialFeedReturnList' ? 'active' : ''}">자재반납관리</a>-->
-<!--                    <a th:href="@{/materialStockHistory/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialStockHistoryList' ? 'active' : ''}">자재 입/출고 현황 조회</a>-->
-<!--                    <a th:href="@{/materialStock/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'materialStockList' ? 'active' : ''}">자재재고조회</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">제품관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/order/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'orderList' ? 'active' : ''}">제품수주관리</a>-->
-<!--                    <a th:href="@{/shippingPlan/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'shippingPlanList' ? 'active' : ''}">출하계획관리</a>-->
-<!--                    <a th:href="@{/productStockSelf/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'productStockSelfUpdateList' ? 'active' : ''}">제품자가처리관리</a>-->
-<!--                    <a th:href="@{/productStock/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'productStockList' ? 'active' : ''}">제품재고조회</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">생산관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/workOrder/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'workOrderList' ? 'active' : ''}">작업지시서 발행</a>-->
-<!--                    <a th:href="@{/dailyWorkOrder/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'dailyWorkOrderList' ? 'active' : ''}">작업지시서 관리</a>-->
-<!--                    <a th:href="@{/production/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'productionList' ? 'active' : ''}">생산실적관리</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">출하관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/shipments}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'shipmentList' ? 'active' : ''}">제품출하관리</a>-->
-<!--                    <a th:href="@{/shipments/by-period}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'shipmentByPeriod' ? 'active' : ''}">기간별 출하현황</a>-->
-<!--                    <a th:href="@{/shipments/by-product}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'shipmentByProduct' ? 'active' : ''}">제품별 출하현황</a>-->
-<!--                    <a th:href="@{/invoices}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'invoiceList' ? 'active' : ''}">거래명세표 관리</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">품질관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/inboundInspection/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'inboundInspectionList' ? 'active' : ''}">입고검사관리</a>-->
-<!--                    <a th:href="@{/processInspection/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'processInspectionList' ? 'active' : ''}">공정검사관리</a>-->
-<!--                    <a th:href="@{/shipmentInspection/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'shipmentInspectionList' ? 'active' : ''}">최종검사관리</a>-->
-<!--                    <a th:href="@{/claim/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'claimList' ? 'active' : ''}">클레임관리</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">설비관리 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/work-conditions}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'workConditionList' ? 'active' : ''}">작업조건관리</a>-->
-<!--                    <a th:href="@{/maintenance-plans}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'maintenancePlanList' ? 'active' : ''}">설비보전관리</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">바코드 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/scan-labels}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'barcodePrint' ? 'active' : ''}">바코드 라벨 출력</a>-->
-<!--                    <a th:href="@{/scan-logs}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'barcodeScan' ? 'active' : ''}">바코드 스캔 내역</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--            <li class="sidebar-item">-->
-<!--                <label class="sidebar-label">모니터링 ▼</label>-->
-<!--                <nav class="sidebar-subItem">-->
-<!--                    <a th:href="@{/plcData/dateList}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'plcDataList' ? 'active' : ''}">자동화장비 I/F</a>-->
-<!--                    <a th:href="@{/orderLeadTime/list}" class="sidebar-link"-->
-<!--                       th:classappend="${active == 'orderLeadTime' ? 'active' : ''}">수주출하 리드타임</a>-->
-<!--                </nav>-->
-<!--            </li>-->
-<!--        </ul>-->
     </div>
     <script type="text/javascript">
         $(function () {

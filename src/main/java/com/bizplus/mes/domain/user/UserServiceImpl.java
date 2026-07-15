@@ -49,6 +49,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, id));
     }
 
+    @Override
+    public boolean checkUserId(String userId) {
+
+        boolean exists = userRepository.existsByUserId(userId);
+
+        return !exists;
+    }
+
     @Transactional
     @Override
     public Long createUser(UserCreateDto dto) {
@@ -79,6 +87,10 @@ public class UserServiceImpl implements UserService {
         CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
 
         User user = userReader.getById(id);
+        Role role = roleReader.getById(dto.getRoleId());
+
+        UserRole userRole = userRoleRepository.findByUser(user)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, user.getUserId()));
 
         user.update(departmentCode,
                 positionCode,
@@ -87,11 +99,16 @@ public class UserServiceImpl implements UserService {
                 dto.getPhone(),
                 dto.getRemark());
 
-        Role role = roleReader.getById(dto.getRoleId());
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
 
-        // 사용자별 1개의 역할만 부여
-        userRoleRepository.deleteByUser(user);
-        userRoleRepository.save(new UserRole(user, role));
+            user.updatePassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        if (!userRole.getRole().getId().equals(role.getId())) {
+            // 사용자별 1개의 역할만 부여
+            userRoleRepository.deleteByUser(user);
+            userRoleRepository.save(new UserRole(user, role));
+        }
     }
 
     @Transactional

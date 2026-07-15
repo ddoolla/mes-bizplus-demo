@@ -1,3 +1,7 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<script src="../../../../static/js/common/checkbox.js"></script>
 <div th:fragment="filter (url, count, showActions)">
     <form method="GET" th:action="${url}">
         <table class="table-input">
@@ -6,8 +10,6 @@
                 <col style="width: 22%">
                 <col style="width: 10%">
                 <col style="width: 22%">
-                <col style="width: 10%">
-                <col style="width: auto">
             </colgroup>
 
             <tbody>
@@ -50,12 +52,14 @@
                 <th:block th:if="${showActions}">
                     <button type="button"
                             class="btn btn-primary"
-                            th:onclick="|location.href='@{/equipments/new}'|">
+                            th:onclick="|location.href='@{/users/new}'|"
+                            sec:authorize="hasAuthority('USER_CREATE')">
                         <i class="fa fa-pencil" aria-hidden="true"></i> 등록
                     </button>
                     <button type="button"
-                            id="deleteBtn"
-                            class="btn btn-danger">
+                            id="delete-user-button"
+                            class="btn btn-danger"
+                            sec:authorize="hasAuthority('USER_DELETE')">
                         <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
                     </button>
                     <!--<button type="button" class="btn btn-success"
@@ -67,3 +71,4 @@
         </div>
     </form>
 </div>
+</html>

@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Set<GrantedAuthority> authorities = rolePermissionRepository.findAllByRole(userRole.getRole()).stream()
                 .map(rolePermission -> new SimpleGrantedAuthority(
-                        rolePermission.getPermission().getCode()
+                        rolePermission.getPermission().getCode().name()
                 ))
                 .collect(Collectors.toSet());
 

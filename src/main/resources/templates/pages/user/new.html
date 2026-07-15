@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('사용자 등록', ~{}, ~{::script}, 'USER', ~{::#content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/user/new.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('사용자 등록', '기준정보관리, 사용자정보관리, 등록')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn"
+                th:onclick="|location.href='@{/users}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="submit"
+                form="create-user-form"
+                class="btn btn-primary"
+                sec:authorize="hasAuthority('USER_CREATE')">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="box box-bg">
+        <form id="create-user-form" method="post" th:action="@{/users}">
+            <table class="table-input xs">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        <label for="userId">
+                            ID <span class="required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="userId"
+                               name="userId"
+                               class="form-control xs"
+                               placeholder="사용자 ID를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="password">
+                            비밀번호 <span class="required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control xs"
+                               placeholder="비밀번호를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="passwordConfirm">
+                            비밀번호 확인 <span class="required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="password"
+                               id="passwordConfirm"
+                               name="passwordConfirm"
+                               class="form-control xs"
+                               placeholder="비밀번호를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="name">
+                            이름 <span class="required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               class="form-control xs"
+                               placeholder="사용자 이름을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="email">이메일</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="email"
+                               name="email"
+                               class="form-control xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="phone">전화번호</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="phone"
+                               name="phone"
+                               class="form-control xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="department">부서</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="department"
+                               name="department"
+                               class="form-control xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="position">직책</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="position"
+                               name="position"
+                               class="form-control xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="roleId">권한</label>
+                    </th>
+                    <td>
+                        <select name="roleId"
+                                id="roleId"
+                                class="form-control xs">
+                            <option th:each="role : ${roles}"
+                                    th:value="${role.id}"
+                                    th:text="${role.name}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="remark">비고</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="remark"
+                               name="remark"
+                               class="form-control xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

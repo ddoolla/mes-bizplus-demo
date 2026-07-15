@@ -45,8 +45,11 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                         user.name,
                         user.email,
                         user.phone,
+                        departmentCode.id,
                         departmentCode.name,
+                        positionCode.id,
                         positionCode.name,
+                        role.id,
                         role.name,
                         user.remark
                 ))
@@ -87,8 +90,11 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                                 user.name,
                                 user.email,
                                 user.phone,
+                                departmentCode.id,
                                 departmentCode.name,
+                                positionCode.id,
                                 positionCode.name,
+                                role.id,
                                 role.name,
                                 user.remark
                         ))

@@ -11,9 +11,9 @@ public class UserDto {
     private final String name;
     private final String email;
     private final String phone;
-    private final String department;
-    private final String position;
-    private final String role;
+    private final Department department;
+    private final Position position;
+    private final Role role;
     private final String remark;
 
     @QueryProjection
@@ -22,18 +22,31 @@ public class UserDto {
                    String name,
                    String email,
                    String phone,
-                   String department,
-                   String position,
-                   String role,
+                   Long departmentId,
+                   String departmentName,
+                   Long positionId,
+                   String positionName,
+                   Long roleId,
+                   String roleName,
                    String remark) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.department = department;
-        this.position = position;
-        this.role = role;
+        this.department = new Department(departmentId, departmentName);
+        this.position = new Position(positionId, positionName);
+        this.role = new Role(roleId, roleName);
         this.remark = remark;
     }
+
+    public record Department(Long id, String name) {
+    }
+
+    public record Position(Long id, String name) {
+    }
+
+    public record Role(Long id, String name) {
+    }
+
 }

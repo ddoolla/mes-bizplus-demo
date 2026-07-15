@@ -11,6 +11,8 @@ public interface UserService {
 
     UserDto getUser(Long id);
 
+    boolean checkUserId(String userId);
+
     Long createUser(UserCreateDto dto);
 
     void updateUser(Long id, UserUpdateDto dto);

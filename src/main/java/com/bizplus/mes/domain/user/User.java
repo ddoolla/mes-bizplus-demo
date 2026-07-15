@@ -71,4 +71,8 @@ public class User extends BaseEntity {
         this.position = position;
         this.remark = remark;
     }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

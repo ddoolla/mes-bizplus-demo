@@ -1,71 +1,77 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('사용자 목록', ~{}, ~{}, 'USER', ~{::#content}, ~{})}">
+      th:replace="~{layouts/main :: layout ('사용자 목록', ~{}, ~{::script}, 'USER', ~{::#content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/common/checkbox.js}"></script>
+    <script th:src="@{/js/common/ajax.js}"></script>
+    <script th:src="@{/js/user/list.js}"></script>
 </head>
 <body>
+<!--/* 콘텐츠 */-->
 <div id="content">
-    <!--/* 콘텐츠 헤더 */-->
+    <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('사용자 목록', '기준정보관리, 사용자정보관리')}">
     </div>
 
-    <!--/* 필터 */-->
-    <div th:replace="~{pages/user/fragments/filter :: filter ('/users', ${data.pagination.totalElements}, true)}">
-    </div>
+    <!--/* 바디 */-->
+    <div class="box box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/user/fragments/filter :: filter ('/users', ${data.pagination.totalElements}, true)}">
+        </div>
 
-    <!--/* 목록 */-->
-    <div>
-        <table class="table-list full txt-center">
-            <colgroup>
-                <col style="width: 50px">
-                <col style="width: 200px">
-                <col style="width: 200px">
-                <col style="width: 200px">
-                <col style="width: 200px">
-                <col style="width: 200px">
-                <col style="width: 200px">
-                <col style="width: auto">
-            </colgroup>
-            <thead>
-            <tr>
-                <th><input type="checkbox" name="checked_all"/></th>
-                <th>ID</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>전화</th>
-                <th>부서</th>
-                <th>직급</th>
-                <th>권한</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${data.users}">
-                <td>
-                    <input type="checkbox"
-                           name="idx[]"
-                           class="deleteSelected"
-                           th:value="${user.id}"/>
-                </td>
-                <td class="ft-bold">
-                    <a th:href="@{/users/{id}(id=${user.id})}"
-                       th:text="${user.userId}"></a>
-                </td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.phone}"></td>
-                <td th:text="${user.department}"></td>
-                <td th:text="${user.position}"></td>
-                <td th:text="${user.role}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        <!--/* 목록 */-->
+        <div id="user-list">
+            <table class="table-list full txt-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>ID</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>전화</th>
+                    <th>부서</th>
+                    <th>직책</th>
+                    <th>권한</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${data.users}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${user.id}"/>
+                    </td>
+                    <td class="ft-bold">
+                        <a th:href="@{/users/{id}(id=${user.id})}"
+                           th:text="${user.userId}"></a>
+                    </td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td th:text="${user.department.name}"></td>
+                    <td th:text="${user.position.name}"></td>
+                    <td th:text="${user.role.name}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <!--/* 페이지네이션 */-->
-    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
 </div>
 </body>
 </html>

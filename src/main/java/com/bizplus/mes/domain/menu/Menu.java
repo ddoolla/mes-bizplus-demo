@@ -19,8 +19,9 @@ public class Menu {
     @JoinColumn(name = "parent_id")
     private Menu parent;
 
-    @Column(nullable = false)
-    private String code;
+    @Column(columnDefinition = "varchar(50)", unique = true, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MenuCode code;
 
     @Column(nullable = false)
     private String name;
@@ -33,31 +34,21 @@ public class Menu {
 
     private Integer sortOrder;
 
-    public Menu(Menu parent,
-                String code,
-                String name,
-                MenuType type,
-                String path,
-                Integer sortOrder) {
+    public Menu(Menu parent, MenuCode code) {
         this.parent = parent;
         this.code = code;
-        this.name = name;
-        this.type = type;
-        this.path = path;
-        this.sortOrder = sortOrder;
+        this.name = code.getName();
+        this.type = code.getType();
+        this.path = code.getPath();
+        this.sortOrder = code.getSortOrder();
     }
 
-    public void update(Menu parent,
-                       String code,
-                       String name,
-                       MenuType type,
-                       String path,
-                       Integer sortOrder) {
+    public void update(Menu parent, MenuCode code) {
         this.parent = parent;
         this.code = code;
-        this.name = name;
-        this.type = type;
-        this.path = path;
-        this.sortOrder = sortOrder;
+        this.name = code.getName();
+        this.type = code.getType();
+        this.path = code.getPath();
+        this.sortOrder = code.getSortOrder();
     }
 }

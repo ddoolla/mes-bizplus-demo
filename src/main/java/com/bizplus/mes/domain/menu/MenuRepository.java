@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    Optional<Menu> findByCode(String code);
+    Optional<Menu> findByCode(MenuCode code);
 }

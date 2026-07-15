@@ -21,8 +21,9 @@ public class Permission extends BaseEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(unique = true, nullable = false)
-    private String code;
+    @Column(columnDefinition = "varchar(50)", unique = true, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PermissionCode code;
 
     @Column(nullable = false)
     private String name;
@@ -31,23 +32,17 @@ public class Permission extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PermissionAction action;
 
-    public Permission(Menu menu,
-                      String code,
-                      String name,
-                      PermissionAction action) {
+    public Permission(Menu menu, PermissionCode code) {
         this.menu = menu;
         this.code = code;
-        this.name = name;
-        this.action = action;
+        this.name = code.getName();
+        this.action = code.getAction();
     }
 
-    public void update(Menu menu,
-                       String code,
-                       String name,
-                       PermissionAction action) {
+    public void update(Menu menu, PermissionCode code) {
         this.menu = menu;
         this.code = code;
-        this.name = name;
-        this.action = action;
+        this.name = code.getName();
+        this.action = code.getAction();
     }
 }

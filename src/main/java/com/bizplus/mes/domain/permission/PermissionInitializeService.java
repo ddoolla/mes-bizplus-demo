@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.permission;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.exception.NotFoundException;
 import com.bizplus.mes.domain.menu.Menu;
+import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,27 +19,22 @@ public class PermissionInitializeService {
     @Transactional
     public void initialize() {
 
-        for (PermissionInitialData data : PermissionInitialData.values()) {
+        for (PermissionCode pmCode : PermissionCode.values()) {
 
-            String menuCode = data.getMenu().getCode();
-            String code = data.name();
-            String name = data.getName();
-            PermissionAction action = data.getAction();
+            MenuCode menuCode = pmCode.getMenu();
 
             Menu menu = menuRepository.findByCode(menuCode)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, menuCode));
 
-            Permission permission = permissionRepository.findByCode(code).orElse(null);
+            Permission existingPm = permissionRepository.findByCode(pmCode).orElse(null);
 
-            if (permission != null) {
+            if (existingPm != null) {
 
-                permission.update(menu, code, name, action);
+                existingPm.update(menu, pmCode);
 
             } else {
 
-                Permission newPermission = new Permission(menu, code, name, action);
-
-                permissionRepository.save(newPermission);
+                permissionRepository.save(new Permission(menu, pmCode));
             }
         }
     }

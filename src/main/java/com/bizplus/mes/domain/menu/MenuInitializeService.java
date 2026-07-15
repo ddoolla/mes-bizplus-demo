@@ -15,39 +15,25 @@ public class MenuInitializeService {
     @Transactional
     public void initialize() {
 
-        for (MenuInitialData data : MenuInitialData.values()) {
+        for (MenuCode menuCode : MenuCode.values()) {
 
-            Menu parentMenu = null;
+            Menu parent = null;
 
-            if (data.getParentMenu() != null) {
-                parentMenu = menuRepository.findByCode(data.getParentMenu().getCode())
-                        .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, data.getCode()));
+            if (menuCode.getParent() != null) {
+                parent = menuRepository.findByCode(menuCode.getParent())
+                        .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, menuCode.getParent()));
             }
 
-            Menu menu = menuRepository.findByCode(data.getCode())
+            Menu existingMenu = menuRepository.findByCode(menuCode)
                     .orElse(null);
 
-            if (menu != null) {
-                menu.update(
-                        parentMenu,
-                        data.getCode(),
-                        data.getName(),
-                        data.getType(),
-                        data.getPath(),
-                        data.getSortOrder()
-                );
+            if (existingMenu != null) {
+
+                existingMenu.update(parent, menuCode);
+
             } else {
 
-                Menu newMenu = new Menu(
-                        parentMenu,
-                        data.getCode(),
-                        data.getName(),
-                        data.getType(),
-                        data.getPath(),
-                        data.getSortOrder()
-                );
-
-                menuRepository.save(newMenu);
+                menuRepository.save(new Menu(parent, menuCode));
             }
         }
     }

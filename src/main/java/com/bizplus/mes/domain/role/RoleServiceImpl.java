@@ -31,6 +31,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<RoleDto> getAllRoles() {
+
+        return roleRepository.findAllByDeletedAtIsNull().stream()
+                .map(RoleMapper::toDto).toList();
+    }
+
+    @Override
     public RoleDto getRole(Long id) {
 
         return roleRepository.findRole(id)

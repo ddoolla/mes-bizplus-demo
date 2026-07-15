@@ -9,6 +9,8 @@ public interface RoleService {
 
     RoleListDto getRoles(RoleSearchDto dto, Pageable pageable);
 
+    List<RoleDto> getAllRoles();
+
     RoleDto getRole(Long id);
 
     Long createRole(RoleCreateDto dto);

@@ -20,25 +20,25 @@ public class CodeGroup {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(nullable = false, unique = true)
-    private String code;
+    @Column(unique = true, nullable = false)
+    private CodeGroupKey groupKey;
 
     @Column(nullable = false)
     private String name;
 
-    private String description;
-
     private Integer sortOrder;
 
-    public CodeGroup(Menu menu,
-                     String code,
-                     String name,
-                     String description,
-                     Integer sortOrder) {
+    public CodeGroup(Menu menu, CodeGroupKey groupKey) {
         this.menu = menu;
-        this.code = code;
-        this.name = name;
-        this.description = description;
-        this.sortOrder = sortOrder;
+        this.groupKey = groupKey;
+        this.name = groupKey.getName();
+        this.sortOrder = groupKey.getSortOrder();
+    }
+
+    public void update(Menu menu, CodeGroupKey groupKey) {
+        this.menu = menu;
+        this.groupKey = groupKey;
+        this.name = groupKey.getName();
+        this.sortOrder = groupKey.getSortOrder();
     }
 }

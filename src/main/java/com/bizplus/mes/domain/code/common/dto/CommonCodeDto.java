@@ -1,0 +1,24 @@
+package com.bizplus.mes.domain.code.common.dto;
+
+import com.querydsl.core.annotations.QueryProjection;
+import lombok.Getter;
+
+@Getter
+public class CommonCodeDto {
+
+    private final Long id;
+    private final String code;
+    private final String name;
+    private final String description;
+
+    @QueryProjection
+    public CommonCodeDto(Long id,
+                         String code,
+                         String name,
+                         String description) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.description = description;
+    }
+}

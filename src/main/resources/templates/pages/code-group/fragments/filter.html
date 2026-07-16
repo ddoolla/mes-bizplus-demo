@@ -1,0 +1,56 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<script src="../../../../static/js/common/checkbox.js"></script>
+<div th:fragment="filter (url, count)">
+    <form method="GET" th:action="${url}">
+        <table class="table-input">
+            <colgroup>
+                <col style="width: 10%">
+                <col style="width: 22%">
+                <col style="width: 10%">
+                <col style="width: 22%">
+            </colgroup>
+
+            <tbody>
+            <tr>
+                <th>
+                    <label for="menuName">메뉴</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="menuName"
+                           name="menuName"
+                           class="form-control xs"
+                           th:value="${param.menuName}">
+                </td>
+                <th>
+                    <label for="name">코드 그룹</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           class="form-control xs"
+                           th:value="${param.name}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-1 mb-1 txt-right">
+            <button type="submit" class="btn">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+
+        <div class="flex-content-between mb-1">
+            <div class="ft-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+            </div>
+        </div>
+    </form>
+</div>
+</html>

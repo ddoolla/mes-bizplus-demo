@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> {
+public interface CommonCodeRepository extends
+        JpaRepository<CommonCode, Long>, CommonCodeQueryRepository {
 
     Optional<CommonCode> findByIdAndDeletedAtIsNull(Long id);
 }

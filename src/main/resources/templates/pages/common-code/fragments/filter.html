@@ -1,0 +1,70 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<script src="../../../../static/js/common/checkbox.js"></script>
+<div th:fragment="filter (url, count, showActions)">
+    <form method="GET" th:action="${url}">
+        <table class="table-input">
+            <colgroup>
+                <col style="width: 10%">
+                <col style="width: 22%">
+                <col style="width: 10%">
+                <col style="width: 22%">
+            </colgroup>
+
+            <tbody>
+            <tr>
+                <th>
+                    <label for="code">공통코드</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="code"
+                           name="code"
+                           class="form-control xs"
+                           th:value="${param.code}">
+                </td>
+                <th>
+                    <label for="name">공통코드 이름</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           class="form-control xs"
+                           th:value="${param.name}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-1 mb-1 txt-right">
+            <button type="submit" class="btn">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+
+        <div class="flex-content-between mb-1">
+            <div class="ft-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <th:block th:if="${showActions}">
+                    <button type="button"
+                            class="btn btn-primary"
+                            th:onclick="|location.href='@{/users/new}'|"
+                            sec:authorize="hasAuthority('USER_CREATE')">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> 등록
+                    </button>
+                    <button type="button"
+                            id="delete-common-code-button"
+                            class="btn btn-danger"
+                            sec:authorize="hasAuthority('USER_DELETE')">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>
+</html>

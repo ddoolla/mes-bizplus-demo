@@ -17,4 +17,11 @@ public class CommonCodeReader {
                 .orElseThrow(() -> new BusinessException(ErrorCode.COMMON_CODE_NOT_FOUND, "id: " + id))
                 : null;
     }
+
+    public CommonCode getById(Long id) {
+
+        return commonCodeRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.COMMON_CODE_NOT_FOUND, "id: " + id));
+    }
 }

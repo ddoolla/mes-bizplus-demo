@@ -39,12 +39,19 @@ public class CommonCode extends BaseEntity {
     public CommonCode(CodeGroup group,
                       String code,
                       String name,
-                      String description,
-                      Integer sortOrder) {
+                      String description) {
         this.group = group;
         this.code = code;
         this.name = name;
         this.description = description;
-        this.sortOrder = sortOrder;
+        this.sortOrder = null;
+    }
+
+    public void update(String code,
+                       String name,
+                       String description) {
+        this.code = code;
+        this.name = name;
+        this.description = description;
     }
 }

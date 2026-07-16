@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.user;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
-import com.bizplus.mes.common.exception.NotFoundException;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUser(Long id) {
 
         return userRepository.findUser(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, id));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "id: " + id));
     }
 
     @Override
@@ -88,7 +88,8 @@ public class UserServiceImpl implements UserService {
         Role role = roleReader.getById(dto.getRoleId());
 
         UserRole userRole = userRoleRepository.findByUser(user)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, user.getUserId()));
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.USER_ROLE_NOT_FOUND, "userId: " + user.getUserId()));
 
         user.update(departmentCode,
                 positionCode,

@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.user;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
-import com.bizplus.mes.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +14,6 @@ public class UserReader {
     public User getById(Long id) {
 
         return userRepository.findByIdAndDeletedAtIsNull(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, id));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "id: " + id));
     }
 }

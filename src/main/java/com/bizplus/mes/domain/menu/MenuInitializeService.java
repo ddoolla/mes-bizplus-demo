@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.menu;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
-import com.bizplus.mes.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,8 @@ public class MenuInitializeService {
 
             if (menuCode.getParent() != null) {
                 parent = menuRepository.findByCode(menuCode.getParent())
-                        .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, menuCode.getParent()));
+                        .orElseThrow(() -> new BusinessException(
+                                ErrorCode.MENU_NOT_FOUND, "menu: " + menuCode.getParent().name()));
             }
 
             Menu existingMenu = menuRepository.findByCode(menuCode)

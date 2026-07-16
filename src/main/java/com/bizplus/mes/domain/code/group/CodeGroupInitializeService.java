@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.code.group;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
-import com.bizplus.mes.common.exception.NotFoundException;
 import com.bizplus.mes.domain.menu.Menu;
 import com.bizplus.mes.domain.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,8 @@ public class CodeGroupInitializeService {
         for (CodeGroupKey groupKey : CodeGroupKey.values()) {
 
             Menu menu = menuRepository.findByCode(groupKey.getMenu())
-                    .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, groupKey.getMenu()));
+                    .orElseThrow(() -> new BusinessException(
+                            ErrorCode.MENU_NOT_FOUND, "menu: " + groupKey.getMenu().name()));
 
             CodeGroup existingCodeGroup = codeGroupRepository.findByGroupKey(groupKey).orElse(null);
 

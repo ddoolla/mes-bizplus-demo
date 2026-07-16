@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.permission;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
-import com.bizplus.mes.common.exception.NotFoundException;
 import com.bizplus.mes.domain.menu.Menu;
 import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.menu.MenuRepository;
@@ -24,7 +24,7 @@ public class PermissionInitializeService {
             MenuCode menuCode = pmCode.getMenu();
 
             Menu menu = menuRepository.findByCode(menuCode)
-                    .orElseThrow(() -> new NotFoundException(ErrorCode.MENU_NOT_FOUND, menuCode));
+                    .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND, "menu: " + menuCode.name()));
 
             Permission existingPm = permissionRepository.findByCode(pmCode).orElse(null);
 

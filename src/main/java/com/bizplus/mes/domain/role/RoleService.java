@@ -11,14 +11,14 @@ public interface RoleService {
 
     List<RoleDto> getAllRoles();
 
-    RoleDto getRole(Long id);
+    RolePermissionDto getRole(Long id);
 
     /**
      * 삭제 했더라도 DB에 존재하면 중복으로 간주
      */
     boolean checkCode(Long id, String code);
 
-    Long createRole(RoleCreateDto dto);
+    void createRole(RoleCreateDto dto);
 
     void updateRole(Long id, RoleUpdateDto dto);
 

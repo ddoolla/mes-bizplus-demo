@@ -1,13 +1,16 @@
 package com.bizplus.mes.domain.permission;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum PermissionAction {
 
-    CREATE,
-    READ,
-    UPDATE,
-    DELETE
-    // EXCEL_UPLOAD 등 추가 가능
+    READ("조회"),
+    CREATE("등록"),
+    UPDATE("수정"),
+    DELETE("삭제");
+
+    private final String description;
 }

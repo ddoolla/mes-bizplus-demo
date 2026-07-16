@@ -12,4 +12,6 @@ public interface RolePermissionRepository extends
     List<RolePermission> findAllByRole(Role role);
 
     boolean existsByPermission(Permission permission);
+
+    void deleteAllByRole(Role role);
 }

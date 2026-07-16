@@ -32,9 +32,10 @@
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
-        <form id="edit-role-form" method="post" th:action="@{/roles/{id}(id=${role.id})}">
-            <table class="table-input xs" th:object="${role}">
+    <form id="edit-role-form" method="post" th:action="@{/roles/{id}(id=${roleDetail.role.id})}">
+        <!--/* 역할 */-->
+        <div class="box box-bg">
+            <table class="table-input xs" th:object="${roleDetail.role}">
                 <colgroup>
                     <col style="width: 150px">
                     <col style="width: auto">
@@ -88,8 +89,14 @@
                 </tr>
                 </tbody>
             </table>
-        </form>
-    </div>
+        </div>
+
+        <!--/* 권한 */-->
+        <div class="box box-bg mt-1">
+            <div th:replace="~{pages/role/fragments/permission :: editor (${actions}, ${roleDetail.menuPermissions})}">
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

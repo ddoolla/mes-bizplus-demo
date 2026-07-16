@@ -24,16 +24,15 @@
 
         <button type="button"
                 class="btn btn-primary"
-                th:onclick="|location.href='@{/roles/{id}/edit(id=${role.id})}'|"
+                th:onclick="|location.href='@{/roles/{id}/edit(id=${roleDetail.role.id})}'|"
                 sec:authorize="hasAuthority('ROLE_UPDATE')">
             <i class="fa fa-pencil" aria-hidden="true"></i> 수정
         </button>
     </div>
 
-    <!--/* 바디 */-->
+    <!--/* 역할 */-->
     <div class="box box-bg">
-
-        <table class="table-input xs" th:object="${role}">
+        <table class="table-input xs" th:object="${roleDetail.role}">
             <colgroup>
                 <col style="width: 150px">
                 <col style="width: auto">
@@ -53,6 +52,12 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <!--/* 권한 */-->
+    <div class="box box-bg mt-1">
+        <div th:replace="~{pages/role/fragments/permission :: list (${actions}, ${roleDetail.menuPermissions})}">
+        </div>
     </div>
 </div>
 </body>

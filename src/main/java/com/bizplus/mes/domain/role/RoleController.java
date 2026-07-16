@@ -2,6 +2,9 @@ package com.bizplus.mes.domain.role;
 
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
+import com.bizplus.mes.domain.permission.PermissionAction;
+import com.bizplus.mes.domain.permission.PermissionService;
+import com.bizplus.mes.domain.permission.dto.MenuPermissionDto;
 import com.bizplus.mes.domain.role.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,7 @@ import java.util.List;
 public class RoleController {
 
     private final RoleService roleService;
+    private final PermissionService permissionService;
     private final MessageService messageService;
 
     @GetMapping
@@ -40,16 +44,22 @@ public class RoleController {
     @PreAuthorize("hasAuthority('ROLE_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
 
-        RoleDto role = roleService.getRole(id);
+        RolePermissionDto roleDetail = roleService.getRole(id);
 
-        model.addAttribute("role", role);
+        model.addAttribute("actions", PermissionAction.values());
+        model.addAttribute("roleDetail", roleDetail);
 
         return "pages/role/detail";
     }
 
     @GetMapping("/new")
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
-    public String viewNew() {
+    public String viewNew(Model model) {
+
+        List<MenuPermissionDto> menuPermissions = permissionService.getPermissions();
+
+        model.addAttribute("actions", PermissionAction.values());
+        model.addAttribute("menuPermissions", menuPermissions);
 
         return "pages/role/new";
     }
@@ -58,11 +68,10 @@ public class RoleController {
     @PreAuthorize("hasAuthority('ROLE_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
 
-        RoleDto role = roleService.getRole(id);
+        RolePermissionDto roleDetail = roleService.getRole(id);
 
-        // todo permission 추가
-
-        model.addAttribute("role", role);
+        model.addAttribute("actions", PermissionAction.values());
+        model.addAttribute("roleDetail", roleDetail);
 
         return "pages/role/edit";
     }
@@ -78,11 +87,11 @@ public class RoleController {
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
     public String createRole(RoleCreateDto dto, RedirectAttributes reAtt) {
 
-        Long createdId = roleService.createRole(dto);
+        roleService.createRole(dto);
 
         reAtt.addFlashAttribute("message", messageService.get("common.created"));
 
-        return "redirect:/roles/" + createdId;
+        return "redirect:/roles";
     }
 
     @PostMapping("/{id}")

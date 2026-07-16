@@ -1,9 +1,15 @@
 package com.bizplus.mes.domain.role;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
-import com.bizplus.mes.common.exception.NotFoundException;
 import com.bizplus.mes.common.pagination.Pagination;
+import com.bizplus.mes.domain.permission.Permission;
+import com.bizplus.mes.domain.permission.PermissionRepository;
+import com.bizplus.mes.domain.permission.PermissionService;
+import com.bizplus.mes.domain.permission.dto.MenuPermissionDto;
 import com.bizplus.mes.domain.role.dto.*;
+import com.bizplus.mes.domain.role.permission.RolePermission;
+import com.bizplus.mes.domain.role.permission.RolePermissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,12 +17,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
+    private final PermissionRepository permissionRepository;
     private final RoleRepository roleRepository;
+    private final RolePermissionRepository rolePermissionRepository;
+
+    private final PermissionService permissionService;
 
     private final RoleReader roleReader;
 
@@ -38,10 +50,27 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDto getRole(Long id) {
+    public RolePermissionDto getRole(Long id) {
 
-        return roleRepository.findRole(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.ROLE_NOT_FOUND, id));
+        Role role = roleReader.getById(id);
+
+        Set<Long> permissionIds = rolePermissionRepository.findAllByRole(role).stream()
+                .map(rolePermission -> rolePermission.getPermission().getId())
+                .collect(Collectors.toSet());
+
+        List<MenuPermissionDto> menuPermissions = permissionService.getPermissions();
+
+        menuPermissions.forEach(mp -> {
+            mp.getPermissions().values().forEach(permission -> {
+                permission.setChecked(
+                        permissionIds.contains(permission.getId())
+                );
+            });
+        });
+
+        return new RolePermissionDto(
+                RoleMapper.toDto(role),
+                menuPermissions);
     }
 
     @Override
@@ -52,20 +81,40 @@ public class RoleServiceImpl implements RoleService {
         return !exists;
     }
 
+    @Transactional
     @Override
-    public Long createRole(RoleCreateDto dto) {
+    public void createRole(RoleCreateDto dto) {
 
-        Role newRole = RoleMapper.toEntity(dto);
+        Role newRole = roleRepository.save(RoleMapper.toEntity(dto));
 
-        return roleRepository.save(newRole).getId();
+        List<Permission> permissions = permissionRepository.findAllById(dto.getPermissionIds());
+
+        permissions.forEach(permission -> {
+            rolePermissionRepository.save(new RolePermission(newRole, permission));
+        });
     }
 
     @Transactional
     @Override
     public void updateRole(Long id, RoleUpdateDto dto) {
 
-        roleReader.getById(id)
-                .update(dto.getName(), dto.getDescription());
+        Role role = roleReader.getById(id);
+
+        role.update(dto.getName(), dto.getDescription());
+
+        rolePermissionRepository.deleteAllByRole(role);
+
+        List<Permission> permissions = permissionRepository.findAllById(dto.getPermissionIds());
+
+        if (permissions.size() != dto.getPermissionIds().size()) {
+            throw new BusinessException(ErrorCode.INVALID_PERMISSION);
+        }
+
+        List<RolePermission> rolePermissions = permissions.stream()
+                .map(permission -> new RolePermission(role, permission))
+                .toList();
+
+        rolePermissionRepository.saveAll(rolePermissions);
     }
 
     @Transactional

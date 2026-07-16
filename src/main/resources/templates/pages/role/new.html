@@ -32,57 +32,66 @@
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
-        <form id="create-role-form" method="post" th:action="@{/roles}">
-            <table class="table-input xs">
-                <colgroup>
-                    <col style="width: 150px">
-                    <col style="width: auto">
-                </colgroup>
-                <tbody>
-                <tr>
-                    <th>
-                        <label for="code">
-                            권한 코드 <span class="required">*</span>
-                        </label>
-                    </th>
-                    <td>
-                        <input type="text"
-                               id="code"
-                               name="code"
-                               class="form-control xs"
-                               placeholder="권한 코드를 입력해 주세요."/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="name">
-                            권한 이름 <span class="required">*</span>
-                        </label>
-                    </th>
-                    <td>
-                        <input type="text"
-                               id="name"
-                               name="name"
-                               class="form-control xs"
-                               placeholder="권한 이름을 입력해 주세요."/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="description">권한 설명</label>
-                    </th>
-                    <td>
-                        <input type="text"
-                               id="description"
-                               name="description"
-                               class="form-control xs"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
+    <form id="create-role-form" method="post" th:action="@{/roles}">
+        <!--/* 역할 */-->
+        <div class="box box-bg">
+            <div>
+                <table class="table-input xs">
+                    <colgroup>
+                        <col style="width: 150px">
+                        <col style="width: auto">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>
+                            <label for="code">
+                                권한 코드 <span class="required">*</span>
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="code"
+                                   name="code"
+                                   class="form-control xs"
+                                   placeholder="권한 코드를 입력해 주세요."/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="name">
+                                권한 이름 <span class="required">*</span>
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   class="form-control xs"
+                                   placeholder="권한 이름을 입력해 주세요."/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="description">권한 설명</label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="description"
+                                   name="description"
+                                   class="form-control xs"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--/* 권한 */-->
+        <div class="box box-bg mt-1">
+            <div th:replace="~{pages/role/fragments/permission :: editor (${actions}, ${menuPermissions})}">
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

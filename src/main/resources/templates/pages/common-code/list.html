@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('공통코드 상세', ~{}, ~{::script}, 'USER', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('공통코드 상세', ~{}, ~{::script}, 'USER', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,13 +11,13 @@
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('공통코드 상세', '기준정보관리, 공통코드 관리, 상세')}">
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
+    <div class="app-box app-box-bg">
         <!--/* 필터 */-->
         <div th:replace="~{pages/common-code/fragments/filter :: filter (
             @{/code-groups/{id}/common-codes(id=${codeGroup.id})},
@@ -27,7 +27,7 @@
 
         <!--/* 목록 */-->
         <div id="common-code-list">
-            <table class="table-list full txt-center">
+            <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
                     <col style="width: 200px">
@@ -49,7 +49,7 @@
                                class="check-item"
                                th:value="${commonCode.id}"/>
                     </td>
-                    <td class="ft-bold">
+                    <td class="fw-bold">
                         <a th:href="@{/users/{id}(id=${user.id})}"
                            th:text="${commonCode.code}"></a>
                     </td>

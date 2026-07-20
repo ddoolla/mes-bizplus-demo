@@ -2,14 +2,14 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('권한 상세', ~{}, ~{}, 'ROLE', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('권한 상세', ~{}, ~{}, 'ROLE', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('권한 상세', '시스템관리, 권한관리, 상세')}">
     </div>
@@ -17,7 +17,7 @@
     <!--/* 버튼 영역 */-->
     <div class="action-bar">
         <button type="button"
-                class="btn"
+                class="btn btn-secondary"
                 th:onclick="|location.href='@{/roles}'|">
             <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
         </button>
@@ -31,8 +31,8 @@
     </div>
 
     <!--/* 역할 */-->
-    <div class="box box-bg">
-        <table class="table-input xs" th:object="${roleDetail.role}">
+    <div class="app-box app-box-bg">
+        <table class="app-table-input" th:object="${roleDetail.role}">
             <colgroup>
                 <col style="width: 150px">
                 <col style="width: auto">
@@ -55,7 +55,7 @@
     </div>
 
     <!--/* 권한 */-->
-    <div class="box box-bg mt-1">
+    <div class="app-box app-box-bg mt-2">
         <div th:replace="~{pages/role/fragments/permission :: list (${actions}, ${roleDetail.menuPermissions})}">
         </div>
     </div>

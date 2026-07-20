@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('공통코드 그룹', ~{}, ~{::script}, 'COMMON_CODE', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('공통코드 그룹', ~{}, ~{::script}, 'COMMON_CODE', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('공통코드 그룹 목록', '기준정보관리, 공통코드관리')}">
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
+    <div class="app-box app-box-bg">
         <!--/* 필터 */-->
         <div th:replace="~{pages/code-group/fragments/filter :: filter ('/code-groups', ${codeGroups.size()})}">
         </div>
 
         <!--/* 목록 */-->
         <div id="user-list">
-            <table class="table-list full txt-center">
+            <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 200px">
                     <col style="width: 200px">
@@ -37,7 +37,7 @@
                 <tbody>
                 <tr th:each="group : ${codeGroups}">
                     <td th:text="${group.menuName}"></td>
-                    <td class="ft-bold">
+                    <td class="fw-bold">
                         <a th:href="@{/users/{id}(id=${user.id})}"
                            th:text="${group.name}"></a>
                     </td>

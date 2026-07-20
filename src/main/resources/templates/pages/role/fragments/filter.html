@@ -4,7 +4,7 @@
 <script src="../../../../static/js/common/checkbox.js"></script>
 <div th:fragment="filter (url, count, showActions)">
     <form method="GET" th:action="${url}">
-        <table class="table-input">
+        <table class="app-table-input">
             <colgroup>
                 <col style="width: 10%">
                 <col style="width: 22%">
@@ -21,7 +21,7 @@
                     <input type="text"
                            id="code"
                            name="code"
-                           class="form-control xs"
+                           class="app-form-control app-xs"
                            th:value="${param.code}">
                 </td>
                 <th>
@@ -31,21 +31,21 @@
                     <input type="text"
                            id="name"
                            name="name"
-                           class="form-control xs"
+                           class="app-form-control app-xs"
                            th:value="${param.name}">
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <div class="mt-1 mb-1 txt-right">
-            <button type="submit" class="btn">
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary">
                 <i class="fa fa-search" aria-hidden="true"></i> 조회
             </button>
         </div>
 
-        <div class="flex-content-between mb-1">
-            <div class="ft-bold"
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
                  th:text="|Total : ${count} 건|">
             </div>
             <div>

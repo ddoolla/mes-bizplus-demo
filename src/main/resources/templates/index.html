@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout (_, ~{}, ~{}, _, ~{::#content})}">
+      th:replace="~{layouts/main :: layout (_, ~{}, ~{}, _, ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <div id="content">
-        <div class="box box-bg" style="height: 97vh"></div>
+    <div id="app-content">
+        <div class="app-box app-box-bg" style="height: 97vh"></div>
     </div>
 </body>
 </html>

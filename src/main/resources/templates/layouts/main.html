@@ -9,12 +9,12 @@
     <title>Title</title>
 </head>
 <body>
-<div class="wrapper">
+<div class="app-wrapper">
     <!--/* 사이드바 */-->
     <div th:replace="~{fragments/layout/sidebar :: sidebar (${active})}"></div>
 
     <!--/* 콘텐츠 */-->
-    <div class="container" th:insert="${content}"></div>
+    <div class="app-container" th:insert="${content}"></div>
 </div>
 
 <!--/* 알림 메시지 */-->

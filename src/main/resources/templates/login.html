@@ -15,27 +15,27 @@
 
         <form id="inputForm" method="POST" th:action="@{/login}">
             <div class="login-body">
-                <div th:if="${param.error}" class="alert alert-danger">
+                <div th:if="${param.error}" class="app-alert">
                     <p style="color:red; font-weight: bold;">아이디와 패스워드가 정확하지 않습니다.</p>
                 </div>
 
-                <div class="form-group">
+                <div class="app-form-group">
                     <label>
                         <i class="fa fa-user-circle-o" aria-hidden="true"> 아이디</i>
                     </label>
-                    <input type="text" name="username" class="form-control" value=""
+                    <input type="text" name="username" class="app-form-control" value=""
                            placeholder="아이디를 입력해 주세요."/>
                 </div>
-                <div class="form-group">
+                <div class="app-form-group">
                     <label>
                         <i class="fa fa-lock" aria-hidden="true"> 비밀번호</i>
                     </label>
-                    <input type="password" id="password" name="password" class="form-control"
+                    <input type="password" id="password" name="password" class="app-form-control"
                            value="" placeholder="비밀번호를 입력해 주세요.">
                 </div>
 
-                <div class="form-group">
-                    <input type="submit" class="btn btn-block btn-primary" value="로그인">
+                <div class="app-form-group d-grid">
+                    <input type="submit" class="btn btn-primary" value="로그인">
                 </div>
             </div>
         </form>

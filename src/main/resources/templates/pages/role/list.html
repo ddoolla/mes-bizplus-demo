@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('권한 목록', ~{}, ~{::script}, 'ROLE', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('권한 목록', ~{}, ~{::script}, 'ROLE', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,20 +11,20 @@
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('권한 목록', '시스템 관리, 권한 관리')}">
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
+    <div class="app-box app-box-bg">
         <!--/* 필터 */-->
         <div th:replace="~{pages/role/fragments/filter :: filter ('/roles', ${data.pagination.totalElements}, true)}">
         </div>
 
         <!--/* 목록 */-->
         <div id="role-list">
-            <table class="table-list full txt-center">
+            <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
                     <col style="width: 200px">
@@ -47,7 +47,7 @@
                                th:unless="${role.code == 'ADMIN'}"
                                th:value="${role.id}"/>
                     </td>
-                    <td class="ft-bold">
+                    <td class="fw-bold">
                         <a th:href="@{/roles/{id}(id=${role.id})}"
                            th:text="${role.code}"></a>
                     </td>

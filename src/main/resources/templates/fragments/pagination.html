@@ -1,5 +1,5 @@
 <div th:fragment="pagination (pagination)">
-    <div class="pagination" th:if="${pagination.totalPages > 0}">
+    <div class="app-pagination" th:if="${pagination.totalPages > 0}">
         <a class="first"
            th:if="${pagination.hasFirst}"
            th:href="@{${path}(page=0)}">

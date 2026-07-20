@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('사용자 수정', ~{}, ~{::script}, 'USER', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('사용자 수정', ~{}, ~{::script}, 'USER', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('사용자 수정', '시스템관리, 사용자관리, 상세, 수정')}">
     </div>
@@ -18,7 +18,7 @@
     <!--/* 버튼 영역 */-->
     <div class="action-bar">
         <button type="button"
-                class="btn"
+                class="btn btn-secondary"
                 th:onclick="|location.href='@{/users}'|">
             <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
         </button>
@@ -32,9 +32,9 @@
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
+    <div class="app-box app-box-bg">
         <form id="edit-user-form" method="post" th:action="@{/users/{id}(id=${user.id})}">
-            <table class="table-input xs" th:object="${user}">
+            <table class="app-table-input" th:object="${user}">
                 <colgroup>
                     <col style="width: 150px">
                     <col style="width: auto">
@@ -52,7 +52,7 @@
                         <input type="password"
                                id="password"
                                name="password"
-                               class="form-control xs"/>
+                               class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
@@ -63,20 +63,20 @@
                         <input type="password"
                                id="passwordConfirm"
                                name="passwordConfirm"
-                               class="form-control xs"/>
+                               class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
                     <th>
                         <label for="name">
-                            이름 <span class="required">*</span>
+                            이름 <span class="app-required">*</span>
                         </label>
                     </th>
                     <td>
                         <input type="text"
                                id="name"
                                name="name"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{name}"
                                placeholder="사용자 이름을 입력해 주세요."/>
                     </td>
@@ -89,7 +89,7 @@
                         <input type="text"
                                id="email"
                                name="email"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{email}"/>
                     </td>
                 </tr>
@@ -101,7 +101,7 @@
                         <input type="text"
                                id="phone"
                                name="phone"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{phone}"/>
                     </td>
                 </tr>
@@ -113,7 +113,7 @@
                         <input type="text"
                                id="department"
                                name="department"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{department.name}"/>
                         <input type="hidden"
                                name="departmentId"
@@ -128,7 +128,7 @@
                         <input type="text"
                                id="position"
                                name="position"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{position.name}"/>
                         <input type="hidden"
                                name="positionId"
@@ -142,7 +142,7 @@
                     <td>
                         <select name="roleId"
                                 id="roleId"
-                                class="form-control xs">
+                                class="app-form-control app-xs">
                             <option th:each="role : ${roles}"
                                     th:value="${role.id}"
                                     th:text="${role.name}"
@@ -159,7 +159,7 @@
                         <input type="text"
                                id="remark"
                                name="remark"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{remark}"/>
                     </td>
                 </tr>

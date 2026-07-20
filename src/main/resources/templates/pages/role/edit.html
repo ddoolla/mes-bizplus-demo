@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('권한 수정', ~{}, ~{::script}, 'ROLE', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('권한 수정', ~{}, ~{::script}, 'ROLE', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('권한 수정', '시스템관리, 권한관리, 상세, 수정')}">
     </div>
@@ -18,7 +18,7 @@
     <!--/* 버튼 영역 */-->
     <div class="action-bar">
         <button type="button"
-                class="btn"
+                class="btn btn-secondary"
                 th:onclick="|location.href='@{/roles}'|">
             <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
         </button>
@@ -34,8 +34,8 @@
     <!--/* 바디 */-->
     <form id="edit-role-form" method="post" th:action="@{/roles/{id}(id=${roleDetail.role.id})}">
         <!--/* 역할 */-->
-        <div class="box box-bg">
-            <table class="table-input xs" th:object="${roleDetail.role}">
+        <div class="app-box app-box-bg">
+            <table class="app-table-input" th:object="${roleDetail.role}">
                 <colgroup>
                     <col style="width: 150px">
                     <col style="width: auto">
@@ -44,14 +44,14 @@
                 <tr>
                     <th>
                         <label for="code">
-                            권한 코드 <span class="required">*</span>
+                            권한 코드 <span class="app-required">*</span>
                         </label>
                     </th>
                     <td>
                         <input type="text"
                                id="code"
                                name="code"
-                               class="form-control xs"
+                               class="app-form-control app-xs"
                                th:value="*{code}"
                                placeholder="권한 코드를 입력해 주세요."/>
                         <input type="hidden"
@@ -63,14 +63,14 @@
                 <tr>
                     <th>
                         <label for="name">
-                            권한 이름 <span class="required">*</span>
+                            권한 이름 <span class="app-required">*</span>
                         </label>
                     </th>
                     <td>
                         <input type="text"
                                id="name"
                                name="name"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{name}"
                                placeholder="권한 이름을 입력해 주세요."/>
                     </td>
@@ -83,7 +83,7 @@
                         <input type="text"
                                id="description"
                                name="description"
-                               class="form-control xs code"
+                               class="app-form-control app-xs"
                                th:value="*{description}"/>
                     </td>
                 </tr>
@@ -92,7 +92,7 @@
         </div>
 
         <!--/* 권한 */-->
-        <div class="box box-bg mt-1">
+        <div class="app-box app-box-bg mt-2">
             <div th:replace="~{pages/role/fragments/permission :: editor (${actions}, ${roleDetail.menuPermissions})}">
             </div>
         </div>

@@ -1,24 +1,31 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
 <!--/* 사이드 바 */-->
 <th:block th:fragment="sidebar (active)">
-    <div class="sidebar" th:with="active=${active}">
-        <div class="brand">
+    <div class="app-sidebar" th:with="active=${active}">
+        <div class="app-brand">
             <a th:href="@{/}" class="logo">MES DEMO</a>
         </div>
-        <div class="logout">
-            <!--/* 이거 post로 보내야 시큐리티 작동함 나중에 form 으로 교체 */-->
-            <a th:href="@{/logout}" class="btn-xs">로그아웃</a>
+        <div class="app-logout">
+            <form method="post" th:action="@{/logout}">
+                <button type="submit"
+                        class="btn btn-outline-light">
+                    로그아웃
+                </button>
+            </form>
         </div>
-        <ul class="sidebar-nav">
-            <li class="sidebar-item"
+        <ul class="app-sidebar-nav">
+            <li class="app-sidebar-item"
                 th:each="menuGroup : ${menus}"
-                th:if="${menuGroup.type.name == 'GROUP'}">
-                <label class="sidebar-label" th:text="${menuGroup.name}"></label>
-                <nav class="sidebar-subItem">
+                th:if="${menuGroup.type.name() == 'GROUP'}">
+                <label class="app-sidebar-label" th:text="${menuGroup.name}"></label>
+                <nav class="app-sidebar-subItem">
                     <a th:each="menuItem : ${menus}"
                        th:if="${menuGroup.id == (menuItem.parent != null ? menuItem.parent.id : '')}"
                        th:href="@{${menuItem.path}}"
-                       class="sidebar-link"
-                       th:classappend="${active == menuItem.code ? 'active' : ''}"
+                       class="app-sidebar-link link-underline link-underline-opacity-0"
+                       th:classappend="${active == menuItem.code.name() ? 'active' : ''}"
                        th:text="${menuItem.name}"></a>
                 </nav>
             </li>
@@ -27,22 +34,24 @@
     <script type="text/javascript">
         $(function () {
 
-            $('.sidebar-label').on('click', function () {
+            $('.app-sidebar-label').on('click', function () {
                 const $label = $(this);
-                const $subMenu = $label.next('.sidebar-subItem');
+                const $subMenu = $label.next('.app-sidebar-subItem');
 
                 // 클릭 연타 방지
                 $subMenu.stop(true, true).slideToggle();
                 $label.toggleClass('expanded');
             });
 
-            const $active = $('.sidebar-link.active');
+            const $active = $('.app-sidebar-link.active');
 
             if ($active.length) {
-                $active.closest('.sidebar-item')
-                    .find('> .sidebar-label')
+                $active.closest('.app-sidebar-item')
+                    .find('> .app-sidebar-label')
                     .trigger('click');
             }
         });
     </script>
 </th:block>
+
+</html>

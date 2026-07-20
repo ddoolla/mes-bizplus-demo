@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('사용자 목록', ~{}, ~{::script}, 'USER', ~{::#content})}">
+      th:replace="~{layouts/main :: layout ('사용자 목록', ~{}, ~{::script}, 'USER', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,20 +11,20 @@
 </head>
 <body>
 <!--/* 콘텐츠 */-->
-<div id="content">
+<div id="app-content">
     <!--/* 헤더 */-->
     <div th:replace="~{fragments/content :: header ('사용자 목록', '시스템관리, 사용자관리')}">
     </div>
 
     <!--/* 바디 */-->
-    <div class="box box-bg">
+    <div class="app-box app-box-bg">
         <!--/* 필터 */-->
         <div th:replace="~{pages/user/fragments/filter :: filter ('/users', ${data.pagination.totalElements}, true)}">
         </div>
 
         <!--/* 목록 */-->
         <div id="user-list">
-            <table class="table-list full txt-center">
+            <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
                     <col style="width: 200px">
@@ -55,7 +55,7 @@
                                th:value="${user.id}"
                                th:unless="${user.userId == 'admin'}"/>
                     </td>
-                    <td class="ft-bold">
+                    <td class="fw-bold">
                         <a th:href="@{/users/{id}(id=${user.id})}"
                            th:text="${user.userId}"></a>
                     </td>

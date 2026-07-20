@@ -19,16 +19,16 @@
 }
 
 html, body {
-    font-size: 12px;
     height: 100%;
 }
 
 body {
-    font-family: 'Nanum Gothic', sans-serif;
-    color: var(--font-color);
-    line-height: 1.4em;
     margin: 0;
     padding: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    color: var(--font-color);
+    font-size: 0.75rem;
+    line-height: 1.1em;
 }
 
 /* ================================ Layout ================================ */
@@ -58,17 +58,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 4rem;
-    line-height: 4rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    height: 3rem;
+    line-height: 3rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
 .app-sidebar > .app-brand > a {
     color: var(--font-color-white);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: bold;
     text-decoration: none;
 }
@@ -79,9 +79,9 @@ body {
     align-items: center;
     height: 2rem;
     line-height: 2rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    margin-bottom: 1rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    margin-bottom: 1.2rem;
 }
 
 .app-sidebar-nav {
@@ -98,7 +98,7 @@ body {
 }
 
 .app-sidebar-item + .app-sidebar-item {
-    margin-top: 1.2rem;
+    margin-top: 1rem;
 }
 
 .app-sidebar-item .app-sidebar-subItem {
@@ -107,10 +107,10 @@ body {
 
 .app-sidebar-item > label {
     display: block;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: bold;
     opacity: .5;
-    padding: .5px 1.5rem .8rem;
+    padding: .5px 1.2rem .6rem;
     color: #cbd5e0;
 }
 
@@ -135,29 +135,30 @@ body {
 
 #app-content {
     /* width: 970px; */
-    margin: 1rem;
+    margin: 0.8rem;
     padding: 0;
     min-height: calc(100% - 121px);
 }
 
-#app-content .title {
-    font-size: 1.5rem;
+#app-content .app-title {
+    margin-top: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
 .app-content-header {
     position: relative;
     padding: 0 5px;
-    margin-bottom: 1rem;
 }
 
 .app-content-header .app-title {
-    font-size: 1.5rem;
+    padding-bottom: 2px;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
 .app-content-header .app-sub-title {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -177,7 +178,7 @@ body {
     font: normal normal normal 14px/1 FontAwesome;
     position: absolute;
     content: "\f105";
-    top: 1px;
+    top: -1.5px;
     padding-left: 10px;
 }
 
@@ -188,7 +189,7 @@ body {
 /* ================================ Box ================================ */
 
 .app-box {
-    padding: 1rem 1rem;
+    padding: 0.8rem 0.8rem;
 }
 
 .app-box-bg {
@@ -211,13 +212,13 @@ body {
 /* ================================ Form ================================ */
 
 .app-form-group {
-    margin: 1.2rem 1rem;
+    margin: 1rem 0.8rem;
 }
 
 .app-form-group label {
     display: block;
     font-weight: bold;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .app-form-control {
@@ -229,14 +230,14 @@ body {
     border-radius: 3px;
 }
 
-.app-form-control.xs {
+.app-form-control.app-xs {
     min-height: 23px !important;
     padding: 1px 2px !important;
 }
 
 input[type="checkbox"], input[type="radio"] {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1rem;
+    height: 1rem;
     vertical-align: middle;
     margin-right: 5px;
 }

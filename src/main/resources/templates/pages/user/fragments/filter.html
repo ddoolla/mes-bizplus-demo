@@ -39,7 +39,7 @@
         </table>
 
         <div class="mt-2 mb-2 text-end">
-            <button type="submit" class="btn btn-secondary">
+            <button type="submit" class="btn btn-secondary btn-sm">
                 <i class="fa fa-search" aria-hidden="true"></i> 조회
             </button>
         </div>
@@ -51,14 +51,14 @@
             <div>
                 <th:block th:if="${showActions}">
                     <button type="button"
-                            class="btn btn-primary"
+                            class="btn btn-primary btn-sm"
                             th:onclick="|location.href='@{/users/new}'|"
                             sec:authorize="hasAuthority('USER_CREATE')">
                         <i class="fa fa-pencil" aria-hidden="true"></i> 등록
                     </button>
                     <button type="button"
                             id="delete-user-button"
-                            class="btn btn-danger"
+                            class="btn btn-danger btn-sm"
                             sec:authorize="hasAuthority('USER_DELETE')">
                         <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
                     </button>

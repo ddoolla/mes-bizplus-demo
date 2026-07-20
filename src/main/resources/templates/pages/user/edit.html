@@ -18,14 +18,14 @@
     <!--/* 버튼 영역 */-->
     <div class="action-bar">
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary btn-sm"
                 th:onclick="|location.href='@{/users}'|">
             <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
         </button>
 
         <button type="submit"
                 form="edit-user-form"
-                class="btn btn-primary"
+                class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('USER_UPDATE')">
             <i class="fa fa-pencil" aria-hidden="true"></i> 저장
         </button>

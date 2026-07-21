@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.menu.MenuType;
 import com.bizplus.mes.security.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -50,7 +51,9 @@ public class GlobalModelAttributeAdvice {
 
         Set<String> permissionCodes = userDetails.getPermissionCode();
 
-        List<Menu> menus = menuRepository.findAll();
+        Sort sort = Sort.by("sortOrder").ascending();
+
+        List<Menu> menus = menuRepository.findAll(sort);
 
         List<Menu> accessibleMenus = menus.stream()
                 .filter(menu -> {

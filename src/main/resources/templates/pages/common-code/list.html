@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('공통코드 상세', ~{}, ~{::script}, 'USER', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('공통코드 상세', ~{}, ~{::script}, 'COMMON_CODE', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -37,8 +37,8 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="check-all"/></th>
-                    <th>공통코드</th>
-                    <th>공통코드 이름</th>
+                    <th>코드</th>
+                    <th>코드명</th>
                     <th>설명</th>
                 </tr>
                 </thead>

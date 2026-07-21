@@ -1,17 +1,16 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
-<script src="../../../../static/js/common/checkbox.js"></script>
+
 <div th:fragment="filter (url, count, showActions)">
     <form method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
-                <col style="width: 10%">
-                <col style="width: 22%">
-                <col style="width: 10%">
-                <col style="width: 22%">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
             </colgroup>
-
             <tbody>
             <tr>
                 <th>
@@ -25,7 +24,7 @@
                            th:value="${param.userId}">
                 </td>
                 <th>
-                    <label for="name">이름</label>
+                    <label for="name">사용자명</label>
                 </th>
                 <td>
                     <input type="text"
@@ -71,4 +70,5 @@
         </div>
     </form>
 </div>
+
 </html>

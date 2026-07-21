@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('공통코드 그룹', ~{}, ~{::script}, 'COMMON_CODE', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('코드 그룹', ~{}, ~{}, 'COMMON_CODE', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,7 +10,7 @@
 <!--/* 콘텐츠 */-->
 <div id="app-content">
     <!--/* 헤더 */-->
-    <div th:replace="~{fragments/content :: header ('공통코드 그룹 목록', '기준정보관리, 공통코드관리')}">
+    <div th:replace="~{fragments/content :: header ('코드 그룹 목록', '기준정보관리, 공통코드관리')}">
     </div>
 
     <!--/* 바디 */-->
@@ -30,7 +30,7 @@
                 <thead>
                 <tr>
                     <th>메뉴</th>
-                    <th>공통코드 그룹</th>
+                    <th>코드 그룹</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -38,7 +38,7 @@
                 <tr th:each="group : ${codeGroups}">
                     <td th:text="${group.menuName}"></td>
                     <td class="fw-bold">
-                        <a th:href="@{/users/{id}(id=${user.id})}"
+                        <a th:href="@{/code-groups/{groupId}/common-codes(groupId=${group.id})}"
                            th:text="${group.name}"></a>
                     </td>
                     <td></td>

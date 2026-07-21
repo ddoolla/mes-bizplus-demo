@@ -51,6 +51,11 @@
             <div>
                 <th:block th:if="${showActions}">
                     <button type="button"
+                            class="btn btn-secondary btn-sm"
+                            th:onclick="|location.href='@{/code-groups}'|">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> 그룹 목록
+                    </button>
+                    <button type="button"
                             class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
                             data-bs-target="#create-code-modal"

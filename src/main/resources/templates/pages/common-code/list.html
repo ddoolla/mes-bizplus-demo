@@ -67,10 +67,10 @@
     </div>
 
     <!--/* 등록 모달 */-->
-    <div th:replace="~{/pages/common-code/fragments/modal :: new (${codeGroup})}"></div>
+    <div th:replace="~{/pages/common-code/fragments/create-modal :: createModal (${codeGroup})}"></div>
 
     <!--/* 수정 모달 */-->
-    <div th:replace="~{/pages/common-code/fragments/modal :: edit (${codeGroup})}"></div>
+    <div th:replace="~{/pages/common-code/fragments/edit-modal :: editModal}"></div>
 </div>
 </body>
 </html>

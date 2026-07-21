@@ -1,0 +1,36 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="default (id, title, body, footer, size)">
+    <div class="modal fade"
+         th:id="${id}"
+         tabindex="-1"
+         th:with="label=${id + '-label'}"
+         th:aria-labelledby="${label}"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"
+             th:with="size=${size ?: 500}"
+             th:style="|max-width: ${size}px|">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5"
+                        th:id="${label}"
+                        th:text="${title}">
+                    </h1>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <th:block th:replace="${body}"/>
+                </div>
+                <div class="modal-footer">
+                    <th:block th:replace="${footer}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

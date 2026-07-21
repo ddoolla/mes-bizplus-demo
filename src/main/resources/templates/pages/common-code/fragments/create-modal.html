@@ -1,0 +1,108 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 코드 등록 모달 */-->
+<th:block th:fragment="createModal (codeGroup)">
+    <div th:replace="~{/fragments/modal :: default (
+        'create-code-modal',
+        '코드 등록',
+         ~{::create-modal-body},
+         ~{::create-modal-footer},
+         null
+    )}">
+        <th:block th:fragment="create-modal-body">
+            <form id="create-code-form"
+                  method="post"
+                  th:action="@{/code-groups/{groupId}/codes(groupId=${codeGroup.id})}">
+                <table class="app-table-input">
+                    <colgroup>
+                        <col style="width: 150px">
+                        <col style="width: auto">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>
+                            <label for="new-code">
+                                코드 <span class="app-required">*</span>
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="new-code"
+                                   name="code"
+                                   class="app-form-control app-xs"
+                                   placeholder="코드를 입력해 주세요."/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="new-name">
+                                코드명 <span class="app-required">*</span>
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="new-name"
+                                   name="name"
+                                   class="app-form-control app-xs"
+                                   placeholder="코드명을 입력해 주세요."/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="new-description">코드 설명</label>
+                        </th>
+                        <td>
+                            <input type="text"
+                                   id="new-description"
+                                   name="description"
+                                   class="app-form-control app-xs"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </th:block>
+        <th:block th:fragment="create-modal-footer">
+            <button type="button"
+                    class="btn btn-secondary btn-sm"
+                    data-bs-dismiss="modal">
+                취소
+            </button>
+            <button type="submit"
+                    form="create-code-form"
+                    class="btn btn-primary btn-sm">
+                저장
+            </button>
+        </th:block>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            $('#create-code-form').validate({
+                rules: {
+                    code: {
+                        required: true,
+                        remote: {
+                            url: '/common-codes/check-code',
+                            type: 'get',
+                            data: {
+                                id: function () {
+                                    return $('#form-id').val();
+                                }
+                            }
+                        },
+                    },
+                    name: 'required',
+                }, messages: {
+                    code: {
+                        required: '코드를 입력해 주세요.',
+                        remote: '이미 존재하는 코드 입니다.',
+                    },
+                    name: '코드명을 입력해 주세요.',
+                }
+            });
+        });
+    </script>
+</th:block>
+
+</html>

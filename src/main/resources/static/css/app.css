@@ -6,6 +6,7 @@
     --font-color-white: #fff;
 
     --global-color-primary: #3c8dbc;
+    --global-color-danger: #dd4b39;
 }
 
 /* ================================ All ================================ */
@@ -342,6 +343,13 @@ input[type="text"]:disabled, select:disabled {
 }
 
 /* ================================ Util ================================ */
+
+/* jquery.validate.min.js 에서 사용 */
+label.error {
+    margin-top: .5rem;
+    color: var(--global-color-danger);
+    display: block;
+}
 
 .app-readonly-bg {
     background-color: #e5e5e5

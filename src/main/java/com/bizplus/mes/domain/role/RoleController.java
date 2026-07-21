@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.permission.PermissionAction;
 import com.bizplus.mes.domain.permission.PermissionService;
 import com.bizplus.mes.domain.permission.dto.MenuPermissionDto;
 import com.bizplus.mes.domain.role.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -85,7 +86,7 @@ public class RoleController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
-    public String createRole(RoleCreateDto dto, RedirectAttributes reAtt) {
+    public String createRole(@Valid RoleCreateDto dto, RedirectAttributes reAtt) {
 
         roleService.createRole(dto);
 
@@ -97,7 +98,7 @@ public class RoleController {
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_UPDATE')")
     public String updateRole(@PathVariable Long id,
-                             RoleUpdateDto dto,
+                             @Valid RoleUpdateDto dto,
                              RedirectAttributes reAtt) {
 
         roleService.updateRole(id, dto);

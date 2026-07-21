@@ -5,6 +5,7 @@ import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.role.RoleService;
 import com.bizplus.mes.domain.role.dto.RoleDto;
 import com.bizplus.mes.domain.user.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -85,7 +86,7 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('USER_CREATE')")
-    public String createUser(UserCreateDto dto, RedirectAttributes reAtt) {
+    public String createUser(@Valid UserCreateDto dto, RedirectAttributes reAtt) {
 
         userService.createUser(dto);
 
@@ -97,7 +98,7 @@ public class UserController {
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('USER_UPDATE')")
     public String updateUser(@PathVariable Long id,
-                             UserUpdateDto dto,
+                             @Valid UserUpdateDto dto,
                              RedirectAttributes reAtt) {
 
         userService.updateUser(id, dto);

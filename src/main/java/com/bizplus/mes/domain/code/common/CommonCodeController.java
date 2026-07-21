@@ -6,7 +6,6 @@ import com.bizplus.mes.domain.code.common.dto.CommonCodeCreateDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeUpdateDto;
 import com.bizplus.mes.domain.code.group.CodeGroupService;
-import com.bizplus.mes.domain.code.group.dto.CodeGroupDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +32,8 @@ public class CommonCodeController {
                            @RequestParam(required = false) String code,
                            @RequestParam(required = false) String name) {
 
-        CodeGroupDto codeGroup = codeGroupService.getCodeGroup(groupId);
-        List<CommonCodeDto> commonCodes = commonCodeService.getCommonCodes(groupId, code, name);
-
-        model.addAttribute("codeGroup", codeGroup);
-        model.addAttribute("commonCodes", commonCodes);
+        model.addAttribute("codeGroup", codeGroupService.getCodeGroup(groupId));
+        model.addAttribute("commonCodes", commonCodeService.getCommonCodes(groupId, code, name));
 
         return "pages/common-code/list";
     }
@@ -45,6 +41,7 @@ public class CommonCodeController {
     @GetMapping("/common-codes/{id}")
     @ResponseBody
     public CommonCodeDto readCommonCode(@PathVariable Long id) {
+
         return commonCodeService.getCommonCode(id);
     }
 

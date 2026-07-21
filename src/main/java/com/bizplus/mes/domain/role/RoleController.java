@@ -4,8 +4,9 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.permission.PermissionAction;
 import com.bizplus.mes.domain.permission.PermissionService;
-import com.bizplus.mes.domain.permission.dto.MenuPermissionDto;
-import com.bizplus.mes.domain.role.dto.*;
+import com.bizplus.mes.domain.role.dto.RoleCreateDto;
+import com.bizplus.mes.domain.role.dto.RoleSearchDto;
+import com.bizplus.mes.domain.role.dto.RoleUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -34,9 +35,7 @@ public class RoleController {
                            RoleSearchDto dto,
                            @PageableDefault Pageable pageable) {
 
-        RoleListDto roles = roleService.getRoles(dto, pageable);
-
-        model.addAttribute("data", roles);
+        model.addAttribute("data", roleService.getRoles(dto, pageable));
 
         return "pages/role/list";
     }
@@ -45,10 +44,8 @@ public class RoleController {
     @PreAuthorize("hasAuthority('ROLE_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
 
-        RolePermissionDto roleDetail = roleService.getRole(id);
-
         model.addAttribute("actions", PermissionAction.values());
-        model.addAttribute("roleDetail", roleDetail);
+        model.addAttribute("roleDetail", roleService.getRole(id));
 
         return "pages/role/detail";
     }
@@ -57,10 +54,8 @@ public class RoleController {
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
     public String viewNew(Model model) {
 
-        List<MenuPermissionDto> menuPermissions = permissionService.getPermissions();
-
         model.addAttribute("actions", PermissionAction.values());
-        model.addAttribute("menuPermissions", menuPermissions);
+        model.addAttribute("menuPermissions", permissionService.getPermissions());
 
         return "pages/role/new";
     }
@@ -69,10 +64,8 @@ public class RoleController {
     @PreAuthorize("hasAuthority('ROLE_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
 
-        RolePermissionDto roleDetail = roleService.getRole(id);
-
         model.addAttribute("actions", PermissionAction.values());
-        model.addAttribute("roleDetail", roleDetail);
+        model.addAttribute("roleDetail", roleService.getRole(id));
 
         return "pages/role/edit";
     }

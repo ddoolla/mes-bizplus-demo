@@ -2,9 +2,12 @@ package com.bizplus.mes.domain.user;
 
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
+import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.role.RoleService;
-import com.bizplus.mes.domain.role.dto.RoleDto;
-import com.bizplus.mes.domain.user.dto.*;
+import com.bizplus.mes.domain.user.dto.UserCreateDto;
+import com.bizplus.mes.domain.user.dto.UserSearchDto;
+import com.bizplus.mes.domain.user.dto.UserUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -27,15 +30,15 @@ public class UserController {
     private final RoleService roleService;
     private final MessageService messageService;
 
+    private final CommonCodeReader commonCodeReader;
+
     @GetMapping
     @PreAuthorize("hasAuthority('USER_READ')")
     public String viewList(Model model,
                            UserSearchDto dto,
                            @PageableDefault Pageable pageable) {
 
-        UserListDto users = userService.getUsers(dto, pageable);
-
-        model.addAttribute("data", users);
+        model.addAttribute("data", userService.getUsers(dto, pageable));
 
         return "pages/user/list";
     }
@@ -44,9 +47,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
 
-        UserDto user = userService.getUser(id);
-
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUser(id));
 
         return "pages/user/detail";
     }
@@ -55,10 +56,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_CREATE')")
     public String viewNew(Model model) {
 
-        List<RoleDto> roles = roleService.getAllRoles();
-        // todo 공통코드 불러오기 추가
-
-        model.addAttribute("roles", roles);
+        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
+        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
 
         return "pages/user/new";
     }
@@ -67,12 +67,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
 
-        UserDto user = userService.getUser(id);
-        List<RoleDto> roles = roleService.getAllRoles();
-        // todo 공통코드 불러오기 추가
-
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
+        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
+        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
 
         return "pages/user/edit";
     }

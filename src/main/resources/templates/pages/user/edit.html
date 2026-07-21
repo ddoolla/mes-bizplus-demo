@@ -107,32 +107,48 @@
                 </tr>
                 <tr>
                     <th>
-                        <label for="department">부서</label>
+                        <label for="departmentId">부서</label>
                     </th>
                     <td>
-                        <input type="text"
-                               id="department"
-                               name="department"
-                               class="app-form-control app-xs"
-                               th:value="*{department.name}"/>
-                        <input type="hidden"
-                               name="departmentId"
-                               th:value="*{department.id}"/>
+                        <select name="departmentId"
+                                id="departmentId"
+                                class="app-form-control app-xs">
+                            <option value="">
+                                부서 선택
+                            </option>
+                            <option th:if="${#lists.isEmpty(departments)}" value="" disabled>
+                                등록된 부서가 없습니다.
+                            </option>
+                            <option th:unless="${#lists.isEmpty(departments)}"
+                                    th:each="department : ${departments}"
+                                    th:value="${department.id}"
+                                    th:text="${department.name}"
+                                    th:selected="${department.id == user.department.id}">
+                            </option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
                     <th>
-                        <label for="position">직책</label>
+                        <label for="positionId">직책</label>
                     </th>
                     <td>
-                        <input type="text"
-                               id="position"
-                               name="position"
-                               class="app-form-control app-xs"
-                               th:value="*{position.name}"/>
-                        <input type="hidden"
-                               name="positionId"
-                               th:value="*{position.id}"/>
+                        <select name="positionId"
+                                id="positionId"
+                                class="app-form-control app-xs">
+                            <option value="">
+                                직책 선택
+                            </option>
+                            <option th:if="${#lists.isEmpty(positions)}" value="" disabled>
+                                등록된 직책이 없습니다.
+                            </option>
+                            <option th:unless="${#lists.isEmpty(positions)}"
+                                    th:each="position : ${positions}"
+                                    th:value="${position.id}"
+                                    th:text="${position.name}"
+                                    th:selected="${position.id == user.position.id}">
+                            </option>
+                        </select>
                     </td>
                 </tr>
                 <tr>

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const checkboxGroup = document.querySelector('#common-code-list');
-    const deleteButton = document.querySelector('#delete-common-code-button');
+    const checkboxGroup = document.querySelector('#code-list');
+    const deleteButton = document.querySelector('#delete-code-button');
 
     Checkbox.init(checkboxGroup);
 
@@ -35,4 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 location.reload();
             });
     });
+
+     /* 코드 수정 모달 */
+    const editModal = document.getElementById("edit-code-modal");
+
+    if (editModal) {
+
+        editModal.addEventListener('show.bs.modal', async event => {
+
+            const link = event.relatedTarget;
+
+            const groupId = link.getAttribute('data-bs-group-id');
+            const id = link.getAttribute('data-bs-id');
+
+            const commonCode = await Ajax.get(`/common-codes/${id}`);
+
+            document.querySelector('#edit-code-form').action = `/code-groups/${groupId}/codes/${id}`;
+
+            document.querySelector('#id').value = commonCode.id;
+            document.querySelector('#edit-code').value = commonCode.code;
+            document.querySelector('#edit-name').value = commonCode.name;
+            document.querySelector('#edit-description').value = commonCode.description;
+        });
+    }
 });

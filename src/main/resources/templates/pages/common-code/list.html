@@ -13,20 +13,21 @@
 <!--/* 콘텐츠 */-->
 <div id="app-content">
     <!--/* 헤더 */-->
-    <div th:replace="~{fragments/content :: header ('공통코드 상세', '기준정보관리, 공통코드 관리, 상세')}">
-    </div>
+    <th:block th:with="group=${codeGroup.name + ' 코드'}">
+        <div th:replace="~{fragments/content :: header (${group}, '기준정보관리, 공통코드 관리, 상세')}"></div>
+    </th:block>
 
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
         <!--/* 필터 */-->
         <div th:replace="~{pages/common-code/fragments/filter :: filter (
-            @{/code-groups/{id}/common-codes(id=${codeGroup.id})},
+            @{/code-groups/{id}/codes(id=${codeGroup.id})},
             ${commonCodes.size()},
             true)}">
         </div>
 
         <!--/* 목록 */-->
-        <div id="common-code-list">
+        <div id="code-list">
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
@@ -50,8 +51,12 @@
                                th:value="${commonCode.id}"/>
                     </td>
                     <td class="fw-bold">
-                        <a th:href="@{/users/{id}(id=${user.id})}"
-                           th:text="${commonCode.code}"></a>
+                        <a href="#"
+                           data-bs-toggle="modal"
+                           data-bs-target="#edit-code-modal"
+                           th:text="${commonCode.code}"
+                           th:data-bs-group-id="${codeGroup.id}"
+                           th:data-bs-id="${commonCode.id}"></a>
                     </td>
                     <td th:text="${commonCode.name}"></td>
                     <td th:text="${commonCode.description}"></td>
@@ -60,6 +65,12 @@
             </table>
         </div>
     </div>
+
+    <!--/* 등록 모달 */-->
+    <div th:replace="~{/pages/common-code/fragments/modal :: new (${codeGroup})}"></div>
+
+    <!--/* 수정 모달 */-->
+    <div th:replace="~{/pages/common-code/fragments/modal :: edit (${codeGroup})}"></div>
 </div>
 </body>
 </html>

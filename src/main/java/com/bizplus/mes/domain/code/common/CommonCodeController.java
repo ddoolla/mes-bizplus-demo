@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.code.common.dto.CommonCodeDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeUpdateDto;
 import com.bizplus.mes.domain.code.group.CodeGroupService;
 import com.bizplus.mes.domain.code.group.dto.CodeGroupDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,11 +22,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommonCodeController {
 
-    private final CommonCodeService commonCodeService;
     private final CodeGroupService codeGroupService;
+    private final CommonCodeService commonCodeService;
     private final MessageService messageService;
 
-    @GetMapping("/code-groups/{groupId}/common-codes")
+    @GetMapping("/code-groups/{groupId}/codes")
     @PreAuthorize("hasAuthority('COMMON_CODE_READ')")
     public String viewList(Model model,
                            @PathVariable Long groupId,
@@ -41,10 +42,23 @@ public class CommonCodeController {
         return "pages/common-code/list";
     }
 
-    @PostMapping("/code-groups/{groupId}/common-codes")
+    @GetMapping("/common-codes/{id}")
+    @ResponseBody
+    public CommonCodeDto readCommonCode(@PathVariable Long id) {
+        return commonCodeService.getCommonCode(id);
+    }
+
+    @GetMapping("/common-codes/check-code")
+    @ResponseBody
+    public boolean checkCode(Long id, String code) {
+
+        return commonCodeService.checkCode(id, code);
+    }
+
+    @PostMapping("/code-groups/{groupId}/codes")
     @PreAuthorize("hasAuthority('COMMON_CODE_CREATE')")
     public String createCommonCode(@PathVariable Long groupId,
-                                   CommonCodeCreateDto dto,
+                                   @Valid CommonCodeCreateDto dto,
                                    RedirectAttributes reAtt) {
 
         commonCodeService.createCommonCode(groupId, dto);
@@ -52,14 +66,14 @@ public class CommonCodeController {
         reAtt.addAttribute("groupId", groupId);
         reAtt.addFlashAttribute("message", messageService.get("common.created"));
 
-        return "redirect:/code-groups/{groupId}/common-codes";
+        return "redirect:/code-groups/{groupId}/codes";
     }
 
-    @PostMapping("/code-groups/{groupId}/common-codes/{id}")
+    @PostMapping("/code-groups/{groupId}/codes/{id}")
     @PreAuthorize("hasAuthority('COMMON_CODE_UPDATE')")
     public String updateCommonCode(@PathVariable Long groupId,
                                    @PathVariable Long id,
-                                   CommonCodeUpdateDto dto,
+                                   @Valid CommonCodeUpdateDto dto,
                                    RedirectAttributes reAtt) {
 
         commonCodeService.updateCommonCode(id, dto);
@@ -67,7 +81,7 @@ public class CommonCodeController {
         reAtt.addAttribute("groupId", groupId);
         reAtt.addFlashAttribute("message", messageService.get("common.updated"));
 
-        return "redirect:/code-groups/{groupId}/common-codes";
+        return "redirect:/code-groups/{groupId}/codes";
     }
 
     @DeleteMapping("/common-codes")

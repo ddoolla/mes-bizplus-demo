@@ -38,6 +38,14 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     }
 
     @Override
+    public boolean checkCode(Long id, String code) {
+
+        boolean exists = commonCodeRepository.existsByCodeAndIdNot(code, id);
+
+        return !exists;
+    }
+
+    @Override
     public void createCommonCode(Long groupId, CommonCodeCreateDto dto) {
 
         CodeGroup codeGroup = codeGroupReader.getById(groupId);

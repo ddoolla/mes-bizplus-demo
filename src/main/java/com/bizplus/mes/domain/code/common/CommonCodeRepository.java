@@ -8,4 +8,6 @@ public interface CommonCodeRepository extends
         JpaRepository<CommonCode, Long>, CommonCodeQueryRepository {
 
     Optional<CommonCode> findByIdAndDeletedAtIsNull(Long id);
+
+    boolean existsByCodeAndIdNot(String code, Long id);
 }

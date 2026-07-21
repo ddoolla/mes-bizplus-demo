@@ -52,14 +52,15 @@
                 <th:block th:if="${showActions}">
                     <button type="button"
                             class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/users/new}'|"
-                            sec:authorize="hasAuthority('USER_CREATE')">
+                            data-bs-toggle="modal"
+                            data-bs-target="#create-code-modal"
+                            sec:authorize="hasAuthority('COMMON_CODE_CREATE')">
                         <i class="fa fa-pencil" aria-hidden="true"></i> 등록
                     </button>
                     <button type="button"
-                            id="delete-common-code-button"
+                            id="delete-code-button"
                             class="btn btn-danger btn-sm"
-                            sec:authorize="hasAuthority('USER_DELETE')">
+                            sec:authorize="hasAuthority('COMMON_CODE_DELETE')">
                         <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
                     </button>
                 </th:block>

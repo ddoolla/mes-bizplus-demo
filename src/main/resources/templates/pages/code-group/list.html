@@ -38,7 +38,7 @@
                 <tr th:each="group : ${codeGroups}">
                     <td th:text="${group.menuName}"></td>
                     <td class="fw-bold">
-                        <a th:href="@{/code-groups/{groupId}/common-codes(groupId=${group.id})}"
+                        <a th:href="@{/code-groups/{groupId}/codes(groupId=${group.id})}"
                            th:text="${group.name}"></a>
                     </td>
                     <td></td>

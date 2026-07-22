@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.bizplus.mes.common.util.PredicateUtil.contains;
-import static com.bizplus.mes.common.util.PredicateUtil.eq;
+import static com.bizplus.mes.common.util.PredicateUtils.contains;
+import static com.bizplus.mes.common.util.PredicateUtils.eq;
 import static com.bizplus.mes.domain.code.group.QCodeGroup.codeGroup;
 import static com.bizplus.mes.domain.menu.QMenu.menu;
 

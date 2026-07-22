@@ -27,6 +27,14 @@ public class CustomUserDetails implements UserDetails {
                 .collect(Collectors.toSet());
     }
 
+    public String getUserId() {
+        return user.getUserId();
+    }
+
+    public String getUserName() {
+        return user.getName();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

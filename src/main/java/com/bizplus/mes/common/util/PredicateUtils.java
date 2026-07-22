@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PredicateUtil {
+public class PredicateUtils {
 
     public static BooleanExpression notDeleted(DateTimePath<LocalDateTime> deletedAt) {
         return deletedAt.isNull();

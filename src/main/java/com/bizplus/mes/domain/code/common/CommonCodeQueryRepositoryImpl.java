@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.bizplus.mes.common.util.PredicateUtil.*;
+import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.code.common.QCommonCode.commonCode;
 import static com.bizplus.mes.domain.code.group.QCodeGroup.codeGroup;
 

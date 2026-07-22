@@ -4,6 +4,9 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
+import com.bizplus.mes.domain.log.action.ActionType;
+import com.bizplus.mes.domain.log.action.UserAction;
+import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.role.RoleService;
 import com.bizplus.mes.domain.user.dto.UserCreateDto;
 import com.bizplus.mes.domain.user.dto.UserSearchDto;
@@ -34,6 +37,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('USER_READ')")
+    @UserAction(menu = MenuCode.USER, type = ActionType.READ)
     public String viewList(Model model,
                            UserSearchDto dto,
                            @PageableDefault Pageable pageable) {
@@ -84,6 +88,7 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('USER_CREATE')")
+    @UserAction(menu = MenuCode.USER, type = ActionType.CREATE)
     public String createUser(@Valid UserCreateDto dto, RedirectAttributes reAtt) {
 
         userService.createUser(dto);
@@ -95,6 +100,7 @@ public class UserController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('USER_UPDATE')")
+    @UserAction(menu = MenuCode.USER, type = ActionType.UPDATE)
     public String updateUser(@PathVariable Long id,
                              @Valid UserUpdateDto dto,
                              RedirectAttributes reAtt) {
@@ -109,6 +115,7 @@ public class UserController {
     @DeleteMapping
     @ResponseBody
     @PreAuthorize("hasAuthority('USER_DELETE')")
+    @UserAction(menu = MenuCode.USER, type = ActionType.DELETE)
     public ResponseEntity<ApiResponse<Void>> deleteUsers(@RequestBody List<Long> ids) {
 
         userService.deleteUsers(ids);

@@ -6,6 +6,9 @@ import com.bizplus.mes.domain.code.common.dto.CommonCodeCreateDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeUpdateDto;
 import com.bizplus.mes.domain.code.group.CodeGroupService;
+import com.bizplus.mes.domain.log.action.ActionType;
+import com.bizplus.mes.domain.log.action.UserAction;
+import com.bizplus.mes.domain.menu.MenuCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +57,7 @@ public class CommonCodeController {
 
     @PostMapping("/code-groups/{groupId}/codes")
     @PreAuthorize("hasAuthority('COMMON_CODE_CREATE')")
+    @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.CREATE)
     public String createCommonCode(@PathVariable Long groupId,
                                    @Valid CommonCodeCreateDto dto,
                                    RedirectAttributes reAtt) {
@@ -68,6 +72,7 @@ public class CommonCodeController {
 
     @PostMapping("/code-groups/{groupId}/codes/{id}")
     @PreAuthorize("hasAuthority('COMMON_CODE_UPDATE')")
+    @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
     public String updateCommonCode(@PathVariable Long groupId,
                                    @PathVariable Long id,
                                    @Valid CommonCodeUpdateDto dto,
@@ -82,6 +87,7 @@ public class CommonCodeController {
     }
 
     @DeleteMapping("/common-codes")
+    @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
     public ResponseEntity<ApiResponse<Void>> deleteCommonCodes(@RequestBody List<Long> ids) {
 
         commonCodeService.deleteCommonCodes(ids);

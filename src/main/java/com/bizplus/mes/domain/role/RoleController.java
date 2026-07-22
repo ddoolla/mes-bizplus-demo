@@ -2,6 +2,9 @@ package com.bizplus.mes.domain.role;
 
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
+import com.bizplus.mes.domain.log.action.ActionType;
+import com.bizplus.mes.domain.log.action.UserAction;
+import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.permission.PermissionAction;
 import com.bizplus.mes.domain.permission.PermissionService;
 import com.bizplus.mes.domain.role.dto.RoleCreateDto;
@@ -31,6 +34,7 @@ public class RoleController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_READ')")
+    @UserAction(menu = MenuCode.ROLE, type = ActionType.READ)
     public String viewList(Model model,
                            RoleSearchDto dto,
                            @PageableDefault Pageable pageable) {
@@ -79,6 +83,7 @@ public class RoleController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
+    @UserAction(menu = MenuCode.ROLE, type = ActionType.CREATE)
     public String createRole(@Valid RoleCreateDto dto, RedirectAttributes reAtt) {
 
         roleService.createRole(dto);
@@ -90,6 +95,7 @@ public class RoleController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_UPDATE')")
+    @UserAction(menu = MenuCode.ROLE, type = ActionType.UPDATE)
     public String updateRole(@PathVariable Long id,
                              @Valid RoleUpdateDto dto,
                              RedirectAttributes reAtt) {
@@ -104,6 +110,7 @@ public class RoleController {
     @DeleteMapping
     @ResponseBody
     @PreAuthorize("hasAuthority('ROLE_DELETE')")
+    @UserAction(menu = MenuCode.ROLE, type = ActionType.DELETE)
     public ResponseEntity<ApiResponse<Void>> deleteRoles(@RequestBody List<Long> ids) {
 
         roleService.deleteRoles(ids);

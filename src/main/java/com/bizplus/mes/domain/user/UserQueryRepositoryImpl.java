@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.bizplus.mes.common.util.PredicateUtil.*;
+import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.role.QRole.role;
 import static com.bizplus.mes.domain.user.QUser.user;
 import static com.bizplus.mes.domain.user.role.QUserRole.userRole;

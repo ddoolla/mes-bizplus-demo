@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @ControllerAdvice
@@ -32,6 +33,15 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", e.getMessage());
 
         return "error/error";
+    }
+
+    /**
+     * DevTools 관련 오류가 콘솔에 계속 출력되서 추가한 핸들러
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<Void> handleNoResourceFound(NoResourceFoundException e) {
+
+        return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(Exception.class)

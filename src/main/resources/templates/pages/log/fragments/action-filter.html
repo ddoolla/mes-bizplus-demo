@@ -26,11 +26,8 @@
                     <select name="menuCode"
                             id="menuCode"
                             class="app-form-control app-xs">
-                        <option value="">
-                            메뉴 선택
-                        </option>
-                        <option th:unless="${#lists.isEmpty(menuCodes)}"
-                                th:each="menuCode : ${menuCodes}"
+                        <option value="">전체</option>
+                        <option th:each="menuCode : ${menuCodes}"
                                 th:if="${menuCode.parent != null}"
                                 th:value="${menuCode.name()}"
                                 th:text="${menuCode.getName()}"
@@ -45,11 +42,8 @@
                     <select name="type"
                             id="type"
                             class="app-form-control app-xs">
-                        <option value="">
-                            활동 유형 선택
-                        </option>
-                        <option th:unless="${#lists.isEmpty(actionTypes)}"
-                                th:each="type : ${actionTypes}"
+                        <option value="">전체</option>
+                        <option th:each="type : ${actionTypes}"
                                 th:value="${type.name()}"
                                 th:text="${type.getDescription()}"
                                 th:selected="${selectedType?.name() == type.name()}">

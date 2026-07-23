@@ -25,10 +25,10 @@ public enum PermissionCode {
     COMMON_CODE_UPDATE(MenuCode.COMMON_CODE, "공통코드 수정", PermissionAction.UPDATE),
     COMMON_CODE_DELETE(MenuCode.COMMON_CODE, "공통코드 삭제", PermissionAction.DELETE),
 
-    ACCOUNT_READ(MenuCode.ACCOUNT, "거래처 조회", PermissionAction.READ),
-    ACCOUNT_CREATE(MenuCode.ACCOUNT, "거래처 등록", PermissionAction.CREATE),
-    ACCOUNT_UPDATE(MenuCode.ACCOUNT, "거래처 수정", PermissionAction.UPDATE),
-    ACCOUNT_DELETE(MenuCode.ACCOUNT, "거래처 삭제", PermissionAction.DELETE);
+    PARTNER_READ(MenuCode.PARTNER, "거래처 조회", PermissionAction.READ),
+    PARTNER_CREATE(MenuCode.PARTNER, "거래처 등록", PermissionAction.CREATE),
+    PARTNER_UPDATE(MenuCode.PARTNER, "거래처 수정", PermissionAction.UPDATE),
+    PARTNER_DELETE(MenuCode.PARTNER, "거래처 삭제", PermissionAction.DELETE);
 
     private final MenuCode menu;
     private final String name;

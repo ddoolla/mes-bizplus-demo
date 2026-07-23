@@ -59,7 +59,7 @@
                            th:data-bs-id="${commonCode.id}"></a>
                     </td>
                     <td th:text="${commonCode.name}"></td>
-                    <td th:text="${commonCode.description}"></td>
+                    <td th:text="${@format.value(commonCode.description)}"></td>
                 </tr>
                 </tbody>
             </table>

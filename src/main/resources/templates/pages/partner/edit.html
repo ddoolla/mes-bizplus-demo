@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('거래처 수정', ~{}, ~{::script}, 'PARTNER', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--/* 다음 우편번호 API */-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <script th:src="@{/js/common/address.js}"></script>
+    <script th:src="@{/js/partner/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('거래처 수정', '기준정보관리, 거래처관리, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/partners}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="submit"
+                form="edit-partner-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('PARTNER_UPDATE')">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <form id="edit-partner-form" method="post" th:action="@{/partners/{id}(id=${partner.id})}">
+            <table class="app-table-input" th:object="${partner}">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        <label for="partner-code">
+                            거래처 코드 <span class="app-required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="partner-code"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="*{code}"
+                               placeholder="거래처 코드를 입력해 주세요."/>
+                        <input type="hidden"
+                               id="id"
+                               name="id"
+                               th:value="*{id}"/>
+                    </td>
+                    <th>
+                        <label for="partner-type">
+                            거래처 유형 <span class="app-required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <select name="type"
+                                id="partner-type"
+                                class="app-form-control app-xs">
+                            <option th:each="type: ${partnerTypes}"
+                                    th:value="${type?.name()}"
+                                    th:text="${type?.getDescription()}"
+                                    th:selected="${partner.type?.name() == type?.name()}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="partner-name">
+                            거래처명 <span class="app-required">*</span>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="partner-name"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="*{name}"
+                               placeholder="거래처명을 입력해 주세요."/>
+                    </td>
+                    <th>
+                        <label for="partner-ceoName">
+                            대표자명
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="partner-ceoName"
+                               name="ceoName"
+                               th:value="*{ceoName}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="business-no">
+                            사업자등록번호
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="business-no"
+                               name="businessNo"
+                               th:value="*{businessNo}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                    <th>
+                        <label for="corporate-no">
+                            법인등록번호
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="corporate-no"
+                               name="corporateNo"
+                               th:value="*{corporateNo}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="tel">
+                            전화번호
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="tel"
+                               name="tel"
+                               th:value="*{tel}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                    <th>
+                        <label for="fax">
+                            팩스번호
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="fax"
+                               name="fax"
+                               th:value="*{fax}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="partner-email">
+                            이메일
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="partner-email"
+                               name="email"
+                               th:value="*{email}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                    <th>
+                        <label for="home-page">
+                            홈페이지
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="home-page"
+                               name="home-page"
+                               th:value="*{homePage}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="3">
+                        <label for="partner-address">
+                            주소
+                        </label>
+                    </th>
+                    <td colspan="3">
+                        <input type="text"
+                               id="partner-address"
+                               name="zipCode"
+                               class="app-form-control app-xs w-25"
+                               th:value="*{zipCode}"
+                               placeholder="우편번호"/>
+                        <button type="button"
+                                id="address-search-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="fa fa-search" aria-hidden="true"></i> 주소찾기
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="text"
+                               name="address"
+                               class="app-form-control app-xs"
+                               th:value="*{address}"
+                               placeholder="주소"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="text"
+                               name="addressDetail"
+                               class="app-form-control app-xs"
+                               th:value="*{addressDetail}"
+                               placeholder="상세주소"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="partner-remark">비고</label>
+                    </th>
+                    <td colspan="3">
+                        <input type="text"
+                               id="partner-remark"
+                               name="remark"
+                               class="app-form-control app-xs"
+                               th:value="*{remark}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="partner-active">사용여부</label>
+                    </th>
+                    <td colspan="3">
+                        <select name="active"
+                                id="partner-active"
+                                class="app-form-control app-xs">
+                            <option value="true"
+                                    th:selected="*{active == true}">사용</option>
+                            <option value="false"
+                                    th:selected="*{active == false}">미사용</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

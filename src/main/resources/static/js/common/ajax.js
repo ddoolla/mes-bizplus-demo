@@ -1,3 +1,5 @@
+window.Mes = window.Mes || {};
+
 /**
  * Ajax.delete('/users', selectedIds)
  *      .done(function (response) {
@@ -18,7 +20,7 @@
 const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
 const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
 
-window.Ajax = {
+Mes.Ajax = {
 
     get(url, data) {
         return $.ajax({

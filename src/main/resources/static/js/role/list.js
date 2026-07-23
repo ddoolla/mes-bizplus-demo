@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkboxGroup = document.querySelector('#role-list');
     const deleteButton = document.querySelector('#delete-role-button');
 
-    Checkbox.init(checkboxGroup);
+    Mes.Checkbox.init(checkboxGroup);
 
     deleteButton.addEventListener('click', function () {
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         deleteButton.disabled = true;
 
-        Ajax.delete('/roles', selectedIds)
+        Mes.Ajax.delete('/roles', selectedIds)
             .done(function (response) {
 
                 alert(response.message);

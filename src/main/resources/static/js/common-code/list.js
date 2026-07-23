@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkboxGroup = document.querySelector('#code-list');
     const deleteButton = document.querySelector('#delete-code-button');
 
-    Checkbox.init(checkboxGroup);
+    Mes.Checkbox.init(checkboxGroup);
 
     deleteButton.addEventListener('click', function () {
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         deleteButton.disabled = true;
 
-        Ajax.delete('/common-codes', selectedIds)
+        Mes.Ajax.delete('/common-codes', selectedIds)
             .done(function (response) {
 
                 alert(response.message);

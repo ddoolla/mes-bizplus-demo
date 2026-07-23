@@ -1,3 +1,5 @@
+window.Mes = window.Mes || {};
+
 /**
  * <div class="some-group">
  *     <table>
@@ -12,7 +14,7 @@
  *     </table>
  * </div>
  */
-window.Checkbox = {
+Mes.Checkbox = {
 
     init(group) {
 

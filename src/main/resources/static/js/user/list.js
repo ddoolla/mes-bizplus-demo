@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkboxGroup = document.querySelector('#user-list');
     const deleteButton = document.querySelector('#delete-user-button');
 
-    Checkbox.init(checkboxGroup);
+    Mes.Checkbox.init(checkboxGroup);
 
     deleteButton.addEventListener('click', function () {
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         deleteButton.disabled = true;
 
-        Ajax.delete('/users', selectedIds)
+        Mes.Ajax.delete('/users', selectedIds)
             .done(function (response) {
 
                 alert(response.message);

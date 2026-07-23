@@ -1,4 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    Datepicker.init('startDate', 'endDate');
+    Mes.Datepicker.init('startDate', 'endDate');
 });

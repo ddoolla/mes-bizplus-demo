@@ -200,6 +200,14 @@ body {
     border: 1px solid #dfdfdf;
 }
 
+/* ================================ Button ================================ */
+
+.app-btn-xs {
+    --bs-btn-padding-y: 2px;
+    --bs-btn-padding-x: 8px;
+    --bs-btn-font-size: 12px;
+}
+
 /* ================================ action-bar ================================ */
 
 .action-bar {

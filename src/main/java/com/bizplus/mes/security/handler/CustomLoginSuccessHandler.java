@@ -6,7 +6,7 @@ import com.bizplus.mes.security.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,13 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserAuthLogService userAuthLogService;
+
+    public CustomLoginSuccessHandler(@Lazy UserAuthLogService userAuthLogService) {
+        this.userAuthLogService = userAuthLogService;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,

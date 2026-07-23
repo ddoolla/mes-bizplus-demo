@@ -21,14 +21,14 @@ public class Permission extends BaseEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(columnDefinition = "varchar(50)", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private PermissionCode code;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "varchar(50)", nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PermissionAction action;
 

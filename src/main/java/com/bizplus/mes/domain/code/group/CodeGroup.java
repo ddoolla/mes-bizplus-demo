@@ -20,7 +20,7 @@ public class CodeGroup {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(columnDefinition = "varchar(50)", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private CodeGroupKey groupKey;
 

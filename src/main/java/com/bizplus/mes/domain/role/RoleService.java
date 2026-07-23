@@ -11,7 +11,7 @@ public interface RoleService {
 
     List<RoleDto> getAllRoles();
 
-    RolePermissionDto getRole(Long id);
+    RoleDetailDto getRole(Long id);
 
     /**
      * 삭제 했더라도 DB에 존재하면 중복으로 간주

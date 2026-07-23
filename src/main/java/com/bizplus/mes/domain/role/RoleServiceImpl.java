@@ -50,7 +50,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RolePermissionDto getRole(Long id) {
+    public RoleDetailDto getRole(Long id) {
 
         Role role = roleReader.getById(id);
 
@@ -68,7 +68,7 @@ public class RoleServiceImpl implements RoleService {
             });
         });
 
-        return new RolePermissionDto(
+        return new RoleDetailDto(
                 RoleMapper.toDto(role),
                 menuPermissions);
     }

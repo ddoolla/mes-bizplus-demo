@@ -24,6 +24,7 @@
                 <td th:each="action : ${actions}">
                     <input type="checkbox"
                            name="permissionIds"
+                           th:if="${menuPermission.permissions.get(action) != null}"
                            th:value="${menuPermission.permissions.get(action)?.id}"
                            th:checked="${menuPermission.permissions.get(action)?.checked}"
                            disabled/>

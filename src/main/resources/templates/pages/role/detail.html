@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th>설명</th>
-                <td th:text="*{description}"></td>
+                <td th:text="${@format.value(roleDetail.role.description)}"></td>
             </tr>
             </tbody>
         </table>

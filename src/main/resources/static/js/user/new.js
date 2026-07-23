@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
             email: {
                 email: true,
             },
+            phone: {
+                digits: true,
+                rangelength: [11, 11],
+            },
         }, messages: {
             userId: {
                 required: '사용자 ID를 입력해 주세요.',
@@ -37,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
             name: '사용자 이름을 입력해 주세요.',
             email: {
                 email: '올바른 이메일 형식이 아닙니다.',
+            },
+            phone: {
+                digits: '숫자만 입력해 주세요.',
+                rangelength: '휴대폰 번호는 11자리로 입력해 주세요.',
             },
         }
     });

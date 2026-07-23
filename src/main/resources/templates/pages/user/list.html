@@ -60,11 +60,11 @@
                            th:text="${user.userId}"></a>
                     </td>
                     <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.phone}"></td>
-                    <td th:text="${user.department?.name}"></td>
-                    <td th:text="${user.position?.name}"></td>
-                    <td th:text="${user.role?.name}"></td>
+                    <td th:text="${@format.value(user.email)}"></td>
+                    <td th:text="${@format.phoneNo(user.phone)}"></td>
+                    <td th:text="${@format.value(user.department?.name)}"></td>
+                    <td th:text="${@format.value(user.position?.name)}"></td>
+                    <td th:text="${@format.value(user.role?.name)}"></td>
                 </tr>
                 </tbody>
             </table>

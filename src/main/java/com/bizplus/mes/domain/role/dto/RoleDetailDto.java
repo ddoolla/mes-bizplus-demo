@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class RolePermissionDto {
+public class RoleDetailDto {
 
     private RoleDto role;
     private List<MenuPermissionDto> menuPermissions;

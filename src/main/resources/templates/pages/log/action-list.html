@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('사용자 활동 이력', ~{}, ~{::script}, 'USER_LOG', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/common/datepicker.js}"></script>
+    <script th:src="@{/js/log/action-list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('사용자 활동 이력', '시스템관리, 사용자로그관리, 활동이력')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/log/fragments/action-filter :: filter ('/user-logs/action', ${data.pagination.totalElements})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="user-list">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>발생일시</th>
+                    <th>사용자 ID</th>
+                    <th>사용자명</th>
+                    <th>메뉴</th>
+                    <th>작업</th>
+                    <th>결과</th>
+                    <th>IP</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="log : ${data.userActionLogs}">
+                    <td th:text="${#temporals.format(log.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${log.userId}"></td>
+                    <td th:text="${log.userName}"></td>
+                    <td th:text="${log.menu?.getName()}"></td>
+                    <td th:text="${log.type?.getDescription()}"></td>
+                    <td th:text="${log.result?.getDescription()}"></td>
+                    <td th:text="${log.ipAddress}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

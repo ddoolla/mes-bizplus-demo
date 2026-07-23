@@ -1,0 +1,120 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, count)">
+    <form method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>
+                    <label for="menuCode">메뉴</label>
+                </th>
+                <td>
+                    <select name="menuCode"
+                            id="menuCode"
+                            class="app-form-control app-xs">
+                        <option value="">
+                            메뉴 선택
+                        </option>
+                        <option th:unless="${#lists.isEmpty(menuCodes)}"
+                                th:each="menuCode : ${menuCodes}"
+                                th:if="${menuCode.parent != null}"
+                                th:value="${menuCode.name()}"
+                                th:text="${menuCode.getName()}"
+                                th:selected="${selectedMenuCode?.name() == menuCode.name()}">
+                        </option>
+                    </select>
+                </td>
+                <th>
+                    <label for="type">활동 유형</label>
+                </th>
+                <td>
+                    <select name="type"
+                            id="type"
+                            class="app-form-control app-xs">
+                        <option value="">
+                            활동 유형 선택
+                        </option>
+                        <option th:unless="${#lists.isEmpty(actionTypes)}"
+                                th:each="type : ${actionTypes}"
+                                th:value="${type.name()}"
+                                th:text="${type.getDescription()}"
+                                th:selected="${selectedType?.name() == type.name()}">
+                        </option>
+                    </select>
+                </td>
+                <th>
+                    <label for="userId">사용자 ID</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="userId"
+                           name="userId"
+                           class="app-form-control app-xs"
+                           th:value="${param.userId}">
+                </td>
+                <th>
+                    <label for="startDate">시작일</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="startDate"
+                           name="startDate"
+                           class="app-form-control app-xs"
+                           th:value="${param.startDate}"
+                           autocomplete="off"/>
+                </td>
+                <th>
+                    <label for="endDate">종료일</label>
+                </th>
+                <td>
+                    <input type="text"
+                           id="endDate"
+                           name="endDate"
+                           class="app-form-control app-xs"
+                           th:value="${param.endDate}"
+                           autocomplete="off"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/user-logs/auth}'|">
+                    접속 이력
+                </button>
+                <!--<button type="button" class="btn btn-success"
+                        th:onclick="|location.href='/accountExcel'|">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"> Excel 다운로드</i>
+                </button>-->
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     deleteButton.addEventListener('click', function () {
 
-        const selectedIds = Checkbox.getCheckedValues(checkboxGroup);
+        const selectedIds = Mes.Checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {
 

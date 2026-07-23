@@ -1,6 +1,12 @@
 package com.bizplus.mes.domain.log.auth;
 
+import com.bizplus.mes.common.pagination.Pagination;
+import com.bizplus.mes.domain.log.auth.dto.UserAuthLogDto;
+import com.bizplus.mes.domain.log.auth.dto.UserAuthLogListDto;
+import com.bizplus.mes.domain.log.auth.dto.UserAuthLogSearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +17,16 @@ import java.time.LocalDateTime;
 public class UserAuthLogServiceImpl implements UserAuthLogService {
 
     private final UserAuthLogRepository userAuthLogRepository;
+
+    @Override
+    public UserAuthLogListDto getUserAuthLogs(UserAuthLogSearchDto dto, Pageable pageable) {
+
+        Page<UserAuthLogDto> userAuthLogPage = userAuthLogRepository.findUserAuthLogs(dto, pageable);
+
+        return new UserAuthLogListDto(
+                userAuthLogPage.getContent(),
+                Pagination.of(userAuthLogPage));
+    }
 
     @Override
     public void login(String userId,

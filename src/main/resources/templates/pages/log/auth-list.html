@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('사용자 접속 이력', ~{}, ~{::script}, 'USER_LOG', ~{::#app-content})}">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script th:src="@{/js/common/datepicker.js}"></script>
+  <script th:src="@{/js/log/auth-list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+  <!--/* 헤더 */-->
+  <div th:replace="~{fragments/content :: header ('사용자 접속 이력', '시스템관리, 사용자로그관리, 접속이력')}">
+  </div>
+
+  <!--/* 바디 */-->
+  <div class="app-box app-box-bg">
+    <!--/* 필터 */-->
+    <div th:replace="~{pages/log/fragments/auth-filter :: filter ('/user-logs/auth', ${data.pagination.totalElements})}">
+    </div>
+
+    <!--/* 목록 */-->
+    <div id="user-list">
+      <table class="app-table-list text-center">
+        <colgroup>
+          <col style="width: 150px">
+          <col style="width: 150px">
+          <col style="width: 200px">
+          <col style="width: 200px">
+          <col style="width: 200px">
+          <col style="width: 200px">
+          <col style="width: auto">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>사용자 ID</th>
+          <th>사용자명</th>
+          <th>접속 IP</th>
+          <th>로그인 일시</th>
+          <th>로그아웃 일시</th>
+          <th>로그아웃 유형</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="log : ${data.userAuthLogs}">
+          <td th:text="${log.userId}"></td>
+          <td th:text="${log.userName}"></td>
+          <td th:text="${log.ipAddress}"></td>
+          <td th:text="${#temporals.format(log.loginAt, 'yyyy-MM-dd HH:mm:ss')} ?: '-'"></td>
+          <td th:text="${#temporals.format(log.logoutAt, 'yyyy-MM-dd HH:mm:ss')} ?: '-'"></td>
+          <td th:text="${log.logoutType?.description} ?: '-'"></td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+  </div>
+</div>
+</body>
+</html>

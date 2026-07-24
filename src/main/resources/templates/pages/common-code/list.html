@@ -7,6 +7,7 @@
     <title>Title</title>
     <script th:src="@{/js/common/checkbox.js}"></script>
     <script th:src="@{/js/common/ajax.js}"></script>
+    <script th:src="@{/js/common/modal.js}"></script>
     <script th:src="@{/js/common-code/list.js}"></script>
 </head>
 <body>
@@ -52,11 +53,10 @@
                     </td>
                     <td class="fw-bold">
                         <a href="#"
-                           data-bs-toggle="modal"
-                           data-bs-target="#edit-code-modal"
+                           class="edit-code-link"
                            th:text="${commonCode.code}"
-                           th:data-bs-group-id="${codeGroup.id}"
-                           th:data-bs-id="${commonCode.id}"></a>
+                           th:data-group-id="${codeGroup.id}"
+                           th:data-id="${commonCode.id}">></a>
                     </td>
                     <td th:text="${commonCode.name}"></td>
                     <td th:text="${@format.value(commonCode.description)}"></td>
@@ -70,7 +70,7 @@
     <div th:replace="~{/pages/common-code/fragments/create-modal :: createModal (${codeGroup})}"></div>
 
     <!--/* 수정 모달 */-->
-    <div th:replace="~{/pages/common-code/fragments/edit-modal :: editModal}"></div>
+    <div th:replace="~{/pages/common-code/fragments/edit-modal :: editModal (${codeGroup})}"></div>
 </div>
 </body>
 </html>

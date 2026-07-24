@@ -5,12 +5,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Mes.Checkbox.init(checkboxGroup);
 
-    deleteButton.addEventListener('click', function () {
+    // 수정 모달 열기
+    const openEditModal = async (event) => {
+
+        event.preventDefault();
+
+        const link = event.currentTarget;
+
+        const groupId = link.dataset.groupId;
+        const id = link.dataset.id;
+
+        const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
+
+        document.querySelector('#edit-code-form').action = `/code-groups/${groupId}/codes/${id}`;
+
+        document.querySelector('#id').value = commonCode.id;
+        document.querySelector('#edit-code').value = commonCode.code;
+        document.querySelector('#edit-name').value = commonCode.name;
+        document.querySelector('#edit-description').value = commonCode.description;
+
+        Mes.Modal.open('edit-code-modal');
+    }
+
+    document.querySelectorAll('.edit-code-link')
+        .forEach(link => link.addEventListener('click', openEditModal));
+
+    // 코드 삭제
+    const deleteCodes = () => {
 
         const selectedIds = Mes.Checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {
-
             alert('항목을 선택해 주세요.');
             return;
         }
@@ -19,43 +44,19 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        deleteButton.disabled = true;
-
         Mes.Ajax.delete('/common-codes', selectedIds)
             .done(function (response) {
-
                 alert(response.message);
 
                 location.reload();
+
             })
             .fail(function (xhr) {
-
                 alert(xhr.responseJSON.message);
 
                 location.reload();
             });
-    });
-
-     /* 코드 수정 모달 */
-    const editModal = document.getElementById("edit-code-modal");
-
-    if (editModal) {
-
-        editModal.addEventListener('show.bs.modal', async event => {
-
-            const link = event.relatedTarget;
-
-            const groupId = link.getAttribute('data-bs-group-id');
-            const id = link.getAttribute('data-bs-id');
-
-            const commonCode = await Ajax.get(`/common-codes/${id}`);
-
-            document.querySelector('#edit-code-form').action = `/code-groups/${groupId}/codes/${id}`;
-
-            document.querySelector('#id').value = commonCode.id;
-            document.querySelector('#edit-code').value = commonCode.code;
-            document.querySelector('#edit-name').value = commonCode.name;
-            document.querySelector('#edit-description').value = commonCode.description;
-        });
     }
+
+    deleteButton.addEventListener('click', deleteCodes);
 });

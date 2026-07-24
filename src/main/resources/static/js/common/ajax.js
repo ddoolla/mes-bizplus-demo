@@ -30,6 +30,30 @@ Mes.Ajax = {
         });
     },
 
+    post(url, data) {
+        return $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+                [csrfHeader]: csrfToken,
+            }
+        });
+    },
+
+    put(url, data) {
+        return $.ajax({
+            url: url,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+                [csrfHeader]: csrfToken,
+            }
+        });
+    },
+
     delete(url, data) {
         return $.ajax({
             url: url,

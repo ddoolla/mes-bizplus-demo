@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script th:src="@{/js/role/new.js}"></script>
+    <script th:src="@{/js/role/permission-editor.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -88,7 +89,7 @@
 
         <!--/* 권한 */-->
         <div class="app-box app-box-bg mt-2">
-            <div th:replace="~{pages/role/fragments/permission :: editor (${actions}, ${menuPermissions})}">
+            <div th:replace="~{pages/role/fragments/permission-editor :: permissionEditor (${actions}, ${menuPermissions})}">
             </div>
         </div>
     </form>

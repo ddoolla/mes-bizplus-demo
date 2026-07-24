@@ -1,0 +1,42 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 상세 페이지용 */-->
+<th:block th:fragment="permissionList (actions, menuPermissions)">
+    <div>
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px"/>
+                <col th:each="action : ${actions}" style="width: 100px"/>
+                <col style="width: auto"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>메뉴</th>
+                <th th:each="action : ${actions}"
+                    th:text="${action.description}">
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="menuPermission : ${menuPermissions}">
+                <td th:text="${menuPermission.menu}" class="fw-bold"></td>
+                <td th:each="action : ${actions}">
+                    <input type="checkbox"
+                           name="permissionIds"
+                           th:if="${menuPermission.permissions.get(action) != null}"
+                           th:value="${menuPermission.permissions.get(action)?.id}"
+                           th:checked="${menuPermission.permissions.get(action)?.checked}"
+                           disabled/>
+                    <span th:unless="${menuPermission.permissions.get(action) != null}">
+                        -
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+
+</html>

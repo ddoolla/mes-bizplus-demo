@@ -56,7 +56,7 @@
 
     <!--/* 권한 */-->
     <div class="app-box app-box-bg mt-2">
-        <div th:replace="~{pages/role/fragments/permission :: list (${actions}, ${roleDetail.menuPermissions})}">
+        <div th:replace="~{pages/role/fragments/permission-list :: permissionList (${actions}, ${roleDetail.menuPermissions})}">
         </div>
     </div>
 </div>

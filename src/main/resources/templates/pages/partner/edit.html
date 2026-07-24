@@ -12,6 +12,7 @@
 
     <script th:src="@{/js/common/address.js}"></script>
     <script th:src="@{/js/partner/edit.js}"></script>
+    <script th:src="@{/js/partner-contact/create-modal.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -36,7 +37,7 @@
         </button>
     </div>
 
-    <!--/* 바디 */-->
+    <!--/* 거래처 수정 폼 */-->
     <div class="app-box app-box-bg">
         <form id="edit-partner-form" method="post" th:action="@{/partners/{id}(id=${partner.id})}">
             <table class="app-table-input" th:object="${partner}">
@@ -256,6 +257,12 @@
             </table>
         </form>
     </div>
+
+    <!--/* 거래처 담당자 목록 수정 */-->
+    <div th:replace="~{pages/partner-contact/fragments/edit :: edit (${partner}, ${partnerContacts})}"></div>
+
+    <!--/* 거래처 담당자 등록 모달 */-->
+    <div th:replace="~{pages/partner-contact/fragments/create-modal :: createModal (${partner}, ${departments}, ${positions})}"></div>
 </div>
 </body>
 </html>

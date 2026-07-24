@@ -1,0 +1,70 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="edit (partner, partnerContacts)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">담당자 목록</p>
+            </div>
+            <div>
+                <button type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#create-contact-modal"
+                        class="btn btn-primary btn-sm me-1">
+                    등록
+                </button>
+                <button type="button"
+                        id="delete-contact-button"
+                        class="btn btn-danger btn-sm">
+                    삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="partner-contacts-list">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 150px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>담당자명</th>
+                    <th>휴대폰 번호</th>
+                    <th>전화번호</th>
+                    <th>이메일</th>
+                    <th>비고</th>
+                    <th>사용여부</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contact : ${partnerContacts}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${contact.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a href="#"
+                           th:text="${contact.name}"></a>
+                    </td>
+                    <td th:text="${@format.phoneNo(contact.phone)}"></td>
+                    <td th:text="${@format.value(contact.tel)}"></td>
+                    <td th:text="${@format.value(contact.email)}"></td>
+                    <td th:text="${@format.value(contact.remark)}"></td>
+                    <td th:text="${contact.active ? '사용' : '미사용'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

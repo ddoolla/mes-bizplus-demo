@@ -30,7 +30,7 @@
         </button>
     </div>
 
-    <!--/* 바디 */-->
+    <!--/* 거래처 목록 */-->
     <div class="app-box app-box-bg">
         <table class="app-table-input" th:object="${partner}">
             <colgroup>
@@ -91,6 +91,9 @@
             </tbody>
         </table>
     </div>
+
+    <!--/* 거래처 담당자 목록 */-->
+    <div th:replace="~{pages/partner-contact/fragments/list :: list (${partnerContacts})}"></div>
 </div>
 </body>
 </html>

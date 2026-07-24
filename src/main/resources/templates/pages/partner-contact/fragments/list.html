@@ -1,0 +1,47 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (partnerContacts)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">담당자 목록</p>
+            </div>
+        </div>
+
+        <div id="partner-contacts-list">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 150px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>담당자명</th>
+                    <th>휴대폰 번호</th>
+                    <th>전화번호</th>
+                    <th>이메일</th>
+                    <th>비고</th>
+                    <th>사용여부</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contact : ${partnerContacts}">
+                    <td th:text="${contact.name}"></td>
+                    <td th:text="${@format.phoneNo(contact.phone)}"></td>
+                    <td th:text="${@format.value(contact.tel)}"></td>
+                    <td th:text="${@format.value(contact.email)}"></td>
+                    <td th:text="${@format.value(contact.remark)}"></td>
+                    <td th:text="${contact.active ? '사용' : '미사용'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

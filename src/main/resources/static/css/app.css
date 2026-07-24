@@ -318,6 +318,7 @@ input[type="text"]:disabled, select:disabled {
 }
 
 .app-pagination a {
+    text-decoration: none;
     color: #444;
     min-width: 37px;
     display: inline-block;

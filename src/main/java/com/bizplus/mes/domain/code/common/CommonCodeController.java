@@ -16,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -50,40 +49,38 @@ public class CommonCodeController {
 
     @GetMapping("/common-codes/check-code")
     @ResponseBody
-    public boolean checkCode(Long id, String code) {
+    public boolean checkCode(@RequestParam Long groupId,
+                             @RequestParam(required = false) Long id,
+                             @RequestParam String code) {
 
-        return commonCodeService.checkCode(id, code);
+        return commonCodeService.checkCode(groupId, id, code);
     }
 
     @PostMapping("/code-groups/{groupId}/codes")
+    @ResponseBody
     @PreAuthorize("hasAuthority('COMMON_CODE_CREATE')")
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.CREATE)
-    public String createCommonCode(@PathVariable Long groupId,
-                                   @Valid CommonCodeCreateDto dto,
-                                   RedirectAttributes reAtt) {
+    public ResponseEntity<ApiResponse<Void>> createCommonCode(@PathVariable Long groupId,
+                                                              @RequestBody @Valid CommonCodeCreateDto dto) {
 
         commonCodeService.createCommonCode(groupId, dto);
 
-        reAtt.addAttribute("groupId", groupId);
-        reAtt.addFlashAttribute("message", messageService.get("common.created"));
-
-        return "redirect:/code-groups/{groupId}/codes";
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get("common.created")));
     }
 
-    @PostMapping("/code-groups/{groupId}/codes/{id}")
+    @PutMapping("/code-groups/{groupId}/codes/{id}")
+    @ResponseBody
     @PreAuthorize("hasAuthority('COMMON_CODE_UPDATE')")
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
-    public String updateCommonCode(@PathVariable Long groupId,
-                                   @PathVariable Long id,
-                                   @Valid CommonCodeUpdateDto dto,
-                                   RedirectAttributes reAtt) {
+    public ResponseEntity<ApiResponse<Void>> updateCommonCode(@PathVariable Long groupId,
+                                                              @PathVariable Long id,
+                                                              @RequestBody @Valid CommonCodeUpdateDto dto) {
 
         commonCodeService.updateCommonCode(id, dto);
 
-        reAtt.addAttribute("groupId", groupId);
-        reAtt.addFlashAttribute("message", messageService.get("common.updated"));
-
-        return "redirect:/code-groups/{groupId}/codes";
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get("common.updated")));
     }
 
     @DeleteMapping("/common-codes")

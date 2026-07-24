@@ -76,7 +76,8 @@ public class RoleController {
 
     @GetMapping("/check-code")
     @ResponseBody
-    public boolean checkCode(Long id, String code) {
+    public boolean checkCode(@RequestParam(required = false) Long id,
+                             @RequestParam String code) {
 
         return roleService.checkCode(id, code);
     }

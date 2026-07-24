@@ -65,7 +65,8 @@ public class PartnerController {
 
     @GetMapping("/check-code")
     @ResponseBody
-    public boolean checkPartnerCode(Long id, String code) {
+    public boolean checkPartnerCode(@RequestParam(required = false) Long id,
+                                    @RequestParam String code) {
 
         return partnerService.checkPartnerCode(id, code);
     }

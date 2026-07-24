@@ -27,6 +27,9 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
 
     private final JPAQueryFactory query;
 
+    private static final QCommonCode departmentCode = new QCommonCode("departmentCode");
+    private static final QCommonCode positionCode = new QCommonCode("positionCode");
+
     @Override
     public Page<UserDto> findUsers(UserSearchDto dto, Pageable pageable) {
 
@@ -34,9 +37,6 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                 .and(notDeleted(user.deletedAt))
                 .and(contains(user.userId, dto.getUserId()))
                 .and(contains(user.name, dto.getName()));
-
-        QCommonCode departmentCode = new QCommonCode("departmentCode");
-        QCommonCode positionCode = new QCommonCode("positionCode");
 
         List<UserDto> content = query
                 .select(new QUserDto(
@@ -78,9 +78,6 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
 
     @Override
     public Optional<UserDto> findUser(Long id) {
-
-        QCommonCode departmentCode = new QCommonCode("departmentCode");
-        QCommonCode positionCode = new QCommonCode("positionCode");
 
         return Optional.ofNullable(
                 query

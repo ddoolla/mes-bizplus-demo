@@ -15,7 +15,7 @@ public interface CommonCodeService {
     /**
      * 삭제된 코드도 중복으로 간주
      */
-    boolean checkCode(Long id, String code);
+    boolean checkCode(Long groupId, Long id, String code);
 
     void createCommonCode(Long groupId, CommonCodeCreateDto dto);
 

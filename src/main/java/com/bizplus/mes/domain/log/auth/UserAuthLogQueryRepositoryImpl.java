@@ -43,6 +43,7 @@ public class UserAuthLogQueryRepositoryImpl implements UserAuthLogQueryRepositor
                 ))
                 .from(userAuthLog)
                 .where(searchCondition)
+                .orderBy(userAuthLog.loginAt.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

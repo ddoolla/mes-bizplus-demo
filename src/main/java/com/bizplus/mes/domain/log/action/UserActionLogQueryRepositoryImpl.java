@@ -46,6 +46,7 @@ public class UserActionLogQueryRepositoryImpl implements UserActionLogQueryRepos
                 ))
                 .from(userActionLog)
                 .where(searchCondition)
+                .orderBy(userActionLog.createdAt.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.partner.contact;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.partner.contact.dto.PartnerContactCreateDto;
+import com.bizplus.mes.domain.partner.contact.dto.PartnerContactDto;
 import com.bizplus.mes.domain.partner.contact.dto.PartnerContactUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,13 @@ public class PartnerContactController {
 
     private final PartnerContactService partnerContactService;
     private final MessageService messageService;
+
+    @GetMapping("/partner-contacts/{id}")
+    @ResponseBody
+    public PartnerContactDto readPartnerContact(@PathVariable Long id) {
+
+        return partnerContactService.getPartnerContact(id);
+    }
 
     @PostMapping("/partners/{partnerId}/contacts")
     @ResponseBody

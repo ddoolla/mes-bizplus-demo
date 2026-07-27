@@ -13,7 +13,7 @@ public class PartnerContactReader {
 
     public PartnerContact getById(Long id) {
 
-        return partnerContactRepository.findPartnerContact(id)
+        return partnerContactRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(
                         ErrorCode.PARTNER_CONTACT_NOT_FOUND, "id: " + id));
     }

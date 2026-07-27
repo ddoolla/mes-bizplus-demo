@@ -1,5 +1,7 @@
 package com.bizplus.mes.domain.partner.contact;
 
+import com.bizplus.mes.common.exception.BusinessException;
+import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.partner.Partner;
@@ -26,14 +28,14 @@ public class PartnerContactServiceImpl implements PartnerContactService {
     @Override
     public List<PartnerContactDto> getPartnerContacts(Long partnerId) {
 
-        return partnerContactRepository.findPartnerContacts(partnerId).stream()
-                .map(PartnerContactMapper::toDto).toList();
+        return partnerContactRepository.findPartnerContacts(partnerId);
     }
 
     @Override
     public PartnerContactDto getPartnerContact(Long id) {
 
-        return PartnerContactMapper.toDto(partnerContactReader.getById(id));
+        return partnerContactRepository.findPartnerContact(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.PARTNER_CONTACT_NOT_FOUND, "id: " + id));
     }
 
     @Override

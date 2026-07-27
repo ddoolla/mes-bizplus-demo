@@ -1,6 +1,8 @@
 package com.bizplus.mes.domain.partner.contact;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
+import com.bizplus.mes.domain.partner.contact.dto.PartnerContactDto;
+import com.bizplus.mes.domain.partner.contact.dto.QPartnerContactDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +24,26 @@ public class PartnerContactQueryRepositoryImpl implements PartnerContactQueryRep
     private static final QCommonCode positionCode = new QCommonCode("positionCode");
 
     @Override
-    public List<PartnerContact> findPartnerContacts(Long partnerId) {
+    public List<PartnerContactDto> findPartnerContacts(Long partnerId) {
 
         return query
-                .selectFrom(partnerContact)
-                .leftJoin(partnerContact.department, departmentCode).fetchJoin()
-                .leftJoin(partnerContact.position, positionCode).fetchJoin()
+                .select(new QPartnerContactDto(
+                        partnerContact.id,
+                        partnerContact.partner.id,
+                        departmentCode.id,
+                        departmentCode.name,
+                        positionCode.id,
+                        positionCode.name,
+                        partnerContact.name,
+                        partnerContact.phone,
+                        partnerContact.tel,
+                        partnerContact.email,
+                        partnerContact.remark,
+                        partnerContact.active
+                ))
+                .from(partnerContact)
+                .leftJoin(departmentCode).on(partnerContact.department.id.eq(departmentCode.id))
+                .leftJoin(positionCode).on(partnerContact.position.id.eq(positionCode.id))
                 .where(
                         notDeleted(partnerContact.deletedAt),
                         eq(partnerContact.partner.id, partnerId)
@@ -37,13 +53,27 @@ public class PartnerContactQueryRepositoryImpl implements PartnerContactQueryRep
     }
 
     @Override
-    public Optional<PartnerContact> findPartnerContact(Long id) {
+    public Optional<PartnerContactDto> findPartnerContact(Long id) {
 
         return Optional.ofNullable(
                 query
-                        .selectFrom(partnerContact)
-                        .leftJoin(partnerContact.department, departmentCode).fetchJoin()
-                        .leftJoin(partnerContact.position, positionCode).fetchJoin()
+                        .select(new QPartnerContactDto(
+                                partnerContact.id,
+                                partnerContact.partner.id,
+                                departmentCode.id,
+                                departmentCode.name,
+                                positionCode.id,
+                                positionCode.name,
+                                partnerContact.name,
+                                partnerContact.phone,
+                                partnerContact.tel,
+                                partnerContact.email,
+                                partnerContact.remark,
+                                partnerContact.active
+                        ))
+                        .from(partnerContact)
+                        .leftJoin(departmentCode).on(partnerContact.department.id.eq(departmentCode.id))
+                        .leftJoin(positionCode).on(partnerContact.position.id.eq(positionCode.id))
                         .where(
                                 notDeleted(partnerContact.deletedAt),
                                 eq(partnerContact.id, id)

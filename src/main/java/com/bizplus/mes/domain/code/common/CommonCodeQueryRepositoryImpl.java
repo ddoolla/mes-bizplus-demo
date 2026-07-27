@@ -38,6 +38,7 @@ public class CommonCodeQueryRepositoryImpl implements CommonCodeQueryRepository 
                 ))
                 .from(commonCode)
                 .where(searchCondition)
+                .orderBy(commonCode.name.asc())
                 .fetch();
     }
 

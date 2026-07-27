@@ -12,7 +12,9 @@
         <div id="partner-contacts-list">
             <table class="app-table-list text-center">
                 <colgroup>
-                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
@@ -22,6 +24,8 @@
                 <thead>
                 <tr>
                     <th>담당자명</th>
+                    <th>부서</th>
+                    <th>직책</th>
                     <th>휴대폰 번호</th>
                     <th>전화번호</th>
                     <th>이메일</th>
@@ -32,6 +36,8 @@
                 <tbody>
                 <tr th:each="contact : ${partnerContacts}">
                     <td th:text="${contact.name}"></td>
+                    <td th:text="${@format.value(contact.department?.name)}"></td>
+                    <td th:text="${@format.value(contact.position?.name)}"></td>
                     <td th:text="${@format.phoneNo(contact.phone)}"></td>
                     <td th:text="${@format.value(contact.tel)}"></td>
                     <td th:text="${@format.value(contact.email)}"></td>

@@ -2,21 +2,62 @@ window.Mes = window.Mes || {};
 
 Mes.Modal = {
 
-    open(id) {
+    open(id, data = {}) {
 
-        const element = document.getElementById(id);
+        const modal = document.getElementById(id);
+
+        Object.assign(modal.dataset, data);
 
         bootstrap.Modal
-            .getOrCreateInstance(element)
+            .getOrCreateInstance(modal)
             .show();
     },
 
     close(id) {
 
-        const element = document.getElementById(id);
+        const modal = document.getElementById(id);
 
         bootstrap.Modal
-            .getOrCreateInstance(element)
+            .getOrCreateInstance(modal)
             .hide();
+    },
+
+    /*
+    * 수정 모달을 열 때 open, onShow 로직을 나누어 봤는데, UX가 별로인 듯
+    * 모달이 먼저 출력되고나서 데이터가 들어가는게 눈에 보임.
+    * */
+    onShow(id, callback) {
+        const modal = document.getElementById(id);
+
+        modal.addEventListener('shown.bs.modal', () => {
+            callback?.(modal);
+        });
+    },
+
+    onHidden(id, callback) {
+        const modal = document.getElementById(id);
+
+        modal.addEventListener('hidden.bs.modal', () => {
+            callback?.(modal);
+        });
+    },
+
+    resetFormOnHidden(id) {
+        this.onHidden(id, (modal) => {
+
+            const form = modal.querySelector('form');
+
+            if (!form) {
+                return;
+            }
+
+            form.reset();
+
+            const validator = $(form).data('validator');
+
+            if (validator) {
+                validator.resetForm();
+            }
+        })
     }
 };

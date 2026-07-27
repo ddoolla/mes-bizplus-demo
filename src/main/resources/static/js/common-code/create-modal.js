@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
         submitHandler: function (form) {
 
             const data = {
-                code: $('#new-code').val(),
-                name: $('#new-name').val(),
-                description: $('#new-description').val()
+                code: $(form).find('[name="code"]').val(),
+                name: $(form).find('[name="name"]').val(),
+                description: $(form).find('[name="description"]').val(),
             };
 
             Mes.Ajax.post(form.action, data)

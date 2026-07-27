@@ -1,11 +1,11 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="edit (partner, partnerContacts)">
+<th:block th:fragment="manage (partner, partnerContacts)">
     <div class="app-box app-box-bg mt-2">
         <div class="d-flex justify-content-between">
             <div>
-                <p class="h5 fw-bold">담당자 목록</p>
+                <p class="h5 fw-bold">담당자 관리</p>
             </div>
             <div>
                 <button type="button"
@@ -22,11 +22,13 @@
             </div>
         </div>
 
-        <div id="partner-contacts-list">
+        <div id="partner-contact-list">
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
-                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
@@ -37,6 +39,8 @@
                 <tr>
                     <th><input type="checkbox" class="check-all"/></th>
                     <th>담당자명</th>
+                    <th>부서</th>
+                    <th>직책</th>
                     <th>휴대폰 번호</th>
                     <th>전화번호</th>
                     <th>이메일</th>
@@ -53,8 +57,13 @@
                     </td>
                     <td class="fw-bold">
                         <a href="#"
-                           th:text="${contact.name}"></a>
+                           class="edit-contact-link"
+                           th:text="${contact.name}"
+                           th:data-partner-id="${partner.id}"
+                           th:data-id="${contact.id}"></a>
                     </td>
+                    <td th:text="${@format.value(contact.department?.name)}"></td>
+                    <td th:text="${@format.value(contact.position?.name)}"></td>
                     <td th:text="${@format.phoneNo(contact.phone)}"></td>
                     <td th:text="${@format.value(contact.tel)}"></td>
                     <td th:text="${@format.value(contact.email)}"></td>

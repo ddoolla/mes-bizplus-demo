@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#create-contact-form').validate({
+    $('#edit-contact-form').validate({
         rules: {
             name: 'required',
             email: {
@@ -31,14 +31,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 tel: $(form).find('[name="tel"]').val(),
                 email: $(form).find('[name="email"]').val(),
                 remark: $(form).find('[name="remark"]').val(),
+                active: $(form).find('[name="active"]').val(),
             };
 
-            Mes.Ajax.post(form.action, data)
+            Mes.Ajax.put(form.action, data)
                 .done(function (response) {
 
                     alert(response.message);
 
-                    Mes.Modal.close('create-contact-modal');
+                    Mes.Modal.close('edit-contact-modal');
 
                     location.reload();
                 })

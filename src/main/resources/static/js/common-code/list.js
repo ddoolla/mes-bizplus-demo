@@ -6,32 +6,40 @@ document.addEventListener('DOMContentLoaded', function () {
     Mes.Checkbox.init(checkboxGroup);
 
     // 수정 모달 열기
-    const openEditModal = async (event) => {
+    document.querySelectorAll('.edit-code-link').forEach(link =>
+        link.addEventListener('click', async (event) => {
 
-        event.preventDefault();
+                event.preventDefault();
 
-        const link = event.currentTarget;
+                const link = event.currentTarget;
 
-        const groupId = link.dataset.groupId;
-        const id = link.dataset.id;
+                const groupId = link.dataset.groupId;
+                const id = link.dataset.id;
 
-        const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
+                const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
 
-        document.querySelector('#edit-code-form').action = `/code-groups/${groupId}/codes/${id}`;
+                const modal = document.querySelector('#edit-code-modal');
+                const form = modal.querySelector('form');
 
-        document.querySelector('#id').value = commonCode.id;
-        document.querySelector('#edit-code').value = commonCode.code;
-        document.querySelector('#edit-name').value = commonCode.name;
-        document.querySelector('#edit-description').value = commonCode.description;
+                form.action = `/code-groups/${groupId}/codes/${id}`;
 
-        Mes.Modal.open('edit-code-modal');
-    }
+                Mes.Form.set(form, {
+                    id: commonCode.id,
+                    code: commonCode.code,
+                    name: commonCode.name,
+                    description: commonCode.description,
+                });
 
-    document.querySelectorAll('.edit-code-link')
-        .forEach(link => link.addEventListener('click', openEditModal));
+                Mes.Modal.open('edit-code-modal');
+            }
+        ));
+
+    // 모달 닫기 시 폼 초기화
+    Mes.Modal.resetFormOnHidden('create-code-modal');
+    Mes.Modal.resetFormOnHidden('edit-code-modal');
 
     // 코드 삭제
-    const deleteCodes = () => {
+    deleteButton.addEventListener('click', function () {
 
         const selectedIds = Mes.Checkbox.getCheckedValues(checkboxGroup);
 
@@ -56,7 +64,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 location.reload();
             });
-    }
-
-    deleteButton.addEventListener('click', deleteCodes);
+    });
 });

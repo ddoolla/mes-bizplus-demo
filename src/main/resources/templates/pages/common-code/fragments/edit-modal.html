@@ -12,9 +12,6 @@
         <th:block th:fragment="edit-modal-body">
             <form id="edit-code-form" method="post">
                 <input type="hidden"
-                       th:name="${_csrf.parameterName}"
-                       th:value="${_csrf.token}"/>
-                <input type="hidden"
                        id="group-id"
                        name="groupId"
                        th:value="${codeGroup.id}"/>
@@ -26,13 +23,10 @@
                     <tbody>
                     <tr>
                         <th>
-                            <label for="edit-code">
-                                코드 <span class="app-required">*</span>
-                            </label>
+                            코드 <span class="app-required">*</span>
                         </th>
                         <td>
                             <input type="text"
-                                   id="edit-code"
                                    name="code"
                                    class="app-form-control app-xs"
                                    placeholder="코드를 입력해 주세요."/>
@@ -43,13 +37,10 @@
                     </tr>
                     <tr>
                         <th>
-                            <label for="edit-name">
-                                코드명 <span class="app-required">*</span>
-                            </label>
+                            코드명 <span class="app-required">*</span>
                         </th>
                         <td>
                             <input type="text"
-                                   id="edit-name"
                                    name="name"
                                    class="app-form-control app-xs"
                                    placeholder="권한 이름을 입력해 주세요."/>
@@ -57,11 +48,10 @@
                     </tr>
                     <tr>
                         <th>
-                            <label for="edit-description">코드 설명</label>
+                            코드 설명
                         </th>
                         <td>
                             <input type="text"
-                                   id="edit-description"
                                    name="description"
                                    class="app-form-control app-xs"/>
                         </td>

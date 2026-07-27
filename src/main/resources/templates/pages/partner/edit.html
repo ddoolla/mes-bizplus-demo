@@ -12,8 +12,13 @@
 
     <script th:src="@{/js/common/address.js}"></script>
     <script th:src="@{/js/common/ajax.js}"></script>
+    <script th:src="@{/js/common/modal.js}"></script>
+    <script th:src="@{/js/common/checkbox.js}"></script>
+    <script th:src="@{/js/common/form.js}"></script>
     <script th:src="@{/js/partner/edit.js}"></script>
     <script th:src="@{/js/partner-contact/create-modal.js}"></script>
+    <script th:src="@{/js/partner-contact/edit-modal.js}"></script>
+    <script th:src="@{/js/partner-contact/manage.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -259,11 +264,14 @@
         </form>
     </div>
 
-    <!--/* 거래처 담당자 목록 수정 */-->
-    <div th:replace="~{pages/partner-contact/fragments/edit :: edit (${partner}, ${partnerContacts})}"></div>
+    <!--/* 거래처 담당자 관리 화면 */-->
+    <div th:replace="~{pages/partner-contact/fragments/manage :: manage (${partner}, ${partnerContacts})}"></div>
 
     <!--/* 거래처 담당자 등록 모달 */-->
     <div th:replace="~{pages/partner-contact/fragments/create-modal :: createModal (${partner}, ${departments}, ${positions})}"></div>
+
+    <!--/* 거래처 담당자 수정 모달 */-->
+    <div th:replace="~{pages/partner-contact/fragments/edit-modal :: editModal (${partner}, ${departments}, ${positions})}"></div>
 </div>
 </body>
 </html>

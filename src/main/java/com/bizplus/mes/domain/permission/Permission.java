@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "permissions")
@@ -23,6 +25,7 @@ public class Permission extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private PermissionCode code;
 
     @Column(nullable = false)
@@ -30,6 +33,7 @@ public class Permission extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private PermissionAction action;
 
     public Permission(Menu menu, PermissionCode code) {

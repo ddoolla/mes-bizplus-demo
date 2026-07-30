@@ -22,6 +22,19 @@ Mes.Modal = {
             .hide();
     },
 
+    setTitle(id, title) {
+
+        const modal = document.getElementById(id);
+
+        const titleElement = modal.querySelector('.modal-title');
+
+        if (!titleElement) {
+            return;
+        }
+
+        titleElement.textContent = title;
+    },
+
     /*
     * 수정 모달을 열 때 open, onShow 로직을 나누어 봤는데, UX가 별로인 듯
     * 모달이 먼저 출력되고나서 데이터가 들어가는게 눈에 보임.

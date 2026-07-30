@@ -31,11 +31,15 @@ Mes.Ajax = {
     },
 
     post(url, data) {
+
+        const formData = data instanceof FormData;
+
         return $.ajax({
             url: url,
             method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            contentType: formData ? false : 'application/json',
+            processData: !formData,
+            data: formData ? data : JSON.stringify(data),
             headers: {
                 [csrfHeader]: csrfToken,
             }
@@ -43,11 +47,15 @@ Mes.Ajax = {
     },
 
     put(url, data) {
+
+        const formData = data instanceof FormData;
+
         return $.ajax({
             url: url,
             method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            contentType: formData ? false : 'application/json',
+            processData: !formData,
+            data: formData ? data : JSON.stringify(data),
             headers: {
                 [csrfHeader]: csrfToken,
             }
@@ -55,11 +63,15 @@ Mes.Ajax = {
     },
 
     delete(url, data) {
+
+        const formData = data instanceof FormData;
+
         return $.ajax({
             url: url,
             method: 'DELETE',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            contentType: formData ? false : 'application/json',
+            processData: !formData,
+            data: formData ? data : JSON.stringify(data),
             headers: {
                 [csrfHeader]: csrfToken,
             }

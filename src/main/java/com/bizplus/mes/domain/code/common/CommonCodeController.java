@@ -69,12 +69,11 @@ public class CommonCodeController {
                 ApiResponse.success(messageService.get("common.created")));
     }
 
-    @PutMapping("/code-groups/{groupId}/codes/{id}")
+    @PutMapping("/common-codes/{id}")
     @ResponseBody
     @PreAuthorize("hasAuthority('COMMON_CODE_UPDATE')")
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
-    public ResponseEntity<ApiResponse<Void>> updateCommonCode(@PathVariable Long groupId,
-                                                              @PathVariable Long id,
+    public ResponseEntity<ApiResponse<Void>> updateCommonCode(@PathVariable Long id,
                                                               @Valid CommonCodeUpdateDto dto) {
 
         commonCodeService.updateCommonCode(id, dto);

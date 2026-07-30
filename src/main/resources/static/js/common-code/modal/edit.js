@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const link = event.currentTarget;
 
-                const groupId = link.dataset.groupId;
                 const id = link.dataset.id;
 
                 const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const modal = document.querySelector('#edit-code-modal');
                 const form = modal.querySelector('form');
 
-                form.action = `/code-groups/${groupId}/codes/${id}`;
+                form.action = `/common-codes/${id}`;
 
                 Mes.Form.set(form, {
                     id: commonCode.id,

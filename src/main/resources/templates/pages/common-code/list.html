@@ -10,8 +10,8 @@
     <script th:src="@{/js/common/modal.js}"></script>
     <script th:src="@{/js/common/form.js}"></script>
     <script th:src="@{/js/common-code/list.js}"></script>
-    <script th:src="@{/js/common-code/create-modal.js}"></script>
-    <script th:src="@{/js/common-code/edit-modal.js}"></script>
+    <script th:src="@{/js/common-code/modal/create.js}"></script>
+    <script th:src="@{/js/common-code/modal/edit.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -70,10 +70,10 @@
     </div>
 
     <!--/* 등록 모달 */-->
-    <div th:replace="~{/pages/common-code/fragments/create-modal :: createModal (${codeGroup})}"></div>
+    <div th:replace="~{pages/common-code/fragments/modal/create :: create (${codeGroup})}"></div>
 
     <!--/* 수정 모달 */-->
-    <div th:replace="~{/pages/common-code/fragments/edit-modal :: editModal (${codeGroup})}"></div>
+    <div th:replace="~{pages/common-code/fragments/modal/edit :: edit (${codeGroup})}"></div>
 </div>
 </body>
 </html>

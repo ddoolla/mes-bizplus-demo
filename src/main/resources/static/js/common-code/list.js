@@ -5,39 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Mes.Checkbox.init(checkboxGroup);
 
-    // 수정 모달 열기
-    document.querySelectorAll('.edit-code-link').forEach(link =>
-        link.addEventListener('click', async (event) => {
-
-                event.preventDefault();
-
-                const link = event.currentTarget;
-
-                const groupId = link.dataset.groupId;
-                const id = link.dataset.id;
-
-                const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
-
-                const modal = document.querySelector('#edit-code-modal');
-                const form = modal.querySelector('form');
-
-                form.action = `/code-groups/${groupId}/codes/${id}`;
-
-                Mes.Form.set(form, {
-                    id: commonCode.id,
-                    code: commonCode.code,
-                    name: commonCode.name,
-                    description: commonCode.description,
-                });
-
-                Mes.Modal.open('edit-code-modal');
-            }
-        ));
-
-    // 모달 닫기 시 폼 초기화
-    Mes.Modal.resetFormOnHidden('create-code-modal');
-    Mes.Modal.resetFormOnHidden('edit-code-modal');
-
     // 코드 삭제
     deleteButton.addEventListener('click', function () {
 

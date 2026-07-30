@@ -1,54 +1,81 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#edit-code-form').validate({
-        rules: {
-            code: {
-                required: true,
-                remote: {
-                    url: '/common-codes/check-code',
-                    type: 'get',
-                    data: {
-                        groupId: function () {
-                            return $('#group-id').val();
-                        },
-                        id: function () {
-                            return $('#id').val();
-                        },
-                    }
-                },
-            },
-            name: 'required',
-        },
-        messages: {
-            code: {
-                required: '코드를 입력해 주세요.',
-                remote: '이미 존재하는 코드 입니다.',
-            },
-            name: '코드명을 입력해 주세요.',
-        },
-        submitHandler: function (form) {
+    // 수정 모달 열기
+    document.querySelectorAll('.edit-code-link').forEach(link =>
+        link.addEventListener('click', async (event) => {
 
-            const data = {
-                code: $(form).find('[name="code"]').val(),
-                name: $(form).find('[name="name"]').val(),
-                description: $(form).find('[name="description"]').val(),
-            };
+                event.preventDefault();
 
-            Mes.Ajax.put(form.action, data)
-                .done(function (response) {
+                const link = event.currentTarget;
 
-                    alert(response.message);
+                const groupId = link.dataset.groupId;
+                const id = link.dataset.id;
 
-                    Mes.Modal.close('create-code-modal');
+                const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
 
-                    location.reload();
-                })
-                .fail(function (xhr) {
+                const modal = document.querySelector('#edit-code-modal');
+                const form = modal.querySelector('form');
 
-                    alert(xhr.responseJSON.message);
+                form.action = `/code-groups/${groupId}/codes/${id}`;
+
+                Mes.Form.set(form, {
+                    id: commonCode.id,
+                    code: commonCode.code,
+                    name: commonCode.name,
+                    description: commonCode.description,
                 });
 
-            return false;
-        }
-    });
+                $('#edit-code-form').validate({
+                    rules: {
+                        code: {
+                            required: true,
+                            remote: {
+                                url: '/common-codes/check-code',
+                                type: 'get',
+                                data: {
+                                    groupId: function () {
+                                        return $('#group-id').val();
+                                    },
+                                    id: function () {
+                                        return $('#id').val();
+                                    },
+                                }
+                            },
+                        },
+                        name: 'required',
+                    },
+                    messages: {
+                        code: {
+                            required: '코드를 입력해 주세요.',
+                            remote: '이미 존재하는 코드 입니다.',
+                        },
+                        name: '코드명을 입력해 주세요.',
+                    },
+                    submitHandler: function (form) {
+
+                        const formData = new FormData(form);
+
+                        Mes.Ajax.put(form.action, formData)
+                            .done(function (response) {
+
+                                alert(response.message);
+
+                                Mes.Modal.close('create-code-modal');
+
+                                location.reload();
+                            })
+                            .fail(function (xhr) {
+
+                                alert(xhr.responseJSON.message);
+                            });
+
+                        return false;
+                    }
+                });
+
+                Mes.Modal.open('edit-code-modal');
+            }
+        ));
+
+    Mes.Modal.resetFormOnHidden('edit-code-modal');
 });

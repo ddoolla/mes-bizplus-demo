@@ -61,7 +61,7 @@ public class CommonCodeController {
     @PreAuthorize("hasAuthority('COMMON_CODE_CREATE')")
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.CREATE)
     public ResponseEntity<ApiResponse<Void>> createCommonCode(@PathVariable Long groupId,
-                                                              @RequestBody @Valid CommonCodeCreateDto dto) {
+                                                              @Valid CommonCodeCreateDto dto) {
 
         commonCodeService.createCommonCode(groupId, dto);
 
@@ -75,7 +75,7 @@ public class CommonCodeController {
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
     public ResponseEntity<ApiResponse<Void>> updateCommonCode(@PathVariable Long groupId,
                                                               @PathVariable Long id,
-                                                              @RequestBody @Valid CommonCodeUpdateDto dto) {
+                                                              @Valid CommonCodeUpdateDto dto) {
 
         commonCodeService.updateCommonCode(id, dto);
 

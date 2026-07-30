@@ -25,13 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         submitHandler: function (form) {
 
-            const data = {
-                code: $(form).find('[name="code"]').val(),
-                name: $(form).find('[name="name"]').val(),
-                description: $(form).find('[name="description"]').val(),
-            };
+            const formData = new FormData(form);
 
-            Mes.Ajax.post(form.action, data)
+            Mes.Ajax.post(form.action, formData)
                 .done(function (response) {
 
                     alert(response.message);
@@ -48,4 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
     });
+
+    // 모달 닫기 시 폼 초기화
+    Mes.Modal.resetFormOnHidden('create-code-modal');
 });

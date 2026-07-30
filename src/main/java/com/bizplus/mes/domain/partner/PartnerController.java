@@ -3,7 +3,6 @@ package com.bizplus.mes.domain.partner;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
-import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
@@ -71,8 +70,6 @@ public class PartnerController {
     public String viewEdit(Model model, @PathVariable Long id) {
 
         model.addAttribute("partnerTypes", PartnerType.values());
-        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
-        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
         model.addAttribute("partner", partnerService.getPartner(id));
         model.addAttribute("partnerContacts", partnerContactService.getPartnerContacts(id));
 

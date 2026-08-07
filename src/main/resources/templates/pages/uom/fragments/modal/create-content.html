@@ -1,0 +1,78 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="content">
+    <div class="modal-body">
+        <form id="create-uom-form"
+              method="post"
+              th:action="@{/uoms}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        단위 코드 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               placeholder="단위 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        단위명 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               placeholder="단위명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        단위 유형
+                    </th>
+                    <td>
+                        <select name="type"
+                                class="app-form-control app-xs">
+                            <option th:each="type : ${uomTypes}"
+                                    th:value="${type?.name()}"
+                                    th:text="${type?.getDescription()}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        소수점 자리
+                    </th>
+                    <td>
+                        <input type="number"
+                               name="decimalPlaces"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal">
+            취소
+        </button>
+        <button type="submit"
+                form="create-uom-form"
+                class="btn btn-primary btn-sm">
+            저장
+        </button>
+    </div>
+</th:block>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('단위 목록', ~{}, ~{::script}, 'UOM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/common/checkbox.js}"></script>
+    <script th:src="@{/js/common/ajax.js}"></script>
+    <script th:src="@{/js/common/modal.js}"></script>
+    <script th:src="@{/js/uom/list.js}"></script>
+    <script th:src="@{/js/uom/create-content.js}"></script>
+    <script th:src="@{/js/uom/edit-content.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('단위 목록', '기준정보관리, 단위관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/uom/fragments/filter :: filter ('/uoms', ${uoms.size()}, true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="uom-list">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>단위 코드</th>
+                    <th>단위명</th>
+                    <th>단위 유형</th>
+                    <th>소수점 자리</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="uom : ${uoms}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${uom.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a href="#"
+                           class="edit-uom-link"
+                           th:text="${uom.code}"
+                           th:data-id="${uom.id}"></a>
+                    </td>
+                    <td th:text="${uom.name}"></td>
+                    <td th:text="${uom.type?.description}"></td>
+                    <td th:text="${uom.decimalPlaces}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--/* 단위 폼 모달 */-->
+    <div th:replace="~{pages/uom/fragments/modal/form :: form}"></div>
+</div>
+</body>
+</html>

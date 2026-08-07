@@ -25,6 +25,11 @@ public enum PermissionCode {
     COMMON_CODE_UPDATE(MenuCode.COMMON_CODE, "공통코드 수정", PermissionAction.UPDATE),
     COMMON_CODE_DELETE(MenuCode.COMMON_CODE, "공통코드 삭제", PermissionAction.DELETE),
 
+    UOM_READ(MenuCode.UOM, "단위 조회", PermissionAction.READ),
+    UOM_CREATE(MenuCode.UOM, "단위 등록", PermissionAction.CREATE),
+    UOM_UPDATE(MenuCode.UOM, "단위 수정", PermissionAction.UPDATE),
+    UOM_DELETE(MenuCode.UOM, "단위 삭제", PermissionAction.DELETE),
+
     PARTNER_READ(MenuCode.PARTNER, "거래처 조회", PermissionAction.READ),
     PARTNER_CREATE(MenuCode.PARTNER, "거래처 등록", PermissionAction.CREATE),
     PARTNER_UPDATE(MenuCode.PARTNER, "거래처 수정", PermissionAction.UPDATE),

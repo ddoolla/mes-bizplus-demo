@@ -1,7 +1,8 @@
 package com.bizplus.mes.domain.code.common;
 
+import com.bizplus.mes.common.message.MessageCode;
+import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeCreateDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeUpdateDto;
@@ -66,7 +67,7 @@ public class CommonCodeController {
         commonCodeService.createCommonCode(groupId, dto);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.created")));
+                ApiResponse.success(messageService.get(MessageCode.CREATED)));
     }
 
     @PutMapping("/common-codes/{id}")
@@ -79,7 +80,7 @@ public class CommonCodeController {
         commonCodeService.updateCommonCode(id, dto);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.updated")));
+                ApiResponse.success(messageService.get(MessageCode.UPDATED)));
     }
 
     @DeleteMapping("/common-codes")
@@ -88,6 +89,6 @@ public class CommonCodeController {
 
         commonCodeService.deleteCommonCodes(ids);
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.deleted")));
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

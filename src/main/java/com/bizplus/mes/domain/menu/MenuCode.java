@@ -14,7 +14,8 @@ public enum MenuCode {
 
     MASTER(null, "기준 정보 관리", MenuType.GROUP, null, 50),
     COMMON_CODE(MASTER, "공통 코드 관리", MenuType.MENU, "/code-groups", 60),
-    PARTNER(MASTER, "거래처 관리", MenuType.MENU, "/partners", 70);
+    UOM(MASTER, "단위 관리", MenuType.MENU, "/uoms", 70),
+    PARTNER(MASTER, "거래처 관리", MenuType.MENU, "/partners", 80);
 
     private final MenuCode parent;
     private final String name;

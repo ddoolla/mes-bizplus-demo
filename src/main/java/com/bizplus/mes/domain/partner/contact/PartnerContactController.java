@@ -1,7 +1,8 @@
 package com.bizplus.mes.domain.partner.contact;
 
+import com.bizplus.mes.common.message.MessageCode;
+import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.partner.contact.dto.PartnerContactCreateDto;
@@ -59,7 +60,7 @@ public class PartnerContactController {
         partnerContactService.createPartnerContact(partnerId, dto);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.created")));
+                ApiResponse.success(messageService.get(MessageCode.CREATED)));
     }
 
     @PutMapping("/partner-contacts/{id}")
@@ -69,7 +70,7 @@ public class PartnerContactController {
         partnerContactService.updatePartnerContact(id, dto);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.updated")));
+                ApiResponse.success(messageService.get(MessageCode.UPDATED)));
     }
 
     @DeleteMapping("/partner-contacts")
@@ -79,6 +80,6 @@ public class PartnerContactController {
         partnerContactService.deletePartnerContacts(ids);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.deleted")));
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

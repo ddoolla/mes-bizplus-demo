@@ -1,7 +1,8 @@
 package com.bizplus.mes.domain.partner;
 
+import com.bizplus.mes.common.message.MessageCode;
+import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
@@ -92,7 +93,7 @@ public class PartnerController {
 
         partnerService.createPartner(dto);
 
-        reAtt.addFlashAttribute("message", messageService.get("common.created"));
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
         return "redirect:/partners";
     }
@@ -107,7 +108,7 @@ public class PartnerController {
         partnerService.updatePartner(id, dto);
 
         reAtt.addAttribute("id", id);
-        reAtt.addFlashAttribute("message", messageService.get("common.updated"));
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
 
         return "redirect:/partners/{id}";
     }
@@ -121,6 +122,6 @@ public class PartnerController {
         partnerService.deletePartners(ids);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.deleted")));
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

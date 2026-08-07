@@ -1,7 +1,8 @@
 package com.bizplus.mes.domain.user;
 
+import com.bizplus.mes.common.message.MessageCode;
+import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.log.action.ActionType;
@@ -93,7 +94,7 @@ public class UserController {
 
         userService.createUser(dto);
 
-        reAtt.addFlashAttribute("message", messageService.get("common.created"));
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
         return "redirect:/users";
     }
@@ -107,7 +108,7 @@ public class UserController {
 
         userService.updateUser(id, dto);
 
-        reAtt.addFlashAttribute("message", messageService.get("common.updated"));
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
 
         return "redirect:/users/" + id;
     }
@@ -121,6 +122,6 @@ public class UserController {
         userService.deleteUsers(ids);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.deleted")));
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

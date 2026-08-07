@@ -1,4 +1,4 @@
-package com.bizplus.mes.common.service;
+package com.bizplus.mes.common.message;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -11,19 +11,19 @@ public class MessageService {
 
     private final MessageSource messageSource;
 
-    public String get(String code) {
+    public String get(MessageCode code) {
 
         return messageSource.getMessage(
-                code,
+                code.getKey(),
                 null,
                 LocaleContextHolder.getLocale()
         );
     }
 
-    public String get(String code, Object... args) {
+    public String get(MessageCode code, Object... args) {
 
         return messageSource.getMessage(
-                code,
+                code.getKey(),
                 args,
                 LocaleContextHolder.getLocale()
         );

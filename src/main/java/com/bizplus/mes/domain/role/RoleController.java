@@ -1,7 +1,8 @@
 package com.bizplus.mes.domain.role;
 
+import com.bizplus.mes.common.message.MessageCode;
+import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.common.service.MessageService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
@@ -89,7 +90,7 @@ public class RoleController {
 
         roleService.createRole(dto);
 
-        reAtt.addFlashAttribute("message", messageService.get("common.created"));
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
         return "redirect:/roles";
     }
@@ -103,7 +104,7 @@ public class RoleController {
 
         roleService.updateRole(id, dto);
 
-        reAtt.addFlashAttribute("message", messageService.get("common.updated"));
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
 
         return "redirect:/roles/" + id;
     }
@@ -117,6 +118,6 @@ public class RoleController {
         roleService.deleteRoles(ids);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get("common.deleted")));
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

@@ -5,6 +5,7 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.inventory.InventoryService;
 import com.bizplus.mes.domain.item.dto.*;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
@@ -21,6 +22,8 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+
+    private final InventoryService inventoryService;
 
     private final CommonCodeReader commonCodeReader;
     private final UomReader uomReader;
@@ -51,13 +54,16 @@ public class ItemServiceImpl implements ItemService {
         return !exists;
     }
 
+    @Transactional
     @Override
     public void createItem(ItemCreateDto dto) {
 
         CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto));
+        Item newItem = itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto));
+
+        inventoryService.createInventory(newItem.getId());
     }
 
     @Transactional

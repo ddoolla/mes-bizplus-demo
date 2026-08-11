@@ -38,7 +38,9 @@ public enum PermissionCode {
     ITEM_READ(MenuCode.ITEM, "품목 조회", PermissionAction.READ),
     ITEM_CREATE(MenuCode.ITEM, "품목 등록", PermissionAction.CREATE),
     ITEM_UPDATE(MenuCode.ITEM, "품목 수정", PermissionAction.UPDATE),
-    ITEM_DELETE(MenuCode.ITEM, "품목 삭제", PermissionAction.DELETE);
+    ITEM_DELETE(MenuCode.ITEM, "품목 삭제", PermissionAction.DELETE),
+
+    ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;
     private final String name;

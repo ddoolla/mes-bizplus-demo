@@ -55,6 +55,14 @@ public class UomController {
         return "pages/uom/fragments/modal/edit-content :: content";
     }
 
+    @GetMapping("/check-code")
+    @ResponseBody
+    public boolean checkCode(@RequestParam(required = false) Long id,
+                             @RequestParam String code) {
+
+        return uomService.checkCode(id, code);
+    }
+
     @PostMapping
     @ResponseBody
     @PreAuthorize("hasAuthority('UOM_CREATE')")

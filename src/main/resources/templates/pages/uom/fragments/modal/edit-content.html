@@ -5,6 +5,9 @@
         <form id="edit-uom-form"
               method="post"
               th:action="@{/uoms/{id}(id=${uom.id})}">
+            <input type="hidden"
+                   name="id"
+                   th:value="${uom.id}"/>
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

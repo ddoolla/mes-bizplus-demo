@@ -31,6 +31,14 @@ public class UomServiceImpl implements UomService {
     }
 
     @Override
+    public boolean checkCode(Long id, String code) {
+
+        boolean exists = uomRepository.existsByCodeAndIdNot(code, id);
+
+        return !exists;
+    }
+
+    @Override
     public void createUom(UomCreateDto dto) {
 
         uomRepository.save(UomMapper.toEntity(dto));

@@ -19,7 +19,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 $('#edit-uom-form').validate({
                     rules: {
-                        code: 'required',
+                        code: {
+                            required: true,
+                            remote: {
+                                url: '/uoms/check-code',
+                                type: 'get',
+                                data: {
+                                    id: function () {
+                                        return $('[name="id"]').val();
+                                    }
+                                }
+                            },
+                        },
                         name: 'required',
                         decimalPlaces: {
                             digits: true,
@@ -28,7 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                     },
                     messages: {
-                        code: '단위 코드를 입력해 주세요.',
+                        code: {
+                            required: '단위 코드를 입력해 주세요.',
+                            remote: '이미 존재하는 코드입니다.'
+                        },
                         name: '단위명을 입력해 주세요.',
                         decimalPlaces: {
                             digits: '소수점 자리수는 숫자만 입력 가능합니다.',

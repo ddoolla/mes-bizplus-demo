@@ -3,7 +3,7 @@ package com.bizplus.mes.domain.partner.contact;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.partner.contact.dto.PartnerContactCreateDto;
 import com.bizplus.mes.domain.partner.contact.dto.PartnerContactDto;
@@ -22,16 +22,15 @@ import java.util.List;
 public class PartnerContactController {
 
     private final PartnerContactService partnerContactService;
+    private final CommonCodeService commonCodeService;
     private final MessageService messageService;
-
-    private final CommonCodeReader commonCodeReader;
 
     @GetMapping("/partners/{partnerId}/contacts/new")
     public String viewNew(Model model, @PathVariable Long partnerId) {
 
         model.addAttribute("partnerId", partnerId);
-        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
-        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
+        model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
+        model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
 
         return "pages/partner-contact/fragments/modal/create-content :: content";
     }
@@ -39,8 +38,8 @@ public class PartnerContactController {
     @GetMapping("/partner-contacts/{id}/edit")
     public String viewEdit(Model model, @PathVariable Long id) {
 
-        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
-        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
+        model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
+        model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
         model.addAttribute("contact", partnerContactService.getPartnerContact(id));
 
         return "pages/partner-contact/fragments/modal/edit-content :: content";

@@ -3,7 +3,7 @@ package com.bizplus.mes.domain.user;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
@@ -32,9 +32,8 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final CommonCodeService commonCodeService;
     private final MessageService messageService;
-
-    private final CommonCodeReader commonCodeReader;
 
     @GetMapping
     @PreAuthorize("hasAuthority('USER_READ')")
@@ -62,8 +61,8 @@ public class UserController {
     public String viewNew(Model model) {
 
         model.addAttribute("roles", roleService.getAllRoles());
-        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
-        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
+        model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
+        model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
 
         return "pages/user/new";
     }
@@ -74,8 +73,8 @@ public class UserController {
 
         model.addAttribute("user", userService.getUser(id));
         model.addAttribute("roles", roleService.getAllRoles());
-        model.addAttribute("positions", commonCodeReader.getByGroup(CodeGroupKey.POSITION));
-        model.addAttribute("departments", commonCodeReader.getByGroup(CodeGroupKey.DEPARTMENT));
+        model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
+        model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
 
         return "pages/user/edit";
     }

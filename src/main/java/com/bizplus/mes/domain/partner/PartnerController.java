@@ -3,7 +3,6 @@ package com.bizplus.mes.domain.partner;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
-import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
@@ -32,8 +31,6 @@ public class PartnerController {
     private final PartnerService partnerService;
     private final PartnerContactService partnerContactService;
     private final MessageService messageService;
-
-    private final CommonCodeReader commonCodeReader;
 
     @GetMapping
     @PreAuthorize("hasAuthority('PARTNER_READ')")

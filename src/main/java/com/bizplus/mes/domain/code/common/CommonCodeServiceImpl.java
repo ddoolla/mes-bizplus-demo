@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.code.common.dto.CommonCodeCreateDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeUpdateDto;
 import com.bizplus.mes.domain.code.group.CodeGroup;
+import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.code.group.CodeGroupReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,11 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     public List<CommonCodeDto> getCommonCodes(Long codeGroupId, String code, String name) {
 
         return commonCodeRepository.findCommonCodes(codeGroupId, code, name);
+    }
+
+    @Override
+    public List<CommonCodeDto> getCommonCodes(CodeGroupKey groupKey) {
+        return commonCodeRepository.findCommonCodes(groupKey);
     }
 
     @Override

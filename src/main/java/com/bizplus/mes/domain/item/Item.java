@@ -34,4 +34,32 @@ public class Item extends BaseEntity {
     private String specification;
 
     private String remark;
+
+    public Item(Uom uom,
+                String code,
+                String name,
+                ItemType type,
+                String specification,
+                String remark) {
+        this.uom = uom;
+        this.code = code;
+        this.name = name;
+        this.type = type;
+        this.specification = specification;
+        this.remark = remark;
+    }
+
+    public void update(Uom uom,
+                       String code,
+                       String name,
+                       ItemType type,
+                       String specification,
+                       String remark) {
+        this.uom = uom;
+        this.code = code;
+        this.name = name;
+        this.type = type;
+        this.specification = specification;
+        this.remark = remark;
+    }
 }

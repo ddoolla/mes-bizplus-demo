@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('품목 수정', ~{}, ~{::script}, 'ITEM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/item/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('품목 수정', '기준정보관리, 품목관리, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/items}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="submit"
+                form="edit-item-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('ITEM_UPDATE')">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 수정 폼 */-->
+    <div class="app-box app-box-bg">
+        <form id="edit-item-form"
+              method="post"
+              th:action="@{/items/{id}(id=${item.id})}"
+              th:object="${item}">
+
+            <input type="hidden" name="id" th:value="*{id}"/>
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        품목 코드 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="*{code}"
+                               placeholder="품목 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        품목명 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="*{name}"
+                               placeholder="품목명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        품목 유형 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <select name="type" class="app-form-control app-xs">
+                            <option th:each="type : ${itemTypes}"
+                                    th:value="${type?.name()}"
+                                    th:text="${type?.getDescription()}"
+                                    th:selected="${type?.name() == item.type?.name()}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        규격
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="specification"
+                               th:value="*{specification}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        단위 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <select name="uomId" class="app-form-control app-xs">
+                            <option th:each="uom : ${uoms}"
+                                    th:value="${uom.id}"
+                                    th:text="${uom.name}"
+                                    th:selected="${uom.id == item.uom.id}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        비고
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               class="app-form-control app-xs"
+                               th:value="*{remark}"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

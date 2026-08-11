@@ -33,7 +33,12 @@ public enum PermissionCode {
     PARTNER_READ(MenuCode.PARTNER, "거래처 조회", PermissionAction.READ),
     PARTNER_CREATE(MenuCode.PARTNER, "거래처 등록", PermissionAction.CREATE),
     PARTNER_UPDATE(MenuCode.PARTNER, "거래처 수정", PermissionAction.UPDATE),
-    PARTNER_DELETE(MenuCode.PARTNER, "거래처 삭제", PermissionAction.DELETE);
+    PARTNER_DELETE(MenuCode.PARTNER, "거래처 삭제", PermissionAction.DELETE),
+
+    ITEM_READ(MenuCode.ITEM, "품목 조회", PermissionAction.READ),
+    ITEM_CREATE(MenuCode.ITEM, "품목 등록", PermissionAction.CREATE),
+    ITEM_UPDATE(MenuCode.ITEM, "품목 수정", PermissionAction.UPDATE),
+    ITEM_DELETE(MenuCode.ITEM, "품목 삭제", PermissionAction.DELETE);
 
     private final MenuCode menu;
     private final String name;

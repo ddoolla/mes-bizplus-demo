@@ -1,0 +1,87 @@
+package com.bizplus.mes.domain.item;
+
+import com.bizplus.mes.domain.item.dto.ItemDto;
+import com.bizplus.mes.domain.item.dto.ItemSearchDto;
+import com.bizplus.mes.domain.item.dto.QItemDto;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.bizplus.mes.common.util.PredicateUtils.*;
+import static com.bizplus.mes.domain.item.QItem.item;
+import static com.bizplus.mes.domain.uom.QUom.uom;
+
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class ItemQueryRepositoryImpl implements ItemQueryRepository {
+
+    private final JPAQueryFactory query;
+
+    @Override
+    public Page<ItemDto> findItems(ItemSearchDto dto, Pageable pageable) {
+
+        BooleanBuilder searchCondition = new BooleanBuilder()
+                .and(notDeleted(item.deletedAt))
+                .and(contains(item.code, dto.getCode()))
+                .and(contains(item.name, dto.getName()))
+                .and(eq(item.type, dto.getType()));
+
+        List<ItemDto> content = query
+                .select(new QItemDto(
+                        item.id,
+                        uom.id,
+                        uom.code,
+                        item.code,
+                        item.name,
+                        item.type,
+                        item.specification,
+                        item.remark
+                ))
+                .from(item)
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .where(searchCondition)
+                .orderBy(item.code.asc(), item.name.asc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+
+        JPAQuery<Long> count = query.select(item.count())
+                .from(item)
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .where(searchCondition);
+
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Optional<ItemDto> findItem(Long id) {
+        return Optional.ofNullable(
+                query
+                        .select(new QItemDto(
+                                item.id,
+                                uom.id,
+                                uom.code,
+                                item.code,
+                                item.name,
+                                item.type,
+                                item.specification,
+                                item.remark
+                        ))
+                        .from(item)
+                        .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                        .where(
+                                notDeleted(item.deletedAt),
+                                eq(item.id, id)
+                        )
+                        .fetchOne()
+        );
+    }
+}

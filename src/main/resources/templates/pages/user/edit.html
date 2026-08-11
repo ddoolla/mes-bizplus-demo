@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/user/edit-content.js}"></script>
+    <script th:src="@{/js/user/edit.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -33,8 +33,11 @@
 
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
-        <form id="edit-user-form" method="post" th:action="@{/users/{id}(id=${user.id})}">
-            <table class="app-table-input" th:object="${user}">
+        <form id="edit-user-form"
+              method="post"
+              th:action="@{/users/{id}(id=${user.id})}"
+              th:object="${user}">
+            <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
                     <col style="width: auto">

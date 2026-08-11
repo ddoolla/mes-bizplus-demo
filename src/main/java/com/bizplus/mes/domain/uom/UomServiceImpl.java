@@ -25,6 +25,12 @@ public class UomServiceImpl implements UomService {
     }
 
     @Override
+    public List<UomDto> getUoms() {
+
+        return getUoms(null,  null);
+    }
+
+    @Override
     public UomDto getUom(Long id) {
 
         return UomMapper.toDto(uomReader.getById(id));

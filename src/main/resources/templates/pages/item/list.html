@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('품목 목록', ~{}, ~{::script}, 'ITEM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/common/checkbox.js}"></script>
+    <script th:src="@{/js/common/ajax.js}"></script>
+    <script th:src="@{/js/item/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('품목 목록', '기준정보관리, 품목관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/item/fragments/filter :: filter ('/items', ${data.pagination.totalElements}, true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="item-list">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>품목 코드</th>
+                    <th>품목명</th>
+                    <th>품목 유형</th>
+                    <th>규격</th>
+                    <th>단위</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${data.items}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${item.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/items/{id}(id=${item.id})}"
+                           th:text="${item.code}"></a>
+                    </td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.type?.description}"></td>
+                    <td th:text="${@format.value(item.specification)}"></td>
+                    <td th:text="${@format.value(item.uom.name)}"></td>
+                    <td th:text="${@format.value(item.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

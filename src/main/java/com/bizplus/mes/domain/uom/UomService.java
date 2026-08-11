@@ -10,6 +10,8 @@ public interface UomService {
 
     List<UomDto> getUoms(String code, String name);
 
+    List<UomDto> getUoms();
+
     UomDto getUom(Long id);
 
     /**

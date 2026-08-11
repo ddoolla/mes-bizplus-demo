@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('품목 상세', ~{}, ~{}, 'ITEM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('품목 상세', '기준정보관리, 품목관리, 상세')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/items}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('ITEM_UPDATE')"
+                th:onclick="|location.href='@{/items/{id}/edit(id=${item.id})}'|">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 수정
+        </button>
+    </div>
+
+    <!--/* 품목 상세 */-->
+    <div class="app-box app-box-bg">
+        <table class="app-table-input" th:object="${item}">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>품목 코드</th>
+                <td th:text="*{code}"></td>
+            </tr>
+            <tr>
+                <th>품목명</th>
+                <td th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <th>품목 유형</th>
+                <td th:text="*{type?.description}"></td>
+            </tr>
+            <tr>
+                <th>규격</th>
+                <td colspan="3" th:text="${@format.value(item.specification)}"></td>
+            </tr>
+            <tr>
+                <th>단위</th>
+                <td colspan="3" th:text="*{uom.name}"></td>
+            </tr>
+            <tr>
+                <th>비고</th>
+                <td colspan="3" th:text="${@format.value(item.remark)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

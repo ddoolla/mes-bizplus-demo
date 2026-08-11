@@ -6,15 +6,46 @@
     <form method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
-                <col style="width: 150px">
+                <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 120px">
+                <col style="width: auto">
+                <col style="width: 120px">
                 <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
+                <th>품목 카테고리</th>
+                <td>
+                    <select name="categoryId"
+                            class="app-form-control app-xs">
+                        <option value="">
+                            전체
+                        </option>
+                        <option th:if="${#lists.isEmpty(itemCategories)}" value="" disabled>
+                            등록된 카테고리가 없습니다.
+                        </option>
+                        <option th:each="category : ${itemCategories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}"
+                                th:selected="${category.id == selectedCategory}">
+                        </option>
+                    </select>
+                </td>
+                <th>품목 유형</th>
+                <td>
+                    <select name="type"
+                            class="app-form-control app-xs">
+                        <option value="">전체</option>
+                        <option th:each="type : ${itemTypes}"
+                                th:value="${type?.name()}"
+                                th:text="${type?.getDescription()}"
+                                th:selected="${type?.name() == selectedType?.name()}">
+                        </option>
+                    </select>
+                </td>
                 <th>품목 코드</th>
                 <td>
                     <input type="text"
@@ -28,18 +59,6 @@
                            name="name"
                            class="app-form-control app-xs"
                            th:value="${param.name}">
-                </td>
-                <th>품목 유형</th>
-                <td>
-                    <select name="type"
-                            class="app-form-control app-xs">
-                        <option value="">전체</option>
-                        <option th:each="type : ${itemTypes}"
-                                th:value="${type?.name()}"
-                                th:text="${type?.getDescription()}"
-                                th:selected="${type?.name() == selectedType?.name()}">
-                        </option>
-                    </select>
                 </td>
             </tr>
             </tbody>

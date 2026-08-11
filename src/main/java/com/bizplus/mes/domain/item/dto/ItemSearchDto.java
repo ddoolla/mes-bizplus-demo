@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ItemSearchDto {
 
+    private Long categoryId;
     private String code;
     private String name;
     private ItemType type;

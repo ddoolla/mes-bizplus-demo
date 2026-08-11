@@ -71,6 +71,25 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>품목 카테고리</th>
+                    <td>
+                        <select name="categoryId"
+                                class="app-form-control app-xs">
+                            <option value="">
+                                카테고리 선택
+                            </option>
+                            <option th:if="${#lists.isEmpty(itemCategories)}" value="" disabled>
+                                등록된 카테고리가 없습니다.
+                            </option>
+                            <option th:each="category : ${itemCategories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.name}"
+                                    th:selected="${category.id == selectedCategory}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th>
                         품목 유형 <span class="app-required">*</span>
                     </th>

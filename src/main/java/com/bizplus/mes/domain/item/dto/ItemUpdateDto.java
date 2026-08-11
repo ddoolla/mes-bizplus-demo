@@ -12,6 +12,7 @@ public class ItemUpdateDto {
 
     @NotNull
     private Long uomId;
+    private Long categoryId;
 
     @NotBlank
     private String code;

@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 public enum CodeGroupKey {
 
     DEPARTMENT(MenuCode.USER, "부서", 10),
-    POSITION(MenuCode.USER, "직책", 20);
+    POSITION(MenuCode.USER, "직책", 20),
+    ITEM_CATEGORY(MenuCode.ITEM, "품목 카테고리", 20);
 
     private final MenuCode menu;
     private final String name;

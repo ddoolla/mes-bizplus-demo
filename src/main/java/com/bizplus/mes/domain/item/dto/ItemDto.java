@@ -9,6 +9,7 @@ import lombok.Getter;
 public class ItemDto {
 
     private final Long id;
+    private final IdNameDto category;
     private final IdNameDto uom;
     private final String code;
     private final String name;
@@ -18,6 +19,8 @@ public class ItemDto {
 
     @QueryProjection
     public ItemDto(Long id,
+                   Long categoryId,
+                   String categoryName,
                    Long uomId,
                    String uomCode,
                    String code,
@@ -26,6 +29,7 @@ public class ItemDto {
                    String specification,
                    String remark) {
         this.id = id;
+        this.category = new IdNameDto(categoryId, categoryName);
         this.uom = new IdNameDto(uomId, uomCode);
         this.code = code;
         this.name = name;

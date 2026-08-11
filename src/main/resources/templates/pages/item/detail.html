@@ -47,6 +47,10 @@
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
+                <th>품목 카테고리</th>
+                <td th:text="${@format.value(item.category.name)}"></td>
+            </tr>
+            <tr>
                 <th>품목 유형</th>
                 <td th:text="*{type?.description}"></td>
             </tr>

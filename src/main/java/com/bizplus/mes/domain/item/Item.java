@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.item;
 
 import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.uom.Uom;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,6 +17,10 @@ public class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_code_id")
+    private CommonCode category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uom_id", nullable = false)
@@ -35,12 +40,14 @@ public class Item extends BaseEntity {
 
     private String remark;
 
-    public Item(Uom uom,
+    public Item(CommonCode category,
+                Uom uom,
                 String code,
                 String name,
                 ItemType type,
                 String specification,
                 String remark) {
+        this.category = category;
         this.uom = uom;
         this.code = code;
         this.name = name;
@@ -49,12 +56,14 @@ public class Item extends BaseEntity {
         this.remark = remark;
     }
 
-    public void update(Uom uom,
+    public void update(CommonCode category,
+                       Uom uom,
                        String code,
                        String name,
                        ItemType type,
                        String specification,
                        String remark) {
+        this.category = category;
         this.uom = uom;
         this.code = code;
         this.name = name;

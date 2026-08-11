@@ -3,6 +3,8 @@ package com.bizplus.mes.domain.item;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
+import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.item.dto.ItemCreateDto;
 import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.item.dto.ItemUpdateDto;
@@ -32,6 +34,8 @@ public class ItemController {
     private final UomService uomService;
     private final MessageService messageService;
 
+    private final CommonCodeReader commonCodeReader;
+
     @GetMapping
     @PreAuthorize("hasAuthority('ITEM_READ')")
     @UserAction(menu = MenuCode.ITEM, type = ActionType.READ)
@@ -39,7 +43,9 @@ public class ItemController {
                            ItemSearchDto dto,
                            @PageableDefault Pageable pageable) {
 
+        model.addAttribute("itemCategories", commonCodeReader.getByGroup(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
+        model.addAttribute("selectedCategory", dto.getCategoryId());
         model.addAttribute("selectedType", dto.getType());
         model.addAttribute("data", itemService.getItems(dto, pageable));
 
@@ -59,6 +65,7 @@ public class ItemController {
     @PreAuthorize("hasAuthority('ITEM_CREATE')")
     public String viewNew(Model model) {
 
+        model.addAttribute("itemCategories", commonCodeReader.getByGroup(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
 
@@ -69,6 +76,7 @@ public class ItemController {
     @PreAuthorize("hasAuthority('ITEM_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
 
+        model.addAttribute("itemCategories", commonCodeReader.getByGroup(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
         model.addAttribute("item", itemService.getItem(id));

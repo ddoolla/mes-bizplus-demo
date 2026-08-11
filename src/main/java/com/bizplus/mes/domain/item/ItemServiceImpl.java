@@ -3,6 +3,8 @@ package com.bizplus.mes.domain.item;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
+import com.bizplus.mes.domain.code.common.CommonCode;
+import com.bizplus.mes.domain.code.common.CommonCodeReader;
 import com.bizplus.mes.domain.item.dto.*;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
@@ -20,6 +22,7 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
 
+    private final CommonCodeReader commonCodeReader;
     private final UomReader uomReader;
     private final ItemReader itemReader;
 
@@ -51,9 +54,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void createItem(ItemCreateDto dto) {
 
+        CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        itemRepository.save(ItemMapper.toEntity(uom, dto));
+        itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto));
     }
 
     @Transactional
@@ -61,9 +65,10 @@ public class ItemServiceImpl implements ItemService {
     public void updateItem(Long id, ItemUpdateDto dto) {
 
         Item item = itemReader.getById(id);
+        CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        ItemMapper.apply(item, uom, dto);
+        ItemMapper.apply(item, itemCategory, uom, dto);
     }
 
     @Transactional

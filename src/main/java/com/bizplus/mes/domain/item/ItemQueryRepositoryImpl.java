@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.item;
 
+import com.bizplus.mes.domain.code.common.QCommonCode;
 import com.bizplus.mes.domain.item.dto.ItemDto;
 import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.item.dto.QItemDto;
@@ -25,6 +26,8 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
 
     private final JPAQueryFactory query;
 
+    private static final QCommonCode categoryCode = new QCommonCode("categoryCode");
+
     @Override
     public Page<ItemDto> findItems(ItemSearchDto dto, Pageable pageable) {
 
@@ -32,11 +35,14 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                 .and(notDeleted(item.deletedAt))
                 .and(contains(item.code, dto.getCode()))
                 .and(contains(item.name, dto.getName()))
-                .and(eq(item.type, dto.getType()));
+                .and(eq(item.type, dto.getType()))
+                .and(eq(categoryCode.id, dto.getCategoryId()));
 
         List<ItemDto> content = query
                 .select(new QItemDto(
                         item.id,
+                        categoryCode.id,
+                        categoryCode.name,
                         uom.id,
                         uom.code,
                         item.code,
@@ -46,6 +52,7 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                         item.remark
                 ))
                 .from(item)
+                .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(searchCondition)
                 .orderBy(item.code.asc(), item.name.asc())
@@ -55,6 +62,7 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
 
         JPAQuery<Long> count = query.select(item.count())
                 .from(item)
+                .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(searchCondition);
 
@@ -67,6 +75,8 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                 query
                         .select(new QItemDto(
                                 item.id,
+                                categoryCode.id,
+                                categoryCode.name,
                                 uom.id,
                                 uom.code,
                                 item.code,
@@ -76,6 +86,7 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 item.remark
                         ))
                         .from(item)
+                        .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                         .innerJoin(uom).on(item.uom.id.eq(uom.id))
                         .where(
                                 notDeleted(item.deletedAt),

@@ -1,17 +1,13 @@
 package com.bizplus.mes.domain.inventory;
 
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.domain.inventory.dto.ItemInventoryDto;
-import com.bizplus.mes.domain.inventory.dto.ItemInventoryListDto;
-import com.bizplus.mes.domain.inventory.dto.ItemInventorySearchDto;
-import com.bizplus.mes.domain.item.Item;
-import com.bizplus.mes.domain.item.ItemReader;
+import com.bizplus.mes.domain.inventory.dto.InventoryDto;
+import com.bizplus.mes.domain.inventory.dto.InventoryListDto;
+import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -19,23 +15,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
-    private final ItemReader itemReader;
-
     @Override
-    public ItemInventoryListDto getItemInventories(ItemInventorySearchDto dto, Pageable pageable) {
+    public InventoryListDto getInventories(InventorySearchDto dto, Pageable pageable) {
 
-        Page<ItemInventoryDto> inventoryPage = inventoryRepository.findInventories(dto, pageable);
+        Page<InventoryDto> inventoryPage = inventoryRepository.findInventoriesGroupByItem(dto, pageable);
 
-        return new ItemInventoryListDto(
+        return new InventoryListDto(
                 inventoryPage.getContent(),
                 Pagination.of(inventoryPage));
-    }
-
-    @Override
-    public void createInventory(Long itemId) {
-
-        Item item = itemReader.getById(itemId);
-
-        inventoryRepository.save(new Inventory(item, BigDecimal.ZERO, BigDecimal.ZERO));
     }
 }

@@ -6,10 +6,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ItemInventorySearchDto {
+public class InventorySearchDto {
 
-    private Long categoryId;
-    private String code;
-    private String name;
-    private ItemType type;
+    private Long categoryCodeId;
+    private String itemCode;
+    private String itemName;
+    private ItemType itemType;
 }

@@ -22,4 +22,5 @@ public class ItemUpdateDto {
     private ItemType type;
     private String specification;
     private String remark;
+    private boolean lotManaged;
 }

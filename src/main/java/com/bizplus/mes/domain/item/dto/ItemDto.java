@@ -16,6 +16,7 @@ public class ItemDto {
     private final ItemType type;
     private final String specification;
     private final String remark;
+    private final boolean lotManaged;
 
     @QueryProjection
     public ItemDto(Long id,
@@ -27,7 +28,8 @@ public class ItemDto {
                    String name,
                    ItemType type,
                    String specification,
-                   String remark) {
+                   String remark,
+                   boolean lotManaged) {
         this.id = id;
         this.category = new IdNameDto(categoryId, categoryName);
         this.uom = new IdNameDto(uomId, uomCode);
@@ -36,5 +38,6 @@ public class ItemDto {
         this.type = type;
         this.specification = specification;
         this.remark = remark;
+        this.lotManaged = lotManaged;
     }
 }

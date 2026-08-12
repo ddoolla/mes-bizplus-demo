@@ -2,7 +2,7 @@ package com.bizplus.mes.domain.inventory;
 
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
-import com.bizplus.mes.domain.inventory.dto.ItemInventorySearchDto;
+import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
 import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
@@ -28,14 +28,14 @@ public class InventoryController {
     @PreAuthorize("hasAuthority('INVENTORY_READ')")
     @UserAction(menu = MenuCode.ITEM_INVENTORY, type = ActionType.READ)
     public String viewList(Model model,
-                           ItemInventorySearchDto dto,
+                           InventorySearchDto dto,
                            @PageableDefault Pageable pageable) {
 
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
-        model.addAttribute("selectedCategory", dto.getCategoryId());
-        model.addAttribute("selectedType", dto.getType());
-        model.addAttribute("data", inventoryService.getItemInventories(dto, pageable));
+        model.addAttribute("selectedCategory", dto.getCategoryCodeId());
+        model.addAttribute("selectedType", dto.getItemType());
+        model.addAttribute("data", inventoryService.getInventories(dto, pageable));
 
         return "pages/inventory/list";
     }

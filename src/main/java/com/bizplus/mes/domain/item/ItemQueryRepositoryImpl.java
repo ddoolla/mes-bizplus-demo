@@ -49,7 +49,8 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                         item.name,
                         item.type,
                         item.specification,
-                        item.remark
+                        item.remark,
+                        item.lotManaged
                 ))
                 .from(item)
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
@@ -83,7 +84,8 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 item.name,
                                 item.type,
                                 item.specification,
-                                item.remark
+                                item.remark,
+                                item.lotManaged
                         ))
                         .from(item)
                         .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))

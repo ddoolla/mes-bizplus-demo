@@ -18,7 +18,8 @@ public class ItemMapper {
                 dto.getName(),
                 dto.getType(),
                 dto.getSpecification(),
-                dto.getRemark()
+                dto.getRemark(),
+                dto.isLotManaged()
         );
     }
 

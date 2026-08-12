@@ -5,7 +5,6 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
-import com.bizplus.mes.domain.inventory.InventoryService;
 import com.bizplus.mes.domain.item.dto.*;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
@@ -22,8 +21,6 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
-
-    private final InventoryService inventoryService;
 
     private final CommonCodeReader commonCodeReader;
     private final UomReader uomReader;
@@ -61,9 +58,7 @@ public class ItemServiceImpl implements ItemService {
         CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        Item newItem = itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto));
-
-        inventoryService.createInventory(newItem.getId());
+        itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto));
     }
 
     @Transactional
@@ -75,6 +70,8 @@ public class ItemServiceImpl implements ItemService {
         Uom uom = uomReader.getById(dto.getUomId());
 
         ItemMapper.apply(item, itemCategory, uom, dto);
+
+        // todo 재고가 없을 경우에만 lotManaged를 변경할 수 있는 유효성 검사 필요
     }
 
     @Transactional

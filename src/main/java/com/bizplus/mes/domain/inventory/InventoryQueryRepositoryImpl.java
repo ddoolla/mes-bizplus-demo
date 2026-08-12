@@ -1,9 +1,9 @@
 package com.bizplus.mes.domain.inventory;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
-import com.bizplus.mes.domain.inventory.dto.ItemInventoryDto;
-import com.bizplus.mes.domain.inventory.dto.ItemInventorySearchDto;
-import com.bizplus.mes.domain.inventory.dto.QItemInventoryDto;
+import com.bizplus.mes.domain.inventory.dto.InventoryDto;
+import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
+import com.bizplus.mes.domain.inventory.dto.QInventoryDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,17 +29,17 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
     private static final QCommonCode categoryCode = new QCommonCode("categoryCode");
 
     @Override
-    public Page<ItemInventoryDto> findInventories(ItemInventorySearchDto dto, Pageable pageable) {
+    public Page<InventoryDto> findInventoriesGroupByItem(InventorySearchDto dto, Pageable pageable) {
 
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(item.deletedAt))
-                .and(contains(item.code, dto.getCode()))
-                .and(contains(item.code, dto.getName()))
-                .and(eq(item.type, dto.getType()))
-                .and(eq(item.category.id, dto.getCategoryId()));
+                .and(contains(item.code, dto.getItemCode()))
+                .and(contains(item.name, dto.getItemName()))
+                .and(eq(item.type, dto.getItemType()))
+                .and(eq(item.category.id, dto.getCategoryCodeId()));
 
-        List<ItemInventoryDto> content = query
-                .select(new QItemInventoryDto(
+        List<InventoryDto> content = query
+                .select(new QInventoryDto(
                         item.id,
                         item.code,
                         item.name,
@@ -51,22 +51,22 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                         uom.name,
                         uom.type,
                         uom.decimalPlaces,
-                        inventory.id,
-                        inventory.quantity,
-                        inventory.reservedQuantity
+                        inventory.quantity.sum(),
+                        inventory.reservedQuantity.sum()
                 ))
                 .from(inventory)
                 .innerJoin(item).on(inventory.item.id.eq(item.id))
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(searchCondition)
+                .groupBy(item.id)
                 .orderBy(item.code.asc(), item.name.asc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
 
         JPAQuery<Long> count = query
-                .select(inventory.count())
+                .select(item.id.countDistinct())
                 .from(inventory)
                 .innerJoin(item).on(inventory.item.id.eq(item.id))
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))

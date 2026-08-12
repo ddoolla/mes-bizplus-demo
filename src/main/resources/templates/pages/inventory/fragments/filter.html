@@ -19,7 +19,7 @@
       <tr>
         <th>품목 카테고리</th>
         <td>
-          <select name="categoryId"
+          <select name="categoryCodeId"
                   class="app-form-control app-xs">
             <option value="">
               전체
@@ -36,7 +36,7 @@
         </td>
         <th>품목 유형</th>
         <td>
-          <select name="type"
+          <select name="itemType"
                   class="app-form-control app-xs">
             <option value="">전체</option>
             <option th:each="type : ${itemTypes}"
@@ -49,16 +49,16 @@
         <th>품목 코드</th>
         <td>
           <input type="text"
-                 name="code"
+                 name="itemCode"
                  class="app-form-control app-xs"
-                 th:value="${param.code}">
+                 th:value="${param.itemCode}">
         </td>
         <th>품목명</th>
         <td>
           <input type="text"
-                 name="name"
+                 name="itemName"
                  class="app-form-control app-xs"
-                 th:value="${param.name}">
+                 th:value="${param.itemName}">
         </td>
       </tr>
       </tbody>

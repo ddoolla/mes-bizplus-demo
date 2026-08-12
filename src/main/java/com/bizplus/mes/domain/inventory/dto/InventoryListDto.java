@@ -8,8 +8,8 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ItemInventoryListDto {
+public class InventoryListDto {
 
-    private List<ItemInventoryDto> items;
+    private List<InventoryDto> inventories;
     private Pagination pagination;
 }

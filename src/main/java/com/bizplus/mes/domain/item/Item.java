@@ -40,13 +40,16 @@ public class Item extends BaseEntity {
 
     private String remark;
 
+    private boolean lotManaged;
+
     public Item(CommonCode category,
                 Uom uom,
                 String code,
                 String name,
                 ItemType type,
                 String specification,
-                String remark) {
+                String remark,
+                boolean lotManaged) {
         this.category = category;
         this.uom = uom;
         this.code = code;
@@ -54,6 +57,7 @@ public class Item extends BaseEntity {
         this.type = type;
         this.specification = specification;
         this.remark = remark;
+        this.lotManaged = lotManaged;
     }
 
     public void update(CommonCode category,

@@ -75,4 +75,8 @@ public class Item extends BaseEntity {
         this.specification = specification;
         this.remark = remark;
     }
+
+    public void updateLotManaged(boolean lotManaged) {
+        this.lotManaged = lotManaged;
+    }
 }

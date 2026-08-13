@@ -13,6 +13,8 @@ public interface ItemService {
 
     boolean checkCode(Long id, String code);
 
+    boolean checkLotManage(Long id, boolean lotManaged);
+
     void createItem(ItemCreateDto dto);
 
     void updateItem(Long id, ItemUpdateDto dto);

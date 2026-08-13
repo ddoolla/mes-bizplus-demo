@@ -41,7 +41,6 @@ public class ItemController {
     public String viewList(Model model,
                            ItemSearchDto dto,
                            @PageableDefault Pageable pageable) {
-
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("selectedCategory", dto.getCategoryId());
@@ -54,7 +53,6 @@ public class ItemController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ITEM_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
-
         model.addAttribute("item", itemService.getItem(id));
 
         return "pages/item/detail";
@@ -63,7 +61,6 @@ public class ItemController {
     @GetMapping("/new")
     @PreAuthorize("hasAuthority('ITEM_CREATE')")
     public String viewNew(Model model) {
-
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
@@ -74,7 +71,6 @@ public class ItemController {
     @GetMapping("/{id}/edit")
     @PreAuthorize("hasAuthority('ITEM_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
-
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
@@ -84,21 +80,26 @@ public class ItemController {
     }
 
     /*
-    * 논리 삭제된 코드도 중복으로 간주
-    * */
+     * 논리 삭제된 코드도 중복으로 간주
+     * */
     @GetMapping("/check-code")
     @ResponseBody
     public boolean checkCode(@RequestParam(required = false) Long id,
                              @RequestParam String code) {
-
         return itemService.checkCode(id, code);
+    }
+
+    @GetMapping("/check-lot-managed")
+    @ResponseBody
+    public boolean checkLotManaged(@RequestParam(required = false) Long id,
+                                   @RequestParam boolean lotManaged) {
+        return itemService.checkLotManage(id, lotManaged);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ITEM_CREATE')")
     @UserAction(menu = MenuCode.ITEM, type = ActionType.CREATE)
     public String createItem(@Valid ItemCreateDto dto, RedirectAttributes reAtt) {
-
         itemService.createItem(dto);
 
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
@@ -112,7 +113,6 @@ public class ItemController {
     public String updateItem(@PathVariable Long id,
                              @Valid ItemUpdateDto dto,
                              RedirectAttributes reAtt) {
-
         itemService.updateItem(id, dto);
 
         reAtt.addAttribute("id", id);
@@ -124,7 +124,6 @@ public class ItemController {
     @DeleteMapping
     @ResponseBody
     public ResponseEntity<ApiResponse<Void>> deleteItems(@RequestBody List<Long> ids) {
-
         itemService.deleteItems(ids);
 
         return ResponseEntity.ok(

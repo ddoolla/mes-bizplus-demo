@@ -12,7 +12,6 @@ public class ItemReader {
     private final ItemRepository itemRepository;
 
     public Item getById(Long id) {
-
         return itemRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ITEM_NOT_FOUND, "id: " + id));
     }

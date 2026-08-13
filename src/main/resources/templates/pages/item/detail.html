@@ -63,6 +63,10 @@
                 <td colspan="3" th:text="*{uom.name}"></td>
             </tr>
             <tr>
+                <th>로트 관리 여부</th>
+                <td colspan="3" th:text="${item.lotManaged == true ? '관리' : '미관리'}"></td>
+            </tr>
+            <tr>
                 <th>비고</th>
                 <td colspan="3" th:text="${@format.value(item.remark)}"></td>
             </tr>

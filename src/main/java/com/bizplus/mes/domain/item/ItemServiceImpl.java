@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
+import com.bizplus.mes.domain.inventory.InventoryReader;
+import com.bizplus.mes.domain.inventory.InventoryValidator;
 import com.bizplus.mes.domain.item.dto.*;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
@@ -25,10 +27,12 @@ public class ItemServiceImpl implements ItemService {
     private final CommonCodeReader commonCodeReader;
     private final UomReader uomReader;
     private final ItemReader itemReader;
+    private final InventoryReader inventoryReader;
+
+    private final InventoryValidator inventoryValidator;
 
     @Override
     public ItemListDto getItems(ItemSearchDto dto, Pageable pageable) {
-
         Page<ItemDto> itemPage = itemRepository.findItems(dto, pageable);
 
         return new ItemListDto(
@@ -38,23 +42,31 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getItem(Long id) {
-
         return itemRepository.findItem(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ITEM_NOT_FOUND, "id: " + id));
     }
 
     @Override
     public boolean checkCode(Long id, String code) {
-
         boolean exists = itemRepository.existsByCodeAndIdNot(code, id);
 
         return !exists;
     }
 
+    @Override
+    public boolean checkLotManage(Long id, boolean lotManaged) {
+        Item item = itemReader.getById(id);
+
+        if (item.isLotManaged() == lotManaged) {
+            return true;
+        }
+
+        return !inventoryReader.hasStock(id);
+    }
+
     @Transactional
     @Override
     public void createItem(ItemCreateDto dto) {
-
         CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
@@ -64,20 +76,22 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public void updateItem(Long id, ItemUpdateDto dto) {
-
         Item item = itemReader.getById(id);
         CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        ItemMapper.apply(item, itemCategory, uom, dto);
+        // 재고가 없는 경우에만 LOT 관리 여부 변경 가능
+        if (item.isLotManaged() != dto.isLotManaged()) {
+            inventoryValidator.validateNoStock(id);
+            item.updateLotManaged(dto.isLotManaged());
+        }
 
-        // todo 재고가 없을 경우에만 lotManaged를 변경할 수 있는 유효성 검사 필요
+        ItemMapper.apply(item, itemCategory, uom, dto);
     }
 
     @Transactional
     @Override
     public void deleteItems(List<Long> ids) {
-
         ids.forEach(id -> itemReader.getById(id).delete());
     }
 }

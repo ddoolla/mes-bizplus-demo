@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
@@ -30,7 +31,6 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
 
     @Override
     public Page<InventoryDto> findInventoriesGroupByItem(InventorySearchDto dto, Pageable pageable) {
-
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(item.deletedAt))
                 .and(contains(item.code, dto.getItemCode()))
@@ -74,5 +74,17 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public boolean existsStockByItemId(Long itemId) {
+        return query
+                .selectOne()
+                .from(inventory)
+                .where(
+                        eq(inventory.item.id, itemId),
+                        inventory.quantity.gt(BigDecimal.ZERO)
+                )
+                .fetchFirst() != null;
     }
 }

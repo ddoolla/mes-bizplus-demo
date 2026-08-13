@@ -130,6 +130,27 @@
                 </tr>
                 <tr>
                     <th>
+                        로트 관리 여부
+                    </th>
+                    <td>
+                        <label>
+                            <input type="radio"
+                                   name="lotManaged"
+                                   value="true"
+                                   th:checked="*{lotManaged == true}"/> 관리
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio"
+                                   name="lotManaged"
+                                   value="false"
+                                   th:checked="*{lotManaged == false}"/> 미관리
+                        </label>
+                        <div id="lotManaged-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
                         비고
                     </th>
                     <td>

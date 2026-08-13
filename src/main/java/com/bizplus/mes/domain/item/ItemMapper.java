@@ -10,7 +10,6 @@ public class ItemMapper {
     public static Item toEntity(CommonCode category,
                                 Uom uom,
                                 ItemCreateDto dto) {
-
         return new Item(
                 category,
                 uom,
@@ -27,7 +26,6 @@ public class ItemMapper {
                              CommonCode category,
                              Uom uom,
                              ItemUpdateDto dto) {
-
         item.update(
                 category,
                 uom,

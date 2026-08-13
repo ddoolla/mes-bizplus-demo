@@ -23,7 +23,9 @@ public enum ErrorCode {
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "품목을 찾을 수 없습니다."),
 
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
-    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+
+    ITEM_HAS_STOCK(HttpStatus.BAD_REQUEST, "재고가 있는 품목은 LOT 관리 여부를 변경할 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface InventoryQueryRepository {
 
     Page<InventoryDto> findInventoriesGroupByItem(InventorySearchDto dto, Pageable pageable);
+
+    boolean existsStockByItemId(Long itemId);
 }

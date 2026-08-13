@@ -17,7 +17,6 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryListDto getInventories(InventorySearchDto dto, Pageable pageable) {
-
         Page<InventoryDto> inventoryPage = inventoryRepository.findInventoriesGroupByItem(dto, pageable);
 
         return new InventoryListDto(

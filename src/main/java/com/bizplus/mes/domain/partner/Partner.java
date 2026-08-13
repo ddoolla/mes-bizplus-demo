@@ -43,9 +43,6 @@ public class Partner extends BaseEntity {
     private String address;
     private String addressDetail;
 
-    @Column(nullable = false)
-    private boolean active = true;
-
     private String remark;
 
     public Partner(String code,
@@ -91,7 +88,6 @@ public class Partner extends BaseEntity {
                        String zipCode,
                        String address,
                        String addressDetail,
-                       boolean active,
                        String remark) {
         this.code = code;
         this.name = name;
@@ -106,7 +102,6 @@ public class Partner extends BaseEntity {
         this.zipCode = zipCode;
         this.address = address;
         this.addressDetail = addressDetail;
-        this.active = active;
         this.remark = remark;
     }
 }

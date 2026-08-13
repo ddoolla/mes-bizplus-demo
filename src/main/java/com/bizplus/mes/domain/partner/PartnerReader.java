@@ -12,7 +12,6 @@ public class PartnerReader {
     private final PartnerRepository partnerRepository;
 
     public Partner getById(Long id) {
-
         return partnerRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.PARTNER_NOT_FOUND, "id: " + id));
     }

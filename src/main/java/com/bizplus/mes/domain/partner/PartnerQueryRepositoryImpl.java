@@ -23,13 +23,11 @@ public class PartnerQueryRepositoryImpl implements PartnerQueryRepository {
 
     @Override
     public Page<Partner> findPartners(PartnerSearchDto dto, Pageable pageable) {
-
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(partner.deletedAt))
                 .and(contains(partner.code, dto.getCode()))
                 .and(contains(partner.name, dto.getName()))
-                .and(eq(partner.type, dto.getType()))
-                .and(eq(partner.active, dto.getActive()));
+                .and(eq(partner.type, dto.getType()));
 
         List<Partner> content = query
                 .selectFrom(partner)

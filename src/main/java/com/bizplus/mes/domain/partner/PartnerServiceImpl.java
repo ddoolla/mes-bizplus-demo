@@ -19,7 +19,6 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public PartnerListDto getPartners(PartnerSearchDto dto, Pageable pageable) {
-
         Page<PartnerDto> partnerPage = partnerRepository.findPartners(dto, pageable)
                 .map(PartnerMapper::toDto);
 
@@ -30,13 +29,11 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public PartnerDto getPartner(Long id) {
-
         return PartnerMapper.toDto(partnerReader.getById(id));
     }
 
     @Override
     public boolean checkPartnerCode(Long id, String code) {
-
         boolean exists = partnerRepository.existsByCodeAndIdNot(code, id);
 
         return !exists;
@@ -44,14 +41,12 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public void createPartner(PartnerCreateDto dto) {
-
         partnerRepository.save(PartnerMapper.toEntity(dto));
     }
 
     @Transactional
     @Override
     public void updatePartner(Long id, PartnerUpdateDto dto) {
-
         Partner partner = partnerReader.getById(id);
         PartnerMapper.apply(partner, dto);
     }
@@ -59,7 +54,6 @@ public class PartnerServiceImpl implements PartnerService {
     @Transactional
     @Override
     public void deletePartners(List<Long> ids) {
-
         ids.forEach(id -> partnerReader.getById(id).delete());
     }
 }

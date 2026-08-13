@@ -38,18 +38,15 @@ public class PartnerController {
     public String viewList(Model model,
                            PartnerSearchDto dto,
                            @PageableDefault Pageable pageable) {
-
         model.addAttribute("partnerTypes", PartnerType.values());
         model.addAttribute("data", partnerService.getPartners(dto, pageable));
         model.addAttribute("selectedType", dto.getType());
-        model.addAttribute("selectedActive", dto.getActive());
 
         return "/pages/partner/list";
     }
 
     @GetMapping("/{id}")
     public String viewDetail(Model model, @PathVariable Long id) {
-
         model.addAttribute("partner", partnerService.getPartner(id));
         model.addAttribute("partnerContacts", partnerContactService.getPartnerContacts(id));
 
@@ -58,7 +55,6 @@ public class PartnerController {
 
     @GetMapping("/new")
     public String viewNew(Model model) {
-
         model.addAttribute("partnerTypes", PartnerType.values());
 
         return "/pages/partner/new";
@@ -66,7 +62,6 @@ public class PartnerController {
 
     @GetMapping("/{id}/edit")
     public String viewEdit(Model model, @PathVariable Long id) {
-
         model.addAttribute("partnerTypes", PartnerType.values());
         model.addAttribute("partner", partnerService.getPartner(id));
         model.addAttribute("partnerContacts", partnerContactService.getPartnerContacts(id));
@@ -81,16 +76,13 @@ public class PartnerController {
     @ResponseBody
     public boolean checkPartnerCode(@RequestParam(required = false) Long id,
                                     @RequestParam String code) {
-
         return partnerService.checkPartnerCode(id, code);
     }
 
-    // todo 생성 후 수정페이지로 이동 ?
     @PostMapping
     @PreAuthorize("hasAuthority('PARTNER_CREATE')")
     @UserAction(menu = MenuCode.PARTNER, type = ActionType.CREATE)
     public String createPartner(@Valid PartnerCreateDto dto, RedirectAttributes reAtt) {
-
         partnerService.createPartner(dto);
 
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
@@ -104,7 +96,6 @@ public class PartnerController {
     public String updatePartner(@PathVariable Long id,
                                 @Valid PartnerUpdateDto dto,
                                 RedirectAttributes reAtt) {
-
         partnerService.updatePartner(id, dto);
 
         reAtt.addAttribute("id", id);
@@ -118,7 +109,6 @@ public class PartnerController {
     @PreAuthorize("hasAuthority('PARTNER_DELETE')")
     @UserAction(menu = MenuCode.PARTNER, type = ActionType.DELETE)
     public ResponseEntity<ApiResponse<Void>> deletePartners(@RequestBody List<Long> ids) {
-
         partnerService.deletePartners(ids);
 
         return ResponseEntity.ok(

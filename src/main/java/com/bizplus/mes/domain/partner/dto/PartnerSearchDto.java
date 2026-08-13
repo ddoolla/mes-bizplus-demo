@@ -11,5 +11,4 @@ public class PartnerSearchDto {
     private String code;
     private String name;
     private PartnerType type;
-    private Boolean active;
 }

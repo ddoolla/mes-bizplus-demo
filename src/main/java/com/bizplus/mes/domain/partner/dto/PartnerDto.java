@@ -22,6 +22,5 @@ public class PartnerDto {
     private String zipCode;
     private String address;
     private String addressDetail;
-    private boolean active;
     private String remark;
 }

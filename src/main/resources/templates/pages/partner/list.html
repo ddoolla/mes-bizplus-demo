@@ -47,7 +47,6 @@
           <th>전화</th>
           <th>팩스</th>
           <th>이메일</th>
-          <th>사용여부</th>
           <th></th>
         </tr>
         </thead>
@@ -68,7 +67,6 @@
           <td th:text="${@format.value(partner.tel)}"></td>
           <td th:text="${@format.value(partner.fax)}"></td>
           <td th:text="${@format.value(partner.email)}"></td>
-          <td th:text="${partner.active ? '사용' : '미사용'}"></td>
           <td></td>
         </tr>
         </tbody>

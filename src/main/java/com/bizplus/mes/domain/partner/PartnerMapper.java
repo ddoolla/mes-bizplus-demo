@@ -22,7 +22,6 @@ public class PartnerMapper {
                 partner.getZipCode(),
                 partner.getAddress(),
                 partner.getAddressDetail(),
-                partner.isActive(),
                 partner.getRemark()
         );
     }
@@ -62,7 +61,6 @@ public class PartnerMapper {
                 dto.getZipCode(),
                 dto.getAddress(),
                 dto.getAddressDetail(),
-                dto.isActive(),
                 dto.getRemark()
         );
     }

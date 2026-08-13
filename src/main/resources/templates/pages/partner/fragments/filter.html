@@ -12,8 +12,6 @@
                 <col style="width: auto">
                 <col style="width: 150px">
                 <col style="width: auto">
-                <col style="width: 150px">
-                <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
@@ -50,18 +48,6 @@
                                 th:text="${type?.getDescription()}"
                                 th:selected="${selectedType?.name() == type?.name()}">
                         </option>
-                    </select>
-                </td>
-                <th>
-                    <label for="partner-active">활성여부</label>
-                </th>
-                <td>
-                    <select name="active"
-                            id="partner-active"
-                            class="app-form-control app-xs">
-                        <option value="">전체</option>
-                        <option value="true" th:selected="${selectedActive == true}">사용</option>
-                        <option value="false" th:selected="${selectedActive == false}">미사용</option>
                     </select>
                 </td>
             </tr>

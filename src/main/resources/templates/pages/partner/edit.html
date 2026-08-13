@@ -244,21 +244,6 @@
                                th:value="*{remark}"/>
                     </td>
                 </tr>
-                <tr>
-                    <th>
-                        <label for="partner-active">사용여부</label>
-                    </th>
-                    <td colspan="3">
-                        <select name="active"
-                                id="partner-active"
-                                class="app-form-control app-xs">
-                            <option value="true"
-                                    th:selected="*{active == true}">사용</option>
-                            <option value="false"
-                                    th:selected="*{active == false}">미사용</option>
-                        </select>
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </form>

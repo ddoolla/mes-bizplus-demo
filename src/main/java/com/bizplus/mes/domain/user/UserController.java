@@ -79,6 +79,9 @@ public class UserController {
         return "pages/user/edit";
     }
 
+    /*
+    * 논리 삭제된 아이디도 중복으로 간주
+    * */
     @GetMapping("/check-id")
     @ResponseBody
     public boolean checkId(String userId) {

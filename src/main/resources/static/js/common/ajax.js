@@ -1,20 +1,19 @@
 window.Mes = window.Mes || {};
 
-/**
- * Ajax.delete('/users', selectedIds)
- *      .done(function (response) {
- *
- *          alert(response.message);
- *          ...
- *
- *      }).fail(function (xhr) {
- *
- *          console.log(xhr.status);
- *          alert(xhr.responseJSON.message);
- *          ...
- *
- *      })...
- */
+/*
+* Ajax.delete('/users', selectedIds)
+*   .done(function (response) {
+*
+*       alert(response.message);
+*       ...
+*
+*   }).fail(function (xhr) {
+*
+*       console.log(xhr.status);
+*       alert(xhr.responseJSON.message);
+*       ...
+*   })...
+* */
 
 // csrf 헤더, 토큰
 const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;

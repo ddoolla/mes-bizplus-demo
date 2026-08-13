@@ -43,10 +43,10 @@ public class UserAuthLogServiceImpl implements UserAuthLogService {
         ));
     }
 
-    /**
-     * 로그인 페이지에서도 세션이 발급되기 때문에
-     * 로그인 페이지에서 세션이 만료되면 예외가 발생하여 예외처리 X
-     */
+    /*
+    * 로그인 페이지에서도 세션이 발급되기 때문에
+    * 로그인 페이지에서 세션이 만료되면 예외가 발생하여 예외처리 X
+    * */
     @Transactional
     @Override
     public void logout(String sessionId, LogoutType logoutType) {

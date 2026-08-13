@@ -48,6 +48,9 @@ public class CommonCodeController {
         return commonCodeService.getCommonCode(id);
     }
 
+    /*
+    * 논리 삭제된 코드도 중복으로 간주
+    * */
     @GetMapping("/common-codes/check-code")
     @ResponseBody
     public boolean checkCode(@RequestParam Long groupId,

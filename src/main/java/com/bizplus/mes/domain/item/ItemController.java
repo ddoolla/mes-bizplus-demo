@@ -83,6 +83,9 @@ public class ItemController {
         return "pages/item/edit";
     }
 
+    /*
+    * 논리 삭제된 코드도 중복으로 간주
+    * */
     @GetMapping("/check-code")
     @ResponseBody
     public boolean checkCode(@RequestParam(required = false) Long id,

@@ -11,9 +11,6 @@ public interface PartnerService {
 
     PartnerDto getPartner(Long id);
 
-    /**
-     * 논리 삭제된 코드도 중복으로 간주
-     */
     boolean checkPartnerCode(Long id, String code);
 
     void createPartner(PartnerCreateDto dto);

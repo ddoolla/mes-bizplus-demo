@@ -14,9 +14,6 @@ public interface UomService {
 
     UomDto getUom(Long id);
 
-    /**
-     * 논리 삭제된 코드도 중복으로 간주
-     */
     boolean checkCode(Long id, String code);
 
     void createUom(UomCreateDto dto);

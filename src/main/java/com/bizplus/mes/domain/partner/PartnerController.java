@@ -74,6 +74,9 @@ public class PartnerController {
         return "/pages/partner/edit";
     }
 
+    /*
+    * 논리 삭제된 코드도 중복으로 간주
+    * */
     @GetMapping("/check-code")
     @ResponseBody
     public boolean checkPartnerCode(@RequestParam(required = false) Long id,

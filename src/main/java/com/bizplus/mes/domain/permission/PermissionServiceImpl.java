@@ -14,12 +14,12 @@ public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionRepository permissionRepository;
 
-    /**
-     * [
-     * { menu: ..., permissions: { READ: id, CREATE: id, ... } },
-     * { menu: ..., permissions: { READ: id } },
-     * ]
-     */
+    /*
+    * [
+    *   { menu: ..., permissions: { READ: id, CREATE: id, ... } },
+    *   { menu: ..., permissions: { READ: id } },
+    * ]
+    * */
     @Transactional
     @Override
     public List<MenuPermissionDto> getPermissions() {

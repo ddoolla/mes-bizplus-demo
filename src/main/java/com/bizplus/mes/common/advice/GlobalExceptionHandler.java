@@ -35,9 +35,9 @@ public class GlobalExceptionHandler {
         return "error/error";
     }
 
-    /**
-     * DevTools 관련 오류가 콘솔에 계속 출력되서 추가한 핸들러
-     */
+    /*
+    * DevTools 관련 오류가 콘솔에 계속 출력되서 추가한 핸들러
+    * */
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<Void> handleNoResourceFound(NoResourceFoundException e) {
 

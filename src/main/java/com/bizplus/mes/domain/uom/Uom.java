@@ -6,9 +6,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * 단위 엔터티 (unit of measure)
- */
+/*
+* 단위 엔터티 (unit of measure)
+* */
 @Entity
 @Table(name = "uom")
 @Getter

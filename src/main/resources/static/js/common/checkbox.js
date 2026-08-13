@@ -1,19 +1,19 @@
 window.Mes = window.Mes || {};
 
-/**
- * <div class="some-group">
- *     <table>
- *         ...
- *         <th>
- *             <input type="checkbox" class="check-all">
- *         </th>
- *         ...
- *         <td>
- *             <input type="checkbox" class="check-item">
- *         </td>
- *     </table>
- * </div>
- */
+/*
+* <div class="some-group">
+*   <table>
+*   ...
+*       <th>
+*           <input type="checkbox" class="check-all">
+*       </th>
+*       ...
+*       <td>
+*           <input type="checkbox" class="check-item">
+*       </td>
+*   </table>
+* </div>
+* */
 Mes.Checkbox = {
 
     init(group) {

@@ -16,9 +16,6 @@ public class Role extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * ADMIN, USER, ROLE_001, ...
-     */
     @Column(unique = true, nullable = false)
     private String code;
 

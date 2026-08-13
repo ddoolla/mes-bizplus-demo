@@ -11,9 +11,6 @@ public interface ItemService {
 
     ItemDto getItem(Long id);
 
-    /**
-     * 논리 삭제된 코드도 중복으로 간주.
-     */
     boolean checkCode(Long id, String code);
 
     void createItem(ItemCreateDto dto);

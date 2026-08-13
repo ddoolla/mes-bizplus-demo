@@ -7,9 +7,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * 물리 삭제
- */
+/*
+* 물리 삭제
+* */
 @Entity
 @Table(name = "role_permissions")
 @Getter

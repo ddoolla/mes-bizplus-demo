@@ -18,6 +18,13 @@ public enum ItemGroup {
             new ItemType[]{
                     ItemType.RAW_MATERIAL,
                     ItemType.SUB_MATERIAL
+            }),
+    BOM_ITEM(
+            "BOM 구성 품목",
+            new ItemType[]{
+                    ItemType.SEMI_FINISHED_GOODS,
+                    ItemType.RAW_MATERIAL,
+                    ItemType.SUB_MATERIAL
             });
 
     private final String description;

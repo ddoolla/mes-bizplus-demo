@@ -61,6 +61,16 @@ public class ItemServiceImpl implements ItemService {
         return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
     }
 
+    /*
+    * BOM 구성 품목 조회 (반제품, 원자재, 부자재)
+    * */
+    @Override
+    public ItemListDto getBomItems(ItemSearchDto dto, Pageable pageable) {
+        Page<ItemDto> itemPage = itemRepository.findBomItems(dto, pageable);
+
+        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
+    }
+
     @Override
     public ItemDto getItem(Long id) {
         return itemRepository.findItem(id)

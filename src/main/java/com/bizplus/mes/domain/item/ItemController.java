@@ -88,6 +88,15 @@ public class ItemController {
         return "pages/item/modal/single-select-list :: list";
     }
 
+    @GetMapping("/modal/multi-select-list")
+    public String viewMultiSelectList(Model model,
+                                      ItemSearchDto dto,
+                                      @PageableDefault Pageable pageable) {
+        model.addAttribute("data", itemService.getBomItems(dto, pageable));
+
+        return "pages/item/modal/multi-select-list :: list";
+    }
+
     /*
      * 논리 삭제된 코드도 중복으로 간주
      * */

@@ -13,6 +13,8 @@ public interface ItemService {
 
     ItemListDto getMaterials(ItemSearchDto dto, Pageable pageable);
 
+    ItemListDto getBomItems(ItemSearchDto dto, Pageable pageable);
+
     ItemDto getItem(Long id);
 
     boolean checkCode(Long id, String code);

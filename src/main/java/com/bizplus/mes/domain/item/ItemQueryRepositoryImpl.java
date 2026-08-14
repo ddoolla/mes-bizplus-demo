@@ -88,6 +88,11 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
     }
 
     @Override
+    public Page<ItemDto> findBomItems(ItemSearchDto dto, Pageable pageable) {
+        return findItems(dto, ItemGroup.BOM_ITEM, pageable);
+    }
+
+    @Override
     public Optional<ItemDto> findItem(Long id) {
         return Optional.ofNullable(
                 query

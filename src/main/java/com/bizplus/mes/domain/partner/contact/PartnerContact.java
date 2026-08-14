@@ -42,9 +42,6 @@ public class PartnerContact extends BaseEntity {
 //    @Column(nullable = false)
 //    private boolean main; // 보류
 
-    @Column(nullable = false)
-    private boolean active = true;
-
     public PartnerContact(Partner partner,
                           CommonCode department,
                           CommonCode position,
@@ -69,8 +66,7 @@ public class PartnerContact extends BaseEntity {
                        String phone,
                        String tel,
                        String email,
-                       String remark,
-                       boolean active) {
+                       String remark) {
         this.department = department;
         this.position = position;
         this.name = name;
@@ -78,6 +74,5 @@ public class PartnerContact extends BaseEntity {
         this.tel = tel;
         this.email = email;
         this.remark = remark;
-        this.active = active;
     }
 }

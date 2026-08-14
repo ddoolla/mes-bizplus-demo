@@ -38,8 +38,7 @@ public class PartnerContactQueryRepositoryImpl implements PartnerContactQueryRep
                         partnerContact.phone,
                         partnerContact.tel,
                         partnerContact.email,
-                        partnerContact.remark,
-                        partnerContact.active
+                        partnerContact.remark
                 ))
                 .from(partnerContact)
                 .leftJoin(departmentCode).on(partnerContact.department.id.eq(departmentCode.id))
@@ -68,8 +67,7 @@ public class PartnerContactQueryRepositoryImpl implements PartnerContactQueryRep
                                 partnerContact.phone,
                                 partnerContact.tel,
                                 partnerContact.email,
-                                partnerContact.remark,
-                                partnerContact.active
+                                partnerContact.remark
                         ))
                         .from(partnerContact)
                         .leftJoin(departmentCode).on(partnerContact.department.id.eq(departmentCode.id))

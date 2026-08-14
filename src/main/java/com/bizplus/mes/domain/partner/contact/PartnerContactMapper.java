@@ -35,8 +35,7 @@ public class PartnerContactMapper {
                 dto.getPhone(),
                 dto.getTel(),
                 dto.getEmail(),
-                dto.getRemark(),
-                dto.isActive()
+                dto.getRemark()
         );
     }
 }

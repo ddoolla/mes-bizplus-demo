@@ -16,7 +16,6 @@ public class PartnerContactDto {
     private final String tel;
     private final String email;
     private final String remark;
-    private final boolean active;
 
     @QueryProjection
     public PartnerContactDto(Long id,
@@ -29,8 +28,7 @@ public class PartnerContactDto {
                              String phone,
                              String tel,
                              String email,
-                             String remark,
-                             boolean active) {
+                             String remark) {
         this.id = id;
         this.partnerId = partnerId;
         this.department = new IdNameDto(departmentId, departmentName);
@@ -40,6 +38,5 @@ public class PartnerContactDto {
         this.tel = tel;
         this.email = email;
         this.remark = remark;
-        this.active = active;
     }
 }

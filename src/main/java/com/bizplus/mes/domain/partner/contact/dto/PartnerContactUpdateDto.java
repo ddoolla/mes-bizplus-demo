@@ -17,5 +17,4 @@ public class PartnerContactUpdateDto {
     private String tel;
     private String email;
     private String remark;
-    private boolean active;
 }

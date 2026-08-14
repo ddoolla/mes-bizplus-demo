@@ -97,16 +97,6 @@
                                th:value="${contact.remark}"/>
                     </td>
                 </tr>
-                <tr>
-                    <th>사용여부</th>
-                    <td>
-                        <select name="active"
-                                class="app-form-control app-xs">
-                            <option value="true" th:selected="${contact.active == true}">사용</option>
-                            <option value="false" th:selected="${contact.active == false}">미사용</option>
-                        </select>
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </form>

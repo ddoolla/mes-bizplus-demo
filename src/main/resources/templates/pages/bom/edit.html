@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('BOM 수정', ~{}, ~{::script}, 'BOM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/bom/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('BOM 수정', '기준정보관리, BOM관리, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/boms}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="submit"
+                form="edit-bom-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('BOM_UPDATE')">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 수정 폼 */-->
+    <div class="app-box app-box-bg">
+        <form id="edit-bom-form"
+              method="post"
+              th:action="@{/boms/{id}(id=${bom.id})}"
+              th:object="${bom}">
+
+            <input type="hidden" name="id" th:value="*{id}"/>
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        BOM 코드 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="*{code}"
+                               placeholder="BOM 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        BOM명 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="*{name}"
+                               placeholder="BOM명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        제품 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="itemName"
+                               th:value="*{item.name}"
+                               class="app-form-control app-xs app-readonly-bg"
+                               placeholder="제품을 선택해 주세요."/>
+                        <input type="hidden"
+                               name="itemId"
+                               th:value="*{item.id}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        비고
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               th:value="*{remark}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

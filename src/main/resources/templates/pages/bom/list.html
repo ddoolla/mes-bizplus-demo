@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('BOM 목록', ~{}, ~{::script}, 'BOM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/common/checkbox.js}"></script>
+    <script th:src="@{/js/common/ajax.js}"></script>
+    <script th:src="@{/js/bom/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('BOM 목록', '기준정보관리, BOM관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/bom/fragments/filter :: filter ('/boms', ${data.pagination.totalElements}, true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="bom-list">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>BOM 코드</th>
+                    <th>BOM명</th>
+                    <th>제품 코드</th>
+                    <th>제품명</th>
+                    <th>개정번호</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bom : ${data.boms}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${bom.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/boms/{id}(id=${bom.id})}"
+                           th:text="${bom.code}"></a>
+                    </td>
+                    <td th:text="${bom.name}"></td>
+                    <td th:text="${bom.item.code}"></td>
+                    <td th:text="${bom.item.name}"></td>
+                    <td th:text="${bom.revisionNo}"></td>
+                    <td th:text="${@format.value(bom.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

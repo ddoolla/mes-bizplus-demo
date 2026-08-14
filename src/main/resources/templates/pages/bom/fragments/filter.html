@@ -1,0 +1,82 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="filter (url, count, showActions)">
+    <form method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>BOM 코드</th>
+                <td>
+                    <input type="text"
+                           name="code"
+                           class="app-form-control app-xs"
+                           th:value="${param.code}"/>
+                </td>
+                <th>BOM명</th>
+                <td>
+                    <input type="text"
+                           name="name"
+                           class="app-form-control app-xs"
+                           th:value="${param.name}"/>
+                </td>
+                <th>제품 코드</th>
+                <td>
+                    <input type="text"
+                           name="itemCode"
+                           class="app-form-control app-xs"
+                           th:value="${param.itemCode}"/>
+                </td>
+                <th>제품명</th>
+                <td>
+                    <input type="text"
+                           name="itemName"
+                           class="app-form-control app-xs"
+                           th:value="${param.itemName}"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <th:block th:if="${showActions}">
+                    <button type="button"
+                            class="btn btn-primary btn-sm"
+                            th:onclick="|location.href='@{/boms/new}'|"
+                            sec:authorize="hasAuthority('BOM_CREATE')">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> 등록
+                    </button>
+                    <button type="button"
+                            id="delete-bom-button"
+                            class="btn btn-danger btn-sm"
+                            sec:authorize="hasAuthority('BOM_DELETE')">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#create-user-form').validate({
+    $('#user-create-form').validate({
         rules: {
             userId: {
                 required: true,

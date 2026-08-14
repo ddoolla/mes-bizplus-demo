@@ -51,13 +51,13 @@
             <div>
                 <th:block th:if="${showActions}">
                     <button type="button"
-                            id="create-uom-button"
+                            id="uom-create-button"
                             class="btn btn-primary btn-sm"
                             sec:authorize="hasAuthority('UOM_CREATE')">
                         <i class="fa fa-pencil" aria-hidden="true"></i> 등록
                     </button>
                     <button type="button"
-                            id="delete-uom-button"
+                            id="uom-delete-button"
                             class="btn btn-danger btn-sm"
                             sec:authorize="hasAuthority('UOM_DELETE')">
                         <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제

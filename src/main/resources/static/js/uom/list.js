@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const checkboxGroup = document.querySelector('#uom-list');
-    const deleteButton = document.querySelector('#delete-uom-button');
+    const checkboxGroup = document.querySelector('#uom-table');
+    const deleteButton = document.querySelector('#uom-delete-button');
 
     Mes.Checkbox.init(checkboxGroup);
 

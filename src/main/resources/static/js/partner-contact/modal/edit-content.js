@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // 수정 모달 열기
-    document.querySelectorAll('.edit-contact-link')
+    document.querySelectorAll('.contact-edit-link')
         .forEach(link => {
             link.addEventListener('click', async (event) => {
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 content.innerHTML = response;
 
-                $('#edit-contact-form').validate({
+                $('#contact-edit-form').validate({
                     rules: {
                         name: 'required',
                         email: {

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#create-code-form').validate({
+    $('#code-create-form').validate({
         rules: {
             code: {
                 required: true,
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     alert(response.message);
 
-                    Mes.Modal.close('create-code-modal');
+                    Mes.Modal.close('code-create-modal');
 
                     location.reload();
                 })
@@ -46,5 +46,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 모달 닫기 시 폼 초기화
-    Mes.Modal.resetFormOnHidden('create-code-modal');
+    Mes.Modal.resetFormOnHidden('code-create-modal');
 });

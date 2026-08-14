@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#create-role-form').validate({
+    $('#role-create-form').validate({
         rules: {
             code: {
                 required: true,

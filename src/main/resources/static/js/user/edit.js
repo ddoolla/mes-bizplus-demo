@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#edit-user-form').validate({
+    $('#user-edit-form').validate({
         rules: {
             name: 'required',
             password: {

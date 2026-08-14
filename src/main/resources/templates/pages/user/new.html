@@ -24,7 +24,7 @@
         </button>
 
         <button type="submit"
-                form="create-user-form"
+                form="user-create-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('USER_CREATE')">
             <i class="fa fa-pencil" aria-hidden="true"></i> 저장
@@ -33,7 +33,7 @@
 
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
-        <form id="create-user-form" method="post" th:action="@{/users}">
+        <form id="user-create-form" method="post" th:action="@{/users}">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

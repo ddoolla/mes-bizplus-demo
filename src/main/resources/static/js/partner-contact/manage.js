@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const checkboxGroup = document.querySelector('#partner-contact-list');
+    const checkboxGroup = document.querySelector('#partner-contact-table');
 
     Mes.Checkbox.init(checkboxGroup);
 
     // 담당자 삭제
-    document.querySelector('#delete-contact-button')
+    document.querySelector('#contact-delete-button')
         .addEventListener('click', function () {
 
             const selectedIds = Mes.Checkbox.getCheckedValues(checkboxGroup);

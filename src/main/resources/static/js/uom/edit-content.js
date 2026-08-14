@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // 수정 모달 열기
-    document.querySelectorAll('.edit-uom-link')
+    document.querySelectorAll('.uom-edit-link')
         .forEach(link => {
             link.addEventListener('click', async (event) => {
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 content.innerHTML = response;
 
-                $('#edit-uom-form').validate({
+                $('#uom-edit-form').validate({
                     rules: {
                         code: {
                             required: true,

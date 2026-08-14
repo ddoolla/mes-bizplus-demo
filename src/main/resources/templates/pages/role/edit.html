@@ -25,7 +25,7 @@
         </button>
 
         <button type="submit"
-                form="edit-role-form"
+                form="role-edit-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('ROLE_UPDATE')">
             <i class="fa fa-pencil" aria-hidden="true"></i> 저장
@@ -33,7 +33,7 @@
     </div>
 
     <!--/* 바디 */-->
-    <form id="edit-role-form" method="post" th:action="@{/roles/{id}(id=${roleDetail.role.id})}">
+    <form id="role-edit-form" method="post" th:action="@{/roles/{id}(id=${roleDetail.role.id})}">
         <!--/* 역할 */-->
         <div class="app-box app-box-bg">
             <table class="app-table-input" th:object="${roleDetail.role}">

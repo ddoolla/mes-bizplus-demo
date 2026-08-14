@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // 수정 모달 열기
-    document.querySelectorAll('.edit-code-link').forEach(link =>
+    document.querySelectorAll('.code-edit-link').forEach(link =>
         link.addEventListener('click', async (event) => {
 
                 event.preventDefault();
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const commonCode = await Mes.Ajax.get(`/common-codes/${id}`);
 
-                const modal = document.querySelector('#edit-code-modal');
+                const modal = document.querySelector('#code-edit-modal');
                 const form = modal.querySelector('form');
 
                 form.action = `/common-codes/${id}`;
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     description: commonCode.description,
                 });
 
-                $('#edit-code-form').validate({
+                $('#code-edit-form').validate({
                     rules: {
                         code: {
                             required: true,
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                 alert(response.message);
 
-                                Mes.Modal.close('create-code-modal');
+                                Mes.Modal.close('code-edit-modal');
 
                                 location.reload();
                             })
@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
 
-                Mes.Modal.open('edit-code-modal');
+                Mes.Modal.open('code-edit-modal');
             }
         ));
 
-    Mes.Modal.resetFormOnHidden('edit-code-modal');
+    Mes.Modal.resetFormOnHidden('code-edit-modal');
 });

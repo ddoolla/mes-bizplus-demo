@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const checkboxGroup = document.querySelector('#partner-list');
-    const deleteButton = document.querySelector('#delete-partner-button');
+    const checkboxGroup = document.querySelector('#partner-table');
+    const deleteButton = document.querySelector('#partner-delete-button');
 
     Mes.Checkbox.init(checkboxGroup);
 

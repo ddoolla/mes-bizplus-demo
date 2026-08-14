@@ -2,7 +2,7 @@
 
 <th:block th:fragment="content">
     <div class="modal-body">
-        <form id="edit-uom-form"
+        <form id="uom-edit-form"
               method="post"
               th:action="@{/uoms/{id}(id=${uom.id})}">
             <input type="hidden"
@@ -75,7 +75,7 @@
             취소
         </button>
         <button type="submit"
-                form="edit-uom-form"
+                form="uom-edit-form"
                 class="btn btn-primary btn-sm">
             저장
         </button>

@@ -3,14 +3,14 @@
 <!--/* 코드 등록 모달 */-->
 <th:block th:fragment="create (codeGroup)">
     <div th:replace="~{fragments/modal/default :: default (
-        'create-code-modal',
+        'code-create-modal',
         '코드 등록',
-         ~{::create-code-modal-content},
+         ~{::code-create-modal-content},
          null
     )}">
-        <th:block th:fragment="create-code-modal-content">
+        <th:block th:fragment="code-create-modal-content">
             <div class="modal-body">
-                <form id="create-code-form"
+                <form id="code-create-form"
                       method="post"
                       th:action="@{/code-groups/{groupId}/codes(groupId=${codeGroup.id})}">
                     <input type="hidden"
@@ -66,7 +66,7 @@
                     취소
                 </button>
                 <button type="submit"
-                        form="create-code-form"
+                        form="code-create-form"
                         class="btn btn-primary btn-sm">
                     저장
                 </button>

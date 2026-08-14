@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     $('#address-search-button').on('click', function () {
-       Mes.Address.search('create-partner-form');
+       Mes.Address.search('partner-create-form');
     });
 
-    $('#create-partner-form').validate({
+    $('#partner-create-form').validate({
         rules: {
             code: {
                 required: true,

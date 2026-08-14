@@ -2,7 +2,7 @@
 
 <th:block th:fragment="content">
     <div class="modal-body">
-        <form id="create-uom-form"
+        <form id="uom-create-form"
               method="post"
               th:action="@{/uoms}">
             <table class="app-table-input">
@@ -68,7 +68,7 @@
             취소
         </button>
         <button type="submit"
-                form="create-uom-form"
+                form="uom-create-form"
                 class="btn btn-primary btn-sm">
             저장
         </button>

@@ -2,9 +2,9 @@
 
 <th:block th:fragment="content">
     <div class="modal-body">
-        <form id="edit-contact-form"
+        <form id="contact-create-form"
               method="post"
-              th:action="@{/partner-contacts/{id}(id=${contact.id})}">
+              th:action="@{/partners/{partnerId}/contacts(partnerId=${partnerId})}">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
@@ -12,19 +12,28 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>담당자명 <span class="app-required">*</span></th>
+                    <th>
+                        <label for="new-name">
+                            담당자명 <span class="app-required">*</span>
+                        </label>
+                    </th>
                     <td>
                         <input type="text"
+                               id="new-name"
                                name="name"
                                class="app-form-control app-xs"
-                               th:value="${contact.name}"
                                placeholder="담당자명을 입력해 주세요."/>
                     </td>
                 </tr>
                 <tr>
-                    <th>부서</th>
+                    <th>
+                        <label for="new-departmentId">
+                            부서
+                        </label>
+                    </th>
                     <td>
                         <select name="departmentId"
+                                id="new-departmentId"
                                 class="app-form-control app-xs">
                             <option value="">
                                 부서 선택
@@ -35,16 +44,20 @@
                             <option th:unless="${#lists.isEmpty(departments)}"
                                     th:each="department : ${departments}"
                                     th:value="${department.id}"
-                                    th:text="${department.name}"
-                                    th:selected="${department.id == contact.department.id}">
+                                    th:text="${department.name}">
                             </option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th>직책</th>
+                    <th>
+                        <label for="new-positionId">
+                            직책
+                        </label>
+                    </th>
                     <td>
                         <select name="positionId"
+                                id="new-positionId"
                                 class="app-form-control app-xs">
                             <option value="">
                                 직책 선택
@@ -55,70 +68,67 @@
                             <option th:unless="${#lists.isEmpty(positions)}"
                                     th:each="position : ${positions}"
                                     th:value="${position.id}"
-                                    th:text="${position.name}"
-                                    th:selected="${position.id == contact.position.id}">
+                                    th:text="${position.name}">
                             </option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th>휴대폰 번호</th>
+                    <th>
+                        <label for="new-phone">휴대폰 번호</label>
+                    </th>
                     <td>
                         <input type="text"
+                               id="new-phone"
                                name="phone"
-                               class="app-form-control app-xs"
-                               th:value="${contact.phone}"/>
+                               class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>전화번호</th>
+                    <th>
+                        <label for="new-tel">전화번호</label>
+                    </th>
                     <td>
                         <input type="text"
+                               id="new-tel"
                                name="tel"
-                               class="app-form-control app-xs"
-                               th:value="${contact.tel}"/>
+                               class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>이메일</th>
+                    <th>
+                        <label for="new-email">이메일</label>
+                    </th>
                     <td>
                         <input type="text"
+                               id="new-email"
                                name="email"
-                               class="app-form-control app-xs"
-                               th:value="${contact.email}"/>
+                               class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>비고</th>
+                    <th>
+                        <label for="new-remark">비고</label>
+                    </th>
                     <td>
                         <input type="text"
+                               id="new-remark"
                                name="remark"
-                               class="app-form-control app-xs"
-                               th:value="${contact.remark}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>사용여부</th>
-                    <td>
-                        <select name="active"
-                                class="app-form-control app-xs">
-                            <option value="true" th:selected="${contact.active == true}">사용</option>
-                            <option value="false" th:selected="${contact.active == false}">미사용</option>
-                        </select>
+                               class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </form>
     </div>
-    <div class=modal-footer>
+    <div class="modal-footer">
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 data-bs-dismiss="modal">
             취소
         </button>
         <button type="submit"
-                form="edit-contact-form"
+                form="contact-create-form"
                 class="btn btn-primary btn-sm">
             저장
         </button>

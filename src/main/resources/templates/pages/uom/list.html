@@ -5,9 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/common/checkbox.js}"></script>
-    <script th:src="@{/js/common/ajax.js}"></script>
-    <script th:src="@{/js/common/modal.js}"></script>
     <script th:src="@{/js/uom/list.js}"></script>
     <script th:src="@{/js/uom/create-content.js}"></script>
     <script th:src="@{/js/uom/edit-content.js}"></script>
@@ -26,7 +23,7 @@
         </div>
 
         <!--/* 목록 */-->
-        <div id="uom-list">
+        <div id="uom-table">
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
@@ -55,7 +52,7 @@
                     </td>
                     <td class="fw-bold">
                         <a href="#"
-                           class="edit-uom-link"
+                           class="uom-edit-link"
                            th:text="${uom.code}"
                            th:data-id="${uom.id}"></a>
                     </td>

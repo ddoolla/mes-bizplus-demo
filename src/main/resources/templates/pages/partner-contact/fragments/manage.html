@@ -9,20 +9,20 @@
             </div>
             <div>
                 <button type="button"
-                        id="create-contact-button"
+                        id="contact-create-button"
                         th:data-partner-id="${partner.id}"
                         class="btn btn-primary btn-sm me-1">
                     등록
                 </button>
                 <button type="button"
-                        id="delete-contact-button"
+                        id="contact-delete-button"
                         class="btn btn-danger btn-sm">
                     삭제
                 </button>
             </div>
         </div>
 
-        <div id="partner-contact-list">
+        <div id="partner-contact-table">
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
@@ -57,7 +57,7 @@
                     </td>
                     <td class="fw-bold">
                         <a href="#"
-                           class="edit-contact-link"
+                           class="contact-edit-link"
                            th:text="${contact.name}"
                            th:data-partner-id="${partner.id}"
                            th:data-id="${contact.id}"></a>

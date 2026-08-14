@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // 등록 모달 열기
-    document.querySelector('#create-uom-button').addEventListener('click', async function () {
+    document.querySelector('#uom-create-button').addEventListener('click', async function () {
 
         Mes.Modal.setTitle('uom-form-modal', '단위 등록');
 
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         content.innerHTML = response;
 
-        $('#create-uom-form').validate({
+        $('#uom-create-form').validate({
             rules: {
                 code: {
                     required: true,

@@ -11,11 +11,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <script th:src="@{/js/common/address.js}"></script>
-    <script th:src="@{/js/common/ajax.js}"></script>
-    <script th:src="@{/js/common/modal.js}"></script>
-    <script th:src="@{/js/common/checkbox.js}"></script>
-    <script th:src="@{/js/common/form.js}"></script>
-    <script th:src="@{/js/partner/edit-content.js}"></script>
+    <script th:src="@{/js/partner/edit.js}"></script>
     <script th:src="@{/js/partner-contact/modal/create-content.js}"></script>
     <script th:src="@{/js/partner-contact/modal/edit-content.js}"></script>
     <script th:src="@{/js/partner-contact/manage.js}"></script>
@@ -36,7 +32,7 @@
         </button>
 
         <button type="submit"
-                form="edit-partner-form"
+                form="partner-edit-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('PARTNER_UPDATE')">
             <i class="fa fa-pencil" aria-hidden="true"></i> 저장
@@ -45,7 +41,7 @@
 
     <!--/* 거래처 수정 폼 */-->
     <div class="app-box app-box-bg">
-        <form id="edit-partner-form" method="post" th:action="@{/partners/{id}(id=${partner.id})}">
+        <form id="partner-edit-form" method="post" th:action="@{/partners/{id}(id=${partner.id})}">
             <table class="app-table-input" th:object="${partner}">
                 <colgroup>
                     <col style="width: 150px">
@@ -253,7 +249,7 @@
     <div th:replace="~{pages/partner-contact/fragments/manage :: manage (${partner}, ${partnerContacts})}"></div>
 
     <!--/* 거래처 담당자 폼 모달 */-->
-    <div th:replace="~{pages/partner-contact/fragments/modal/form :: form}"></div>
+    <div th:replace="~{pages/partner-contact/modal/form :: form}"></div>
 </div>
 </body>
 </html>

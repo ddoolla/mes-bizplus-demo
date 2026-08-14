@@ -32,7 +32,7 @@ public class PartnerContactController {
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
 
-        return "pages/partner-contact/fragments/modal/create-content :: content";
+        return "pages/partner-contact/modal/create-content :: content";
     }
 
     @GetMapping("/partner-contacts/{id}/edit")
@@ -42,7 +42,7 @@ public class PartnerContactController {
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
         model.addAttribute("contact", partnerContactService.getPartnerContact(id));
 
-        return "pages/partner-contact/fragments/modal/edit-content :: content";
+        return "pages/partner-contact/modal/edit-content :: content";
     }
 
     @GetMapping("/partner-contacts/{id}")

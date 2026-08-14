@@ -3,14 +3,14 @@
 <!--/* 코드 수정 모달 */-->
 <th:block th:fragment="edit (codeGroup)">
     <div th:replace="~{fragments/modal/default :: default (
-        'edit-code-modal',
+        'code-edit-modal',
         '코드 수정',
-        ~{::edit-code-modal-content},
+        ~{::code-edit-modal-content},
         null
     )}">
-        <th:block th:fragment="edit-code-modal-content">
+        <th:block th:fragment="code-edit-modal-content">
             <div class="modal-body">
-                <form id="edit-code-form" method="post">
+                <form id="code-edit-form" method="post">
                     <input type="hidden"
                            id="group-id"
                            name="groupId"
@@ -67,7 +67,7 @@
                     취소
                 </button>
                 <button type="submit"
-                        form="edit-code-form"
+                        form="code-edit-form"
                         class="btn btn-primary btn-sm">
                     저장
                 </button>

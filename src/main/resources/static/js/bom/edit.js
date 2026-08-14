@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#edit-bom-form').validate({
+    $('#bom-edit-form').validate({
         rules: {
             code: {
                 required: true,

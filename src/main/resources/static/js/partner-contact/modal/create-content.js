@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // 등록 모달 열기
-    document.querySelector('#create-contact-button').addEventListener('click', async function () {
+    document.querySelector('#contact-create-button').addEventListener('click', async function () {
 
         Mes.Modal.setTitle('contact-form-modal', '담당자 등록');
 
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         content.innerHTML = response;
 
-        $('#create-contact-form').validate({
+        $('#contact-create-form').validate({
             rules: {
                 name: 'required',
                 email: {

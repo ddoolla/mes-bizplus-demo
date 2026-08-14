@@ -11,5 +11,9 @@ public interface ItemQueryRepository {
 
     Page<ItemDto> findItems(ItemSearchDto dto, Pageable pageable);
 
+    Page<ItemDto> findProducts(ItemSearchDto dto, Pageable pageable);
+
+    Page<ItemDto> findMaterials(ItemSearchDto dto, Pageable pageable);
+
     Optional<ItemDto> findItem(Long id);
 }

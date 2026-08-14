@@ -79,6 +79,15 @@ public class ItemController {
         return "pages/item/edit";
     }
 
+    @GetMapping("/modal/single-select-list")
+    public String viewSingleSelectList(Model model,
+                                       ItemSearchDto dto,
+                                       @PageableDefault Pageable pageable) {
+        model.addAttribute("data", itemService.getProducts(dto, pageable));
+
+        return "pages/item/modal/single-select-list :: list";
+    }
+
     /*
      * 논리 삭제된 코드도 중복으로 간주
      * */

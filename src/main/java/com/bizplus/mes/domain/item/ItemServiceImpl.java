@@ -31,13 +31,34 @@ public class ItemServiceImpl implements ItemService {
 
     private final InventoryValidator inventoryValidator;
 
+    /*
+    * 모든 품목 조회
+    * */
     @Override
     public ItemListDto getItems(ItemSearchDto dto, Pageable pageable) {
         Page<ItemDto> itemPage = itemRepository.findItems(dto, pageable);
 
-        return new ItemListDto(
-                itemPage.getContent(),
-                Pagination.of(itemPage));
+        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
+    }
+
+    /*
+    * 제품만 조회 (완제품, 반제품)
+    * */
+    @Override
+    public ItemListDto getProducts(ItemSearchDto dto, Pageable pageable) {
+        Page<ItemDto> itemPage = itemRepository.findProducts(dto, pageable);
+
+        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
+    }
+
+    /*
+    * 자재만 조회 (원자재, 부자재)
+    * */
+    @Override
+    public ItemListDto getMaterials(ItemSearchDto dto, Pageable pageable) {
+        Page<ItemDto> itemPage = itemRepository.findMaterials(dto, pageable);
+
+        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
     }
 
     @Override

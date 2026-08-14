@@ -28,15 +28,17 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
 
     private static final QCommonCode categoryCode = new QCommonCode("categoryCode");
 
-    @Override
-    public Page<ItemDto> findItems(ItemSearchDto dto, Pageable pageable) {
-
+    private Page<ItemDto> findItems(ItemSearchDto dto, ItemGroup group, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(item.deletedAt))
                 .and(contains(item.code, dto.getCode()))
                 .and(contains(item.name, dto.getName()))
                 .and(eq(item.type, dto.getType()))
                 .and(eq(categoryCode.id, dto.getCategoryId()));
+
+        if (group != null) {
+            searchCondition.and(item.type.in(group.getTypes()));
+        }
 
         List<ItemDto> content = query
                 .select(new QItemDto(
@@ -68,6 +70,21 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Page<ItemDto> findItems(ItemSearchDto dto, Pageable pageable) {
+        return findItems(dto, null, pageable);
+    }
+
+    @Override
+    public Page<ItemDto> findProducts(ItemSearchDto dto, Pageable pageable) {
+        return findItems(dto, ItemGroup.PRODUCT, pageable);
+    }
+
+    @Override
+    public Page<ItemDto> findMaterials(ItemSearchDto dto, Pageable pageable) {
+        return findItems(dto, ItemGroup.MATERIAL, pageable);
     }
 
     @Override

@@ -34,11 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
         Mes.Modal.open('item-list-modal');
     });
 
-    // 모달 닫기 시 폼 초기화
-    Mes.Modal.resetFormOnHidden('item-list-modal');
-
+    // todo 성공 함수에 렌더 함수만들어서 넣기
     // 페이지네이션 비동기 처리
     Mes.Pagination.bindAjax(itemList);
+
+    // 모달 닫기 시 폼 초기화
+    Mes.Modal.resetFormOnHidden('item-list-modal');
 
     // 제품 선택 처리
     itemList.addEventListener('click', function (e) {

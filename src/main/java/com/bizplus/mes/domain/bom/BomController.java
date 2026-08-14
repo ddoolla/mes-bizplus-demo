@@ -6,6 +6,7 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.bom.dto.BomCreateDto;
 import com.bizplus.mes.domain.bom.dto.BomSearchDto;
 import com.bizplus.mes.domain.bom.dto.BomUpdateDto;
+import com.bizplus.mes.domain.bom.item.BomItemService;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.item.ItemGroup;
@@ -31,6 +32,7 @@ import java.util.List;
 public class BomController {
 
     private final BomService bomService;
+    private final BomItemService bomItemService;
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
 
@@ -49,6 +51,7 @@ public class BomController {
     @PreAuthorize("hasAuthority('BOM_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("bom", bomService.getBom(id));
+        model.addAttribute("bomItems", bomItemService.getBomItems(id));
 
         return "pages/bom/detail";
     }
@@ -65,7 +68,10 @@ public class BomController {
     @GetMapping("/{id}/edit")
     @PreAuthorize("hasAuthority('BOM_READ')")
     public String viewEdit(Model model, @PathVariable Long id) {
+        model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
+        model.addAttribute("itemTypes", ItemGroup.BOM_ITEM.getTypes());
         model.addAttribute("bom", bomService.getBom(id));
+        model.addAttribute("bomItems", bomItemService.getBomItems(id));
 
         return "pages/bom/edit";
     }

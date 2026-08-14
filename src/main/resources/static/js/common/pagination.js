@@ -1,7 +1,7 @@
 window.Mes = window.Mes || {};
 
 Mes.Pagination = {
-    bindAjax(container) {
+    bindAjax(container, onSuccess) {
         container.addEventListener('click', function (e) {
             const link = e.target.closest('.app-pagination a');
 
@@ -13,7 +13,7 @@ Mes.Pagination = {
 
             Mes.Ajax.get(link.href)
                 .done(function (response) {
-                    container.innerHTML = response;
+                    onSuccess(response);
                 })
                 .fail(function (xhr) {
                     alert(xhr.responseJSON.message);

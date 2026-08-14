@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script th:src="@{/js/bom/edit.js}"></script>
+    <script th:src="@{/js/item/modal/multi-select-list.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -31,7 +32,7 @@
         </button>
     </div>
 
-    <!--/* 수정 폼 */-->
+    <!--/* BOM 수정 폼 */-->
     <div class="app-box app-box-bg">
         <form id="bom-edit-form"
               method="post"
@@ -100,6 +101,12 @@
             </table>
         </form>
     </div>
+
+    <!--/* BOM 구성 품목 폼 */-->
+    <div th:replace="~{pages/bom-item/fragments/form :: form (${bom}, ${bomItems})}"></div>
+
+    <!--/* BOM 구성 품목 등록 모달 */-->
+    <div th:replace="~{pages/item/modal/list :: list ('/items/modal/multi-select-list', ${itemCategories}, ${itemTypes})}"></div>
 </div>
 </body>
 </html>

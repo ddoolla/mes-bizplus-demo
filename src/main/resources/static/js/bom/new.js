@@ -1,5 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    const itemSingleSelectModal = createItemSingleSelectModal();
+
+    const bomCreateForm = document.querySelector('#bom-create-form');
+    const modalOpenButton = document.querySelector('#item-list-button');
+
+    // 품목 선택 모달 열기
+    modalOpenButton.addEventListener('click', function () {
+        itemSingleSelectModal.open('제품 목록');
+    });
+
+    // 품목 선택 처리
+    itemSingleSelectModal.onSelect(function (item) {
+        bomCreateForm.querySelector('[name="itemId"]').value = item.id;
+        bomCreateForm.querySelector('[name="itemName"]').value = item.name;
+    });
+
+    // BOM 등록 폼 유효성검사
     $('#bom-create-form').validate({
         rules: {
             code: {

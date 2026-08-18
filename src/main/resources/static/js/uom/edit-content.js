@@ -32,10 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             },
                         },
                         name: 'required',
-                        decimalPlaces: {
+                        scale: {
                             digits: true,
                             min: 0,
-                            max: 6,
                         },
                     },
                     messages: {
@@ -44,10 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             remote: '이미 존재하는 코드입니다.'
                         },
                         name: '단위명을 입력해 주세요.',
-                        decimalPlaces: {
+                        scale: {
                             digits: '소수점 자리수는 숫자만 입력 가능합니다.',
                             min: '소수점 자리수는 0 이상이어야 합니다.',
-                            max: '소수점 자리수는 최대 6자리까지 입력 가능합니다.',
                         },
                     },
                     submitHandler: function (form) {

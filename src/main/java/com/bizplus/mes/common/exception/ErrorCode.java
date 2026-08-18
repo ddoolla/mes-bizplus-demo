@@ -22,10 +22,12 @@ public enum ErrorCode {
     PARTNER_CONTACT_NOT_FOUND(HttpStatus.NOT_FOUND, "거래처 담당자를 찾을 수 없습니다."),
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "품목을 찾을 수 없습니다."),
     BOM_NOT_FOUND(HttpStatus.NOT_FOUND, "BOM을 찾을 수 없습니다."),
+    BOM_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "BOM 구성 품목을 찾을 수 없습니다."),
 
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
 
+    UOM_QUANTITY_SCALE_EXCEEDED(HttpStatus.BAD_REQUEST, "단위의 허용 소수점 자릿수를 초과했습니다."),
     ITEM_HAS_STOCK(HttpStatus.BAD_REQUEST, "재고가 있는 품목은 LOT 관리 여부를 변경할 수 없습니다.");
 
     private final HttpStatus status;

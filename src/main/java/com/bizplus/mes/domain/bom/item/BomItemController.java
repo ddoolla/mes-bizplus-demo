@@ -8,9 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,10 +22,19 @@ public class BomItemController {
     @PostMapping("/boms/{bomId}/items")
     @ResponseBody
     public ResponseEntity<ApiResponse<Void>> createBomItems(@PathVariable Long bomId,
-                                                            @Valid List<BomItemCreateDto> dtos) {
-        bomItemService.createBomItems(bomId, dtos);
+                                                            @RequestBody @Valid BomItemCreateDto dto) {
+        bomItemService.createBomItems(bomId, dto);
 
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.CREATED)));
+    }
+
+    @DeleteMapping("/bom-items")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Void>> deleteBomItems(@RequestBody List<Long> ids) {
+        bomItemService.deleteBomItems(ids);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

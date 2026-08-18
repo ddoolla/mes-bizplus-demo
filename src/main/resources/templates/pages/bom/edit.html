@@ -6,8 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/item/modal/single-select.js}"></script>
+    <script th:src="@{/js/item/modal/multi-select.js}"></script>
     <script th:src="@{/js/bom/edit.js}"></script>
-    <script th:src="@{/js/item/modal/multi-select-list.js}"></script>
+    <script th:src="@{/js/bom-item/form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -32,12 +34,12 @@
         </button>
     </div>
 
-    <!--/* BOM 수정 폼 */-->
-    <div class="app-box app-box-bg">
-        <form id="bom-edit-form"
-              method="post"
-              th:action="@{/boms/{id}(id=${bom.id})}"
-              th:object="${bom}">
+    <form id="bom-edit-form"
+          method="post"
+          th:action="@{/boms/{id}(id=${bom.id})}"
+          th:object="${bom}">
+        <!--/* BOM 수정 폼 */-->
+        <div class="app-box app-box-bg">
 
             <input type="hidden" name="id" th:value="*{id}"/>
 
@@ -79,11 +81,16 @@
                         <input type="text"
                                name="itemName"
                                th:value="*{item.name}"
-                               class="app-form-control app-xs app-readonly-bg"
+                               class="app-form-control app-xs app-readonly-bg w-25"
                                placeholder="제품을 선택해 주세요."/>
                         <input type="hidden"
                                name="itemId"
                                th:value="*{item.id}"/>
+                        <button type="button"
+                                id="item-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 제품 목록
+                        </button>
                     </td>
                 </tr>
                 <tr>
@@ -99,14 +106,27 @@
                 </tr>
                 </tbody>
             </table>
-        </form>
+        </div>
+
+        <!--/* BOM 구성 품목 폼 */-->
+        <div th:replace="~{pages/bom-item/fragments/form :: form (${bom}, ${bomItems}, ${uoms})}"></div>
+    </form>
+
+    <!--/* BOM 수정용 품목 모달 */-->
+    <div th:replace="~{pages/item/modal/list :: list (
+        'item-single-select-modal',
+        '/items/modal/single-select-list',
+        ${itemCategories},
+        ${productItemTypes})}">
     </div>
 
-    <!--/* BOM 구성 품목 폼 */-->
-    <div th:replace="~{pages/bom-item/fragments/form :: form (${bom}, ${bomItems})}"></div>
-
-    <!--/* BOM 구성 품목 등록 모달 */-->
-    <div th:replace="~{pages/item/modal/list :: list ('/items/modal/multi-select-list', ${itemCategories}, ${itemTypes})}"></div>
+    <!--/* BOM 구성품 등록용 모달 */-->
+    <div th:replace="~{pages/item/modal/list :: list (
+        'item-multi-select-modal',
+        '/items/modal/multi-select-list',
+        ${itemCategories},
+        ${bomItemTypes})}">
+    </div>
 </div>
 </body>
 </html>

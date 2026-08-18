@@ -28,8 +28,8 @@
                     <th>카테고리</th>
                     <th>품목 유형</th>
                     <th>규격</th>
-                    <th>단위</th>
                     <th>수량</th>
+                    <th>단위</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -40,8 +40,8 @@
                     <td th:text="${@format.value(bomItem.item.category)}"></td>
                     <td th:text="${bomItem.item.type?.description}"></td>
                     <td th:text="${@format.value(bomItem.item.specification)}"></td>
+                    <td th:text="${#numbers.formatDecimal(bomItem.quantity, 1, bomItem.uom.scale)}"></td>
                     <td th:text="${bomItem.uom.code}"></td>
-                    <td th:text="${bomItem.quantity}"></td>
                     <td></td>
                 </tr>
                 </tbody>

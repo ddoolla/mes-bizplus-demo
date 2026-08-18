@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/item/modal/single-select.js}"></script>
     <script th:src="@{/js/bom/new.js}"></script>
-    <script th:src="@{/js/item/modal/single-select-list.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -97,7 +97,12 @@
     </div>
 
     <!--/* 제품 목록 모달 */-->
-    <div th:replace="~{pages/item/modal/list :: list ('/items/modal/single-select-list', ${itemCategories}, ${itemTypes})}"></div>
+    <div th:replace="~{pages/item/modal/list :: list (
+        'item-single-select-modal',
+        '/items/modal/single-select-list',
+        ${itemCategories},
+        ${itemTypes})}">
+    </div>
 </div>
 </body>
 </html>

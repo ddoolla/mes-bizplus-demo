@@ -1,21 +1,20 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <!--/* 품목 목록 모달 */-->
-<th:block th:fragment="list (url, itemCategories, itemTypes)">
+<th:block th:fragment="list (modalId, url, itemCategories, itemTypes)">
     <div th:replace="~{fragments/modal/default :: default (
-        'item-list-modal',
+        ${modalId},
         '품목 목록',
-         ~{::#item-list-modal-content},
+         ~{::content},
          1200
     )}">
-        <div id="item-list-modal-content"
-             class="p-2">
+        <div th:fragment="content" class="p-2">
             <!--/* 검색 필터 */-->
             <div th:replace="~{pages/item/modal/filter :: filter (${url}, ${itemCategories}, ${itemTypes})}">
             </div>
 
             <!--/* 품목 목록 */-->
-            <div id="item-list"></div>
+            <div class="item-list"></div>
         </div>
     </div>
 </th:block>

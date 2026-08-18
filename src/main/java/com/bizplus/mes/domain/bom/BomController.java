@@ -13,6 +13,7 @@ import com.bizplus.mes.domain.item.ItemGroup;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.uom.UomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,10 @@ public class BomController {
     private final BomService bomService;
     private final BomItemService bomItemService;
     private final CommonCodeService commonCodeService;
+    private final UomService uomService;
     private final MessageService messageService;
+
+    private final BomUpdater bomUpdater;
 
     @GetMapping
     @PreAuthorize("hasAuthority('BOM_READ')")
@@ -69,9 +73,11 @@ public class BomController {
     @PreAuthorize("hasAuthority('BOM_READ')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
-        model.addAttribute("itemTypes", ItemGroup.BOM_ITEM.getTypes());
+        model.addAttribute("productItemTypes", ItemGroup.PRODUCT.getTypes());
+        model.addAttribute("bomItemTypes", ItemGroup.BOM_ITEM.getTypes());
         model.addAttribute("bom", bomService.getBom(id));
         model.addAttribute("bomItems", bomItemService.getBomItems(id));
+        model.addAttribute("uoms", uomService.getUoms());
 
         return "pages/bom/edit";
     }
@@ -101,7 +107,7 @@ public class BomController {
     public String updateBom(@PathVariable Long id,
                             @Valid BomUpdateDto dto,
                             RedirectAttributes reAtt) {
-        bomService.updateBom(id, dto);
+        bomUpdater.update(id, dto);
 
         reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));

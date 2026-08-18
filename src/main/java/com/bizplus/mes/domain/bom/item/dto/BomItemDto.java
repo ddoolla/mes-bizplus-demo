@@ -24,7 +24,7 @@ public class BomItemDto {
                       String itemSpec,
                       Long uomId,
                       String uomCode,
-                      Integer decimalPlaces,
+                      Integer uomScale,
                       BigDecimal quantity) {
         this.id = id;
         this.item = new ItemInfo(
@@ -38,7 +38,7 @@ public class BomItemDto {
         this.uom = new UomInfo(
                 uomId,
                 uomCode,
-                decimalPlaces
+                uomScale
         );
         this.quantity = quantity;
     }
@@ -46,7 +46,7 @@ public class BomItemDto {
     public record UomInfo(
             Long id,
             String code,
-            Integer decimalPlaces
+            Integer scale
     ) {
     }
 

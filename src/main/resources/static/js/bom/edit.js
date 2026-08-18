@@ -1,6 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#bom-edit-form').validate({
+    const bomEditForm = document.querySelector('#bom-edit-form');
+    const itemSingleSelectModalButton = document.querySelector('#item-list-button');
+
+    const itemSingleSelectModal = createItemSingleSelectModal()
+
+    // BOM 제품 정보 수정
+    itemSingleSelectModalButton.addEventListener('click', function () {
+        itemSingleSelectModal.open('제품 목록');
+    });
+
+    itemSingleSelectModal.onSelect(function (item) {
+        bomEditForm.querySelector('[name="itemId"]').value = item.id;
+        bomEditForm.querySelector('[name="itemName"]').value = item.name;
+    });
+
+    $(bomEditForm).validate({
         rules: {
             code: {
                 required: true,
@@ -25,4 +40,18 @@ document.addEventListener('DOMContentLoaded', function () {
             itemName: '품목을 선택해 주세요.'
         },
     });
+
+    $(bomEditForm).find('.bom-item-quantity').each(function () {
+        $(this).rules('add', {
+            required: true,
+            min: 0,
+            messages: {
+                required: '수량을 입력해 주세요.',
+                number: '수량은 숫자로 입력해 주세요.',
+                min: '수량은 0 이상이어야 합니다.'
+            }
+        });
+    });
+
+    // todo 단위 소수점 유효성 검사 remote 추가해야함.
 });

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
-import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
 import static com.bizplus.mes.domain.bom.item.QBomItem.bomItem;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.uom.QUom.uom;
@@ -36,7 +35,7 @@ public class BomItemQueryRepositoryImpl implements BomItemQueryRepository {
                         item.specification,
                         uom.id,
                         uom.code,
-                        uom.decimalPlaces,
+                        uom.scale,
                         bomItem.quantity
                 ))
                 .from(bomItem)
@@ -44,7 +43,6 @@ public class BomItemQueryRepositoryImpl implements BomItemQueryRepository {
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(uom).on(bomItem.uom.id.eq(uom.id))
                 .where(
-                        notDeleted(bomItem.deletedAt),
                         eq(bomItem.bom.id, bomId)
                 )
                 .orderBy(item.code.asc(), item.name.asc())

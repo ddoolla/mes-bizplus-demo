@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.bom.item;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.AuditableEntity;
 import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.uom.Uom;
@@ -11,11 +11,19 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/*
+ * 물리 삭제 데이터
+ * */
 @Entity
-@Table(name = "bom_items")
+@Table(
+        name = "bom_items",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"bom_id", "component_item_id"})
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BomItem extends BaseEntity {
+public class BomItem extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +49,11 @@ public class BomItem extends BaseEntity {
                    BigDecimal quantity) {
         this.bom = bom;
         this.item = item;
+        this.uom = uom;
+        this.quantity = quantity;
+    }
+
+    public void update(Uom uom, BigDecimal quantity) {
         this.uom = uom;
         this.quantity = quantity;
     }

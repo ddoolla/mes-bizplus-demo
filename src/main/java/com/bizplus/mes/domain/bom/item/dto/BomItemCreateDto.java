@@ -1,19 +1,15 @@
 package com.bizplus.mes.domain.bom.item.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
 public class BomItemCreateDto {
 
-    @NotNull
-    private Long itemId;
-
-    @NotNull
-    private Long uomId;
-    private BigDecimal quantity;
+    @NotEmpty
+    private List<Long> itemIds;
 }

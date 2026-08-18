@@ -56,7 +56,7 @@
                     <td th:text="${@format.value(inventory.item.specification)}"></td>
                     <td th:text="${inventory.item.uom.code}"></td>
                     <td th:text="${#numbers.formatDecimal(
-                        inventory.totalQuantity, 1, inventory.item.uom.decimalPlaces)}"></td>
+                        inventory.totalQuantity, 1, inventory.item.uom.scale)}"></td>
                     <td></td>
                 </tr>
                 </tbody>

@@ -13,7 +13,7 @@ public class UomMapper {
                 uom.getCode(),
                 uom.getName(),
                 uom.getType(),
-                uom.getDecimalPlaces()
+                uom.getScale()
         );
     }
 
@@ -23,7 +23,7 @@ public class UomMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getType(),
-                dto.getDecimalPlaces()
+                dto.getScale()
         );
     }
 
@@ -33,7 +33,7 @@ public class UomMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getType(),
-                dto.getDecimalPlaces()
+                dto.getScale()
         );
     }
 }

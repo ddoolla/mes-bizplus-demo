@@ -18,5 +18,6 @@ public class UomCreateDto {
 
     @NotNull
     private UomType type;
-    private Integer decimalPlaces;
+
+    private Integer scale;
 }

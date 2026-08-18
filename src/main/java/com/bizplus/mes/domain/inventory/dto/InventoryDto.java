@@ -27,7 +27,7 @@ public class InventoryDto {
                         String uomCode,
                         String uomName,
                         UomType uomType,
-                        Integer decimalPlaces,
+                        Integer scale,
                         BigDecimal totalQuantity,
                         BigDecimal totalReservedQuantity) {
 
@@ -38,7 +38,7 @@ public class InventoryDto {
                 itemCategory,
                 itemType,
                 itemSpec,
-                new UomDto(uomId, uomCode, uomName, uomType, decimalPlaces)
+                new UomDto(uomId, uomCode, uomName, uomType, scale)
         );
         this.totalQuantity = totalQuantity;
         this.totalReservedQuantity = totalReservedQuantity;

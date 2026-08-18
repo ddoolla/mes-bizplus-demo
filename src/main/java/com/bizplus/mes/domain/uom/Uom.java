@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.uom;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "uom")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Uom extends BaseEntity {
+public class Uom extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,25 +29,25 @@ public class Uom extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UomType type;
 
-    private Integer decimalPlaces;
+    private Integer scale;
 
     public Uom(String code,
                String name,
                UomType type,
-               Integer decimalPlaces) {
+               Integer scale) {
         this.code = code;
         this.name = name;
         this.type = type;
-        this.decimalPlaces = decimalPlaces == null ? 0 : decimalPlaces;
+        this.scale = scale == null ? 0 : scale;
     }
 
     public void update(String code,
                        String name,
                        UomType type,
-                       Integer decimalPlaces) {
+                       Integer scale) {
         this.code = code;
         this.name = name;
         this.type = type;
-        this.decimalPlaces = decimalPlaces == null ? 0 : decimalPlaces;
+        this.scale = scale == null ? 0 : scale;
     }
 }

@@ -19,26 +19,22 @@ public class UomServiceImpl implements UomService {
 
     @Override
     public List<UomDto> getUoms(String code, String name) {
-
         return uomRepository.findUoms(code,name).stream()
                 .map(UomMapper::toDto).toList();
     }
 
     @Override
     public List<UomDto> getUoms() {
-
         return getUoms(null,  null);
     }
 
     @Override
     public UomDto getUom(Long id) {
-
         return UomMapper.toDto(uomReader.getById(id));
     }
 
     @Override
     public boolean checkCode(Long id, String code) {
-
         boolean exists = uomRepository.existsByCodeAndIdNot(code, id);
 
         return !exists;
@@ -46,14 +42,12 @@ public class UomServiceImpl implements UomService {
 
     @Override
     public void createUom(UomCreateDto dto) {
-
         uomRepository.save(UomMapper.toEntity(dto));
     }
 
     @Transactional
     @Override
     public void updateUom(Long id, UomUpdateDto dto) {
-
         Uom uom = uomReader.getById(id);
         UomMapper.apply(uom, dto);
     }
@@ -61,7 +55,6 @@ public class UomServiceImpl implements UomService {
     @Transactional
     @Override
     public void deleteUoms(List<Long> ids) {
-
         ids.forEach(id -> uomReader.getById(id).delete());
     }
 }

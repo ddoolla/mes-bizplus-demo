@@ -12,5 +12,5 @@ public class UomDto {
     private String code;
     private String name;
     private UomType type;
-    private Integer decimalPlaces;
+    private Integer scale;
 }

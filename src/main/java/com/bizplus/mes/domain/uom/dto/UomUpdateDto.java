@@ -18,5 +18,5 @@ public class UomUpdateDto {
 
     @NotNull
     private UomType type;
-    private Integer decimalPlaces;
+    private Integer scale;
 }

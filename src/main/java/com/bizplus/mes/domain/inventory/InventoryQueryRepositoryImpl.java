@@ -50,7 +50,7 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                         uom.code,
                         uom.name,
                         uom.type,
-                        uom.decimalPlaces,
+                        uom.scale,
                         inventory.quantity.sum(),
                         inventory.reservedQuantity.sum()
                 ))

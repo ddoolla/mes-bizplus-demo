@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.lot;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "lots")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lot extends BaseEntity {
+public class Lot extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

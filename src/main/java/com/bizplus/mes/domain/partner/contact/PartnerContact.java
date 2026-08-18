@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.partner.contact;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.partner.Partner;
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "partner_contacts")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PartnerContact extends BaseEntity {
+public class PartnerContact extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

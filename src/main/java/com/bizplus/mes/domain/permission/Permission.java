@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.permission;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.menu.Menu;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -13,7 +13,7 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "permissions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Permission extends BaseEntity {
+public class Permission extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

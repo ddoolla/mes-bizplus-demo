@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.role.permission;
 
+import com.bizplus.mes.common.entity.AuditableEntity;
 import com.bizplus.mes.domain.permission.Permission;
 import com.bizplus.mes.domain.role.Role;
 import jakarta.persistence.*;
@@ -8,13 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /*
-* 물리 삭제
+* 물리 삭제 데이터
 * */
 @Entity
 @Table(name = "role_permissions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RolePermission {
+public class RolePermission extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

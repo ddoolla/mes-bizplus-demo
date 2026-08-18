@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.role;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "roles")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Role extends BaseEntity {
+public class Role extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

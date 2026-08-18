@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.user.role;
 
+import com.bizplus.mes.common.entity.AuditableEntity;
 import com.bizplus.mes.domain.role.Role;
 import com.bizplus.mes.domain.user.User;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_roles")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserRole {
+public class UserRole extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

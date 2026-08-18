@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.item;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.uom.Uom;
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "items")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Item extends BaseEntity {
+public class Item extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

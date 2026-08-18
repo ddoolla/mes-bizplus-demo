@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.inventory;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.Lot;
 import jakarta.persistence.*;
@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Inventory extends BaseEntity {
+public class Inventory extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

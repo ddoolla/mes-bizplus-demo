@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.inventory.transaction;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.Lot;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "inventory_transactions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class InventoryTransaction extends BaseEntity {
+public class InventoryTransaction extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

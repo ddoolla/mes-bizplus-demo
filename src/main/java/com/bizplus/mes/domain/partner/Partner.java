@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.partner;
 
-import com.bizplus.mes.common.entity.BaseEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "partners")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Partner extends BaseEntity {
+public class Partner extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

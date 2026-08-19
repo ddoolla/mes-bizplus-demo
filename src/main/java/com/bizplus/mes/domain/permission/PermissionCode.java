@@ -45,6 +45,11 @@ public enum PermissionCode {
     BOM_UPDATE(MenuCode.ITEM, "BOM 수정", PermissionAction.UPDATE),
     BOM_DELETE(MenuCode.ITEM, "BOM 삭제", PermissionAction.DELETE),
 
+    PROCESS_READ(MenuCode.PROCESS, "공정 조회", PermissionAction.READ),
+    PROCESS_CREATE(MenuCode.PROCESS, "공정 등록", PermissionAction.CREATE),
+    PROCESS_UPDATE(MenuCode.PROCESS, "공정 수정", PermissionAction.UPDATE),
+    PROCESS_DELETE(MenuCode.PROCESS, "공정 삭제", PermissionAction.DELETE),
+
     ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;

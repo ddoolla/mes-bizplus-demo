@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('공정 목록', ~{}, ~{::script}, 'PROCESS', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/process/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('공정 목록', '기준정보관리, 공정관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/process/fragments/filter :: filter ('/processes', ${data.pagination.totalElements}, true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="process-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>공정 코드</th>
+                    <th>공정명</th>
+                    <th>공정 설명</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="process : ${data.processes}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${process.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/processes/{id}(id=${process.id})}"
+                           th:text="${process.code}"></a>
+                    </td>
+                    <td th:text="${process.name}"></td>
+                    <td th:text="${@format.value(process.description)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

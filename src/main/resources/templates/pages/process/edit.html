@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('공정 수정', ~{}, ~{::script}, 'PROCESS', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/process/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('공정 수정', '기준정보관리, 공정관리, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/processes}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="submit"
+                form="process-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('PROCESS_UPDATE')">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 수정 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="process-edit-form"
+              method="post"
+              th:action="@{/processes/{id}(id=${process.id})}"
+              th:object="${process}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        공정 코드 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="*{code}"
+                               placeholder="공정 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        공정명 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="*{name}"
+                               placeholder="공정명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        공정 설명
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="description"
+                               th:value="*{description}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

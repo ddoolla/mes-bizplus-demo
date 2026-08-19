@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             passwordConfirm: {
                 required: true,
-                equalTo: '#password'
+                equalTo: '[name="password"]',
             },
             name: 'required',
             email: {

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 minlength: 4,
             },
             passwordConfirm: {
-                equalTo: '#password',
+                equalTo: '[name="password"]',
             },
             email: {
                 email: true,

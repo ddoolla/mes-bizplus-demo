@@ -48,36 +48,25 @@
                     <td th:text="*{userId}"></td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="password">비밀번호</label>
-                    </th>
+                    <th>비밀번호</th>
                     <td>
                         <input type="password"
-                               id="password"
                                name="password"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="passwordConfirm">비밀번호 확인</label>
-                    </th>
+                    <th>비밀번호 확인</th>
                     <td>
                         <input type="password"
-                               id="passwordConfirm"
                                name="passwordConfirm"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="name">
-                            사용자명 <span class="app-required">*</span>
-                        </label>
-                    </th>
+                    <th>사용자명 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
-                               id="name"
                                name="name"
                                class="app-form-control app-xs"
                                th:value="*{name}"
@@ -85,36 +74,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="email">이메일</label>
-                    </th>
+                    <th>이메일</th>
                     <td>
                         <input type="text"
-                               id="email"
                                name="email"
                                class="app-form-control app-xs"
                                th:value="*{email}"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="phone">휴대폰 번호</label>
-                    </th>
+                    <th>휴대폰 번호</th>
                     <td>
                         <input type="text"
-                               id="phone"
                                name="phone"
                                class="app-form-control app-xs"
                                th:value="*{phone}"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="departmentId">부서</label>
-                    </th>
+                    <th>부서</th>
                     <td>
                         <select name="departmentId"
-                                id="departmentId"
                                 class="app-form-control app-xs">
                             <option value="">
                                 부서 선택
@@ -132,12 +112,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="positionId">직책</label>
-                    </th>
+                    <th>직책</th>
                     <td>
                         <select name="positionId"
-                                id="positionId"
                                 class="app-form-control app-xs">
                             <option value="">
                                 직책 선택
@@ -155,12 +132,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="roleId">권한</label>
-                    </th>
+                    <th>권한</th>
                     <td>
                         <select name="roleId"
-                                id="roleId"
                                 class="app-form-control app-xs">
                             <option th:each="role : ${roles}"
                                     th:value="${role.id}"
@@ -171,12 +145,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="remark">비고</label>
-                    </th>
+                    <th>비고</th>
                     <td>
                         <input type="text"
-                               id="remark"
                                name="remark"
                                class="app-form-control app-xs"
                                th:value="*{remark}"/>

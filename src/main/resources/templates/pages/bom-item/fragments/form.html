@@ -71,12 +71,13 @@
                                th:value="${bomItem.id}"/>
                     </td>
                     <td>
-                        <select class="app-form-control app-xs"
+                        <select class="bom-item-uom app-form-control app-xs"
                                 th:name="|bomItems[${stat.index}].uomId|">
                             <option th:each="uom : ${uoms}"
                                     th:value="${uom.id}"
                                     th:text="${uom.code}"
-                                    th:selected="${uom.id == bomItem.uom.id}">
+                                    th:selected="${uom.id == bomItem.uom.id}"
+                                    th:data-scale="${uom.scale}">
                             </option>
                         </select>
                     </td>

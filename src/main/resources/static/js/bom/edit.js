@@ -41,10 +41,44 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
+    $.validator.addMethod('quantityScale', function (value, element) {
+        if (this.optional(element)) {
+            return true;
+        }
+
+        const scale = parseInt(
+            $(element)
+                .closest('tr')
+                .find('.bom-item-uom option:selected')
+                .data('scale'),
+            10
+        );
+
+        if (isNaN(scale)) {
+            return false;
+        }
+
+        const decimalPart = value.split('.')[1];
+
+        return !decimalPart || decimalPart.length <= scale;
+
+    }, function (params, element) {
+        const scale = parseInt(
+            $(element)
+                .closest('tr')
+                .find('.bom-item-uom option:selected')
+                .data('scale'),
+            10
+        );
+
+        return `해당 단위는 소수점 ${scale}자리까지 입력할 수 있습니다.`;
+    });
+
     $(bomEditForm).find('.bom-item-quantity').each(function () {
         $(this).rules('add', {
             required: true,
             min: 0,
+            quantityScale: true,
             messages: {
                 required: '수량을 입력해 주세요.',
                 number: '수량은 숫자로 입력해 주세요.',
@@ -53,5 +87,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // todo 단위 소수점 유효성 검사 remote 추가해야함.
+    $('.bom-item-uom').on('change', function () {
+        $(this)
+            .closest('tr')
+            .find('.bom-item-quantity')
+            .valid();
+    });
 });

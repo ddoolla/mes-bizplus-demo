@@ -37,8 +37,8 @@ public class BomServiceImpl implements BomService {
     }
 
     /*
-    * 논리삭제된 코드도 중복으로 간주
-    * */
+     * 논리삭제된 코드도 중복으로 간주
+     * */
     @Override
     public boolean checkCode(Long id, String code) {
         boolean exists = bomRepository.existsByCodeAndIdNot(code, id);
@@ -46,23 +46,28 @@ public class BomServiceImpl implements BomService {
         return !exists;
     }
 
+    @Transactional
     @Override
     public Long createBom(BomCreateDto dto) {
-        // todo 완제품 반제품 검증
         Item item = itemReader.getById(dto.getItemId());
-        Integer nextRevisionNo = bomRepository.findNextRevisionNo(dto.getItemId());
 
-        return bomRepository.save(BomMapper.toEntity(item, nextRevisionNo, dto)).getId();
+        if (dto.isPrimary()) {
+            bomRepository.resetPrimary(item.getId());
+        }
+
+        return bomRepository.save(BomMapper.toEntity(item, dto)).getId();
     }
 
     @Transactional
     @Override
     public void updateBom(Long id, BomUpdateDto dto) {
-        // todo 완제품 반제품 검증
         Bom bom = bomReader.getById(id);
-        Item item = itemReader.getById(dto.getItemId());
 
-        BomMapper.apply(bom, item, dto);
+        if (dto.isPrimary() && !bom.isPrimary()) {
+            bomRepository.resetPrimary(bom.getItem().getId());
+        }
+
+        BomMapper.apply(bom, dto);
     }
 
     @Transactional

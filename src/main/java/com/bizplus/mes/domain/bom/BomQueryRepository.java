@@ -13,5 +13,5 @@ public interface BomQueryRepository {
 
     Optional<BomDto> findBom(Long id);
 
-    Integer findNextRevisionNo(Long itemId);
+    void resetPrimary(Long itemId);
 }

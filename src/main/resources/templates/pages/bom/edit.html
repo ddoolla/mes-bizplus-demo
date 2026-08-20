@@ -50,9 +50,11 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>
-                        BOM 코드 <span class="app-required">*</span>
-                    </th>
+                    <th>제품</th>
+                    <td th:text="*{item.name}"></td>
+                </tr>
+                <tr>
+                    <th>BOM 코드 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="code"
@@ -62,9 +64,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        BOM명 <span class="app-required">*</span>
-                    </th>
+                    <th>BOM명 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="name"
@@ -74,29 +74,28 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        제품 <span class="app-required">*</span>
-                    </th>
+                    <th>버전</th>
                     <td>
                         <input type="text"
-                               name="itemName"
-                               th:value="*{item.name}"
-                               class="app-form-control app-xs app-readonly-bg w-25"
-                               placeholder="제품을 선택해 주세요."/>
-                        <input type="hidden"
-                               name="itemId"
-                               th:value="*{item.id}"/>
-                        <button type="button"
-                                id="item-list-button"
-                                class="btn btn-secondary app-btn-xs">
-                            <i class="bi bi-list"></i> 제품 목록
-                        </button>
+                               name="version"
+                               class="app-form-control app-xs"
+                               th:value="*{version}"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        비고
-                    </th>
+                    <th>기본 BOM 여부</th>
+                    <td>
+                        <label>
+                            <input type="checkbox"
+                                   name="primary"
+                                   value="true"
+                                   th:checked="*{primary}"/>
+                            기본 BOM으로 지정
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
                     <td>
                         <input type="text"
                                name="remark"
@@ -111,14 +110,6 @@
         <!--/* BOM 구성 품목 폼 */-->
         <div th:replace="~{pages/bom-item/fragments/form :: form (${bom}, ${bomItems}, ${uoms})}"></div>
     </form>
-
-    <!--/* BOM 수정용 품목 모달 */-->
-    <div th:replace="~{pages/item/modal/list :: list (
-        'item-single-select-modal',
-        '/items/modal/single-select-list',
-        ${itemCategories},
-        ${productItemTypes})}">
-    </div>
 
     <!--/* BOM 구성품 등록용 모달 */-->
     <div th:replace="~{pages/item/modal/list :: list (

@@ -42,31 +42,7 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>
-                        BOM 코드 <span class="app-required">*</span>
-                    </th>
-                    <td>
-                        <input type="text"
-                               name="code"
-                               class="app-form-control app-xs"
-                               placeholder="BOM 코드를 입력해 주세요."/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        BOM명 <span class="app-required">*</span>
-                    </th>
-                    <td>
-                        <input type="text"
-                               name="name"
-                               class="app-form-control app-xs"
-                               placeholder="BOM명을 입력해 주세요."/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        제품 <span class="app-required">*</span>
-                    </th>
+                    <th>제품 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="itemName"
@@ -79,12 +55,48 @@
                                 class="btn btn-secondary app-btn-xs">
                             <i class="bi bi-list"></i> 제품 목록
                         </button>
+                        <div id="item-error-container"></div>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        비고
-                    </th>
+                    <th>BOM 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               placeholder="BOM 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>BOM명 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               placeholder="BOM명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>버전</th>
+                    <td>
+                        <input type="text"
+                               name="version"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>기본 BOM 여부</th>
+                    <td>
+                        <label>
+                            <input type="checkbox"
+                                   name="primary"
+                                   value="true"/>
+                            기본 BOM으로 지정
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
                     <td>
                         <input type="text"
                                name="remark"

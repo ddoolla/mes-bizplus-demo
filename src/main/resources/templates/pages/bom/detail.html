@@ -39,6 +39,10 @@
             </colgroup>
             <tbody>
             <tr>
+                <th>제품</th>
+                <td th:text="*{item.name}"></td>
+            </tr>
+            <tr>
                 <th>BOM 코드</th>
                 <td th:text="*{code}"></td>
             </tr>
@@ -47,20 +51,16 @@
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
-                <th>품목 코드</th>
-                <td th:text="*{item.code}"></td>
+                <th>버전</th>
+                <td th:text="${@format.value(bom.version)}"></td>
             </tr>
             <tr>
-                <th>품목명</th>
-                <td th:text="*{item.name}"></td>
-            </tr>
-            <tr>
-                <th>개정번호</th>
-                <td colspan="3" th:text="*{revisionNo}"></td>
+                <th>기본 BOM 여부</th>
+                <td th:text="${bom.primary ? '예' : '아니오'}"></td>
             </tr>
             <tr>
                 <th>비고</th>
-                <td colspan="3" th:text="${@format.value(bom.remark)}"></td>
+                <td th:text="${@format.value(bom.remark)}"></td>
             </tr>
             </tbody>
         </table>

@@ -35,12 +35,12 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="check-all"/></th>
+                    <th>제품명</th>
                     <th>BOM 코드</th>
                     <th>BOM명</th>
-                    <th>제품 코드</th>
-                    <th>제품명</th>
-                    <th>개정번호</th>
-                    <th>비고</th>
+                    <th>버전</th>
+                    <th>기본 BOM 여부</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -50,15 +50,15 @@
                                class="check-item"
                                th:value="${bom.id}"/>
                     </td>
+                    <td th:text="${bom.item.name}"></td>
                     <td class="fw-bold">
                         <a th:href="@{/boms/{id}(id=${bom.id})}"
                            th:text="${bom.code}"></a>
                     </td>
                     <td th:text="${bom.name}"></td>
-                    <td th:text="${bom.item.code}"></td>
-                    <td th:text="${bom.item.name}"></td>
-                    <td th:text="${bom.revisionNo}"></td>
-                    <td th:text="${@format.value(bom.remark)}"></td>
+                    <td th:text="${@format.value(bom.version)}"></td>
+                    <td th:text="${bom.primary ? '예' : '아니오'}"></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>

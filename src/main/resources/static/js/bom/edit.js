@@ -1,19 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const bomEditForm = document.querySelector('#bom-edit-form');
-    const itemSingleSelectModalButton = document.querySelector('#item-list-button');
-
-    const itemSingleSelectModal = createItemSingleSelectModal()
-
-    // BOM 제품 정보 수정
-    itemSingleSelectModalButton.addEventListener('click', function () {
-        itemSingleSelectModal.open('제품 목록');
-    });
-
-    itemSingleSelectModal.onSelect(function (item) {
-        bomEditForm.querySelector('[name="itemId"]').value = item.id;
-        bomEditForm.querySelector('[name="itemName"]').value = item.name;
-    });
 
     $(bomEditForm).validate({
         rules: {

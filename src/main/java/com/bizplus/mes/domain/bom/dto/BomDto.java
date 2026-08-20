@@ -9,7 +9,8 @@ public class BomDto {
     private final Long id;
     private final String code;
     private final String name;
-    private final int revisionNo;
+    private final String version;
+    private final boolean primary;
     private final String remark;
     private final ItemInfo item;
 
@@ -17,7 +18,8 @@ public class BomDto {
     public BomDto(Long id,
                   String code,
                   String name,
-                  int revisionNo,
+                  String version,
+                  boolean primary,
                   String remark,
                   Long itemId,
                   String itemCode,
@@ -25,7 +27,8 @@ public class BomDto {
         this.id = id;
         this.code = code;
         this.name = name;
-        this.revisionNo = revisionNo;
+        this.version = version;
+        this.primary = primary;
         this.remark = remark;
         this.item = new ItemInfo(itemId, itemCode, itemName);
     }

@@ -8,12 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-        name = "bom",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"item_id", "revision_no"})
-        }
-)
+@Table(name = "bom")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bom extends SoftDeletableEntity {
@@ -29,32 +24,40 @@ public class Bom extends SoftDeletableEntity {
     @Column(unique = true, nullable = false)
     private String code;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private int revisionNo;
+    private String version;
+
+    // 모두 false 가능 -> 사용자에게 기본 없음을 표시
+    @Column(name = "is_primary")
+    private boolean primary;
 
     private String remark;
 
     public Bom(Item item,
                String code,
                String name,
-               int revisionNo,
+               String version,
+               boolean primary,
                String remark) {
         this.item = item;
         this.code = code;
         this.name = name;
-        this.revisionNo = revisionNo;
+        this.version = version;
+        this.primary = primary;
         this.remark = remark;
     }
 
-    public void update(Item item,
-                       String code,
+    public void update(String code,
                        String name,
+                       String version,
+                       boolean primary,
                        String remark) {
-        this.item = item;
         this.code = code;
         this.name = name;
+        this.version = version;
+        this.primary = primary;
         this.remark = remark;
     }
 }

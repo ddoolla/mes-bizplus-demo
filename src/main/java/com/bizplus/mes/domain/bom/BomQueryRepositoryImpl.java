@@ -39,7 +39,8 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         bom.id,
                         bom.code,
                         bom.name,
-                        bom.revisionNo,
+                        bom.version,
+                        bom.primary,
                         bom.remark,
                         item.id,
                         item.code,
@@ -69,7 +70,8 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                                 bom.id,
                                 bom.code,
                                 bom.name,
-                                bom.revisionNo,
+                                bom.version,
+                                bom.primary,
                                 bom.remark,
                                 item.id,
                                 item.code,
@@ -85,12 +87,16 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
         );
     }
 
+    @Transactional
     @Override
-    public Integer findNextRevisionNo(Long itemId) {
-        return query
-                .select(bom.revisionNo.max().coalesce(0).add(1))
-                .from(bom)
-                .where(eq(bom.item.id, itemId))
-                .fetchFirst();
+    public void resetPrimary(Long itemId) {
+        query
+                .update(bom)
+                .set(bom.primary, false)
+                .where(
+                        eq(bom.item.id, itemId),
+                        eq(bom.primary, true)
+                )
+                .execute();
     }
 }

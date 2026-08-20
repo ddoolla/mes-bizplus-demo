@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             name: '제품 공정명을 입력해 주세요.',
             itemName: '제품을 선택해 주세요.'
-        }
+        }, errorPlacement: function (error, element) {
+            if (element.attr('name') === 'itemName') {
+                error.appendTo('#item-error-container');
+            } else {
+                error.insertAfter(element);
+            }
+        },
     });
 });

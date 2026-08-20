@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('제품 공정 등록', ~{}, ~{::script}, 'ROUTING', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/item/modal/single-select.js}"></script>
+    <script th:src="@{/js/routing/new.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('제품 공정 등록', '기준정보관리, 제품공정관리, 등록')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/routings}'|">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+        </button>
+
+        <button type="submit"
+                form="routing-create-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('ROUTING_CREATE')">
+            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <form id="routing-create-form" method="post" th:action="@{/routings}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        제품 <span class="app-required">*</span>
+                    </th>
+                    <td>
+                        <input type="text"
+                               name="itemName"
+                               class="app-form-control app-xs app-readonly-bg w-25"
+                               placeholder="제품을 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="itemId"/>
+                        <button type="button"
+                                id="item-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 제품 목록
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제품 공정 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               placeholder="제품 공정 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제품 공정명 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               placeholder="제품 공정명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>버전</th>
+                    <td>
+                        <input type="text"
+                               name="version"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>기본 공정 여부</th>
+                    <td>
+                        <label>
+                            <input type="checkbox"
+                                   name="primary"
+                                   value="true"/>
+                            기본 공정으로 지정
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설명</th>
+                    <td>
+                        <input type="text"
+                               name="description"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!--/* 제품 목록 모달 */-->
+    <div th:replace="~{pages/item/modal/list :: list (
+        'item-single-select-modal',
+        '/items/modal/single-select-list',
+        ${itemCategories},
+        ${itemTypes})}">
+    </div>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const bomCreateForm = document.querySelector('#bom-create-form');
+    const routingCreateForm = document.querySelector('#routing-create-form');
     const modalOpenButton = document.querySelector('#item-list-button');
 
     const itemSingleSelectModal = createItemSingleSelectModal();
@@ -12,17 +12,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 품목 선택 처리
     itemSingleSelectModal.onSelect(function (item) {
-        bomCreateForm.querySelector('[name="itemId"]').value = item.id;
-        bomCreateForm.querySelector('[name="itemName"]').value = item.name;
+        routingCreateForm.querySelector('[name="itemId"]').value = item.id;
+        routingCreateForm.querySelector('[name="itemName"]').value = item.name;
     });
 
-    // BOM 등록 폼 유효성검사
-    $('#bom-create-form').validate({
+    $('#routing-create-form').validate({
         rules: {
             code: {
                 required: true,
                 remote: {
-                    url: '/boms/check-code',
+                    url: '/routings/check-code',
                     type: 'get',
                 },
             },
@@ -30,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
             itemName: 'required',
         }, messages: {
             code: {
-                required: 'BOM 코드를 입력해 주세요.',
-                remote: '이미 존재하는 BOM 코드입니다.',
+                required: '제품 공정 코드를 입력해 주세요.',
+                remote: '이미 존재하는 제품 공정 코드입니다.',
             },
-            name: 'BOM명을 입력해 주세요.',
+            name: '제품 공정명을 입력해 주세요.',
             itemName: '제품을 선택해 주세요.'
         }
     });

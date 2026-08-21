@@ -1,0 +1,42 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url)">
+    <form class="process-search-form" method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>공정 코드</th>
+                <td>
+                    <input type="text"
+                           name="code"
+                           class="app-form-control app-xs"
+                           th:value="${param.code}">
+                </td>
+                <th>공정명</th>
+                <td>
+                    <input type="text"
+                           name="name"
+                           class="app-form-control app-xs"
+                           th:value="${param.name}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+    </form>
+</div>
+
+</html>

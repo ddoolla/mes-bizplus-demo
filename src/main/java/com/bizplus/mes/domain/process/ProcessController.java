@@ -63,6 +63,15 @@ public class ProcessController {
         return "pages/process/edit";
     }
 
+    @GetMapping("/modal/multi-select-list")
+    public String viewMultiSelectList(Model model,
+                                      ProcessSearchDto dto,
+                                      @PageableDefault Pageable pageable) {
+        model.addAttribute("data", processService.getProcesses(dto, pageable));
+
+        return "pages/process/modal/multi-select-list :: list";
+    }
+
     @GetMapping("/check-code")
     @ResponseBody
     public boolean checkCode(@RequestParam(required = false) Long id,

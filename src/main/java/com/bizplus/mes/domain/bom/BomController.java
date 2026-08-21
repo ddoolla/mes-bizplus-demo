@@ -38,7 +38,7 @@ public class BomController {
     private final UomService uomService;
     private final MessageService messageService;
 
-    private final BomUpdater bomUpdater;
+    private final BomUpdateService bomUpdateService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('BOM_READ')")
@@ -107,7 +107,7 @@ public class BomController {
     public String updateBom(@PathVariable Long id,
                             @Valid BomUpdateDto dto,
                             RedirectAttributes reAtt) {
-        bomUpdater.update(id, dto);
+        bomUpdateService.update(id, dto);
 
         reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));

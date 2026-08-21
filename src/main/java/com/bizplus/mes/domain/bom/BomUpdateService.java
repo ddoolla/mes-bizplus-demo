@@ -3,12 +3,12 @@ package com.bizplus.mes.domain.bom;
 import com.bizplus.mes.domain.bom.dto.BomUpdateDto;
 import com.bizplus.mes.domain.bom.item.BomItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class BomUpdater {
+public class BomUpdateService {
 
     private final BomService bomService;
     private final BomItemService bomItemService;

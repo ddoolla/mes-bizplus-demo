@@ -12,6 +12,8 @@ import com.bizplus.mes.domain.role.RoleService;
 import com.bizplus.mes.domain.user.dto.UserCreateDto;
 import com.bizplus.mes.domain.user.dto.UserSearchDto;
 import com.bizplus.mes.domain.user.dto.UserUpdateDto;
+import com.bizplus.mes.domain.user.facade.UserCreateService;
+import com.bizplus.mes.domain.user.facade.UserUpdateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserUpdateService userUpdateService;
+    private final UserCreateService userCreateService;
     private final RoleService roleService;
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
@@ -41,7 +45,6 @@ public class UserController {
     public String viewList(Model model,
                            UserSearchDto dto,
                            @PageableDefault Pageable pageable) {
-
         model.addAttribute("data", userService.getUsers(dto, pageable));
 
         return "pages/user/list";
@@ -50,7 +53,6 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
-
         model.addAttribute("user", userService.getUser(id));
 
         return "pages/user/detail";
@@ -59,7 +61,6 @@ public class UserController {
     @GetMapping("/new")
     @PreAuthorize("hasAuthority('USER_CREATE')")
     public String viewNew(Model model) {
-
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
@@ -70,7 +71,6 @@ public class UserController {
     @GetMapping("/{id}/edit")
     @PreAuthorize("hasAuthority('USER_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
-
         model.addAttribute("user", userService.getUser(id));
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
@@ -80,12 +80,11 @@ public class UserController {
     }
 
     /*
-    * 논리 삭제된 아이디도 중복으로 간주
-    * */
+     * 논리 삭제된 아이디도 중복으로 간주
+     * */
     @GetMapping("/check-id")
     @ResponseBody
     public boolean checkId(String userId) {
-
         return userService.checkUserId(userId);
     }
 
@@ -93,8 +92,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_CREATE')")
     @UserAction(menu = MenuCode.USER, type = ActionType.CREATE)
     public String createUser(@Valid UserCreateDto dto, RedirectAttributes reAtt) {
-
-        userService.createUser(dto);
+        userCreateService.create(dto);
 
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
@@ -107,8 +105,7 @@ public class UserController {
     public String updateUser(@PathVariable Long id,
                              @Valid UserUpdateDto dto,
                              RedirectAttributes reAtt) {
-
-        userService.updateUser(id, dto);
+        userUpdateService.update(id, dto);
 
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
 
@@ -120,7 +117,6 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_DELETE')")
     @UserAction(menu = MenuCode.USER, type = ActionType.DELETE)
     public ResponseEntity<ApiResponse<Void>> deleteUsers(@RequestBody List<Long> ids) {
-
         userService.deleteUsers(ids);
 
         return ResponseEntity.ok(

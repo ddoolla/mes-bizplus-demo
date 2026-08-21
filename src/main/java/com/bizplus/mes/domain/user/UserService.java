@@ -13,7 +13,7 @@ public interface UserService {
 
     boolean checkUserId(String userId);
 
-    void createUser(UserCreateDto dto);
+    Long createUser(UserCreateDto dto);
 
     void updateUser(Long id, UserUpdateDto dto);
 

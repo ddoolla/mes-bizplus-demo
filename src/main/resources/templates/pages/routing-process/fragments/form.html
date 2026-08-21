@@ -1,0 +1,70 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (routing, routingProcesses)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">제품 공정 단계</p>
+            </div>
+            <div>
+                <button type="button"
+                        id="routing-process-create-button"
+                        th:data-routing-id="${routing.id}"
+                        class="btn btn-primary btn-sm me-1">
+                    등록
+                </button>
+                <button type="button"
+                        id="routing-process-delete-button"
+                        class="btn btn-danger btn-sm">
+                    삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="routing-process-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>공정 코드</th>
+                    <th>공정명</th>
+                    <th>공정 단계</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="routingProcess, stat : ${routingProcesses}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${routingProcess.id}"/>
+                    </td>
+                    <td th:text="${routingProcess.process.code}"></td>
+                    <td th:text="${routingProcess.process.name}"></td>
+                    <td>
+                        <input type="number"
+                               class="routing-process-step-no app-form-control app-xs"
+                               th:name="|routingProcesses[${stat.index}].stepNo|"
+                               th:value="${routingProcess.stepNo}"
+                               min="0"/>
+                        <input type="hidden"
+                               th:name="|routingProcesses[${stat.index}].id|"
+                               th:value="${routingProcess.id}"/>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

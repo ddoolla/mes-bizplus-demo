@@ -1,0 +1,41 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (routingProcesses)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">제품 공정 단계</p>
+            </div>
+        </div>
+
+        <div id="bom-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>공정 코드</th>
+                    <th>공정명</th>
+                    <th>공정 단계</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="routingProcess : ${routingProcesses}">
+                    <td th:text="${routingProcess.process.code}"></td>
+                    <td th:text="${routingProcess.process.name}"></td>
+                    <td th:text="${routingProcess.stepNo}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

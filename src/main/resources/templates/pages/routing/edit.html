@@ -6,8 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/item/modal/single-select.js}"></script>
+    <script th:src="@{/js/process/modal/multi-select.js}"></script>
     <script th:src="@{/js/routing/edit.js}"></script>
+    <script th:src="@{/js/routing-process/form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -32,12 +33,12 @@
         </button>
     </div>
 
-    <!--/* 수정 양식 */-->
-    <div class="app-box app-box-bg">
-        <form id="routing-edit-form"
-              method="post"
-              th:action="@{/routings/{id}(id=${routing.id})}"
-              th:object="${routing}">
+    <form id="routing-edit-form"
+          method="post"
+          th:action="@{/routings/{id}(id=${routing.id})}"
+          th:object="${routing}">
+        <!--/* 수정 양식 */-->
+        <div class="app-box app-box-bg">
 
             <input type="hidden" name="id" th:value="${routing.id}"/>
 
@@ -103,7 +104,16 @@
                 </tr>
                 </tbody>
             </table>
-        </form>
+        </div>
+
+        <!--/* 제품 공정 단계 양식 */-->
+        <div th:replace="~{pages/routing-process/fragments/form :: form (${routing}, ${routingProcesses})}"></div>
+    </form>
+
+    <!--/* 공정 목록 모달 */-->
+    <div th:replace="~{pages/process/modal/list :: list (
+        'process-multi-select-modal',
+        '/processes/modal/multi-select-list')}">
     </div>
 </div>
 </body>

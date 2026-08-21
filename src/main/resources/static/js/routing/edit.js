@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#routing-edit-form').validate({
+    const routingEditForm = document.querySelector('#routing-edit-form');
+
+    $(routingEditForm).validate({
         rules: {
             code: {
                 required: true,
@@ -24,5 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
             name: '제품 공정명을 입력해 주세요.',
             itemName: '제품을 선택해 주세요.'
         }
+    });
+
+    $(routingEditForm).find('.routing-process-step-no').each(function () {
+        $(this).rules('add', {
+            required: true,
+            min: 0,
+            messages: {
+                required: '공정 단계를 입력해 주세요.',
+                number: '공정 단계는 숫자로 입력해 주세요.',
+                min: '공정 단계는 0 이상이어야 합니다.'
+            }
+        });
     });
 });

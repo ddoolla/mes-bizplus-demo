@@ -12,6 +12,7 @@ import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.routing.dto.RoutingCreateDto;
 import com.bizplus.mes.domain.routing.dto.RoutingSearchDto;
 import com.bizplus.mes.domain.routing.dto.RoutingUpdateDto;
+import com.bizplus.mes.domain.routing.process.RoutingProcessService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,8 @@ public class RoutingController {
 
     private final CommonCodeService commonCodeService;
     private final RoutingService routingService;
+    private final RoutingUpdateService routingUpdateService;
+    private final RoutingProcessService routingProcessService;
     private final MessageService messageService;
 
     @GetMapping
@@ -49,6 +52,7 @@ public class RoutingController {
     @PreAuthorize("hasAuthority('ROUTING_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("routing", routingService.getRouting(id));
+        model.addAttribute("routingProcesses", routingProcessService.getRoutingProcesses(id));
 
         return "pages/routing/detail";
     }
@@ -66,6 +70,7 @@ public class RoutingController {
     @PreAuthorize("hasAuthority('ROUTING_READ')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("routing", routingService.getRouting(id));
+        model.addAttribute("routingProcesses", routingProcessService.getRoutingProcesses(id));
 
         return "pages/routing/edit";
     }
@@ -96,7 +101,7 @@ public class RoutingController {
     public String updateRouting(@PathVariable Long id,
                                 @Valid RoutingUpdateDto dto,
                                 RedirectAttributes reAtt) {
-        routingService.updateRouting(id, dto);
+        routingUpdateService.update(id, dto);
 
         reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));

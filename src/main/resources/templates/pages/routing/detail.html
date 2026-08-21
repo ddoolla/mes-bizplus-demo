@@ -30,7 +30,7 @@
         </button>
     </div>
 
-    <!--/* 바디 */-->
+    <!--/* 제품 공정 정보 */-->
     <div class="app-box app-box-bg">
 
         <table class="app-table-input" th:object="${routing}">
@@ -66,6 +66,9 @@
             </tbody>
         </table>
     </div>
+
+    <!--/* 제품 공정 단계 정보 */-->
+    <div th:replace="~{pages/routing-process/fragments/list :: list (${routingProcesses})}"></div>
 </div>
 </body>
 </html>

@@ -79,20 +79,34 @@ public class ItemController {
         return "pages/item/edit";
     }
 
-    @GetMapping("/modal/single-select-list")
+    @GetMapping("/modal/{itemGroup}/single-select-list")
     public String viewSingleSelectList(Model model,
+                                       @PathVariable String itemGroup,
                                        ItemSearchDto dto,
                                        @PageableDefault Pageable pageable) {
-        model.addAttribute("data", itemService.getProducts(dto, pageable));
+        ItemGroup group = ItemGroup.valueOf(itemGroup.toUpperCase());
+
+        model.addAttribute("data", switch (group) {
+            case PRODUCT -> itemService.getProducts(dto, pageable);
+            case MATERIAL -> itemService.getMaterials(dto, pageable);
+            case BOM_ITEM -> itemService.getBomItems(dto, pageable);
+        });
 
         return "pages/item/modal/single-select-list :: list";
     }
 
-    @GetMapping("/modal/multi-select-list")
+    @GetMapping("/modal/{itemGroup}/multi-select-list")
     public String viewMultiSelectList(Model model,
+                                      @PathVariable String itemGroup,
                                       ItemSearchDto dto,
                                       @PageableDefault Pageable pageable) {
-        model.addAttribute("data", itemService.getBomItems(dto, pageable));
+        ItemGroup group = ItemGroup.valueOf(itemGroup.toUpperCase());
+
+        model.addAttribute("data", switch (group) {
+            case PRODUCT -> itemService.getProducts(dto, pageable);
+            case MATERIAL -> itemService.getMaterials(dto, pageable);
+            case BOM_ITEM -> itemService.getBomItems(dto, pageable);
+        });
 
         return "pages/item/modal/multi-select-list :: list";
     }

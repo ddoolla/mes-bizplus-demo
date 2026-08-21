@@ -10,7 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // BOM 구성 품목 등록
     itemMultiSelectModalButton.addEventListener('click', function () {
-        itemMultiSelectModal.open('BOM 구성품 목록')
+        itemMultiSelectModal.open(
+            'BOM 구성품 목록',
+            `/items/modal/bom_item/multi-select-list`
+        );
     });
 
     itemMultiSelectModal.onRegister(function (selectedIds) {
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 location.reload();
 
-                Mes.Modal.close('item-multi-select-modal');
+                itemMultiSelectModal.close();
             })
             .fail(function (xhr) {
                 alert(xhr.responseJSON.message);

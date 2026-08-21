@@ -7,13 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 품목 선택 모달 열기
     modalOpenButton.addEventListener('click', function () {
-        itemSingleSelectModal.open('제품 목록 (완제품/반제품)');
+        itemSingleSelectModal.open(
+            '제품 목록 (완제품/반제품)',
+            '/items/modal/product/single-select-list'
+        );
     });
 
     // 품목 선택 처리
     itemSingleSelectModal.onSelect(function (item) {
         bomCreateForm.querySelector('[name="itemId"]').value = item.id;
         bomCreateForm.querySelector('[name="itemName"]').value = item.name;
+        itemSingleSelectModal.close();
     });
 
     // BOM 등록 폼 유효성검사

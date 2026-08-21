@@ -12,7 +12,7 @@ const createItemMultiSelectModal = () => {
         Mes.Checkbox.init(itemList);
     };
 
-    const load = (url = listUrl, params = '') => {
+    const load = (url, params = '') => {
         Mes.Ajax.get(url, params)
             .done(render)
             .fail(function (xhr) {
@@ -23,12 +23,17 @@ const createItemMultiSelectModal = () => {
     };
 
     // 모달 열기
-    const open = (title = '품목 목록') => {
+    const open = (title = '품목 목록', url) => {
         Mes.Modal.setTitle(modalId, title);
 
-        load();
+        load(url);
 
         Mes.Modal.open(modalId);
+    };
+
+    // 모달 닫기
+    const close = () => {
+        Mes.Modal.close(modalId);
     };
 
     // 검색 폼 초기화
@@ -77,6 +82,7 @@ const createItemMultiSelectModal = () => {
 
     return {
         open,
+        close,
         onRegister,
     };
 };

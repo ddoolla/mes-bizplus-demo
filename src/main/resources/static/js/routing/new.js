@@ -7,13 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 품목 선택 모달 열기
     modalOpenButton.addEventListener('click', function () {
-        itemSingleSelectModal.open('제품 목록 (완제품/반제품)');
+        itemSingleSelectModal.open(
+            '제품 목록 (완제품/반제품)',
+            '/items/modal/product/single-select-list'
+        );
     });
 
     // 품목 선택 처리
     itemSingleSelectModal.onSelect(function (item) {
         routingCreateForm.querySelector('[name="itemId"]').value = item.id;
         routingCreateForm.querySelector('[name="itemName"]').value = item.name;
+        itemSingleSelectModal.close();
     });
 
     $('#routing-create-form').validate({

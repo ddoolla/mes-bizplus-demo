@@ -2,6 +2,7 @@ package com.bizplus.mes.security;
 
 import com.bizplus.mes.security.handler.CustomLoginSuccessHandler;
 import com.bizplus.mes.security.handler.CustomLogoutHandler;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,19 @@ public class SecurityConfig {
                                 "/lib/**"
                         ).permitAll()
                         .anyRequest().authenticated()
+                )
+                // 세션 만료 시 비동기 요청 처리
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authExcpetion) -> {
+                            System.out.println("여기 타나요?");
+                            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                                System.out.println("비동기 여기 타나요?");
+                                return;
+                            }
+
+                            response.sendRedirect("/login");
+                        })
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

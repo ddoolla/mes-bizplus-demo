@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modalOpenButton.addEventListener('click', function () {
         itemSingleSelectModal.open(
             '제품 목록 (완제품/반제품)',
-            '/items/modal/product/single-select-list'
+            '/items/product/modal/single-select-list'
         );
     });
 

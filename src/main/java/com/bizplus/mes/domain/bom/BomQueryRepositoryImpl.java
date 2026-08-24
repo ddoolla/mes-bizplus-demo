@@ -63,6 +63,29 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
     }
 
     @Override
+    public List<BomDto> findBoms(Long itemId) {
+        return query
+                .select(new QBomDto(
+                        bom.id,
+                        bom.code,
+                        bom.name,
+                        bom.version,
+                        bom.primary,
+                        bom.remark,
+                        item.id,
+                        item.code,
+                        item.name
+                ))
+                .from(bom)
+                .innerJoin(item).on(bom.item.id.eq(item.id))
+                .where(
+                        notDeleted(bom.deletedAt),
+                        eq(bom.item.id, itemId)
+                )
+                .fetch();
+    }
+
+    @Override
     public Optional<BomDto> findBom(Long id) {
         return Optional.ofNullable(
                 query
@@ -82,6 +105,32 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         .where(
                                 notDeleted(bom.deletedAt),
                                 eq(bom.id, id)
+                        )
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<BomDto> findPrimaryBom(Long itemId) {
+        return Optional.ofNullable(
+                query
+                        .select(new QBomDto(
+                                bom.id,
+                                bom.code,
+                                bom.name,
+                                bom.version,
+                                bom.primary,
+                                bom.remark,
+                                item.id,
+                                item.code,
+                                item.name
+                        ))
+                        .from(bom)
+                        .innerJoin(item).on(bom.item.id.eq(item.id))
+                        .where(
+                                notDeleted(bom.deletedAt),
+                                eq(bom.item.id, itemId),
+                                eq(bom.primary, true)
                         )
                         .fetchOne()
         );

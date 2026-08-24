@@ -20,11 +20,9 @@ public class GlobalExceptionHandler {
     public Object handleBusinessException(BusinessException e,
                                           HttpServletRequest request,
                                           Model model) {
-
         log.error("{} {}", e.getMessage(), e.getDetail());
 
         if (isAjax(request)) {
-
             return ResponseEntity
                     .badRequest()
                     .body(ApiResponse.fail("오류가 발생했습니다."));
@@ -40,17 +38,14 @@ public class GlobalExceptionHandler {
     * */
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<Void> handleNoResourceFound(NoResourceFoundException e) {
-
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(Exception.class)
     public Object handleException(Exception e, HttpServletRequest request) {
-
         log.error("System error", e);
 
         if (isAjax(request)) {
-
             return ResponseEntity
                     .internalServerError()
                     .body(ApiResponse.fail("오류가 발생했습니다. 관리자에게 문의해주세요."));
@@ -60,7 +55,6 @@ public class GlobalExceptionHandler {
     }
 
     private boolean isAjax(HttpServletRequest request) {
-
         return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 }

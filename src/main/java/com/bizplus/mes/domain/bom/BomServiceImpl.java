@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,9 +32,19 @@ public class BomServiceImpl implements BomService {
     }
 
     @Override
+    public List<BomDto> getBoms(Long itemId) {
+        return bomRepository.findBoms(itemId);
+    }
+
+    @Override
     public BomDto getBom(Long id) {
         return bomRepository.findBom(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOM_NOT_FOUND, "id: " + id));
+    }
+
+    @Override
+    public Optional<BomDto> getPrimaryBom(Long itemId) {
+        return bomRepository.findPrimaryBom(itemId);
     }
 
     /*

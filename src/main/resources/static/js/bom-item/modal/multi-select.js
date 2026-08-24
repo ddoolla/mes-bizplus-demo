@@ -1,33 +1,32 @@
-const createItemMultiSelectModal = () => {
+const createBomItemMultiSelectModal = () => {
 
-    const modalId = 'item-multi-select-modal';
+    const modalId = 'bom-item-multi-select-modal';
+    const listUrl = '/items/modal/multi-select-list';
 
     const modal = document.querySelector(`#${modalId}`);
-    const searchForm = modal.querySelector('.item-search-form');
-    const itemList = modal.querySelector('.item-list');
+    const searchForm = modal.querySelector('.bom-item-search-form');
+    const listSection = modal.querySelector('.bom-item-list');
 
     const render = (response) => {
-        itemList.innerHTML = response;
-        Mes.Checkbox.init(itemList);
+        listSection.innerHTML = response;
+        Mes.Checkbox.init(listSection);
     };
 
-    const load = async (url, params = '') => {
+    const load = (url, params = '') => {
+        Mes.Ajax.get(url, params)
+            .done(render)
+            .fail(function (xhr) {
+                alert(xhr.responseJSON.message);
 
-        try {
-            const response = await Mes.Ajax.get(url, params);
-            render(response);
-
-        } catch (xhr) {
-            alert(xhr.responseJSON.message);
-            Mes.Modal.close(modalId);
-        }
+                Mes.Modal.close(modalId);
+            });
     };
 
     // 모달 열기
-    const open = (title = '품목 목록', url) => {
+    const open = (title = 'BOM 구성 품목 목록', url, params) => {
         Mes.Modal.setTitle(modalId, title);
 
-        load(url);
+        load(url, params);
 
         Mes.Modal.open(modalId);
     };
@@ -51,14 +50,14 @@ const createItemMultiSelectModal = () => {
     });
 
     // 페이지네이션 리렌더링 후 이벤트 연결
-    Mes.Pagination.bindEvents(itemList, render);
+    Mes.Pagination.bindEvents(listSection, render);
 
     // 모달 닫기 시 폼 초기화
     Mes.Modal.resetFormOnHidden(modalId);
 
-    // 품목 등록 처리
+    // BOM 구성품 선택 등록 처리
     const onRegister = (callback) => {
-        itemList.addEventListener('click', function (e) {
+        listSection.addEventListener('click', function (e) {
 
             const createBtn = e.target.closest('.item-select-confirm-button');
 
@@ -66,7 +65,7 @@ const createItemMultiSelectModal = () => {
                 return;
             }
 
-            const selectedIds = Mes.Checkbox.getCheckedValues(itemList);
+            const selectedIds = Mes.Checkbox.getCheckedValues(listSection);
 
             if (!selectedIds.length) {
                 alert('등록할 품목을 선택해 주세요.')

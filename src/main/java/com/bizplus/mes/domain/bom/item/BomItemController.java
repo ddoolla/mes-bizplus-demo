@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,19 @@ public class BomItemController {
 
     private final BomItemService bomItemService;
     private final MessageService messageService;
+
+    @GetMapping("/bom-items/modal/multi-select-list")
+    public String viewMultiSelectModalList(Model model,
+                                           @RequestParam(required = false) Long bomId) {
+        model.addAttribute(
+                "bomItems",
+                bomId == null
+                        ? List.of()
+                        : bomItemService.getBomItems(bomId)
+        );
+
+        return "pages/bom-item/modal/multi-select-list :: list";
+    }
 
     @PostMapping("/boms/{bomId}/items")
     @ResponseBody

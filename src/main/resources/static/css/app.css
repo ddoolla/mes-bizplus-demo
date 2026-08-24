@@ -351,6 +351,12 @@ input[type="text"]:disabled, select:disabled {
     margin-right: 5px;
 }
 
+/* ================================ Modal ================================ */
+.app-modal-body {
+    height: 630px;
+    overflow-y: auto;
+}
+
 /* ================================ Util ================================ */
 
 /* jquery.validate.min.js 에서 사용 */

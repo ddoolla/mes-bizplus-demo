@@ -1,0 +1,43 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, primaryBom, boms)">
+    <form class="bom-item-search-form" method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 100px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>BOM 선택</th>
+                <td>
+                    <select name="bomId"
+                            class="app-form-control app-xs">
+                        <option th:if="${#lists.isEmpty(boms)}" value="" disabled>
+                            등록된 BOM이 없습니다.
+                        </option>
+                        <option value="">
+                            BOM 선택
+                        </option>
+                        <option th:each="bom : ${boms}"
+                                th:value="${bom.id}"
+                                th:text="|${bom.code} (${bom.name})|"
+                                th:selected="${bom.id == primaryBom?.id}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="fa fa-search" aria-hidden="true"></i> 조회
+            </button>
+        </div>
+    </form>
+</div>
+
+</html>

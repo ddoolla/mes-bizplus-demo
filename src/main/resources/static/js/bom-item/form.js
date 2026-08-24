@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     itemMultiSelectModalButton.addEventListener('click', function () {
         itemMultiSelectModal.open(
             'BOM 구성품 목록',
-            `/items/modal/bom_item/multi-select-list`
+            `/items/bom_item/modal/multi-select-list`
         );
     });
 

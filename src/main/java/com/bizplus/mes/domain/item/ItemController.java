@@ -79,7 +79,7 @@ public class ItemController {
         return "pages/item/edit";
     }
 
-    @GetMapping("/modal/{itemGroup}/single-select-list")
+    @GetMapping("/{itemGroup}/modal/single-select-list")
     public String viewSingleSelectList(Model model,
                                        @PathVariable String itemGroup,
                                        ItemSearchDto dto,
@@ -95,7 +95,7 @@ public class ItemController {
         return "pages/item/modal/single-select-list :: list";
     }
 
-    @GetMapping("/modal/{itemGroup}/multi-select-list")
+    @GetMapping("/{itemGroup}/modal/multi-select-list")
     public String viewMultiSelectList(Model model,
                                       @PathVariable String itemGroup,
                                       ItemSearchDto dto,

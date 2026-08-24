@@ -114,7 +114,7 @@
     <!--/* BOM 구성품 등록용 모달 */-->
     <div th:replace="~{pages/item/modal/list :: list (
         'item-multi-select-modal',
-        '/items/modal/multi-select-list',
+        @{/items/bom_item/modal/multi-select-list},
         ${itemCategories},
         ${bomItemTypes})}">
     </div>

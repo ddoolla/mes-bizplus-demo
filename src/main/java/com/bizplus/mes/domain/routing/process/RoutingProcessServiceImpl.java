@@ -28,6 +28,11 @@ public class RoutingProcessServiceImpl implements RoutingProcessService {
         return routingProcessRepository.findRoutingProcesses(routingId);
     }
 
+    @Override
+    public RoutingProcessDto getRoutingProcess(Long id) {
+        return routingProcessRepository.findRoutingProcess(id);
+    }
+
     @Transactional
     @Override
     public void createRoutingProcesses(Long routingId, RoutingProcessCreateDto dto) {

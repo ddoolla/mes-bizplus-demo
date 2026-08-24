@@ -26,7 +26,8 @@ public class RoutingProcessQueryRepositoryImpl implements RoutingProcessQueryRep
                         routingProcess.stepNo,
                         process.id,
                         process.code,
-                        process.name
+                        process.name,
+                        process.description
                 ))
                 .from(routingProcess)
                 .innerJoin(process).on(routingProcess.process.id.eq(process.id))
@@ -35,5 +36,24 @@ public class RoutingProcessQueryRepositoryImpl implements RoutingProcessQueryRep
                 )
                 .orderBy(routingProcess.stepNo.asc())
                 .fetch();
+    }
+
+    @Override
+    public RoutingProcessDto findRoutingProcess(Long id) {
+        return query
+                .select(new QRoutingProcessDto(
+                        routingProcess.id,
+                        routingProcess.stepNo,
+                        process.id,
+                        process.code,
+                        process.name,
+                        process.description
+                ))
+                .from(routingProcess)
+                .innerJoin(process).on(routingProcess.process.id.eq(process.id))
+                .where(
+                        eq(routingProcess.id, id)
+                )
+                .fetchOne();
     }
 }

@@ -1,0 +1,100 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (routingProcess, item, primaryBom, processMaterials)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">공정 소모 자재 목록</p>
+            </div>
+            <div>
+                <button type="button"
+                        id="btn-add-from-item"
+                        th:data-routing-process-id="${routingProcess.id}"
+                        class="btn btn-primary btn-sm me-1">
+                    자재에서 추가
+                </button>
+                <button type="button"
+                        id="btn-add-from-bom"
+                        th:data-routing-process-id="${routingProcess.id}"
+                        th:data-primary-bom-id="${primaryBom?.id}"
+                        th:data-item-name="${item.name}"
+                        class="btn btn-primary btn-sm me-1">
+                    BOM에서 추가
+                </button>
+                <button type="button"
+                        id="process-material-delete-button"
+                        class="btn btn-danger btn-sm">
+                    삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="process-material-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>자재 코드</th>
+                    <th>자재명</th>
+                    <th>카테고리</th>
+                    <th>자재 유형</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="processMaterial, stat : ${processMaterials}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${processMaterial.id}"/>
+                    </td>
+                    <td th:text="${processMaterial.item.code}"></td>
+                    <td th:text="${processMaterial.item.name}"></td>
+                    <td th:text="${@format.value(processMaterial.item.category)}"></td>
+                    <td th:text="${processMaterial.item.type?.description}"></td>
+                    <td th:text="${@format.value(processMaterial.item.specification)}"></td>
+                    <td>
+                        <input type="number"
+                               class="process-material-quantity app-form-control app-xs"
+                               th:name="|processMaterials[${stat.index}].quantity|"
+                               th:value="${#numbers.formatDecimal(processMaterial.quantity, 1, processMaterial.uom.scale)}"
+                               min="0"/>
+                        <input type="hidden"
+                               th:name="|processMaterials[${stat.index}].id|"
+                               th:value="${processMaterial.id}"/>
+                    </td>
+                    <td>
+                        <select class="process-material-uom app-form-control app-xs"
+                                th:name="|processMaterials[${stat.index}].uomId|">
+<!--                            <option th:each="uom : ${uoms}"-->
+<!--                                    th:value="${uom.id}"-->
+<!--                                    th:text="${uom.code}"-->
+<!--                                    th:selected="${uom.id == bomItem.uom.id}"-->
+<!--                                    th:data-scale="${uom.scale}">-->
+<!--                            </option>-->
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

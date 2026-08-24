@@ -92,7 +92,7 @@ public class RoutingController {
         reAtt.addAttribute("id", createdId);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
-        return "redirect:/routings/{id}";
+        return "redirect:/routings/{id}/edit";
     }
 
     @PostMapping("/{id}")

@@ -15,16 +15,22 @@ public class RoutingProcessDto {
                              int stepNo,
                              Long processId,
                              String processCode,
-                             String processName) {
+                             String processName,
+                             String processDescription) {
         this.id = id;
         this.stepNo = stepNo;
-        this.process = new ProcessInfo(processId, processCode, processName);
+        this.process = new ProcessInfo(
+                processId,
+                processCode,
+                processName,
+                processDescription);
     }
 
     public record ProcessInfo(
             Long id,
             String code,
-            String name
+            String name,
+            String description
     ) {
     }
 }

@@ -10,6 +10,8 @@ public interface RoutingProcessService {
 
     List<RoutingProcessDto> getRoutingProcesses(Long routingId);
 
+    RoutingProcessDto getRoutingProcess(Long id);
+
     void createRoutingProcesses(Long routingId, RoutingProcessCreateDto dto);
 
     void updateRoutingProcesses(List<RoutingProcessUpdateDto> dtos);

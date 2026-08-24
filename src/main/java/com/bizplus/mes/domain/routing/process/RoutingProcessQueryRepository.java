@@ -7,4 +7,6 @@ import java.util.List;
 public interface RoutingProcessQueryRepository {
 
     List<RoutingProcessDto> findRoutingProcesses(Long routingId);
+
+    RoutingProcessDto findRoutingProcess(Long id);
 }

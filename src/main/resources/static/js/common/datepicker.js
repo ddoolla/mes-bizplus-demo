@@ -1,5 +1,3 @@
-window.Mes = window.Mes || {};
-
 /* jquery ui - datepicker 한국어 세팅 */
 $(function () {
     if ($.datepicker) {
@@ -21,8 +19,7 @@ $(function () {
     }
 });
 
-Mes.Datepicker = {
-
+const datepicker = {
     init(from, to) {
 
         const $from = $('#' + from);
@@ -42,4 +39,6 @@ Mes.Datepicker = {
             }
         });
     },
-}
+};
+
+export default datepicker;

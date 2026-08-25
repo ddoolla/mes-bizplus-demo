@@ -1,44 +1,23 @@
-window.Mes = window.Mes || {};
-
-/*
-* Ajax.delete('/users', selectedIds)
-*   .done(function (response) {
-*
-*       alert(response.message);
-*       ...
-*
-*   }).fail(function (xhr) {
-*
-*       console.log(xhr.status);
-*       alert(xhr.responseJSON.message);
-*       ...
-*   })...
-* */
-
 // csrf 헤더, 토큰
 const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
 const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
 
-Mes.Ajax = {
-
+const ajax = {
     request(options) {
         return $.ajax(options)
             .catch(function (xhr) {
                 if (xhr.status === 401) {
-                    const message = xhr.responseJSON?.message
-                        || '세션이 만료되었습니다. 다시 로그인 해주세요.';
+                    const message = xhr.responseJSON?.message || '세션이 만료되었습니다. 다시 로그인 해주세요.';
 
                     alert(message);
                     window.location.href = '/login';
                     // 세션 만료는 여기서 예외처리 완료
                     return;
                 }
-
                 // 그 외 오류는 호출부 catch로 전달
                 throw xhr;
             });
     },
-
     get(url, data) {
         return this.request({
             url: url,
@@ -46,7 +25,6 @@ Mes.Ajax = {
             data: data,
         });
     },
-
     post(url, data) {
         const formData = data instanceof FormData;
 
@@ -61,7 +39,6 @@ Mes.Ajax = {
             }
         });
     },
-
     put(url, data) {
         const formData = data instanceof FormData;
 
@@ -76,7 +53,6 @@ Mes.Ajax = {
             }
         });
     },
-
     delete(url, data) {
         const formData = data instanceof FormData;
 
@@ -92,4 +68,5 @@ Mes.Ajax = {
         });
     },
 };
-;
+
+export default ajax;

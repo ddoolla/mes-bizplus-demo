@@ -1,8 +1,8 @@
-window.Mes = window.Mes || {};
+import ajax from "./ajax.js";
 
-Mes.Pagination = {
+const pagination = {
     bindEvents(container, onLoad) {
-        container.addEventListener('click', function (e) {
+        container.addEventListener('click', async function (e) {
             const link = e.target.closest('.app-pagination a');
 
             if (!link || !container.contains(link)) {
@@ -11,11 +11,16 @@ Mes.Pagination = {
 
             e.preventDefault();
 
-            Mes.Ajax.get(link.href)
-                .done(onLoad)
-                .fail(function (xhr) {
-                    alert(xhr.responseJSON.message);
-                });
+            try {
+                const response = await ajax.get(link.href);
+
+                onLoad(response);
+
+            } catch (xhr) {
+                alert(xhr.responseJSON.message);
+            }
         });
     },
 };
+
+export default pagination;

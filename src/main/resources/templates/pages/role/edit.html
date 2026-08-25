@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/role/edit-content.js}"></script>
-    <script th:src="@{/js/role/permission-editor.js}"></script>
+    <script type="module" th:src="@{/js/pages/role/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/role/permission-form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -94,7 +94,7 @@
 
         <!--/* 권한 */-->
         <div class="app-box app-box-bg mt-2">
-            <div th:replace="~{pages/role/fragments/permission-editor :: permissionEditor (${actions}, ${roleDetail.menuPermissions})}">
+            <div th:replace="~{pages/role/fragments/permission-form :: form (${actions}, ${roleDetail.menuPermissions})}">
             </div>
         </div>
     </form>

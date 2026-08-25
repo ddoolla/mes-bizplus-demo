@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('품목 재고 목록', ~{}, ~{::script}, 'ITEM_INVENTORY', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('품목 재고 목록', ~{}, ~{}, 'ITEM_INVENTORY', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/common/checkbox.js}"></script>
-    <script th:src="@{/js/common/ajax.js}"></script>
-    <script th:src="@{/js/item/list.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->

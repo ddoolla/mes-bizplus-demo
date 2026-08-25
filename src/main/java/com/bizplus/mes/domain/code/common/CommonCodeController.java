@@ -34,7 +34,6 @@ public class CommonCodeController {
                            @PathVariable Long groupId,
                            @RequestParam(required = false) String code,
                            @RequestParam(required = false) String name) {
-
         model.addAttribute("codeGroup", codeGroupService.getCodeGroup(groupId));
         model.addAttribute("commonCodes", commonCodeService.getCommonCodes(groupId, code, name));
 
@@ -44,7 +43,6 @@ public class CommonCodeController {
     @GetMapping("/common-codes/{id}")
     @ResponseBody
     public CommonCodeDto readCommonCode(@PathVariable Long id) {
-
         return commonCodeService.getCommonCode(id);
     }
 
@@ -56,7 +54,6 @@ public class CommonCodeController {
     public boolean checkCode(@RequestParam Long groupId,
                              @RequestParam(required = false) Long id,
                              @RequestParam String code) {
-
         return commonCodeService.checkCode(groupId, id, code);
     }
 
@@ -66,7 +63,6 @@ public class CommonCodeController {
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.CREATE)
     public ResponseEntity<ApiResponse<Void>> createCommonCode(@PathVariable Long groupId,
                                                               @Valid CommonCodeCreateDto dto) {
-
         commonCodeService.createCommonCode(groupId, dto);
 
         return ResponseEntity.ok(
@@ -79,7 +75,6 @@ public class CommonCodeController {
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
     public ResponseEntity<ApiResponse<Void>> updateCommonCode(@PathVariable Long id,
                                                               @Valid CommonCodeUpdateDto dto) {
-
         commonCodeService.updateCommonCode(id, dto);
 
         return ResponseEntity.ok(
@@ -89,7 +84,6 @@ public class CommonCodeController {
     @DeleteMapping("/common-codes")
     @UserAction(menu = MenuCode.COMMON_CODE, type = ActionType.UPDATE)
     public ResponseEntity<ApiResponse<Void>> deleteCommonCodes(@RequestBody List<Long> ids) {
-
         commonCodeService.deleteCommonCodes(ids);
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.DELETED)));

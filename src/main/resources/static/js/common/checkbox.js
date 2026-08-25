@@ -1,5 +1,3 @@
-window.Mes = window.Mes || {};
-
 /*
 * <div class="some-group">
 *   <table>
@@ -14,10 +12,9 @@ window.Mes = window.Mes || {};
 *   </table>
 * </div>
 * */
-Mes.Checkbox = {
 
+const checkbox = {
     init(group) {
-
         const checkAll = group.querySelector('.check-all');
         const checkboxes = group.querySelectorAll('.check-item');
 
@@ -31,7 +28,6 @@ Mes.Checkbox = {
         });
 
         checkboxes.forEach(checkbox => {
-
             checkbox.addEventListener('change', () => {
 
                 const checkedCount = group.querySelectorAll('.check-item:checked').length;
@@ -44,8 +40,9 @@ Mes.Checkbox = {
     },
 
     getCheckedValues(group) {
-
         return Array.from(group.querySelectorAll('.check-item:checked'))
             .map(checkbox => checkbox.value);
     }
 };
+
+export default checkbox;

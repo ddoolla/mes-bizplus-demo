@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/process/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/process/edit.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -37,6 +37,9 @@
               method="post"
               th:action="@{/processes/{id}(id=${process.id})}"
               th:object="${process}">
+
+            <input type="hidden" name="id" th:value="${process.id}">
+
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

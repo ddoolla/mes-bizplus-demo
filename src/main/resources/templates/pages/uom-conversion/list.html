@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('단위 환산 목록', ~{}, ~{::script}, 'UOM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/uom-conversion/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('단위 환산 목록', '기준정보관리, 단위관리, 단위환산등록')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/uom-conversion/fragments/filter :: filter (
+            ${uoms},
+            '/uoms/conversions',
+            ${data.pagination.totalElements},
+            true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="uom-conversion-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>변환 전 단위</th>
+                    <th>변환 후 단위</th>
+                    <th>환산 계수</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="uomConversion : ${data.uomConversions}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${uomConversion.id}"/>
+                    </td>
+                    <td th:text="${uomConversion.fromUom.code}"></td>
+                    <td th:text="${uomConversion.toUom.code}"></td>
+                    <td class="fw-bold">
+                        <a href="#"
+                           class="uom-conversion-edit-link"
+                           th:text="${@format.decimalValue(uomConversion.factor)}"
+                           th:data-id="${uomConversion.id}"></a>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+
+        <!--/* 단위 환산 등록 모달 */-->
+        <div th:replace="~{pages/uom-conversion/modal/form :: form}"></div>
+    </div>
+</div>
+</body>
+</html>

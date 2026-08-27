@@ -1,8 +1,9 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
-<script src="../../../../static/js/common/checkbox.js"></script>
-<div th:fragment="filter (url, count, showActions)">
+
+<div th:fragment="filter (uoms, url, count, showActions)">
+    <div></div>
     <form method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
@@ -11,28 +12,31 @@
                 <col style="width: 150px">
                 <col style="width: auto">
             </colgroup>
-
             <tbody>
             <tr>
-                <th>
-                    <label for="code">단위 코드</label>
-                </th>
+                <th>변환 전 단위</th>
                 <td>
-                    <input type="text"
-                           id="code"
-                           name="code"
-                           class="app-form-control app-xs"
-                           th:value="${param.code}">
+                    <select name="fromUomId"
+                            class="app-form-control app-xs">
+                        <option value="">전체</option>
+                        <option th:each="uom : ${uoms}"
+                                th:value="${uom.id}"
+                                th:text="|${uom.code} (${uom.name})|"
+                                th:selected="${#strings.equals(param.fromUomId, uom.id)}">
+                        </option>
+                    </select>
                 </td>
-                <th>
-                    <label for="name">단위명</label>
-                </th>
+                <th>변환 후 단위</th>
                 <td>
-                    <input type="text"
-                           id="name"
-                           name="name"
-                           class="app-form-control app-xs"
-                           th:value="${param.name}">
+                    <select name="toUomId"
+                            class="app-form-control app-xs">
+                        <option value="">전체</option>
+                        <option th:each="uom : ${uoms}"
+                                th:value="${uom.id}"
+                                th:text="|${uom.code} (${uom.name})|"
+                                th:selected="${#strings.equals(param.toUomId, uom.id)}">
+                        </option>
+                    </select>
                 </td>
             </tr>
             </tbody>
@@ -53,17 +57,17 @@
                     <button type="button"
                             class="btn btn-secondary btn-sm"
                             sec:authorize="hasAuthority('UOM_READ')"
-                            th:onclick="|location.href='@{/uoms/conversions}'|">
-                        <i class="bi bi-arrow-left-right"></i> 단위 환산
+                            th:onclick="|location.href='@{/uoms}'|">
+                        <i class="bi bi-arrow-left"></i> 단위 목록
                     </button>
                     <button type="button"
-                            id="uom-create-button"
                             class="btn btn-primary btn-sm"
+                            id="uom-conversion-create-button"
                             sec:authorize="hasAuthority('UOM_CREATE')">
                         <i class="fa fa-pencil" aria-hidden="true"></i> 등록
                     </button>
                     <button type="button"
-                            id="uom-delete-button"
+                            id="uom-conversion-delete-button"
                             class="btn btn-danger btn-sm"
                             sec:authorize="hasAuthority('UOM_DELETE')">
                         <i class="fa fa-trash-o" aria-hidden="true"></i> 삭제
@@ -73,4 +77,5 @@
         </div>
     </form>
 </div>
+
 </html>

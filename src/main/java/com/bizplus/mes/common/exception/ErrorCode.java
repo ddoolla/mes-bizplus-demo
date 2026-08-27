@@ -18,6 +18,7 @@ public enum ErrorCode {
     CODE_GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "공통코드 그룹을 찾을 수 없습니다."),
     COMMON_CODE_NOT_FOUND(HttpStatus.NOT_FOUND, "공통코드를 찾을 수 없습니다."),
     UOM_NOT_FOUND(HttpStatus.NOT_FOUND, "단위를 찾을 수 없습니다."),
+    UOM_CONVERSION_NOT_FOUND(HttpStatus.NOT_FOUND, "단위 환산 정보를 찾을 수 없습니다."),
     PARTNER_NOT_FOUND(HttpStatus.NOT_FOUND, "거래처를 찾을 수 없습니다."),
     PARTNER_CONTACT_NOT_FOUND(HttpStatus.NOT_FOUND, "거래처 담당자를 찾을 수 없습니다."),
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "품목을 찾을 수 없습니다."),

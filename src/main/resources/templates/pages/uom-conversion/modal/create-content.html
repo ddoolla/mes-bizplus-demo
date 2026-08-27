@@ -1,0 +1,66 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="content">
+    <div class="modal-body">
+        <form id="uom-conversion-create-form"
+              method="post"
+              th:action="@{/uoms/conversions}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>변경 전 단위 <span class="app-required">*</span></th>
+                    <td>
+                        <select name="fromUomId"
+                                class="app-form-control app-xs">
+                            <option value="">선택</option>
+                            <option th:each="uom : ${uoms}"
+                                    th:value="${uom.id}"
+                                    th:text="|${uom.code} (${uom.name})|">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>변경 후 단위 <span class="app-required">*</span></th>
+                    <td>
+                        <select name="toUomId"
+                                class="app-form-control app-xs">
+                            <option value="">선택</option>
+                            <option th:each="uom : ${uoms}"
+                                    th:value="${uom.id}"
+                                    th:text="|${uom.code} (${uom.name})|">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>환산 계수 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="number"
+                               name="factor"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal">
+            취소
+        </button>
+        <button type="submit"
+                form="uom-conversion-create-form"
+                class="btn btn-primary btn-sm">
+            저장
+        </button>
+    </div>
+</th:block>
+
+</html>

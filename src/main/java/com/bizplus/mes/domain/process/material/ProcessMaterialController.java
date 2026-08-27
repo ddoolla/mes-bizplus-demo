@@ -7,7 +7,6 @@ import com.bizplus.mes.domain.process.material.dto.ProcessMaterialBomCreateDto;
 import com.bizplus.mes.domain.process.material.dto.ProcessMaterialItemCreateDto;
 import com.bizplus.mes.domain.process.material.dto.ProcessMaterialUpdateDto;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -45,8 +44,8 @@ public class ProcessMaterialController {
     public String updateProcessMaterials(RedirectAttributes reAtt,
                                          @PathVariable Long routingId,
                                          @PathVariable Long routingProcessId,
-                                         @NotEmpty List<ProcessMaterialUpdateDto> dtos) {
-        processMaterialService.updateProcessMaterials(dtos);
+                                         @Valid ProcessMaterialUpdateDto dto) {
+        processMaterialService.updateProcessMaterials(dto);
 
         reAtt.addAttribute("routingId", routingId);
         reAtt.addAttribute("routingProcessId", routingProcessId);

@@ -15,8 +15,7 @@ public class ProcessMaterialDto {
     private final BigDecimal quantity;
     private final ConsumptionMethod consumptionMethod;
     private final ItemInfo item;
-    private final UomInfo uom;
-    // todo 환산 가능 uom list 같이 가야할 듯
+    private final UomInfo consumptionUom;
 
     @QueryProjection
     public ProcessMaterialDto(Long id,
@@ -28,11 +27,16 @@ public class ProcessMaterialDto {
                               String itemCategory,
                               ItemType itemType,
                               String itemSpec,
-                              Long uomId,
-                              String uomCode,
-                              String uomName,
-                              UomType uomType,
-                              Integer uomScale) {
+                              Long stockUomId,
+                              String stockUomCode,
+                              String stockUomName,
+                              UomType stockUomType,
+                              Integer stockUomScale,
+                              Long consumptionUomId,
+                              String consumptionUomCode,
+                              String consumptionUomName,
+                              UomType consumptionUomType,
+                              Integer consumptionUomScale) {
         this.id = id;
         this.quantity = quantity;
         this.consumptionMethod = consumptionMethod;
@@ -42,14 +46,21 @@ public class ProcessMaterialDto {
                 itemName,
                 itemCategory,
                 itemType,
-                itemSpec
+                itemSpec,
+                new UomInfo(
+                        stockUomId,
+                        stockUomCode,
+                        stockUomName,
+                        stockUomType,
+                        stockUomScale
+                )
         );
-        this.uom = new UomInfo(
-                uomId,
-                uomCode,
-                uomName,
-                uomType,
-                uomScale
+        this.consumptionUom = new UomInfo(
+                consumptionUomId,
+                consumptionUomCode,
+                consumptionUomName,
+                consumptionUomType,
+                consumptionUomScale
         );
     }
 
@@ -59,7 +70,8 @@ public class ProcessMaterialDto {
             String name,
             String category,
             ItemType type,
-            String specification
+            String specification,
+            UomInfo stockUom
     ) {
     }
 

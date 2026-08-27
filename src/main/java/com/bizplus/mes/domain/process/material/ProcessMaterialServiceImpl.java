@@ -4,15 +4,14 @@ import com.bizplus.mes.domain.bom.item.BomItem;
 import com.bizplus.mes.domain.bom.item.BomItemReader;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
-import com.bizplus.mes.domain.process.material.dto.ProcessMaterialBomCreateDto;
-import com.bizplus.mes.domain.process.material.dto.ProcessMaterialDto;
-import com.bizplus.mes.domain.process.material.dto.ProcessMaterialItemCreateDto;
-import com.bizplus.mes.domain.process.material.dto.ProcessMaterialUpdateDto;
+import com.bizplus.mes.domain.process.material.dto.*;
 import com.bizplus.mes.domain.routing.process.RoutingProcess;
 import com.bizplus.mes.domain.routing.process.RoutingProcessReader;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
 import com.bizplus.mes.domain.uom.UomValidator;
+import com.bizplus.mes.domain.uom.conversion.UomConversionReader;
+import com.bizplus.mes.domain.uom.conversion.dto.ConvertibleUomDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +30,30 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
     private final BomItemReader bomItemReader;
     private final RoutingProcessReader routingProcessReader;
     private final ProcessMaterialReader processMaterialReader;
+    private final UomConversionReader uomConversionReader;
 
     private final UomValidator uomValidator;
 
     @Override
     public List<ProcessMaterialDto> getProcessMaterials(Long routingProcessId) {
         return processMaterialRepository.findProcessMaterials(routingProcessId);
+    }
+
+    @Override
+    public List<ProcessMaterialEditDto> getProcessMaterialsForEdit(Long routingProcessId) {
+        List<ProcessMaterialDto> processMaterials = processMaterialRepository.findProcessMaterials(routingProcessId);
+
+        return processMaterials.stream()
+                .map(processMaterial -> {
+                    List<ConvertibleUomDto> convertibleUoms = uomConversionReader
+                            .getConvertibleUoms(processMaterial.getItem().stockUom().id());
+
+                    return new ProcessMaterialEditDto(
+                            processMaterial,
+                            convertibleUoms
+                    );
+                })
+                .toList();
     }
 
     @Transactional
@@ -77,17 +94,17 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
 
     @Transactional
     @Override
-    public void updateProcessMaterials(List<ProcessMaterialUpdateDto> dtos) {
-        dtos.forEach(dto -> {
-            ProcessMaterial processMaterial = processMaterialReader.getById(dto.getId());
-            Uom uom = uomReader.getById(dto.getUomId());
+    public void updateProcessMaterials(ProcessMaterialUpdateDto dto) {
+        dto.getProcessMaterials().forEach(params -> {
+            ProcessMaterial processMaterial = processMaterialReader.getById(params.id());
+            Uom uom = uomReader.getById(params.consumptionUomId());
 
-            uomValidator.validateQuantity(dto.getQuantity(), uom);
+            uomValidator.validateQuantity(params.quantity(), uom);
 
             processMaterial.update(
                     uom,
-                    dto.getQuantity(),
-                    dto.getConsumptionMethod()
+                    params.quantity(),
+                    params.consumptionMethod()
             );
         });
     }

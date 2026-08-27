@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.bom.BomService;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.item.ItemGroup;
+import com.bizplus.mes.domain.process.material.ConsumptionMethod;
 import com.bizplus.mes.domain.process.material.ProcessMaterialService;
 import com.bizplus.mes.domain.routing.RoutingService;
 import com.bizplus.mes.domain.routing.dto.RoutingDto;
@@ -49,7 +50,8 @@ public class RoutingProcessController {
         model.addAttribute("routingProcess", routingProcessService.getRoutingProcess(id));
 
         // 공정 소모 자재 목록
-        model.addAttribute("processMaterials", processMaterialService.getProcessMaterials(id));
+        model.addAttribute("consumptionMethods", ConsumptionMethod.values());
+        model.addAttribute("processMaterialData", processMaterialService.getProcessMaterialsForEdit(id));
 
         return "pages/routing-process/detail";
     }

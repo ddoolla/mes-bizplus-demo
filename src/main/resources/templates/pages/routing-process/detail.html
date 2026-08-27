@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="module" th:src="@{/js/pages/routing-process/detail.js}"></script>
     <script type="module" th:src="@{/js/pages/process-material/form.js}"></script>
 </head>
 <body>
@@ -23,14 +24,15 @@
             <i class="fa fa-arrow-left" aria-hidden="true"></i> 이전 페이지
         </button>
 
-        <button type="button"
+        <button type="submit"
                 class="btn btn-primary btn-sm"
+                form="process-material-edit-form"
                 sec:authorize="hasAuthority('ROUTING_UPDATE')">
             <i class="fa fa-pencil" aria-hidden="true"></i> 저장
         </button>
     </div>
 
-    <form id="process-mateiral-edit-form"
+    <form id="process-material-edit-form"
           method="post"
           th:action="@{/routings/{routingId}/processes/{routingProcessId}/materials(routingId=${routing.id}, routingProcessId=${routingProcess.id})}"
           th:object="${routingProcess}">
@@ -72,7 +74,7 @@
             ${routingProcess},
             ${routing.item},
             ${primaryBom},
-            ${processMaterials})}">
+            ${processMaterialData})}">
         </div>
     </form>
 

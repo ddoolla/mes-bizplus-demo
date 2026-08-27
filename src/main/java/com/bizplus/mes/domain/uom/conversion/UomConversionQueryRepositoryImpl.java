@@ -1,9 +1,7 @@
 package com.bizplus.mes.domain.uom.conversion;
 
 import com.bizplus.mes.domain.uom.QUom;
-import com.bizplus.mes.domain.uom.conversion.dto.QUomConversionDto;
-import com.bizplus.mes.domain.uom.conversion.dto.UomConversionDto;
-import com.bizplus.mes.domain.uom.conversion.dto.UomConversionSearchDto;
+import com.bizplus.mes.domain.uom.conversion.dto.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -83,5 +81,22 @@ public class UomConversionQueryRepositoryImpl implements UomConversionQueryRepos
                         .where(eq(uomConversion.id, id))
                         .fetchOne()
         );
+    }
+
+    @Override
+    public List<ConvertibleUomDto> findConvertibleUoms(Long toUomId) {
+        return query
+                .select(new QConvertibleUomDto(
+                        uomConversion.id,
+                        uomConversion.factor,
+                        fromUom.id,
+                        fromUom.code,
+                        fromUom.name,
+                        fromUom.scale
+                ))
+                .from(uomConversion)
+                .innerJoin(fromUom).on(uomConversion.fromUom.id.eq(fromUom.id))
+                .where(eq(uomConversion.toUom.id, toUomId))
+                .fetch();
     }
 }

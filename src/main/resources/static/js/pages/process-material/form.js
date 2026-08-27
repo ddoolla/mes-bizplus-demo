@@ -2,8 +2,10 @@ import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
 import createBomItemMultiSelectModal from "../../domain/bom-item/modal/multi-select.js";
 import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
+import tooltip from "../../common/tooltip.js";
 
 document.addEventListener('DOMContentLoaded', function () {
+
     const checkboxGroup = document.querySelector('#process-material-table');
     const deleteButton = document.querySelector('#process-material-delete-button');
 
@@ -12,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const itemMultiSelectModal = createItemMultiSelectModal();
     const bomItemMultiSelectModal = createBomItemMultiSelectModal();
+
+    /* 툴팁 */
+    tooltip.init();
 
     /* 자재 목록 모달 */
     materialListButton.addEventListener('click', function () {

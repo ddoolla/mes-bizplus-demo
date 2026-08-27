@@ -42,8 +42,10 @@ public class Inventory extends SoftDeletableEntity {
     @JoinColumn(name = "lot_id")
     private Lot lot;
 
+    @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
+    @Column(precision = 38, scale = 10)
     private BigDecimal reservedQuantity; // 예약 재고 (확장)
 
     public Inventory(Item item,

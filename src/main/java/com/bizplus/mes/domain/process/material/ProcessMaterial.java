@@ -36,6 +36,7 @@ public class ProcessMaterial extends AuditableEntity {
     @JoinColumn(name = "uom_id", nullable = false)
     private Uom uom;
 
+    @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
     @Enumerated(EnumType.STRING)

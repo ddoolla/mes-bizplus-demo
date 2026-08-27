@@ -32,6 +32,7 @@ public class InventoryTransaction extends SoftDeletableEntity {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
+    @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
     private LocalDateTime transaction_at;

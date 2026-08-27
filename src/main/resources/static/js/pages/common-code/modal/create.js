@@ -3,6 +3,21 @@ import modal from "../../../common/modal.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    const ajaxSubmit = async (form, data) => {
+        try {
+            const response = await ajax.post(form.action, data);
+
+            alert(response.message);
+
+            modal.close('code-create-modal');
+
+            location.reload();
+
+        } catch (xhr) {
+            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+        }
+    };
+
     $('#code-create-form').validate({
         rules: {
             code: {
@@ -29,19 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         submitHandler: function (form) {
             const formData = new FormData(form);
 
-            ajax.post(form.action, formData)
-                .done(function (response) {
-                    alert(response.message);
-
-                    modal.close('code-create-modal');
-
-                    location.reload();
-                })
-                .fail(function (xhr) {
-                    alert(xhr.responseJSON.message || '처리 중 오류가 발생하였습니다.');
-                });
-
-            return false;
+            ajaxSubmit(form, formData);
         }
     });
 

@@ -1,6 +1,6 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createProcessMultiSelectModal from "../../domain/process/multi-select-modal.js";
+import createProcessMultiSelectModal from "../../domain/process/modal/multi-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 

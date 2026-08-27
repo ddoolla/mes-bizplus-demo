@@ -5,6 +5,8 @@ import com.bizplus.mes.common.formatter.CorporateNumberFormatter;
 import com.bizplus.mes.common.formatter.PhoneNumberFormatter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 /*
 * 타임리프에서 활용
 * ex) ${@format.businessNo(...)}
@@ -19,6 +21,14 @@ public class FormatUtils {
         }
 
         return value;
+    }
+
+    public String decimalValue(BigDecimal value) {
+        if (value == null) {
+            return "-";
+        }
+
+        return value.stripTrailingZeros().toPlainString();
     }
 
     public String businessNo(String value) {

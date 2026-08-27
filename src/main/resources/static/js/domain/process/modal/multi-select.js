@@ -1,23 +1,22 @@
-import modal from "../../common/modal.js";
-import ajax from "../../common/ajax.js";
-import checkbox from "../../common/checkbox.js";
-import pagination from "../../common/pagination.js";
+import ajax from "../../../common/ajax.js";
+import checkbox from "../../../common/checkbox.js";
+import modal from "../../../common/modal.js";
+import pagination from "../../../common/pagination.js";
 
-const createItemMultiSelectModal = () => {
-
-    const modalId = 'item-multi-select-modal';
+const createProcessMultiSelectModal = () => {
+    const modalId = 'process-multi-select-modal';
+    const listUrl = '/processes/modal/multi-select-list';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const searchForm = modalEl.querySelector('.item-search-form');
-    const itemList = modalEl.querySelector('.item-list');
+    const searchForm = modalEl.querySelector('.process-search-form');
+    const processList = modalEl.querySelector('.process-list');
 
     const render = (response) => {
-        itemList.innerHTML = response;
-        checkbox.init(itemList);
+        processList.innerHTML = response;
+        checkbox.init(processList);
     };
 
-    const load = async (url, params = '') => {
-
+    const load = async (url = listUrl, params = '') => {
         try {
             const response = await ajax.get(url, params);
             render(response);
@@ -28,10 +27,10 @@ const createItemMultiSelectModal = () => {
     };
 
     // 모달 열기
-    const open = (title = '품목 목록', url) => {
+    const open = (title = '공정 목록') => {
         modal.setTitle(modalId, title);
 
-        load(url);
+        load();
 
         modal.open(modalId);
     };
@@ -55,29 +54,29 @@ const createItemMultiSelectModal = () => {
     });
 
     // 페이지네이션 리렌더링 후 이벤트 연결
-    pagination.bindEvents(itemList, render);
+    pagination.bindEvents(processList, render);
 
     // 모달 닫기 시 폼 초기화
     modal.resetFormOnHidden(modalId);
 
-    // 품목 등록 처리
+    // 등록
     const onRegister = (callback) => {
-        itemList.addEventListener('click', function (e) {
+        processList.addEventListener('click', function (e) {
 
-            const createBtn = e.target.closest('.item-select-confirm-button');
+            const createBtn = e.target.closest('.process-select-confirm-button');
 
             if (!createBtn) {
                 return;
             }
 
-            const selectedIds = checkbox.getCheckedValues(itemList);
+            const selectedIds = checkbox.getCheckedValues(processList);
 
             if (!selectedIds.length) {
-                alert('등록할 품목을 선택해 주세요.')
+                alert('공정을 선택해 주세요.')
                 return;
             }
 
-            if (!confirm('선택한 품목을 등록하시겠습니까?')) {
+            if (!confirm('선택한 공정을 등록하시겠습니까?')) {
                 return;
             }
 
@@ -92,4 +91,4 @@ const createItemMultiSelectModal = () => {
     };
 };
 
-export default createItemMultiSelectModal;
+export default createProcessMultiSelectModal;

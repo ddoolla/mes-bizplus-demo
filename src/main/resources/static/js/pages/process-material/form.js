@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createBomItemMultiSelectModal from "../../domain/bom-item/multi-select-modal.js";
-import createItemMultiSelectModal from "../../domain/item/multi-select-modal.js";
+import createBomItemMultiSelectModal from "../../domain/bom-item/modal/multi-select.js";
+import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     const checkboxGroup = document.querySelector('#process-material-table');

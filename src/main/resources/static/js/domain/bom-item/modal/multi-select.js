@@ -1,7 +1,7 @@
-import checkbox from "../../common/checkbox.js";
-import ajax from "../../common/ajax.js";
-import pagination from "../../common/pagination.js";
-import modal from "../../common/modal.js";
+import checkbox from "../../../common/checkbox.js";
+import ajax from "../../../common/ajax.js";
+import pagination from "../../../common/pagination.js";
+import modal from "../../../common/modal.js";
 
 const createBomItemMultiSelectModal = () => {
 

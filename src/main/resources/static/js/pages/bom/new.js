@@ -1,4 +1,4 @@
-import createItemSingleSelectModal from "../../domain/item/single-select-modal.js";
+import createItemSingleSelectModal from "../../domain/item/modal/single-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 

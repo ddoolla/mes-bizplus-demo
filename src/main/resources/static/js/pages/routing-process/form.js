@@ -1,6 +1,6 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createProcessMultiSelectModal from "../../domain/process/modal/multi-select.js";
+import createProcessMultipleListModal from "../../domain/process/modal/list/multiple.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteButton = document.querySelector('#routing-process-delete-button');
     const createButton = document.querySelector('#routing-process-create-button');
 
-    const processMultiSelectModal = createProcessMultiSelectModal();
+    const processMultipleListModal = createProcessMultipleListModal();
 
     // 제품 공정 단계 등록
     createButton.addEventListener('click', function () {
-        processMultiSelectModal.open('공정 목록');
+        processMultipleListModal.open('공정 목록');
     });
 
-    processMultiSelectModal.onRegister(async function (selectedIds) {
+    processMultipleListModal.onRegister(async function (selectedIds) {
         const routingId = createButton.dataset.routingId;
 
         try {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             location.reload();
 
-            processMultiSelectModal.close();
+            processMultipleListModal.close();
 
         } catch (xhr) {
             alert(xhr.responseJSON.message);

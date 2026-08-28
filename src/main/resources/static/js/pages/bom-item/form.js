@@ -1,6 +1,6 @@
 import ajax from "../../common/ajax.js";
 import checkbox from "../../common/checkbox.js";
-import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
+import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -10,17 +10,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const bomEditForm = document.querySelector('#bom-edit-form');
     const itemMultiSelectModalButton = document.querySelector('#bom-item-create-button');
 
-    const itemMultiSelectModal = createItemMultiSelectModal();
+    const itemMultipleListModal = createItemMultipleListModal();
 
     // BOM 구성 품목 등록
     itemMultiSelectModalButton.addEventListener('click', function () {
-        itemMultiSelectModal.open(
+        itemMultipleListModal.open(
             'BOM 구성품 목록',
-            `/items/bom_item/modal/select/multi`
+            `/items/bom_item/modal/list/multiple`
         );
     });
 
-    itemMultiSelectModal.onRegister(async function (selectedIds) {
+    itemMultipleListModal.onRegister(async function (selectedIds) {
         const bomId = bomEditForm.querySelector('[name="id"]').value;
 
         try {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             location.reload();
 
-            itemMultiSelectModal.close();
+            itemMultipleListModal.close();
 
         } catch (xhr) {
             alert(xhr.responseJSON.message);

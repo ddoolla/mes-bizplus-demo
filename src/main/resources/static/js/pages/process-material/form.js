@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createBomItemMultiSelectModal from "../../domain/bom-item/modal/multi-select.js";
-import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
+import createBomItemMultipleListModal from "../../domain/bom-item/modal/list/multiple.js";
+import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
 import tooltip from "../../common/tooltip.js";
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -12,21 +12,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const materialListButton = document.querySelector('#btn-add-from-item');
     const bomItemListButton = document.querySelector('#btn-add-from-bom');
 
-    const itemMultiSelectModal = createItemMultiSelectModal();
-    const bomItemMultiSelectModal = createBomItemMultiSelectModal();
+    const itemMultipleListModal = createItemMultipleListModal();
+    const bomItemMultipleListModal = createBomItemMultipleListModal();
 
     /* 툴팁 */
     tooltip.init();
 
     /* 자재 목록 모달 */
     materialListButton.addEventListener('click', function () {
-        itemMultiSelectModal.open(
+        itemMultipleListModal.open(
             '자재 목록',
-            '/items/bom_item/modal/select/multi'
+            '/items/bom_item/modal/list/multiple'
         );
     });
 
-    itemMultiSelectModal.onRegister(async (selectedIds) => {
+    itemMultipleListModal.onRegister(async (selectedIds) => {
         const {routingProcessId} = materialListButton.dataset;
 
         try {
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             location.reload();
 
-            itemMultiSelectModal.close();
+            itemMultipleListModal.close();
 
         } catch (xhr) {
             alert(xhr.responseJSON?.message || '처리 중 오류가 발생했습니다.');
@@ -54,14 +54,14 @@ document.addEventListener('DOMContentLoaded', function () {
             ? new URLSearchParams({bomId: primaryBomId}).toString()
             : '';
 
-        bomItemMultiSelectModal.open(
+        bomItemMultipleListModal.open(
             `BOM 구성품 목록 - ${itemName}`,
-            '/bom-items/modal/select/multi',
+            '/bom-items/modal/list/multiple',
             params
         );
     });
 
-    bomItemMultiSelectModal.onRegister(async (selectedIds) => {
+    bomItemMultipleListModal.onRegister(async (selectedIds) => {
         const {routingProcessId} = bomItemListButton.dataset;
 
         try {
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             location.reload();
 
-            bomItemMultiSelectModal.close();
+            bomItemMultipleListModal.close();
 
         } catch (xhr) {
             alert(xhr.responseJSON?.message || '처리 중 오류가 발생했습니다.');

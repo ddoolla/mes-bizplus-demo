@@ -1,15 +1,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<!--/* 단위 환산 등록/수정 모달 */-->
-<th:block th:fragment="base">
+<!--/* 단위 등록/수정 모달 */-->
+<th:block th:fragment="container">
     <div th:replace="~{fragments/modal/default :: default (
-        'uom-conversion-form-modal',
-        '단위 환산 등록/수정',
+        'uom-form-modal',
+        '단위 등록/수정',
          ~{::content},
          null
     )}">
         <th:block th:fragment="content">
-            <div class="uom-conversion-form-content"></div>
+            <div class="uom-form-content"></div>
         </th:block>
     </div>
 </th:block>

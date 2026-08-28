@@ -1,12 +1,12 @@
-import modal from "../../../common/modal.js";
-import ajax from "../../../common/ajax.js";
+import modal from "../../../../common/modal.js";
+import ajax from "../../../../common/ajax.js";
 
-const createPartnerContactEditModal = () => {
+const createUomEditModal = () => {
 
-    const modalId = 'contact-form-modal';
+    const modalId = 'uom-form-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const contentEl = modalEl.querySelector('.contact-form-content');
+    const contentEl = modalEl.querySelector('.uom-form-content');
 
     const onSubmit = async (form) => {
         const formData = new FormData(form);
@@ -26,27 +26,37 @@ const createPartnerContactEditModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#contact-edit-form')
+        const formEl = contentEl.querySelector('#uom-edit-form')
 
         $(formEl).validate({
             rules: {
-                name: 'required',
-                email: {
-                    email: true,
+                code: {
+                    required: true,
+                    remote: {
+                        url: '/uoms/check-code',
+                        type: 'get',
+                        data: {
+                            id: function () {
+                                return $('[name="id"]').val();
+                            }
+                        }
+                    },
                 },
-                phone: {
+                name: 'required',
+                scale: {
                     digits: true,
-                    rangelength: [11, 11],
+                    min: 0,
                 },
             },
             messages: {
-                name: '담당자명을 입력해 주세요.',
-                email: {
-                    email: '올바른 이메일 형식이 아닙니다.',
+                code: {
+                    required: '단위 코드를 입력해 주세요.',
+                    remote: '이미 존재하는 코드입니다.'
                 },
-                phone: {
-                    digits: '숫자만 입력해 주세요.',
-                    rangelength: '휴대폰 번호는 11자리로 입력해 주세요.',
+                name: '단위명을 입력해 주세요.',
+                scale: {
+                    digits: '소수점 자리수는 숫자만 입력 가능합니다.',
+                    min: '소수점 자리수는 0 이상이어야 합니다.',
                 },
             },
             submitHandler: function (form) {
@@ -69,9 +79,9 @@ const createPartnerContactEditModal = () => {
     };
 
     const open = async (id) => {
-        modal.setTitle(modalId, '담당자 수정');
+        modal.setTitle(modalId, '단위 수정');
 
-        const contentUrl = `/partner-contacts/${id}/modal/edit`;
+        const contentUrl = `/uoms/${id}/modal/form/edit`;
 
         try {
             await load(contentUrl);
@@ -88,4 +98,4 @@ const createPartnerContactEditModal = () => {
     };
 }
 
-export default createPartnerContactEditModal;
+export default createUomEditModal;

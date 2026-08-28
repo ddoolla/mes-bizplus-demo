@@ -1,11 +1,11 @@
-import modal from "../../../common/modal.js";
-import ajax from "../../../common/ajax.js";
-import checkbox from "../../../common/checkbox.js";
-import pagination from "../../../common/pagination.js";
+import modal from "../../../../common/modal.js";
+import ajax from "../../../../common/ajax.js";
+import checkbox from "../../../../common/checkbox.js";
+import pagination from "../../../../common/pagination.js";
 
-const createItemMultiSelectModal = () => {
+const createItemMultipleListModal = () => {
 
-    const modalId = 'item-select-modal';
+    const modalId = 'item-list-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const searchForm = modalEl.querySelector('.item-search-form');
@@ -92,4 +92,4 @@ const createItemMultiSelectModal = () => {
     };
 };
 
-export default createItemMultiSelectModal;
+export default createItemMultipleListModal;

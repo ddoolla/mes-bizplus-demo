@@ -1,25 +1,25 @@
-import createItemSingleSelectModal from "../../domain/item/modal/single-select.js";
+import createItemSingleListModal from "../../domain/item/modal/list/single.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
     const routingCreateForm = document.querySelector('#routing-create-form');
     const modalOpenButton = document.querySelector('#item-list-button');
 
-    const itemSingleSelectModal = createItemSingleSelectModal();
+    const itemSingleListModal = createItemSingleListModal();
 
     // 품목 선택 모달 열기
     modalOpenButton.addEventListener('click', function () {
-        itemSingleSelectModal.open(
+        itemSingleListModal.open(
             '제품 목록 (완제품/반제품)',
-            '/items/product/modal/select/single'
+            '/items/product/modal/list/single'
         );
     });
 
     // 품목 선택 처리
-    itemSingleSelectModal.onSelect(function (item) {
+    itemSingleListModal.onSelect(function (item) {
         routingCreateForm.querySelector('[name="itemId"]').value = item.id;
         routingCreateForm.querySelector('[name="itemName"]').value = item.name;
-        itemSingleSelectModal.close();
+        itemSingleListModal.close();
     });
 
     $('#routing-create-form').validate({

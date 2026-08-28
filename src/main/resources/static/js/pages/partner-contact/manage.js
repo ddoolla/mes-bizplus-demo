@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createPartnerContactCreateModal from "../../domain/partner-contact/modal/create.js";
-import createPartnerContactEditModal from "../../domain/partner-contact/modal/edit.js";
+import createPartnerContactCreateModal from "../../domain/partner-contact/modal/form/create.js";
+import createPartnerContactEditModal from "../../domain/partner-contact/modal/form/edit.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 

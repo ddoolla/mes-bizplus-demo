@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,8 +23,15 @@ public class ProcessMaterialController {
     private final ProcessMaterialService processMaterialService;
     private final MessageService messageService;
 
+    @GetMapping("/routing-processes/{routingProcessId}/materials")
+    public String viewListModal(Model model, @PathVariable Long routingProcessId) {
+        model.addAttribute("processMaterials", processMaterialService.getProcessMaterials(routingProcessId));
+
+        return "pages/process-material/modal/list/list :: list";
+    }
+
     @PostMapping("/routing-processes/{routingProcessId}/materials/from-items")
-    private ResponseEntity<ApiResponse<Void>> createProcessMaterialsByItem(@PathVariable Long routingProcessId,
+    public ResponseEntity<ApiResponse<Void>> createProcessMaterialsByItem(@PathVariable Long routingProcessId,
                                                                            @RequestBody @Valid ProcessMaterialItemCreateDto dto) {
         processMaterialService.createProcessMaterialsByItem(routingProcessId, dto);
 
@@ -32,7 +40,7 @@ public class ProcessMaterialController {
     }
 
     @PostMapping("/routing-processes/{routingProcessId}/materials/from-boms")
-    private ResponseEntity<ApiResponse<Void>> createProcessMaterialsByBom(@PathVariable Long routingProcessId,
+    public ResponseEntity<ApiResponse<Void>> createProcessMaterialsByBom(@PathVariable Long routingProcessId,
                                                                           @RequestBody @Valid ProcessMaterialBomCreateDto dto) {
         processMaterialService.createProcessMaterialsByBom(routingProcessId, dto);
 

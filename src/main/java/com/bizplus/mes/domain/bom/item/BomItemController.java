@@ -20,7 +20,7 @@ public class BomItemController {
     private final BomItemService bomItemService;
     private final MessageService messageService;
 
-    @GetMapping("/bom-items/modal/select/multi")
+    @GetMapping("/bom-items/modal/list/multiple")
     public String viewMultiSelectModal(Model model,
                                        @RequestParam(required = false) Long bomId) {
         model.addAttribute(
@@ -30,7 +30,7 @@ public class BomItemController {
                         : bomItemService.getBomItems(bomId)
         );
 
-        return "pages/bom-item/modal/select/multi :: list";
+        return "pages/bom-item/modal/list/multiple :: list";
     }
 
     @PostMapping("/boms/{bomId}/items")

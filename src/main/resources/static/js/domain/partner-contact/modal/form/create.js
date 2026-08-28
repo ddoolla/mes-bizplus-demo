@@ -1,5 +1,5 @@
-import modal from "../../../common/modal.js";
-import ajax from "../../../common/ajax.js";
+import modal from "../../../../common/modal.js";
+import ajax from "../../../../common/ajax.js";
 
 const createPartnerContactCreateModal = () => {
 

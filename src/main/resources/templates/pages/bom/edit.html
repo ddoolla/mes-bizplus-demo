@@ -110,8 +110,8 @@
     </form>
 
     <!--/* BOM 구성품 등록용 모달 */-->
-    <div th:replace="~{pages/item/modal/select/base :: base (
-        @{/items/bom_item/modal/select/multi},
+    <div th:replace="~{pages/item/modal/list/container :: container (
+        @{/items/bom_item/modal/list/multiple},
         ${itemCategories},
         ${bomItemTypes})}">
     </div>

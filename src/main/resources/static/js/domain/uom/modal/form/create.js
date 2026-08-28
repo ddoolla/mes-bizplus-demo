@@ -1,9 +1,10 @@
-import modal from "../../../common/modal.js";
-import ajax from "../../../common/ajax.js";
+import modal from "../../../../common/modal.js";
+import ajax from "../../../../common/ajax.js";
 
-const createUomEditModal = () => {
+const createUomCreateModal = () => {
 
     const modalId = 'uom-form-modal';
+    const contentUrl = '/uoms/modal/form/create';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const contentEl = modalEl.querySelector('.uom-form-content');
@@ -12,7 +13,7 @@ const createUomEditModal = () => {
         const formData = new FormData(form);
 
         try {
-            const response = await ajax.put(form.action, formData);
+            const response = await ajax.post(form.action, formData);
 
             alert(response.message);
 
@@ -26,7 +27,7 @@ const createUomEditModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#uom-edit-form')
+        const formEl = contentEl.querySelector('#uom-create-form')
 
         $(formEl).validate({
             rules: {
@@ -35,11 +36,6 @@ const createUomEditModal = () => {
                     remote: {
                         url: '/uoms/check-code',
                         type: 'get',
-                        data: {
-                            id: function () {
-                                return $('[name="id"]').val();
-                            }
-                        }
                     },
                 },
                 name: 'required',
@@ -72,19 +68,17 @@ const createUomEditModal = () => {
         initFormValidate();
     };
 
-    const load = async (contentUrl) => {
+    const load = async () => {
         const response = await ajax.get(contentUrl);
 
         render(response);
     };
 
-    const open = async (id) => {
-        modal.setTitle(modalId, '단위 수정');
-
-        const contentUrl = `/uoms/${id}/modal/form/edit`;
+    const open = async () => {
+        modal.setTitle(modalId, '단위 등록');
 
         try {
-            await load(contentUrl);
+            await load();
 
             modal.open(modalId);
 
@@ -98,4 +92,4 @@ const createUomEditModal = () => {
     };
 }
 
-export default createUomEditModal;
+export default createUomCreateModal;

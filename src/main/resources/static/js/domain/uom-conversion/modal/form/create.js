@@ -1,6 +1,6 @@
-import ajax from "../../../common/ajax.js";
-import modal from "../../../common/modal.js";
-import "../../../common/validation.js";
+import ajax from "../../../../common/ajax.js";
+import modal from "../../../../common/modal.js";
+import "../../../../common/validation.js";
 
 const createUomConversionCreateModal = () => {
 

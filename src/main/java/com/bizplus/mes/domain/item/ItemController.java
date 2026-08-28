@@ -80,24 +80,24 @@ public class ItemController {
         return "pages/item/edit";
     }
 
-    @GetMapping("/{itemGroup}/modal/select/single")
-    public String viewSingleSelectModal(Model model,
-                                       @PathVariable String itemGroup,
-                                       ItemSearchDto dto,
-                                       @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
-
-        return "pages/item/modal/select/single :: list";
-    }
-
-    @GetMapping("/{itemGroup}/modal/select/multi")
-    public String viewMultiSelectModal(Model model,
+    @GetMapping("/{itemGroup}/modal/list/single")
+    public String viewSingleListModal(Model model,
                                       @PathVariable String itemGroup,
                                       ItemSearchDto dto,
                                       @PageableDefault Pageable pageable) {
         model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
 
-        return "pages/item/modal/select/multi :: list";
+        return "pages/item/modal/list/single :: list";
+    }
+
+    @GetMapping("/{itemGroup}/modal/list/multiple")
+    public String viewMultipleListModal(Model model,
+                                        @PathVariable String itemGroup,
+                                        ItemSearchDto dto,
+                                        @PageableDefault Pageable pageable) {
+        model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
+
+        return "pages/item/modal/list/multiple :: list";
     }
 
     private ItemListDto getItemsByGroup(String itemGroup, ItemSearchDto dto, Pageable pageable) {

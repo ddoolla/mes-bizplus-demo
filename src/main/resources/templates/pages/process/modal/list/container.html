@@ -1,9 +1,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <!--/* 공정 목록 모달 */-->
-<th:block th:fragment="base (url)">
+<th:block th:fragment="container (url)">
     <div th:replace="~{fragments/modal/default :: default (
-        'process-select-modal',
+        'process-list-modal',
         '공정 목록',
          ~{::content},
          1200
@@ -11,7 +11,7 @@
         <div th:fragment="content" class="p-2">
             <div class="modal-body pt-0 app-modal-body">
                 <!--/* 검색 필터 */-->
-                <div th:replace="~{pages/process/modal/filter :: filter (${url})}">
+                <div th:replace="~{pages/process/modal/list/filter :: filter (${url})}">
                 </div>
 
                 <!--/* 공정 목록 */-->

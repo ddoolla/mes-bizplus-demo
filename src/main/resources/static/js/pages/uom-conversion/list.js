@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createUomConversionCreateModal from "../../domain/uom-conversion/modal/create.js";
-import createUomConversionEditModal from "../../domain/uom-conversion/modal/edit.js";
+import createUomConversionCreateModal from "../../domain/uom-conversion/modal/form/create.js";
+import createUomConversionEditModal from "../../domain/uom-conversion/modal/form/edit.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 

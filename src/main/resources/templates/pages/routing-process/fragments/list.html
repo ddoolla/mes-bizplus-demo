@@ -34,7 +34,10 @@
                     <td th:text="${routingProcess.stepNo}"></td>
                     <td>
                         <button type="button"
-                                class="btn btn-secondary btn-sm">
+                                class="btn btn-secondary btn-sm process-material-list-button"
+                                th:data-routing-process-id="${routingProcess.id}"
+                                th:data-process-code="${routingProcess.process.code}"
+                                th:data-process-name="${routingProcess.process.name}">
                             <i class="bi bi-list"></i> 소모 자재
                         </button>
                     </td>

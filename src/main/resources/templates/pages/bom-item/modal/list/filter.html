@@ -22,9 +22,10 @@
                             BOM 선택
                         </option>
                         <option th:each="bom : ${boms}"
+                                th:with="isPrimary=${bom.id == primaryBom?.id}"
                                 th:value="${bom.id}"
-                                th:text="|${bom.code} (${bom.name})|"
-                                th:selected="${bom.id == primaryBom?.id}">
+                                th:text="|${bom.code} (${bom.name}) ${isPrimary ? '[기본]' : ''}|"
+                                th:selected="${isPrimary}">
                         </option>
                     </select>
                 </td>

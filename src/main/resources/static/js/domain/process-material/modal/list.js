@@ -1,6 +1,0 @@
-const createProcessMaterialListModal = () => {
-
-    const open = () => {
-
-    }
-}

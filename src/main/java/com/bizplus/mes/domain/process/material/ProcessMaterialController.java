@@ -23,16 +23,16 @@ public class ProcessMaterialController {
     private final ProcessMaterialService processMaterialService;
     private final MessageService messageService;
 
-    @GetMapping("/routing-processes/{routingProcessId}/materials")
+    @GetMapping("/routing-processes/{routingProcessId}/materials/modal/list")
     public String viewListModal(Model model, @PathVariable Long routingProcessId) {
         model.addAttribute("processMaterials", processMaterialService.getProcessMaterials(routingProcessId));
 
-        return "pages/process-material/modal/list/list :: list";
+        return "pages/process-material/modal/list/normal :: list";
     }
 
     @PostMapping("/routing-processes/{routingProcessId}/materials/from-items")
     public ResponseEntity<ApiResponse<Void>> createProcessMaterialsByItem(@PathVariable Long routingProcessId,
-                                                                           @RequestBody @Valid ProcessMaterialItemCreateDto dto) {
+                                                                          @RequestBody @Valid ProcessMaterialItemCreateDto dto) {
         processMaterialService.createProcessMaterialsByItem(routingProcessId, dto);
 
         return ResponseEntity.ok(
@@ -41,7 +41,7 @@ public class ProcessMaterialController {
 
     @PostMapping("/routing-processes/{routingProcessId}/materials/from-boms")
     public ResponseEntity<ApiResponse<Void>> createProcessMaterialsByBom(@PathVariable Long routingProcessId,
-                                                                          @RequestBody @Valid ProcessMaterialBomCreateDto dto) {
+                                                                         @RequestBody @Valid ProcessMaterialBomCreateDto dto) {
         processMaterialService.createProcessMaterialsByBom(routingProcessId, dto);
 
         return ResponseEntity.ok(

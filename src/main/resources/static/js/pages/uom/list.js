@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', function (e) {
             e.preventDefault();
 
-            const {id} = e.target.dataset;
+            const {id} = e.currentTarget.dataset;
 
             uomEditModal.open(id);
         });

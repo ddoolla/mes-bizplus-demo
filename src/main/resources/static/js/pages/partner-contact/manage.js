@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 담당자 등록 모달 */
     createButton.addEventListener('click', function (e) {
-        const {partnerId} = e.target.dataset;
+        const {partnerId} = e.currentTarget.dataset;
 
         contactCreateModal.open(partnerId);
     });
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', function (e) {
             e.preventDefault();
 
-            const {id} = e.target.dataset;
+            const {id} = e.currentTarget.dataset;
 
             contactEditModal.open(id);
         });

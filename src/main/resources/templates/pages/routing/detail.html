@@ -2,10 +2,11 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('제품 공정 상세', ~{}, ~{}, 'ROUTING', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('제품 공정 상세', ~{}, ~{::script}, 'ROUTING', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="module" th:src="@{/js/pages/routing-process/list.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -69,6 +70,9 @@
 
     <!--/* 제품 공정 단계 정보 */-->
     <div th:replace="~{pages/routing-process/fragments/list :: list (${routingProcesses})}"></div>
+
+    <!--/* 소모 자재 목록 모달 */-->
+    <div th:replace="~{pages/process-material/modal/list/container :: container}"></div>
 </div>
 </body>
 </html>

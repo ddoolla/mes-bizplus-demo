@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', function (e) {
             e.preventDefault();
 
-            const uomConversionId = e.target.dataset.id;
+            const uomConversionId = e.currentTarget.dataset.id;
 
             uomConversionEditModal.open(uomConversionId);
         });

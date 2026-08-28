@@ -353,7 +353,7 @@ input[type="text"]:disabled, select:disabled {
 
 /* ================================ Modal ================================ */
 .app-modal-body {
-    height: 630px;
+    height: 700px;
     overflow-y: auto;
 }
 

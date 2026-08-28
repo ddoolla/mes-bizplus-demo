@@ -5,7 +5,7 @@ import modal from "../../../common/modal.js";
 
 const createBomItemMultiSelectModal = () => {
 
-    const modalId = 'bom-item-multi-select-modal';
+    const modalId = 'bom-item-select-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const searchForm = modalEl.querySelector('.bom-item-search-form');

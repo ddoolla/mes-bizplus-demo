@@ -1,0 +1,19 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 소모 자재 목록 모달 */-->
+<th:block th:fragment="list">
+    <div th:replace="~{fragments/modal/default :: default (
+        'process-material-list-modal',
+        '소모 자재 목록',
+         ~{::content},
+         null
+    )}">
+        <div th:fragment="content">
+            <div class="process-material-list">
+
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

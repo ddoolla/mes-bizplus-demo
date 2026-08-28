@@ -1,10 +1,13 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="content">
+<th:block th:fragment="form">
     <div class="modal-body">
-        <form id="uom-create-form"
+        <form id="uom-edit-form"
               method="post"
-              th:action="@{/uoms}">
+              th:action="@{/uoms/{id}(id=${uom.id})}">
+            <input type="hidden"
+                   name="id"
+                   th:value="${uom.id}"/>
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
@@ -19,6 +22,7 @@
                         <input type="text"
                                name="code"
                                class="app-form-control app-xs"
+                               th:value="${uom.code}"
                                placeholder="단위 코드를 입력해 주세요."/>
                     </td>
                 </tr>
@@ -30,6 +34,7 @@
                         <input type="text"
                                name="name"
                                class="app-form-control app-xs"
+                               th:value="${uom.name}"
                                placeholder="단위명을 입력해 주세요."/>
                     </td>
                 </tr>
@@ -42,7 +47,8 @@
                                 class="app-form-control app-xs">
                             <option th:each="type : ${uomTypes}"
                                     th:value="${type?.name()}"
-                                    th:text="${type?.getDescription()}">
+                                    th:text="${type?.getDescription()}"
+                                    th:selected="${type?.name() == uom.type}">
                             </option>
                         </select>
                     </td>
@@ -54,6 +60,7 @@
                     <td>
                         <input type="number"
                                name="scale"
+                               th:value="${uom.scale}"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
@@ -61,14 +68,14 @@
             </table>
         </form>
     </div>
-    <div class="modal-footer">
+    <div class=modal-footer>
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 data-bs-dismiss="modal">
             취소
         </button>
         <button type="submit"
-                form="uom-create-form"
+                form="uom-edit-form"
                 class="btn btn-primary btn-sm">
             저장
         </button>

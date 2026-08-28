@@ -1,0 +1,24 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 품목 목록 모달 */-->
+<th:block th:fragment="base (url, itemCategories, itemTypes)">
+    <div th:replace="~{fragments/modal/default :: default (
+        'item-select-modal',
+        '품목 목록',
+         ~{::content},
+         1200
+    )}">
+        <div th:fragment="content" class="p-2">
+            <div class="modal-body pt-0 app-modal-body">
+                <!--/* 검색 필터 */-->
+                <div th:replace="~{pages/item/modal/filter :: filter (${url}, ${itemCategories}, ${itemTypes})}">
+                </div>
+
+                <!--/* 품목 목록 */-->
+                <div class="item-list"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

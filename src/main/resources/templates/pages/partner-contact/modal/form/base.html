@@ -1,14 +1,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <!--/* 거래처 담당자 등록/수정 모달 */-->
-<th:block th:fragment="form">
+<th:block th:fragment="base">
     <div th:replace="~{fragments/modal/default :: default (
         'contact-form-modal',
         '담당자 등록/수정',
-         ~{::#contact-modal-content},
+         ~{::content},
          null
     )}">
-        <div id="contact-modal-content"></div>
+        <th:block th:fragment="content">
+            <div class="contact-form-content"></div>
+        </th:block>
     </div>
 </th:block>
 

@@ -5,10 +5,10 @@ import "../../../common/validation.js";
 const createUomConversionCreateModal = () => {
 
     const modalId = 'uom-conversion-form-modal';
-    const contentUrl = '/uoms/conversions/modal/create-content';
+    const contentUrl = '/uoms/conversions/modal/form/create';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const contentEl = modalEl.querySelector('.uom-conversion-modal-content');
+    const contentEl = modalEl.querySelector('.uom-conversion-form-content');
 
     const onSubmit = async (form) => {
         const formData = new FormData(form);

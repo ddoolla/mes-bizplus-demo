@@ -110,9 +110,8 @@
     </form>
 
     <!--/* 공정 목록 모달 */-->
-    <div th:replace="~{pages/process/modal/list :: list (
-        'process-multi-select-modal',
-        '/processes/modal/multi-select-list')}">
+    <div th:replace="~{pages/process/modal/select/base :: base (
+        '/processes/modal/select/multi')}">
     </div>
 </div>
 </body>

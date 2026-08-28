@@ -3,7 +3,8 @@ import ajax from "../../../common/ajax.js";
 import pagination from "../../../common/pagination.js";
 
 const createItemSingleSelectModal = () => {
-    const modalId = 'item-single-select-modal';
+
+    const modalId = 'item-select-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const searchForm = modalEl.querySelector('.item-search-form');
@@ -58,7 +59,6 @@ const createItemSingleSelectModal = () => {
     // 품목 선택 처리
     const onSelect = (callback) => {
         itemList.addEventListener('click', function (e) {
-
             const button = e.target.closest('.item-select-button');
 
             if (!button) {

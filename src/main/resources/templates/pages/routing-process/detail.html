@@ -79,17 +79,15 @@
     </form>
 
     <!--/* 자재에서 추가 모달 */-->
-    <div th:replace="~{pages/item/modal/list :: list (
-        'item-multi-select-modal',
-        @{/items/bom_item/modal/multi-select-list},
+    <div th:replace="~{pages/item/modal/select/base :: base (
+        @{/items/bom_item/modal/select/multi},
         ${itemCategories},
         ${itemType})}">
     </div>
 
     <!--/* BOM에서 추가 모달 */-->
-    <div th:replace="~{pages/bom-item/modal/list :: list (
-        'bom-item-multi-select-modal',
-         @{/bom-items/modal/multi-select-list},
+    <div th:replace="~{pages/bom-item/modal/select/base :: base (
+         @{/bom-items/modal/select/multi},
          ${primaryBom},
          ${boms})}">
     </div>

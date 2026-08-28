@@ -1,13 +1,12 @@
-import ajax from "../../../common/ajax.js";
 import modal from "../../../common/modal.js";
-import "../../../common/validation.js";
+import ajax from "../../../common/ajax.js";
 
-const createUomConversionEditModal = () => {
+const createPartnerContactEditModal = () => {
 
-    const modalId = 'uom-conversion-form-modal';
+    const modalId = 'contact-form-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const contentEl = modalEl.querySelector('.uom-conversion-form-content');
+    const contentEl = modalEl.querySelector('.contact-form-content');
 
     const onSubmit = async (form) => {
         const formData = new FormData(form);
@@ -27,21 +26,27 @@ const createUomConversionEditModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#uom-conversion-edit-form')
+        const formEl = contentEl.querySelector('#contact-edit-form')
 
         $(formEl).validate({
             rules: {
-                factor: {
-                    required: true,
-                    number: true,
-                    positive: true,
+                name: 'required',
+                email: {
+                    email: true,
+                },
+                phone: {
+                    digits: true,
+                    rangelength: [11, 11],
                 },
             },
             messages: {
-                factor: {
-                    required: '환산 계수를 입력해 주세요.',
-                    number: '숫자만 입력해 주세요.',
-                    positive: '0보다 큰 값을 입력해 주세요.'
+                name: '담당자명을 입력해 주세요.',
+                email: {
+                    email: '올바른 이메일 형식이 아닙니다.',
+                },
+                phone: {
+                    digits: '숫자만 입력해 주세요.',
+                    rangelength: '휴대폰 번호는 11자리로 입력해 주세요.',
                 },
             },
             submitHandler: function (form) {
@@ -64,9 +69,9 @@ const createUomConversionEditModal = () => {
     };
 
     const open = async (id) => {
-        modal.setTitle(modalId, '단위 환산 수정');
+        modal.setTitle(modalId, '담당자 수정');
 
-        const contentUrl = `/uoms/conversions/${id}/modal/form/edit`;
+        const contentUrl = `/partner-contacts/${id}/modal/edit`;
 
         try {
             await load(contentUrl);
@@ -83,4 +88,4 @@ const createUomConversionEditModal = () => {
     };
 }
 
-export default createUomConversionEditModal;
+export default createPartnerContactEditModal;

@@ -25,37 +25,33 @@ public class PartnerContactController {
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
 
-    @GetMapping("/partners/{partnerId}/contacts/new")
-    public String viewNew(Model model, @PathVariable Long partnerId) {
-
+    @GetMapping("/partners/{partnerId}/contacts/modal/create")
+    public String viewCreateModal(Model model, @PathVariable Long partnerId) {
         model.addAttribute("partnerId", partnerId);
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
 
-        return "pages/partner-contact/modal/create-content :: content";
+        return "pages/partner-contact/modal/form/create :: form";
     }
 
-    @GetMapping("/partner-contacts/{id}/edit")
-    public String viewEdit(Model model, @PathVariable Long id) {
-
+    @GetMapping("/partner-contacts/{id}/modal/edit")
+    public String viewEditModal(Model model, @PathVariable Long id) {
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
         model.addAttribute("contact", partnerContactService.getPartnerContact(id));
 
-        return "pages/partner-contact/modal/edit-content :: content";
+        return "pages/partner-contact/modal/form/edit :: form";
     }
 
     @GetMapping("/partner-contacts/{id}")
     @ResponseBody
     public PartnerContactDto readPartnerContact(@PathVariable Long id) {
-
         return partnerContactService.getPartnerContact(id);
     }
 
     @PostMapping("/partners/{partnerId}/contacts")
     @ResponseBody
-    public ResponseEntity<ApiResponse<Void>> createPartnerContact(@PathVariable Long partnerId,
-                                                                  @Valid PartnerContactCreateDto dto) {
+    public ResponseEntity<ApiResponse<Void>> createPartnerContact(@PathVariable Long partnerId, @Valid PartnerContactCreateDto dto) {
         partnerContactService.createPartnerContact(partnerId, dto);
 
         return ResponseEntity.ok(
@@ -64,8 +60,7 @@ public class PartnerContactController {
 
     @PutMapping("/partner-contacts/{id}")
     @ResponseBody
-    public ResponseEntity<ApiResponse<Void>> updatePartnerContact(@PathVariable Long id,
-                                                                  @Valid PartnerContactUpdateDto dto) {
+    public ResponseEntity<ApiResponse<Void>> updatePartnerContact(@PathVariable Long id, @Valid PartnerContactUpdateDto dto) {
         partnerContactService.updatePartnerContact(id, dto);
 
         return ResponseEntity.ok(
@@ -75,7 +70,6 @@ public class PartnerContactController {
     @DeleteMapping("/partner-contacts")
     @ResponseBody
     public ResponseEntity<ApiResponse<Void>> deletePartnerContact(@RequestBody List<Long> ids) {
-
         partnerContactService.deletePartnerContacts(ids);
 
         return ResponseEntity.ok(

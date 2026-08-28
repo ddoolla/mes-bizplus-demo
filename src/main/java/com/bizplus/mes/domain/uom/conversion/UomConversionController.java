@@ -43,20 +43,20 @@ public class UomConversionController {
         return "pages/uom-conversion/list";
     }
 
-    @GetMapping("/modal/create-content")
+    @GetMapping("/modal/form/create")
     @PreAuthorize("hasAuthority('UOM_READ')")
-    public String viewModalCreateContent(Model model) {
+    public String viewCreateModal(Model model) {
         model.addAttribute("uoms", uomService.getUoms());
 
-        return "pages/uom-conversion/modal/create-content :: content";
+        return "pages/uom-conversion/modal/form/create :: form";
     }
 
-    @GetMapping("/{id}/modal/edit-content")
+    @GetMapping("/{id}/modal/form/edit")
     @PreAuthorize("hasAuthority('UOM_READ')")
-    public String viewModalEditContent(Model model, @PathVariable Long id) {
+    public String viewEditModal(Model model, @PathVariable Long id) {
         model.addAttribute("uomConversion", uomConversionService.getUomConversion(id));
 
-        return "pages/uom-conversion/modal/edit-content :: content";
+        return "pages/uom-conversion/modal/form/edit :: form";
     }
 
     @GetMapping("/duplicate")

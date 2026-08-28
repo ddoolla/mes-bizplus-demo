@@ -63,13 +63,13 @@ public class ProcessController {
         return "pages/process/edit";
     }
 
-    @GetMapping("/modal/multi-select-list")
-    public String viewMultiSelectList(Model model,
+    @GetMapping("/modal/select/multi")
+    public String viewMultiSelectModal(Model model,
                                       ProcessSearchDto dto,
                                       @PageableDefault Pageable pageable) {
         model.addAttribute("data", processService.getProcesses(dto, pageable));
 
-        return "pages/process/modal/multi-select-list :: list";
+        return "pages/process/modal/select/multi :: list";
     }
 
     @GetMapping("/check-code")

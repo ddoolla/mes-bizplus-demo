@@ -5,7 +5,7 @@ import pagination from "../../../common/pagination.js";
 
 const createItemMultiSelectModal = () => {
 
-    const modalId = 'item-multi-select-modal';
+    const modalId = 'item-select-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const searchForm = modalEl.querySelector('.item-search-form');

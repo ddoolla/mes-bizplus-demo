@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     materialListButton.addEventListener('click', function () {
         itemMultiSelectModal.open(
             '자재 목록',
-            '/items/bom_item/modal/multi-select-list'
+            '/items/bom_item/modal/select/multi'
         );
     });
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         bomItemMultiSelectModal.open(
             `BOM 구성품 목록 - ${itemName}`,
-            '/bom-items/modal/multi-select-list',
+            '/bom-items/modal/select/multi',
             params
         );
     });

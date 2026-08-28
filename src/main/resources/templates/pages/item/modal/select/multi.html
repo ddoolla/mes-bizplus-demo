@@ -1,0 +1,64 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-sm-between mt-1">
+        <div class="d-flex align-items-end">
+            <p class="fw-bold mb-0"
+               th:text="|Total : ${data.pagination.totalElements} 건|"></p>
+        </div>
+        <div>
+            <button type="button"
+                    class="item-select-confirm-button btn btn-primary btn-sm">
+                <i class="fa fa-pencil" aria-hidden="true"></i> 등록
+            </button>
+        </div>
+    </div>
+    <div id="item-table">
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 50px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: auto">
+            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox" class="check-all"/></th>
+                <th>품목 코드</th>
+                <th>품목명</th>
+                <th>품목 카테고리</th>
+                <th>품목 유형</th>
+                <th>규격</th>
+                <th>단위</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${data.items}">
+                <td>
+                    <input type="checkbox"
+                           class="check-item"
+                           th:value="${item.id}"/>
+                </td>
+                <td th:text="${item.code}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.category.name}"></td>
+                <td th:text="${item.type?.description}"></td>
+                <td th:text="${@format.value(item.specification)}"></td>
+                <td th:text="${@format.value(item.uom.name)}"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+
+</html>

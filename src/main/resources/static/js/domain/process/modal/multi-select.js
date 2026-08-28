@@ -4,8 +4,8 @@ import modal from "../../../common/modal.js";
 import pagination from "../../../common/pagination.js";
 
 const createProcessMultiSelectModal = () => {
-    const modalId = 'process-multi-select-modal';
-    const listUrl = '/processes/modal/multi-select-list';
+    const modalId = 'process-select-modal';
+    const listUrl = '/processes/modal/select/multi';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const searchForm = modalEl.querySelector('.process-search-form');

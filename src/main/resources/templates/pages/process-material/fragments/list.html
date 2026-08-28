@@ -2,52 +2,52 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="list (processMaterials)">
-  <div class="app-box app-box-bg mt-2">
-    <div>
-      <div>
-        <p class="h5 fw-bold">공정 소모 자재 목록</p>
-      </div>
-    </div>
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">공정 소모 자재 목록</p>
+            </div>
+        </div>
 
-    <div id="bom-item-table">
-      <table class="app-table-list text-center">
-        <colgroup>
-          <col style="width: 200px">
-          <col style="width: 200px">
-          <col style="width: 200px">
-          <col style="width: 200px">
-          <col style="width: 200px">
-          <col style="width: 200px">
-          <col style="width: 200px">
-          <col style="width: auto">
-        </colgroup>
-        <thead>
-        <tr>
-          <th>자재 코드</th>
-          <th>자재명</th>
-          <th>카테고리</th>
-          <th>자재 유형</th>
-          <th>규격</th>
-          <th>수량</th>
-          <th>단위</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="processMaterial : ${processMaterials}">
-          <td th:text="${processMaterial.item.code}"></td>
-          <td th:text="${processMaterial.item.name}"></td>
-          <td th:text="${@format.value(processMaterial.item.category)}"></td>
-          <td th:text="${processMaterial.item.type?.description}"></td>
-          <td th:text="${@format.value(processMaterial.item.specification)}"></td>
-          <td th:text="${#numbers.formatDecimal(processMaterial.quantity, 1, processMaterial.uom.scale)}"></td>
-          <td th:text="${processMaterial.uom.code}"></td>
-          <td></td>
-        </tr>
-        </tbody>
-      </table>
+        <div id="bom-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>자재 코드</th>
+                    <th>자재명</th>
+                    <th>카테고리</th>
+                    <th>자재 유형</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="processMaterial : ${processMaterials}">
+                    <td th:text="${processMaterial.item.code}"></td>
+                    <td th:text="${processMaterial.item.name}"></td>
+                    <td th:text="${@format.value(processMaterial.item.category)}"></td>
+                    <td th:text="${processMaterial.item.type?.description}"></td>
+                    <td th:text="${@format.value(processMaterial.item.specification)}"></td>
+                    <td th:text="${#numbers.formatDecimal(processMaterial.quantity, 1, processMaterial.uom.scale)}"></td>
+                    <td th:text="${processMaterial.uom.code}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 </th:block>
 
 </html>

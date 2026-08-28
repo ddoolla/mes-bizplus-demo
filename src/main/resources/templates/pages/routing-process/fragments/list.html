@@ -15,6 +15,7 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
+                    <col style="width: 200px">
                     <col style="width: auto">
                 </colgroup>
                 <thead>
@@ -22,6 +23,7 @@
                     <th>공정 코드</th>
                     <th>공정명</th>
                     <th>공정 단계</th>
+                    <th>소모 자재</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -30,6 +32,12 @@
                     <td th:text="${routingProcess.process.code}"></td>
                     <td th:text="${routingProcess.process.name}"></td>
                     <td th:text="${routingProcess.stepNo}"></td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-secondary btn-sm">
+                            <i class="bi bi-list"></i> 소모 자재
+                        </button>
+                    </td>
                     <td></td>
                 </tr>
                 </tbody>

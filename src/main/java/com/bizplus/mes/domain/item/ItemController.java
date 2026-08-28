@@ -6,6 +6,7 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.item.dto.ItemCreateDto;
+import com.bizplus.mes.domain.item.dto.ItemListDto;
 import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.item.dto.ItemUpdateDto;
 import com.bizplus.mes.domain.log.action.ActionType;
@@ -79,36 +80,34 @@ public class ItemController {
         return "pages/item/edit";
     }
 
-    @GetMapping("/{itemGroup}/modal/single-select-list")
-    public String viewSingleSelectList(Model model,
+    @GetMapping("/{itemGroup}/modal/select/single")
+    public String viewSingleSelectModal(Model model,
                                        @PathVariable String itemGroup,
                                        ItemSearchDto dto,
                                        @PageableDefault Pageable pageable) {
-        ItemGroup group = ItemGroup.valueOf(itemGroup.toUpperCase());
+        model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
 
-        model.addAttribute("data", switch (group) {
-            case PRODUCT -> itemService.getProducts(dto, pageable);
-            case MATERIAL -> itemService.getMaterials(dto, pageable);
-            case BOM_ITEM -> itemService.getBomItems(dto, pageable);
-        });
-
-        return "pages/item/modal/single-select-list :: list";
+        return "pages/item/modal/select/single :: list";
     }
 
-    @GetMapping("/{itemGroup}/modal/multi-select-list")
-    public String viewMultiSelectList(Model model,
+    @GetMapping("/{itemGroup}/modal/select/multi")
+    public String viewMultiSelectModal(Model model,
                                       @PathVariable String itemGroup,
                                       ItemSearchDto dto,
                                       @PageableDefault Pageable pageable) {
+        model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
+
+        return "pages/item/modal/select/multi :: list";
+    }
+
+    private ItemListDto getItemsByGroup(String itemGroup, ItemSearchDto dto, Pageable pageable) {
         ItemGroup group = ItemGroup.valueOf(itemGroup.toUpperCase());
 
-        model.addAttribute("data", switch (group) {
+        return switch (group) {
             case PRODUCT -> itemService.getProducts(dto, pageable);
             case MATERIAL -> itemService.getMaterials(dto, pageable);
             case BOM_ITEM -> itemService.getBomItems(dto, pageable);
-        });
-
-        return "pages/item/modal/multi-select-list :: list";
+        };
     }
 
     /*

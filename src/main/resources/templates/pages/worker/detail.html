@@ -32,7 +32,6 @@
 
     <!--/* 상세 정보 */-->
     <div class="app-box app-box-bg">
-
         <table class="app-table-input" th:object="${worker}">
             <colgroup>
                 <col style="width: 150px">
@@ -70,6 +69,9 @@
             </tbody>
         </table>
     </div>
+
+    <!--/* 담당 공정 정보 */-->
+    <div th:replace="~{pages/worker-process/fragments/list :: list (${workerProcesses})}"></div>
 </div>
 </body>
 </html>

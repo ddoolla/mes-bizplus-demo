@@ -1,0 +1,61 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (worker, workerProcesses)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">담당 공정 목록</p>
+            </div>
+            <div>
+                <button type="button"
+                        id="worker-process-create-button"
+                        th:data-worker-id="${worker.id}"
+                        class="btn btn-primary btn-sm me-1">
+                    <i class="bi bi-plus-circle"></i> 추가
+                </button>
+                <button type="button"
+                        id="worker-process-delete-button"
+                        class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="worker-process-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>공정 코드</th>
+                    <th>공정명</th>
+                    <th>설명</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="workerProcess : ${workerProcesses}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${workerProcess.id}"/>
+                    </td>
+                    <td th:text="${workerProcess.process.code}"></td>
+                    <td th:text="${workerProcess.process.name}"></td>
+                    <td th:text="${@format.value(workerProcess.process.description)}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

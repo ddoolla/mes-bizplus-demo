@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             itemMultipleListModal.close();
 
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생했습니다.');
+            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
         }
     });
 
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             bomItemMultipleListModal.close();
 
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생했습니다.');
+            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
         }
     });
 

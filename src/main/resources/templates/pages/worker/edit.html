@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/worker/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/worker-process/form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -88,6 +89,14 @@
                 </tbody>
             </table>
         </form>
+    </div>
+
+    <!--/* 담당 공정 수정 양식 */-->
+    <div th:replace="~{pages/worker-process/fragments/form :: form (${worker}, ${workerProcesses})}"></div>
+
+    <!--/* 공정 목록 모달 */-->
+    <div th:replace="~{pages/process/modal/list/container :: container (
+        '/processes/modal/list/multiple')}">
     </div>
 </div>
 </body>

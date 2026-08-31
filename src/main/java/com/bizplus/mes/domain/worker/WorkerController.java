@@ -11,6 +11,7 @@ import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.worker.dto.WorkerCreateDto;
 import com.bizplus.mes.domain.worker.dto.WorkerSearchDto;
 import com.bizplus.mes.domain.worker.dto.WorkerUpdateDto;
+import com.bizplus.mes.domain.worker.process.WorkerProcessService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ import java.util.List;
 public class WorkerController {
 
     private final WorkerService workerService;
+    private final WorkerProcessService workerProcessService;
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
 
@@ -48,6 +50,7 @@ public class WorkerController {
     @PreAuthorize("hasAuthority('WORKER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("worker", workerService.getWorker(id));
+        model.addAttribute("workerProcesses", workerProcessService.getWorkerProcesses(id));
 
         return "pages/worker/detail";
     }
@@ -65,6 +68,7 @@ public class WorkerController {
     @PreAuthorize("hasAuthority('WORKER_READ')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("worker", workerService.getWorker(id));
+        model.addAttribute("workerProcesses", workerProcessService.getWorkerProcesses(id));
 
         return "pages/worker/edit";
     }

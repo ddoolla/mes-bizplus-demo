@@ -28,6 +28,7 @@ public enum ErrorCode {
     ROUTING_NOT_FOUND(HttpStatus.NOT_FOUND, "제품 공정을 찾을 수 없습니다."),
     ROUTING_PROCESS_NOT_FOUND(HttpStatus.NOT_FOUND, "제품 공정 단계를 찾을 수 없습니다."),
     PROCESS_MATERIAL_NOT_FOUND(HttpStatus.NOT_FOUND, "공정 소모 자재를 찾을 수 없습니다."),
+    EQUIPMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "설비를 찾을 수 없습니다."),
 
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),

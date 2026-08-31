@@ -20,9 +20,10 @@ public enum MenuCode {
     BOM(MASTER, "BOM 관리", MenuType.MENU, "/boms", 100),
     PROCESS(MASTER, "공정 관리", MenuType.MENU, "/processes", 110),
     ROUTING(MASTER, "제품 공정 관리", MenuType.MENU, "/routings", 120),
+    EQUIPMENT(MASTER, "설비 관리", MenuType.MENU, "/equipments", 130),
 
-    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 130),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 140);
+    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 140),
+    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 150);
 
     private final MenuCode parent;
     private final String name;

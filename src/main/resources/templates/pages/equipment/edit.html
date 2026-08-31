@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('설비 수정', ~{}, ~{::script}, 'EQUIPMENT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/equipment/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('설비 수정', '기준정보관리, 설비관리, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-danger btn-sm"
+                th:onclick="|location.href='@{/equipments/{id}(id=${equipment.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="user-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('EQUIPMENT_UPDATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 수정 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="user-edit-form"
+              method="post"
+              th:action="@{/equipments/{id}(id=${equipment.id})}"
+              th:object="${equipment}">
+
+            <input type="hidden" name="id" th:value="*{id}"/>
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>설비 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="*{code}"
+                               placeholder="설비 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설비명 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="*{name}"
+                               placeholder="설비명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설비 유형</th>
+                    <td>
+                        <select name="equipmentTypeCodeId"
+                                class="app-form-control app-xs">
+                            <option value="">
+                                유형 선택
+                            </option>
+                            <option th:if="${#lists.isEmpty(equipmentTypes)}" value="" disabled>
+                                등록된 설비 유형이 없습니다.
+                            </option>
+                            <option th:each="type : ${equipmentTypes}"
+                                    th:value="${type.id}"
+                                    th:text="${@format.codeName(type.code, type.name)}"
+                                    th:selected="${equipment.id == type.id}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>규격</th>
+                    <td>
+                        <input type="text"
+                               name="specification"
+                               th:value="*{specification}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제조사</th>
+                    <td>
+                        <input type="text"
+                               name="manufacturer"
+                               th:value="*{specification}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>모델</th>
+                    <td>
+                        <input type="text"
+                               name="model"
+                               th:value="*{model}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>시리얼 번호</th>
+                    <td>
+                        <input type="text"
+                               name="serialNo"
+                               th:value="*{serialNo}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설치 위치</th>
+                    <td>
+                        <input type="text"
+                               name="location"
+                               th:value="*{location}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               th:value="*{remark}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -20,18 +20,18 @@
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 th:onclick="|location.href='@{/users}'|">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+            <i class="bi bi-x-circle"></i> 취소
         </button>
 
         <button type="submit"
                 form="user-create-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('USER_CREATE')">
-            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+            <i class="bi bi-floppy"></i> 저장
         </button>
     </div>
 
-    <!--/* 바디 */-->
+    <!--/* 등록 양식 */-->
     <div class="app-box app-box-bg">
         <form id="user-create-form" method="post" th:action="@{/users}">
             <table class="app-table-input">

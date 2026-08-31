@@ -8,14 +8,13 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 /*
-* 타임리프에서 활용
-* ex) ${@format.businessNo(...)}
-* */
+ * 타임리프에서 활용
+ * ex) ${@format.businessNo(...)}
+ * */
 @Component("format")
 public class FormatUtils {
 
     public String value(String value) {
-
         if (value == null || value.isBlank()) {
             return "-";
         }
@@ -29,6 +28,14 @@ public class FormatUtils {
         }
 
         return value.stripTrailingZeros().toPlainString();
+    }
+
+    public String codeName(String code, String name) {
+        if (code == null || name == null) {
+            return "-";
+        }
+
+        return code + " (" + name + ")";
     }
 
     public String businessNo(String value) {

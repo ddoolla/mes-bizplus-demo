@@ -19,14 +19,14 @@
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 th:onclick="|location.href='@{/roles}'|">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+            <i class="bi bi-list"></i> 목록
         </button>
 
         <button type="button"
                 class="btn btn-primary btn-sm"
                 th:onclick="|location.href='@{/roles/{id}/edit(id=${roleDetail.role.id})}'|"
                 sec:authorize="hasAuthority('ROLE_UPDATE')">
-            <i class="fa fa-pencil" aria-hidden="true"></i> 수정
+            <i class="bi bi-pencil-square"></i> 수정
         </button>
     </div>
 

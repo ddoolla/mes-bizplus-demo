@@ -19,15 +19,15 @@
     <div class="action-bar">
         <button type="button"
                 class="btn btn-secondary btn-sm"
-                th:onclick="|location.href='@{/items}'|">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+                th:onclick="|location.href='@{/items/{id}(id=${item.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
         </button>
 
         <button type="submit"
                 form="item-edit-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('ITEM_UPDATE')">
-            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+            <i class="bi bi-floppy"></i> 저장
         </button>
     </div>
 

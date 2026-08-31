@@ -23,14 +23,14 @@
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 th:onclick="|location.href='@{/partners}'|">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+            <i class="bi bi-x-circle"></i> 취소
         </button>
 
         <button type="submit"
                 form="partner-create-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('PARTNER_CREATE')">
-            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+            <i class="bi bi-floppy"></i> 저장
         </button>
     </div>
 
@@ -186,7 +186,7 @@
                         <button type="button"
                                 id="address-search-button"
                                 class="btn btn-secondary app-btn-xs">
-                            <i class="fa fa-search" aria-hidden="true"></i> 주소찾기
+                            <i class="bi bi-search"></i> 주소찾기
                         </button>
                     </td>
                 </tr>

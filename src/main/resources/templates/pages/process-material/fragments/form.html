@@ -12,7 +12,7 @@
                         id="btn-add-from-item"
                         th:data-routing-process-id="${routingProcess.id}"
                         class="btn btn-primary btn-sm me-1">
-                    자재에서 추가
+                    <i class="bi bi-plus-circle"></i> 자재에서 추가
                 </button>
                 <button type="button"
                         id="btn-add-from-bom"
@@ -20,12 +20,12 @@
                         th:data-primary-bom-id="${primaryBom?.id}"
                         th:data-item-name="${item.name}"
                         class="btn btn-primary btn-sm me-1">
-                    BOM에서 추가
+                    <i class="bi bi-plus-circle"></i> BOM에서 추가
                 </button>
                 <button type="button"
                         id="process-material-delete-button"
                         class="btn btn-danger btn-sm">
-                    삭제
+                    <i class="bi bi-trash"></i> 삭제
                 </button>
             </div>
         </div>

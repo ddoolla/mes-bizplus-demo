@@ -21,14 +21,14 @@
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 th:onclick="|location.href='@{/roles}'|">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> 목록
+            <i class="bi bi-x-circle"></i> 취소
         </button>
 
         <button type="submit"
                 form="role-create-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('ROLE_CREATE')">
-            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+            <i class="bi bi-floppy"></i> 저장
         </button>
     </div>
 

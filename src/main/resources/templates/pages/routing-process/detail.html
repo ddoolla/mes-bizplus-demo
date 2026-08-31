@@ -21,14 +21,14 @@
         <button type="button"
                 class="btn btn-secondary btn-sm"
                 th:onclick="|location.href='@{/routings/{id}/edit(id=${routing.id})}'|">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> 이전 페이지
+            <i class="bi bi-arrow-left"></i> 돌아가기
         </button>
 
         <button type="submit"
                 class="btn btn-primary btn-sm"
                 form="process-material-edit-form"
                 sec:authorize="hasAuthority('ROUTING_UPDATE')">
-            <i class="fa fa-pencil" aria-hidden="true"></i> 저장
+            <i class="bi bi-floppy"></i> 저장
         </button>
     </div>
 

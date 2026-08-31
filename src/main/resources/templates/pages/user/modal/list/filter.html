@@ -1,18 +1,18 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+>
 
-<div th:fragment="filter (url, departments, positions, count, showActions)">
-    <form method="GET" th:action="${url}">
+<div th:fragment="filter (url, departments, positions)">
+    <form class="user-search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
-                <col style="width: 150px">
+                <col style="width: 100px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 100px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 100px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 100px">
                 <col style="width: auto">
             </colgroup>
             <tbody>
@@ -65,36 +65,10 @@
             </tbody>
         </table>
 
-        <div class="mt-2 mb-2 text-end">
+        <div class="mt-2 text-end">
             <button type="submit" class="btn btn-secondary btn-sm">
                 <i class="bi bi-search"></i> 조회
             </button>
-        </div>
-
-        <div class="d-flex justify-content-between mb-2">
-            <div class="fw-bold"
-                 th:text="|Total : ${count} 건|">
-            </div>
-            <div>
-                <th:block th:if="${showActions}">
-                    <button type="button"
-                            class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/users/new}'|"
-                            sec:authorize="hasAuthority('USER_CREATE')">
-                        <i class="bi bi-plus-circle"></i> 등록
-                    </button>
-                    <button type="button"
-                            id="user-delete-button"
-                            class="btn btn-danger btn-sm"
-                            sec:authorize="hasAuthority('USER_DELETE')">
-                        <i class="bi bi-trash"></i> 삭제
-                    </button>
-                    <!--<button type="button" class="btn btn-success"
-                            th:onclick="|location.href='/accountExcel'|">
-                        <i class="fa fa-file-excel-o" aria-hidden="true"> Excel 다운로드</i>
-                    </button>-->
-                </th:block>
-            </div>
         </div>
     </form>
 </div>

@@ -45,6 +45,8 @@ public class UserController {
     public String viewList(Model model,
                            UserSearchDto dto,
                            @PageableDefault Pageable pageable) {
+        model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
+        model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
         model.addAttribute("data", userService.getUsers(dto, pageable));
 
         return "pages/user/list";
@@ -77,6 +79,15 @@ public class UserController {
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
 
         return "pages/user/edit";
+    }
+
+    @GetMapping("/modal/list/single")
+    public String viewSingleListModal(Model model,
+                                      UserSearchDto dto,
+                                      @PageableDefault Pageable pageable) {
+        model.addAttribute("data", userService.getUsers(dto, pageable));
+
+        return "pages/user/modal/list/single :: list";
     }
 
     /*

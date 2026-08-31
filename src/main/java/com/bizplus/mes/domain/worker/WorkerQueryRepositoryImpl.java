@@ -1,9 +1,9 @@
-package com.bizplus.mes.domain.user;
+package com.bizplus.mes.domain.worker;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
-import com.bizplus.mes.domain.user.dto.QUserDto;
-import com.bizplus.mes.domain.user.dto.UserDto;
-import com.bizplus.mes.domain.user.dto.UserSearchDto;
+import com.bizplus.mes.domain.worker.dto.QWorkerDto;
+import com.bizplus.mes.domain.worker.dto.WorkerDto;
+import com.bizplus.mes.domain.worker.dto.WorkerSearchDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,13 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
-import static com.bizplus.mes.domain.role.QRole.role;
 import static com.bizplus.mes.domain.user.QUser.user;
-import static com.bizplus.mes.domain.user.role.QUserRole.userRole;
+import static com.bizplus.mes.domain.worker.QWorker.worker;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserQueryRepositoryImpl implements UserQueryRepository {
+public class WorkerQueryRepositoryImpl implements WorkerQueryRepository {
 
     private final JPAQueryFactory query;
 
@@ -31,80 +30,69 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
     private static final QCommonCode positionCode = new QCommonCode("positionCode");
 
     @Override
-    public Page<UserDto> findUsers(UserSearchDto dto, Pageable pageable) {
-
+    public Page<WorkerDto> findWorkers(WorkerSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
-                .and(notDeleted(user.deletedAt))
-                .and(contains(user.userId, dto.getUserId()))
-                .and(contains(user.name, dto.getName()))
-                .and(eq(user.department.id, dto.getDepartmentId()))
-                .and(eq(user.position.id, dto.getPositionId()));
+                .and(notDeleted(worker.deletedAt))
+                .and(contains(worker.code, dto.getCode()))
+                .and(contains(user.name, dto.getUserName()))
+                .and(eq(departmentCode.id, dto.getDepartmentId()))
+                .and(eq(positionCode.id, dto.getPositionId()));
 
-        List<UserDto> content = query
-                .select(new QUserDto(
+        List<WorkerDto> content = query
+                .select(new QWorkerDto(
+                        worker.id,
+                        worker.code,
+                        worker.remark,
                         user.id,
-                        user.userId,
                         user.name,
-                        user.email,
-                        user.phone,
-                        departmentCode.id,
                         departmentCode.name,
-                        positionCode.id,
                         positionCode.name,
-                        role.id,
-                        role.name,
-                        user.remark
+                        user.phone,
+                        user.email
                 ))
-                .from(user)
+                .from(worker)
+                .innerJoin(user).on(worker.user.id.eq(user.id))
                 .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
                 .leftJoin(positionCode).on(user.position.id.eq(positionCode.id))
-                .innerJoin(userRole).on(user.id.eq(userRole.user.id))
-                .innerJoin(role).on(userRole.role.id.eq(role.id))
                 .where(searchCondition)
-                .orderBy(user.userId.asc(), user.name.asc())
+                .orderBy(worker.code.asc(), user.name.asc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
 
         JPAQuery<Long> count = query
-                .select(user.count())
-                .from(user)
+                .select(worker.count())
+                .from(worker)
+                .innerJoin(user).on(worker.user.id.eq(user.id))
                 .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
                 .leftJoin(positionCode).on(user.position.id.eq(positionCode.id))
-                .innerJoin(userRole).on(user.id.eq(userRole.user.id))
-                .innerJoin(role).on(userRole.role.id.eq(role.id))
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
     @Override
-    public Optional<UserDto> findUser(Long id) {
-
+    public Optional<WorkerDto> findWorker(Long id) {
         return Optional.ofNullable(
                 query
-                        .select(new QUserDto(
+                        .select(new QWorkerDto(
+                                worker.id,
+                                worker.code,
+                                worker.remark,
                                 user.id,
-                                user.userId,
                                 user.name,
-                                user.email,
-                                user.phone,
-                                departmentCode.id,
                                 departmentCode.name,
-                                positionCode.id,
                                 positionCode.name,
-                                role.id,
-                                role.name,
-                                user.remark
+                                user.phone,
+                                user.email
                         ))
-                        .from(user)
+                        .from(worker)
+                        .innerJoin(user).on(worker.user.id.eq(user.id))
                         .leftJoin(departmentCode).on(user.department.id.eq(departmentCode.id))
                         .leftJoin(positionCode).on(user.position.id.eq(positionCode.id))
-                        .innerJoin(userRole).on(user.id.eq(userRole.user.id))
-                        .innerJoin(role).on(userRole.role.id.eq(role.id))
                         .where(
-                                notDeleted(user.deletedAt),
-                                eq(user.id, id)
+                                notDeleted(worker.deletedAt),
+                                eq(worker.id, id)
                         )
                         .fetchOne()
         );

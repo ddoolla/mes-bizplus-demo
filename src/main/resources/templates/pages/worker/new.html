@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('작업자 등록', ~{}, ~{::script}, 'WORKER', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/worker/new.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('작업자 등록', '기준정보관리, 작업자관리, 등록')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/workers}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="worker-create-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('WORKER_CREATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 등록 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="worker-create-form" method="post" th:action="@{/workers}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>사용자 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="userName"
+                               class="app-form-control app-xs w-25 app-readonly-bg"
+                               placeholder="사용자를 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="userId"/>
+                        <button type="button"
+                                id="user-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 사용자 목록
+                        </button>
+                        <div id="user-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>작업자 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               placeholder="작업자 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div th:replace="~{pages/user/modal/list/container :: container (
+        @{/users/modal/list/single},
+        ${departments},
+        ${positions})}">
+    </div>
+</div>
+</body>
+</html>

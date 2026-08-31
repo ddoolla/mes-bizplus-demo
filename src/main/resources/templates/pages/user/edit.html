@@ -74,24 +74,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>이메일</th>
-                    <td>
-                        <input type="text"
-                               name="email"
-                               class="app-form-control app-xs"
-                               th:value="*{email}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>휴대폰 번호</th>
-                    <td>
-                        <input type="text"
-                               name="phone"
-                               class="app-form-control app-xs"
-                               th:value="*{phone}"/>
-                    </td>
-                </tr>
-                <tr>
                     <th>부서</th>
                     <td>
                         <select name="departmentId"
@@ -129,6 +111,24 @@
                                     th:selected="${position.id == user.position.id}">
                             </option>
                         </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>휴대폰 번호</th>
+                    <td>
+                        <input type="text"
+                               name="phone"
+                               class="app-form-control app-xs"
+                               th:value="*{phone}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>
+                        <input type="text"
+                               name="email"
+                               class="app-form-control app-xs"
+                               th:value="*{email}"/>
                     </td>
                 </tr>
                 <tr>

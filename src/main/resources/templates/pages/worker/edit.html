@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('작업자 수정', ~{}, ~{::script}, 'WORKER', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/worker/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('작업자 수정', '기준정보관리, 작업자관리, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/workers/{id}(id=${worker.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="worker-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('WORKER_UPDATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 수정 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="worker-edit-form"
+              method="post"
+              th:action="@{/workers/{id}(id=${worker.id})}"
+              th:object="${worker}">
+
+            <input type="hidden" name="id" th:value="${worker.id}">
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>작업자 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="*{code}"
+                               placeholder="작업자 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>작업자명</th>
+                    <td th:text="${worker.user.name}"></td>
+                </tr>
+                <tr>
+                    <th>부서</th>
+                    <td th:text="${@format.value(worker.user.department)}"></td>
+                </tr>
+                <tr>
+                    <th>직책</th>
+                    <td th:text="${@format.value(worker.user.position)}"></td>
+                </tr>
+                <tr>
+                    <th>휴대폰 번호</th>
+                    <td th:text="${@format.phoneNo(worker.user.phone)}"></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td th:text="${@format.value(worker.user.email)}"></td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               th:value="*{remark}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

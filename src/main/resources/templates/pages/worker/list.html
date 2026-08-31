@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('사용자 목록', ~{}, ~{::script}, 'USER', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('작업자 목록', ~{}, ~{::script}, 'WORKER', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="module" th:src="@{/js/pages/user/list.js}"></script>
+    <script type="module" th:src="@{/js/pages/worker/list.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
 <div id="app-content">
     <!--/* 헤더 */-->
-    <div th:replace="~{fragments/content :: header ('사용자 목록', '시스템관리, 사용자관리')}">
+    <div th:replace="~{fragments/content :: header ('작업자 목록', '기준정보관리, 작업자관리')}">
     </div>
 
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
         <!--/* 필터 */-->
-        <div th:replace="~{pages/user/fragments/filter :: filter (
-            '/users',
+        <div th:replace="~{pages/worker/fragments/filter :: filter (
+            '/workers',
             ${departments},
             ${positions},
             ${data.pagination.totalElements},
@@ -26,7 +26,7 @@
         </div>
 
         <!--/* 목록 */-->
-        <div id="user-table">
+        <div id="worker-table">
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
@@ -41,33 +41,32 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="check-all"/></th>
-                    <th>사용자 ID</th>
-                    <th>사용자명</th>
+                    <th>작업자 코드</th>
+                    <th>작업자명</th>
                     <th>부서</th>
                     <th>직책</th>
                     <th>전화</th>
                     <th>이메일</th>
-                    <th>권한</th>
+                    <th>비고</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${data.users}">
+                <tr th:each="worker : ${data.workers}">
                     <td>
                         <input type="checkbox"
                                class="check-item"
-                               th:value="${user.id}"
-                               th:unless="${user.userId == 'admin'}"/>
+                               th:value="${worker.id}"/>
                     </td>
                     <td class="fw-bold">
-                        <a th:href="@{/users/{id}(id=${user.id})}"
-                           th:text="${user.userId}"></a>
+                        <a th:href="@{/workers/{id}(id=${worker.id})}"
+                           th:text="${worker.code}"></a>
                     </td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${@format.value(user.department?.name)}"></td>
-                    <td th:text="${@format.value(user.position?.name)}"></td>
-                    <td th:text="${@format.phoneNo(user.phone)}"></td>
-                    <td th:text="${@format.value(user.email)}"></td>
-                    <td th:text="${@format.value(user.role?.name)}"></td>
+                    <td th:text="${worker.user.name}"></td>
+                    <td th:text="${@format.value(worker.user.department)}"></td>
+                    <td th:text="${@format.value(worker.user.position)}"></td>
+                    <td th:text="${@format.phoneNo(worker.user.phone)}"></td>
+                    <td th:text="${@format.value(worker.user.email)}"></td>
+                    <td th:text="${@format.value(worker.remark)}"></td>
                 </tr>
                 </tbody>
             </table>

@@ -60,6 +60,11 @@ public enum PermissionCode {
     EQUIPMENT_UPDATE(MenuCode.EQUIPMENT, "설비 수정", PermissionAction.UPDATE),
     EQUIPMENT_DELETE(MenuCode.EQUIPMENT, "설비 삭제", PermissionAction.DELETE),
 
+    WORKER_READ(MenuCode.WORKER, "작업자 조회", PermissionAction.READ),
+    WORKER_CREATE(MenuCode.WORKER, "작업자 등록", PermissionAction.CREATE),
+    WORKER_UPDATE(MenuCode.WORKER, "작업자 수정", PermissionAction.UPDATE),
+    WORKER_DELETE(MenuCode.WORKER, "작업자 삭제", PermissionAction.DELETE),
+
     ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;

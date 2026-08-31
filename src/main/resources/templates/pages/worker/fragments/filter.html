@@ -10,26 +10,22 @@
                 <col style="width: auto">
                 <col style="width: 150px">
                 <col style="width: auto">
-                <col style="width: 150px">
-                <col style="width: auto">
-                <col style="width: 150px">
-                <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
-                <th>사용자 ID</th>
+                <th>작업자 코드</th>
                 <td>
                     <input type="text"
-                           name="userId"
+                           name="code"
                            class="app-form-control app-xs"
-                           th:value="${param.userId}">
+                           th:value="${param.code}">
                 </td>
-                <th>사용자명</th>
+                <th>작업자명</th>
                 <td>
                     <input type="text"
                            name="name"
                            class="app-form-control app-xs"
-                           th:value="${param.name}">
+                           th:value="${param.userName}">
                 </td>
                 <th>부서</th>
                 <td>
@@ -79,20 +75,16 @@
                 <th:block th:if="${showActions}">
                     <button type="button"
                             class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/users/new}'|"
-                            sec:authorize="hasAuthority('USER_CREATE')">
+                            th:onclick="|location.href='@{/workers/new}'|"
+                            sec:authorize="hasAuthority('WORKER_CREATE')">
                         <i class="bi bi-plus-circle"></i> 등록
                     </button>
                     <button type="button"
-                            id="user-delete-button"
+                            id="worker-delete-button"
                             class="btn btn-danger btn-sm"
-                            sec:authorize="hasAuthority('USER_DELETE')">
+                            sec:authorize="hasAuthority('WORKER_DELETE')">
                         <i class="bi bi-trash"></i> 삭제
                     </button>
-                    <!--<button type="button" class="btn btn-success"
-                            th:onclick="|location.href='/accountExcel'|">
-                        <i class="fa fa-file-excel-o" aria-hidden="true"> Excel 다운로드</i>
-                    </button>-->
                 </th:block>
             </div>
         </div>

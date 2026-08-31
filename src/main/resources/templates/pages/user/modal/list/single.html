@@ -1,0 +1,59 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div id="user-table">
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 200px">
+                <col style="width: 100px">
+                <col style="width: 100px">
+                <col style="width: 100px">
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 100px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>사용자 ID</th>
+                <th>사용자명</th>
+                <th>부서</th>
+                <th>직책</th>
+                <th>전화</th>
+                <th>이메일</th>
+                <th>권한</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${data.users}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${@format.value(user.department?.name)}"></td>
+                <td th:text="${@format.value(user.position?.name)}"></td>
+                <td th:text="${@format.phoneNo(user.phone)}"></td>
+                <td th:text="${@format.value(user.email)}"></td>
+                <td th:text="${@format.value(user.role?.name)}"></td>
+                <td>
+                    <button type="button"
+                            class="btn btn-primary btn-sm user-select-button"
+                            th:data-id="${user.id}"
+                            th:data-name="${user.name}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+
+</html>

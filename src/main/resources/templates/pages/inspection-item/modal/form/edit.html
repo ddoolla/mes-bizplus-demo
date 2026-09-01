@@ -1,0 +1,83 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form">
+    <div class="modal-body">
+        <form id="inspection-item-edit-form"
+              method="post"
+              th:action="@{/inspection-items/{id}(id=${inspectionItem.id})}">
+
+            <input type="hidden"
+                   name="id"
+                   th:value="${inspectionItem.id}"/>
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>검사그룹</th>
+                    <td>
+                        <select name="groupId"
+                                class="app-form-control app-xs">
+                            <option value="">선택</option>
+                            <option th:if="${#lists.isEmpty(inspectionGroups)}" disabled>
+                                등록된 검사그룹이 없습니다.
+                            </option>
+                            <option th:each="group : ${inspectionGroups}"
+                                    th:value="${group.id}"
+                                    th:text="${@format.codeName(group.code, group.name)}"
+                                    th:selected="${inspectionItem.id == group.id}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>검사항목 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="${inspectionItem.code}"
+                               placeholder="검사항목 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>검사항목명 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               th:value="${inspectionItem.name}"
+                               class="app-form-control app-xs"
+                               placeholder="검사항목명를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설명</th>
+                    <td>
+                        <input type="text"
+                               name="description"
+                               th:value="${inspectionItem.description}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class=modal-footer>
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+        <button type="submit"
+                form="inspection-item-edit-form"
+                class="btn btn-primary btn-sm">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+</th:block>
+
+</html>

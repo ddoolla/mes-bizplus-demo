@@ -1,0 +1,17 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 검사항목 등록/수정 모달 */-->
+<th:block th:fragment="container">
+    <div th:replace="~{fragments/modal/default :: default (
+        'inspection-item-form-modal',
+        '검사항목 등록/수정',
+         ~{::content},
+         null
+    )}">
+        <th:block th:fragment="content">
+            <div class="inspection-item-form-content"></div>
+        </th:block>
+    </div>
+</th:block>
+
+</html>

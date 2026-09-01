@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('검사항목 목록', ~{}, ~{::script}, 'INSPECTION_ITEM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/inspection-item/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('검사항목 목록', '기준정보관리, 검사항목관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/inspection-item/fragments/filter :: filter (
+            '/inspection-items',
+            ${inspectionGroups},
+            ${data.pagination.totalElements},
+            true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="inspection-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>검사그룹</th>
+                    <th>검사항목 코드</th>
+                    <th>검사항목명</th>
+                    <th>설명</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="inspectionItem : ${data.inspectionItems}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${inspectionItem.id}"/>
+                    </td>
+                    <td th:text="${@format.codeName(inspectionItem.group.code, inspectionItem.group.name)}"></td>
+                    <td class="fw-bold">
+                        <a href="#"
+                           class="inspection-item-edit-link"
+                           th:text="${inspectionItem.code}"
+                           th:data-id="${inspectionItem.id}"></a>
+                    </td>
+                    <td th:text="${inspectionItem.name}"></td>
+                    <td th:text="${@format.value(inspectionItem.description)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+
+    <!--/* 검사항목 폼 모달 */-->
+    <div th:replace="~{pages/inspection-item/modal/form/container :: container}"></div>
+</div>
+</body>
+</html>

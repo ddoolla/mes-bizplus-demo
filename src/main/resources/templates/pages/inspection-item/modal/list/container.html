@@ -1,0 +1,26 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 검사항목 목록 모달 */-->
+<th:block th:fragment="container (url, inspectionGroups)">
+    <div th:replace="~{fragments/modal/default :: default (
+        'inspection-item-list-modal',
+        '검사항목 목록',
+         ~{::content},
+         1200
+    )}">
+        <div th:fragment="content" class="p-2">
+            <div class="modal-body pt-0 app-modal-body">
+                <!--/* 검색 필터 */-->
+                <div th:replace="~{pages/inspection-item/modal/list/filter :: filter (
+                    ${url},
+                    ${inspectionGroups})}">
+                </div>
+
+                <!--/* 검사항목 목록 */-->
+                <div class="inspection-item-list"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

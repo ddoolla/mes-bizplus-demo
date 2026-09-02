@@ -8,6 +8,7 @@ import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecCreateDto;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecSearchDto;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecUpdateDto;
+import com.bizplus.mes.domain.inspection.spec.item.InspectionSpecItemService;
 import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
@@ -31,6 +32,8 @@ import java.util.List;
 public class InspectionSpecController {
 
     private final InspectionSpecService inspectionSpecService;
+    private final InspectionSpecItemService inspectionSpecItemService;
+    private final InspectionSpecUpdateService inspectionSpecUpdateService;
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
 
@@ -48,6 +51,7 @@ public class InspectionSpecController {
     @PreAuthorize("hasAuthority('INSPECTION_SPEC_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("inspectionSpec", inspectionSpecService.getInspectionSpec(id));
+        model.addAttribute("inspectionSpecItems", inspectionSpecItemService.getInspectionSpecItems(id));
 
         return "pages/inspection-spec/detail";
     }
@@ -66,7 +70,9 @@ public class InspectionSpecController {
     @PreAuthorize("hasAuthority('INSPECTION_SPEC_READ')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("inspectionTypes", InspectionType.values());
+        model.addAttribute("inspectionGroups", commonCodeService.getCommonCodes(CodeGroupKey.INSPECTION_GROUP));
         model.addAttribute("inspectionSpec", inspectionSpecService.getInspectionSpec(id));
+        model.addAttribute("inspectionSpecItems", inspectionSpecItemService.getInspectionSpecItems(id));
 
         return "pages/inspection-spec/edit";
     }
@@ -97,7 +103,7 @@ public class InspectionSpecController {
     public String updateInspectionSpec(@PathVariable Long id,
                                        @Valid InspectionSpecUpdateDto dto,
                                        RedirectAttributes reAtt) {
-        inspectionSpecService.updateInspectionSpec(id, dto);
+        inspectionSpecUpdateService.update(id, dto);
 
         reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));

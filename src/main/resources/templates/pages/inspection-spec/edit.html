@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/inspection-spec/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/inspection-spec-item/form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -31,14 +32,14 @@
         </button>
     </div>
 
-    <!--/* 수정 양식 */-->
-    <div class="app-box app-box-bg">
-        <form id="inspection-spec-edit-form"
-              method="post"
-              th:action="@{/inspection-specs/{id}(id=${inspectionSpec.id})}"
-              th:object="${inspectionSpec}"
-              th:with="item=${inspectionSpec.item}, process=${inspectionSpec.process}">
+    <form id="inspection-spec-edit-form"
+          method="post"
+          th:action="@{/inspection-specs/{id}(id=${inspectionSpec.id})}"
+          th:object="${inspectionSpec}"
+          th:with="item=${inspectionSpec.item}, process=${inspectionSpec.process}">
 
+        <!--/* 검사기준 수정 양식 */-->
+        <div class="app-box app-box-bg">
             <input type="hidden" name="id" th:value="*{id}"/>
 
             <table class="app-table-input">
@@ -99,7 +100,7 @@
                             <input type="checkbox"
                                    name="primary"
                                    value="true"
-                                   th:checked="*{primary == true}"
+                                   th:checked="*{primary}"
                                    class="app-form-control app-xs"/>
                             기본 검사기준으로 사용
                         </label>
@@ -116,7 +117,19 @@
                 </tr>
                 </tbody>
             </table>
-        </form>
+        </div>
+
+        <!--/* 검사항목 수정 양식 */-->
+        <div th:replace="~{pages/inspection-spec-item/fragments/form :: form (
+        ${inspectionSpec},
+        ${inspectionSpecItems})}">
+        </div>
+    </form>
+
+    <!--/* 검사항목 목록 모달 */-->
+    <div th:replace="~{pages/inspection-item/modal/list/container :: container (
+        @{/inspection-items/modal/list/multiple},
+        ${inspectionGroups})}">
     </div>
 </div>
 </body>

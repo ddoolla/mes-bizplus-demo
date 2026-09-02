@@ -1,0 +1,48 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (inspectionSpecItems)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">검사항목 목록</p>
+            </div>
+        </div>
+
+        <div id="inspection-spec-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>검사그룹</th>
+                    <th>검사항목</th>
+                    <th>검사 순서</th>
+                    <th>검사 기준</th>
+                    <th>검사 방법</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="specItem : ${inspectionSpecItems}"
+                    th:with="inspectionItem=${specItem.inspectionItem}">
+                    <td th:text="${inspectionItem.group}"></td>
+                    <td th:text="${@format.nameWithCode(inspectionItem.code, inspectionItem.name)}"></td>
+                    <td th:text="${specItem.sortOrder}"></td>
+                    <td th:text="${@format.value(specItem.standard)}"></td>
+                    <td th:text="${@format.value(specItem.method)}"></td>
+                    <td th:text="${@format.value(specItem.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

@@ -30,7 +30,7 @@
         </button>
     </div>
 
-    <!--/* 상세 정보 */-->
+    <!--/* 검사기준 상세 정보 */-->
     <div class="app-box app-box-bg">
         <table class="app-table-input"
                th:object="${inspectionSpec}"
@@ -69,7 +69,7 @@
                 <td th:text="${@format.value(inspectionSpec.version)}"></td>
             </tr>
             <tr>
-                <th>기본 기준</th>
+                <th>기본 검사기준</th>
                 <td th:text="${inspectionSpec.primary ? '예' : '아니오'}"></td>
             </tr>
             <tr>
@@ -79,6 +79,9 @@
             </tbody>
         </table>
     </div>
+
+    <!--/* 검사항목 목록 */-->
+    <div th:replace="~{pages/inspection-spec-item/fragments/list :: list (${inspectionSpecItems})}"></div>
 </div>
 </body>
 </html>

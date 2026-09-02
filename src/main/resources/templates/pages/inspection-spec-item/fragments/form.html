@@ -1,0 +1,92 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (inspectionSpec, inspectionSpecItems)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">검사항목 목록</p>
+            </div>
+            <div>
+                <button type="button"
+                        id="inspection-spec-item-create-button"
+                        th:data-inspection-spec-id="${inspectionSpec.id}"
+                        class="btn btn-primary btn-sm me-1">
+                    <i class="bi bi-plus-circle"></i> 추가
+                </button>
+                <button type="button"
+                        id="inspection-spec-item-delete-button"
+                        class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="inspection-spec-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 80px">
+                    <col style="width: 400px">
+                    <col style="width: 400px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>검사그룹</th>
+                    <th>검사항목</th>
+                    <th>검사 순서</th>
+                    <th>검사 기준</th>
+                    <th>검사 방법</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="specItem, stat : ${inspectionSpecItems}"
+                    th:with="inspectionItem=${specItem.inspectionItem}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${specItem.id}"/>
+                    </td>
+                    <td th:text="${inspectionItem.group}"></td>
+                    <td th:text="${@format.nameWithCode(inspectionItem.code, inspectionItem.name)}"></td>
+                    <td>
+                        <input type="number"
+                               class="app-form-control app-xs"
+                               th:name="|inspectionSpecItems[${stat.index}].sortOrder|"
+                               th:value="${specItem.sortOrder}"
+                               min="0"/>
+                        <input type="hidden"
+                               th:name="|inspectionSpecItems[${stat.index}].id|"
+                               th:value="${specItem.id}"/>
+                    </td>
+                    <td>
+                        <input type="text"
+                               class="app-form-control app-xs"
+                               th:name="|inspectionSpecItems[${stat.index}].standard|"
+                               th:value="${specItem.standard}"/>
+                    </td>
+                    <td>
+                        <input type="text"
+                               class="app-form-control app-xs"
+                               th:name="|inspectionSpecItems[${stat.index}].method|"
+                               th:value="${specItem.method}"/>
+                    </td>
+                    <td>
+                        <input type="text"
+                               class="app-form-control app-xs"
+                               th:name="|inspectionSpecItems[${stat.index}].remark|"
+                               th:value="${specItem.remark}"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

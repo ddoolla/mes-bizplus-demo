@@ -61,6 +61,16 @@ public class InspectionItemController {
         return "pages/inspection-item/modal/form/edit :: form";
     }
 
+    @GetMapping("/modal/list/multiple")
+    @PreAuthorize("hasAuthority('INSPECTION_ITEM_READ')")
+    public String viewMultipleListModal(Model model,
+                                        InspectionItemSearchDto dto,
+                                        @PageableDefault Pageable pageable) {
+        model.addAttribute("data", inspectionItemService.getInspectionItems(dto, pageable));
+
+        return "pages/inspection-item/modal/list/multiple :: list";
+    }
+
     @GetMapping("/check-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('INSPECTION_ITEM_READ')")

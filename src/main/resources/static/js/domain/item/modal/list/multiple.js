@@ -16,7 +16,7 @@ const createItemMultipleListModal = () => {
         checkbox.init(itemList);
     };
 
-    const load = async (url, params = '') => {
+    const load = async ({url, params = {}}) => {
 
         try {
             const response = await ajax.get(url, params);
@@ -28,10 +28,14 @@ const createItemMultipleListModal = () => {
     };
 
     // 모달 열기
-    const open = (title = '품목 목록', url) => {
+    const open = ({
+                      title = '품목 목록',
+                      url,
+                      params = {}
+                  }) => {
         modal.setTitle(modalId, title);
 
-        load(url);
+        load({url, params});
 
         modal.open(modalId);
     };
@@ -48,7 +52,10 @@ const createItemMultipleListModal = () => {
                 new FormData(form)
             );
 
-            load(form.action, params.toString());
+            load({
+                url: form.action,
+                params: params.toString(),
+            });
 
             return false;
         }

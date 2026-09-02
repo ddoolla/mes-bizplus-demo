@@ -63,7 +63,7 @@
                            th:text="${equipment.code}"></a>
                     </td>
                     <td th:text="${equipment.name}"></td>
-                    <td th:text="${@format.codeName(equipment.type.code, equipment.type.name)}"></td>
+                    <td th:text="${@format.nameWithCode(equipment.type.code, equipment.type.name)}"></td>
                     <td th:text="${@format.value(equipment.specification)}"></td>
                     <td th:text="${@format.value(equipment.manufacturer)}"></td>
                     <td th:text="${@format.value(equipment.model)}"></td>

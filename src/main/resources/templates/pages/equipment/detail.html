@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th>설비 유형</th>
-                <td th:text="${@format.codeName(equipment.type.code, equipment.type.name)}"></td>
+                <td th:text="${@format.nameWithCode(equipment.type.code, equipment.type.name)}"></td>
             </tr>
             <tr>
                 <th>규격</th>

@@ -2,47 +2,62 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
-<div th:fragment="filter (url, equipmentTypes, count, showActions)">
+<div th:fragment="filter (url, inspectionTypes, count, showActions)">
     <form method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
-                <col style="width: 150px">
+                <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 120px">
+                <col style="width: auto">
+                <col style="width: 120px">
+                <col style="width: auto">
+                <col style="width: 120px">
                 <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
-                <th>설비 코드</th>
+                <th>검사기준 코드</th>
                 <td>
                     <input type="text"
                            name="code"
                            class="app-form-control app-xs"
                            th:value="${param.code}">
                 </td>
-                <th>설비명</th>
+                <th>검사기준명</th>
                 <td>
                     <input type="text"
                            name="name"
                            class="app-form-control app-xs"
                            th:value="${param.name}">
                 </td>
-                <th>설비 유형</th>
+                <th>검사 유형</th>
                 <td>
-                    <select name="typeId"
+                    <select name="type"
                             class="app-form-control app-xs"
-                            th:value="${param.typeId}">
+                            th:value="${param.type}">
                         <option value="">전체</option>
-                        <option th:if="${#lists.isEmpty(equipmentTypes)}" disabled>
-                            등록된 설비 유형이 없습니다.
-                        </option>
-                        <option th:each="type : ${equipmentTypes}"
-                                th:value="${type.id}"
-                                th:text="${@format.nameWithCode(type.code, type.name)}"
-                                th:selected="${#strings.equals(param.typeId, type.id)}"></option>
+                        <option th:each="type : ${inspectionTypes}"
+                                th:value="${type}"
+                                th:text="${type?.description}"
+                                th:selected="${#strings.equals(param.type, type.name)}"></option>
                     </select>
+                </td>
+                <th>제품 코드</th>
+                <td>
+                    <input type="text"
+                           name="itemCode"
+                           class="app-form-control app-xs"
+                           th:value="${param.itemCode}">
+                </td>
+                <th>제품명</th>
+                <td>
+                    <input type="text"
+                           name="itemName"
+                           class="app-form-control app-xs"
+                           th:value="${param.itemName}">
                 </td>
             </tr>
             </tbody>
@@ -62,14 +77,14 @@
                 <th:block th:if="${showActions}">
                     <button type="button"
                             class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/equipments/new}'|"
-                            sec:authorize="hasAuthority('EQUIPMENT_CREATE')">
+                            th:onclick="|location.href='@{/inspection-specs/new}'|"
+                            sec:authorize="hasAuthority('INSPECTION_SPEC_CREATE')">
                         <i class="bi bi-plus-circle"></i> 등록
                     </button>
                     <button type="button"
-                            id="equipment-delete-button"
+                            id="inspection-spec-delete-button"
                             class="btn btn-danger btn-sm"
-                            sec:authorize="hasAuthority('EQUIPMENT_DELETE')">
+                            sec:authorize="hasAuthority('INSPECTION_SPEC_DELETE')">
                         <i class="bi bi-trash"></i> 삭제
                     </button>
                 </th:block>

@@ -80,7 +80,8 @@
 
     <!--/* 자재에서 추가 모달 */-->
     <div th:replace="~{pages/item/modal/list/container :: container (
-        @{/items/bom_item/modal/list/multiple},
+        @{/items/modal/list/multiple},
+        'BOM_ITEM',
         ${itemCategories},
         ${itemType})}">
     </div>

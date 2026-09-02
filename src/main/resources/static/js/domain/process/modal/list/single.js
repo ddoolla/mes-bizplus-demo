@@ -2,19 +2,20 @@ import modal from "../../../../common/modal.js";
 import ajax from "../../../../common/ajax.js";
 import pagination from "../../../../common/pagination.js";
 
-const createItemSingleListModal = () => {
+const createProcessSingleListModal = () => {
 
-    const modalId = 'item-list-modal';
+    const modalId = 'process-list-modal';
+    const url = '/processes/modal/list/single';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const searchForm = modalEl.querySelector('.item-search-form');
-    const itemList = modalEl.querySelector('.item-list');
+    const searchForm = modalEl.querySelector('.process-search-form');
+    const itemList = modalEl.querySelector('.process-list');
 
     const render = (response) => {
         itemList.innerHTML = response;
     };
 
-    const load = async ({url, params = {}}) => {
+    const load = async (url, params = '') => {
         try {
             const response = await ajax.get(url, params);
 
@@ -26,14 +27,10 @@ const createItemSingleListModal = () => {
     };
 
     // 모달 열기
-    const open = ({
-                      title = '품목 목록',
-                      url,
-                      params = {}
-                  }) => {
-        modal.setTitle(modalId, title);
+    const open = () => {
+        modal.setTitle(modalId, '공정 목록');
 
-        load({url, params});
+        load(url);
 
         modal.open(modalId);
     };
@@ -50,10 +47,7 @@ const createItemSingleListModal = () => {
                 new FormData(form)
             );
 
-            load({
-                url: form.action,
-                params: params.toString()
-            });
+            load(form.action, params.toString());
         },
     });
 
@@ -66,18 +60,18 @@ const createItemSingleListModal = () => {
     // 품목 선택 처리
     const onSelect = (callback) => {
         itemList.addEventListener('click', function (e) {
-            const button = e.target.closest('.item-select-button');
+            const button = e.target.closest('.process-select-button');
 
             if (!button) {
                 return;
             }
 
-            const item = {
+            const process = {
                 id: button.dataset.id,
                 name: button.dataset.name,
             };
 
-            callback(item);
+            callback(process);
         });
     };
 
@@ -88,4 +82,4 @@ const createItemSingleListModal = () => {
     };
 };
 
-export default createItemSingleListModal;
+export default createProcessSingleListModal;

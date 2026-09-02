@@ -9,10 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 품목 선택 모달 열기
     modalOpenButton.addEventListener('click', function () {
-        itemSingleListModal.open(
-            '제품 목록 (완제품/반제품)',
-            '/items/product/modal/list/single'
-        );
+        itemSingleListModal.open({
+            title: '제품 목록 (완제품/반제품)',
+            url: '/items/modal/list/single',
+            params: {group: 'PRODUCT'}
+        });
     });
 
     // 품목 선택 처리

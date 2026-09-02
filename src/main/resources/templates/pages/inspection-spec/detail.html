@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('검사기준 상세', ~{}, ~{}, 'INSPECTION_SPEC', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('검사기준 상세', '기준정보관리, 검사기준관리, 상세')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/inspection-specs}'|">
+            <i class="bi bi-list"></i> 목록
+        </button>
+
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                th:onclick="|location.href='@{/inspection-specs/{id}/edit(id=${inspectionSpec.id})}'|"
+                sec:authorize="hasAuthority('INSPECTION_SPEC_UPDATE')">
+            <i class="bi bi-pencil-square"></i> 수정
+        </button>
+    </div>
+
+    <!--/* 상세 정보 */-->
+    <div class="app-box app-box-bg">
+        <table class="app-table-input"
+               th:object="${inspectionSpec}"
+               th:with="item=${inspectionSpec.item}, process=${inspectionSpec.process}">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>품목</th>
+                <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
+            </tr>
+            <tr>
+                <th>품목 유형</th>
+                <td th:text="*{item.type?.description}"></td>
+            </tr>
+            <tr>
+                <th>공정</th>
+                <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
+            </tr>
+            <tr>
+                <th>검사기준 코드</th>
+                <td th:text="*{code}"></td>
+            </tr>
+            <tr>
+                <th>검사기준명</th>
+                <td th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <th>검사기준명</th>
+                <td th:text="*{type?.description}"></td>
+            </tr>
+            <tr>
+                <th>버전</th>
+                <td th:text="${@format.value(inspectionSpec.version)}"></td>
+            </tr>
+            <tr>
+                <th>기본 기준</th>
+                <td th:text="${inspectionSpec.primary ? '예' : '아니오'}"></td>
+            </tr>
+            <tr>
+                <th>비고</th>
+                <td th:text="${@format.value(inspectionSpec.remark)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

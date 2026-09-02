@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
     checkbox.init(checkboxGroup);
 
     deleteButton.addEventListener('click', async function () {
-
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {

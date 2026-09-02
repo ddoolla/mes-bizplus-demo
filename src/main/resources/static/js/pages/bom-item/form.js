@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // BOM 구성 품목 등록
     itemMultiSelectModalButton.addEventListener('click', function () {
-        itemMultipleListModal.open(
-            'BOM 구성품 목록',
-            `/items/bom_item/modal/list/multiple`
-        );
+        itemMultipleListModal.open({
+            title: 'BOM 구성품 목록',
+            url: `/items/modal/list/multiple`,
+            params: {group: 'BOM_ITEM'}
+        });
     });
 
     itemMultipleListModal.onRegister(async function (selectedIds) {

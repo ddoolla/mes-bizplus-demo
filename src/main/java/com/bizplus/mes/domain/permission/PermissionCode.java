@@ -70,6 +70,11 @@ public enum PermissionCode {
     INSPECTION_ITEM_UPDATE(MenuCode.INSPECTION_ITEM, "검사항목 수정", PermissionAction.UPDATE),
     INSPECTION_ITEM_DELETE(MenuCode.INSPECTION_ITEM, "검사항목 삭제", PermissionAction.DELETE),
 
+    INSPECTION_SPEC_READ(MenuCode.INSPECTION_SPEC, "검사기준 조회", PermissionAction.READ),
+    INSPECTION_SPEC_CREATE(MenuCode.INSPECTION_SPEC, "검사기준 등록", PermissionAction.CREATE),
+    INSPECTION_SPEC_UPDATE(MenuCode.INSPECTION_SPEC, "검사기준 수정", PermissionAction.UPDATE),
+    INSPECTION_SPEC_DELETE(MenuCode.INSPECTION_SPEC, "검사기준 삭제", PermissionAction.DELETE),
+
     ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;

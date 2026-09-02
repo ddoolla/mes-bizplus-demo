@@ -2,8 +2,11 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 
-<div th:fragment="filter (url, itemCategories, itemTypes)">
+<div th:fragment="filter (url, itemGroup, itemCategories, itemTypes)">
     <form class="item-search-form" method="GET" th:action="${url}">
+
+        <input type="hidden" name="group" th:value="${itemGroup}">
+
         <table class="app-table-input">
             <colgroup>
                 <col style="width: 100px">

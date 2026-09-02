@@ -111,7 +111,8 @@
 
     <!--/* 제품 목록 모달 */-->
     <div th:replace="~{pages/item/modal/list/container :: container (
-        '/items/product/modal/list/single',
+        @{/items/modal/list/single},
+        'PRODUCT',
         ${itemCategories},
         ${itemTypes})}">
     </div>

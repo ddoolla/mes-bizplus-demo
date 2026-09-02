@@ -38,7 +38,7 @@
                         </option>
                         <option th:each="department : ${departments}"
                                 th:value="${department.id}"
-                                th:text="${@format.codeName(department.code, department.name)}"
+                                th:text="${@format.nameWithCode(department.code, department.name)}"
                                 th:selected="${#strings.equals(param.departmentId, department.id)}"></option>
                     </select>
                 </td>
@@ -53,7 +53,7 @@
                         </option>
                         <option th:each="position : ${positions}"
                                 th:value="${position.id}"
-                                th:text="${@format.codeName(position.code, position.name)}"
+                                th:text="${@format.nameWithCode(position.code, position.name)}"
                                 th:selected="${#strings.equals(param.positionId, position.id)}"></option>
                     </select>
                 </td>

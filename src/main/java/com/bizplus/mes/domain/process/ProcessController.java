@@ -65,11 +65,20 @@ public class ProcessController {
 
     @GetMapping("/modal/list/multiple")
     public String viewMultipleListModal(Model model,
+                                        ProcessSearchDto dto,
+                                        @PageableDefault Pageable pageable) {
+        model.addAttribute("data", processService.getProcesses(dto, pageable));
+
+        return "pages/process/modal/list/multiple :: list";
+    }
+
+    @GetMapping("/modal/list/single")
+    public String viewSingleListModal(Model model,
                                       ProcessSearchDto dto,
                                       @PageableDefault Pageable pageable) {
         model.addAttribute("data", processService.getProcesses(dto, pageable));
 
-        return "pages/process/modal/list/multiple :: list";
+        return "pages/process/modal/list/single :: list";
     }
 
     @GetMapping("/check-code")

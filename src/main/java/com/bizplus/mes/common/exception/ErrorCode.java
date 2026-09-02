@@ -31,6 +31,7 @@ public enum ErrorCode {
     EQUIPMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "설비를 찾을 수 없습니다."),
     WORKER_NOT_FOUND(HttpStatus.NOT_FOUND, "작업자를 찾을 수 없습니다."),
     INSPECTION_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 항목을 찾을 수 없습니다."),
+    INSPECTION_SPEC_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 기준을 찾을 수 없습니다."),
 
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),

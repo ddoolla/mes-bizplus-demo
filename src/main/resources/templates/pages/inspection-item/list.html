@@ -50,7 +50,7 @@
                                class="check-item"
                                th:value="${inspectionItem.id}"/>
                     </td>
-                    <td th:text="${@format.codeName(inspectionItem.group.code, inspectionItem.group.name)}"></td>
+                    <td th:text="${@format.nameWithCode(inspectionItem.group.code, inspectionItem.group.name)}"></td>
                     <td class="fw-bold">
                         <a href="#"
                            class="inspection-item-edit-link"

@@ -1,0 +1,50 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div id="item-table">
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: auto">
+                <col style="width: 200px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>공정 코드</th>
+                <th>공정명</th>
+                <th>공정 설명</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="process : ${data.processes}">
+                <td th:text="${process.code}"></td>
+                <td th:text="${process.name}"></td>
+                <td th:text="${@format.value(process.description)}"></td>
+                <td></td>
+                <td>
+                    <button type="button"
+                            class="btn btn-primary btn-sm process-select-button"
+                            th:data-id="${process.id}"
+                            th:data-name="${process.name}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+
+</html>

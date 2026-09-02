@@ -79,7 +79,7 @@
                             </option>
                             <option th:each="type : ${equipmentTypes}"
                                     th:value="${type.id}"
-                                    th:text="${@format.codeName(type.code, type.name)}"
+                                    th:text="${@format.nameWithCode(type.code, type.name)}"
                                     th:selected="${equipment.id == type.id}">
                             </option>
                         </select>

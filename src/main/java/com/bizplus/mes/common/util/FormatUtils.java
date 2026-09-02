@@ -30,12 +30,23 @@ public class FormatUtils {
         return value.stripTrailingZeros().toPlainString();
     }
 
-    public String codeName(String code, String name) {
-        if (code == null || name == null) {
-            return "-";
+    public String nameWithCode(String code, String name) {
+        boolean hasCode = code != null && !code.isBlank();
+        boolean hasName = name != null && !name.isBlank();
+
+        if (hasCode && hasName) {
+            return name + " [" + code + "]";
         }
 
-        return code + " (" + name + ")";
+        if (hasName) {
+            return name;
+        }
+
+        if (hasCode) {
+            return code;
+        }
+
+        return "-";
     }
 
     public String businessNo(String value) {

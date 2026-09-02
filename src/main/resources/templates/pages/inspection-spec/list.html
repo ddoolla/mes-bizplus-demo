@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('검사기준 목록', ~{}, ~{::script}, 'INSPECTION_SPEC', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/inspection-spec/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('검사기준 목록', '기준정보관리, 검사기준관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/inspection-spec/fragments/filter :: filter (
+            '/inspection-specs',
+            ${inspectionTypes},
+            ${data.pagination.totalElements},
+            true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="inspection-spec-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>검사기준 코드</th>
+                    <th>검사기준명</th>
+                    <th>검사 유형</th>
+                    <th>버전</th>
+                    <th>품목</th>
+                    <th>공정</th>
+                    <th></th>
+                    <th>기본 여부</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="inspectionSepc : ${data.inspectionSpecs}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${inspectionSepc.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/inspection-specs/{id}(id=${inspectionSepc.id})}"
+                           th:text="${inspectionSepc.code}"></a>
+                    </td>
+                    <td th:text="${inspectionSepc.name}"></td>
+                    <td th:text="${inspectionSepc.type?.description}"></td>
+                    <td th:text="${@format.value(inspectionSepc.version)}"></td>
+                    <td th:text="${@format.nameWithCode(inspectionSepc.item.code, inspectionSepc.item.name)}"></td>
+                    <td th:text="${@format.nameWithCode(inspectionSepc.process.code, inspectionSepc.process.name)}"></td>
+                    <td></td>
+                    <td th:text="${inspectionSepc.primary ? '예' : '아니오'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -22,7 +22,7 @@
                             </option>
                             <option th:each="group : ${inspectionGroups}"
                                     th:value="${group.id}"
-                                    th:text="${@format.codeName(group.code, group.name)}"></option>
+                                    th:text="${@format.nameWithCode(group.code, group.name)}"></option>
                         </select>
                     </td>
                 </tr>

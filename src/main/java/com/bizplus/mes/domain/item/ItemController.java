@@ -80,28 +80,30 @@ public class ItemController {
         return "pages/item/edit";
     }
 
-    @GetMapping("/{itemGroup}/modal/list/single")
+    @GetMapping("/modal/list/single")
     public String viewSingleListModal(Model model,
-                                      @PathVariable String itemGroup,
                                       ItemSearchDto dto,
                                       @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
+        model.addAttribute("data", getItemsByGroup(dto, pageable));
 
         return "pages/item/modal/list/single :: list";
     }
 
-    @GetMapping("/{itemGroup}/modal/list/multiple")
+    @GetMapping("/modal/list/multiple")
     public String viewMultipleListModal(Model model,
-                                        @PathVariable String itemGroup,
                                         ItemSearchDto dto,
                                         @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(itemGroup, dto, pageable));
+        model.addAttribute("data", getItemsByGroup(dto, pageable));
 
         return "pages/item/modal/list/multiple :: list";
     }
 
-    private ItemListDto getItemsByGroup(String itemGroup, ItemSearchDto dto, Pageable pageable) {
-        ItemGroup group = ItemGroup.valueOf(itemGroup.toUpperCase());
+    private ItemListDto getItemsByGroup(ItemSearchDto dto, Pageable pageable) {
+        ItemGroup group = dto.getGroup();
+
+        if (group == null) {
+            return itemService.getItems(dto, pageable);
+        }
 
         return switch (group) {
             case PRODUCT -> itemService.getProducts(dto, pageable);

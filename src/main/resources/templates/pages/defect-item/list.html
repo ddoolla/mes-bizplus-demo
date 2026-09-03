@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('불량항목 목록', ~{}, ~{::script}, 'DEFECT_ITEM', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/defect-item/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('불량항목 목록', '기준정보관리, 불량항목관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/defect-item/fragments/filter :: filter (
+            '/defect-items',
+            ${defectTypes},
+            ${data.pagination.totalElements},
+            true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="defect-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 300px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>코드</th>
+                    <th>불량명</th>
+                    <th>유형</th>
+                    <th>설명</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="defectItem : ${data.defectItems}"
+                    th:with="type=${defectItem.type}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${defectItem.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a href="#"
+                           class="defect-item-edit-link"
+                           th:text="${defectItem.code}"
+                           th:data-id="${defectItem.id}"></a>
+                    </td>
+                    <td th:text="${defectItem.name}"></td>
+                    <td th:text="${@format.nameWithCode(type.code, type.name)}"></td>
+                    <td th:text="${@format.value(defectItem.description)}"></td>
+                    <td th:text="${@format.value(defectItem.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+
+        <!--/* 불량 항목 폼 모달 */-->
+        <div th:replace="~{pages/defect-item/modal/form/container :: container}"></div>
+    </div>
+</div>
+</body>
+</html>

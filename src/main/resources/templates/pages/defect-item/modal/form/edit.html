@@ -1,0 +1,87 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form">
+    <div class="modal-body">
+        <form id="defect-item-edit-form"
+              method="post"
+              th:action="@{/defect-items/{id}(id=${defectItem.id})}">
+
+            <input type="hidden"
+                   name="id"
+                   th:value="${defectItem.id}"/>
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>불량 코드 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="${defectItem.code}"
+                               placeholder="불량 코드를 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>불량명 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="${defectItem.name}"
+                               placeholder="불량명을 입력해 주세요."/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>불량 유형</th>
+                    <td>
+                        <select name="type"
+                                class="app-form-control app-xs">
+                            <option th:each="type : ${defectTypes}"
+                                    th:value="${type.id}"
+                                    th:text="${@format.nameWithCode(type.code, type.name)}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설명</th>
+                    <td>
+                        <input type="text"
+                               name="description"
+                               th:value="${defectItem.description}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               th:value="${defectItem.remark}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class=modal-footer>
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+        <button type="submit"
+                form="defect-item-edit-form"
+                class="btn btn-primary btn-sm">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+</th:block>
+
+</html>

@@ -24,9 +24,10 @@ public enum MenuCode {
     WORKER(MASTER, "작업자 관리", MenuType.MENU, "/workers", 140),
     INSPECTION_ITEM(MASTER, "검사항목 관리", MenuType.MENU, "/inspection-items", 150),
     INSPECTION_SPEC(MASTER, "검사기준 관리", MenuType.MENU, "/inspection-specs", 160),
+    DEFECT_ITEM(MASTER, "불량항목 관리", MenuType.MENU, "/defect-items", 170),
 
-    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 170),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 180);
+    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 180),
+    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 190);
 
     private final MenuCode parent;
     private final String name;

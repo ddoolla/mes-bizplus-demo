@@ -1,0 +1,81 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="filter (url, defectTypes, count, showActions)">
+    <form method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>불량 코드</th>
+                <td>
+                    <input type="text"
+                           name="code"
+                           class="app-form-control app-xs"
+                           th:value="${param.code}">
+                </td>
+                <th>불량명</th>
+                <td>
+                    <input type="text"
+                           name="name"
+                           class="app-form-control app-xs"
+                           th:value="${param.name}">
+                </td>
+                <th>불량 유형</th>
+                <td>
+                    <select name="typeId"
+                            class="app-form-control app-xs"
+                            th:value="${param.typeId}">
+                        <option value="">전체</option>
+                        <option th:if="${#lists.isEmpty(defectTypes)}" disabled>
+                            등록된 불량 유형이 없습니다.
+                        </option>
+                        <option th:each="type : ${defectTypes}"
+                                th:value="${type.id}"
+                                th:text="${@format.nameWithCode(type.code, type.name)}"
+                                th:selected="${#strings.equals(param.typeId, type.id)}"></option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <th:block th:if="${showActions}">
+                    <button type="button"
+                            id="defect-item-create-button"
+                            class="btn btn-primary btn-sm"
+                            sec:authorize="hasAuthority('DEFECT_ITEM_CREATE')">
+                        <i class="bi bi-plus-circle"></i> 등록
+                    </button>
+                    <button type="button"
+                            id="defect-item-delete-button"
+                            class="btn btn-danger btn-sm"
+                            sec:authorize="hasAuthority('DEFECT_ITEM_DELETE')">
+                        <i class="bi bi-trash"></i> 삭제
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

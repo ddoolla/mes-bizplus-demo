@@ -1,0 +1,27 @@
+.item-image-slot {
+    width: 150px;
+}
+
+.item-image-box {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.item-file-name {
+    margin-top: 6px;
+    text-align: center;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

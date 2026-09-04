@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -23,4 +26,6 @@ public class ItemCreateDto {
     private String specification;
     private String remark;
     private boolean lotManaged;
+
+    private List<MultipartFile> imageFiles;
 }

@@ -5,10 +5,14 @@ import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
+import com.bizplus.mes.domain.file.FileType;
 import com.bizplus.mes.domain.item.dto.ItemCreateDto;
 import com.bizplus.mes.domain.item.dto.ItemListDto;
 import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.item.dto.ItemUpdateDto;
+import com.bizplus.mes.domain.item.facade.ItemCreateService;
+import com.bizplus.mes.domain.item.facade.ItemUpdateService;
+import com.bizplus.mes.domain.item.file.ItemFileService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
@@ -32,6 +36,9 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemCreateService itemCreateService;
+    private final ItemUpdateService itemUpdateService;
+    private final ItemFileService itemFileService;
     private final UomService uomService;
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
@@ -55,6 +62,7 @@ public class ItemController {
     @PreAuthorize("hasAuthority('ITEM_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemService.getItem(id));
+        model.addAttribute("itemFiles", itemFileService.getItemFiles(id, FileType.IMAGE));
 
         return "pages/item/detail";
     }
@@ -76,6 +84,7 @@ public class ItemController {
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
         model.addAttribute("item", itemService.getItem(id));
+        model.addAttribute("itemFiles", itemFileService.getItemFiles(id, FileType.IMAGE));
 
         return "pages/item/edit";
     }
@@ -133,7 +142,7 @@ public class ItemController {
     @PreAuthorize("hasAuthority('ITEM_CREATE')")
     @UserAction(menu = MenuCode.ITEM, type = ActionType.CREATE)
     public String createItem(@Valid ItemCreateDto dto, RedirectAttributes reAtt) {
-        itemService.createItem(dto);
+        itemCreateService.create(dto);
 
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
@@ -146,7 +155,7 @@ public class ItemController {
     public String updateItem(@PathVariable Long id,
                              @Valid ItemUpdateDto dto,
                              RedirectAttributes reAtt) {
-        itemService.updateItem(id, dto);
+        itemUpdateService.update(id, dto);
 
         reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));

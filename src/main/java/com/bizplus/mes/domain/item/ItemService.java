@@ -21,7 +21,7 @@ public interface ItemService {
 
     boolean checkLotManage(Long id, boolean lotManaged);
 
-    void createItem(ItemCreateDto dto);
+    Long createItem(ItemCreateDto dto);
 
     void updateItem(Long id, ItemUpdateDto dto);
 

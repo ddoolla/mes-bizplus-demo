@@ -1,7 +1,6 @@
 package com.bizplus.mes.domain.file;
 
-import com.bizplus.mes.common.exception.BusinessException;
-import com.bizplus.mes.common.exception.ErrorCode;
+import com.bizplus.mes.domain.file.dto.FileDto;
 import com.bizplus.mes.domain.file.dto.FileResourceDto;
 import com.bizplus.mes.domain.file.dto.StoredFileDto;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,11 @@ public class FileServiceImpl implements FileService {
     private final FileRepository fileRepository;
     private final FileStorageService fileStorageService;
 
+    private final FileReader fileReader;
+
     @Transactional
     @Override
-    public File upload(MultipartFile multipartFile, FileStorageType storageType) {
+    public Long upload(MultipartFile multipartFile, FileStorageType storageType) {
 
         if (multipartFile == null || multipartFile.isEmpty()) {
             throw new IllegalArgumentException("파일이 없습니다.");
@@ -30,14 +31,7 @@ public class FileServiceImpl implements FileService {
 
         try {
             // 파일 정보 DB 저장
-            return fileRepository.save(new File(
-                    storedFile.getOriginalName(),
-                    storedFile.getStoredName(),
-                    storedFile.getStoragePath(),
-                    storedFile.getExtension(),
-                    storedFile.getContentType(),
-                    storedFile.getSize()
-            ));
+            return fileRepository.save(FileMapper.toEntity(storedFile)).getId();
 
         } catch (Exception e) {
             // DB 저장 실패 시 파일 삭제
@@ -50,31 +44,22 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File getFileInfo(Long fileId) {
-        return fileRepository.findByIdAndDeletedAtIsNull(fileId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.FILE_NOT_FOUND, "id: " + fileId));
+    public FileDto getFileInfo(Long id) {
+        return FileMapper.toDto(fileReader.getById(id));
     }
 
     @Override
-    public FileResourceDto getFileResource(Long fileId) {
-        File file = getFileInfo(fileId);
+    public FileResourceDto getFileResource(Long id) {
+        File file = fileReader.getById(id);
         Resource resource = fileStorageService.load(file.getStoragePath());
 
-        return new FileResourceDto(
-                resource,
-                file.getOriginalName(),
-                file.getStoredName(),
-                file.getStoragePath(),
-                file.getExtension(),
-                file.getContentType(),
-                file.getSize()
-        );
+        return FileMapper.toResourceDto(file, resource);
     }
 
     @Transactional
     @Override
-    public void delete(Long fileId) {
-        File file = getFileInfo(fileId);
+    public void delete(Long id) {
+        File file = fileReader.getById(id);
 
         String targetPath = "deleted/" + file.getStoragePath();
 

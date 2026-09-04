@@ -2,10 +2,12 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('품목 상세', ~{}, ~{}, 'ITEM', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('품목 상세', ~{::link}, ~{::script}, 'ITEM', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/pages/item/item-style.css}"/>
+    <script type="module" th:src="@{/js/pages/item/detail.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -36,35 +38,56 @@
             <colgroup>
                 <col style="width: 150px">
                 <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
                 <th>품목 코드</th>
                 <td th:text="*{code}"></td>
-            </tr>
-            <tr>
                 <th>품목명</th>
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
                 <th>품목 카테고리</th>
                 <td th:text="${@format.value(item.category.name)}"></td>
-            </tr>
-            <tr>
                 <th>품목 유형</th>
                 <td th:text="*{type?.description}"></td>
             </tr>
             <tr>
                 <th>규격</th>
-                <td colspan="3" th:text="${@format.value(item.specification)}"></td>
-            </tr>
-            <tr>
+                <td th:text="${@format.value(item.specification)}"></td>
                 <th>단위 (재고)</th>
-                <td colspan="3" th:text="*{uom.name}"></td>
+                <td th:text="*{uom.name}"></td>
             </tr>
             <tr>
                 <th>로트 관리 여부</th>
                 <td colspan="3" th:text="${item.lotManaged == true ? '관리' : '미관리'}"></td>
+            </tr>
+            <tr>
+                <th>이미지</th>
+                <td colspan="3">
+                    <div class="d-flex gap-3"
+                         th:unless="${#lists.isEmpty(itemFiles)}">
+                        <div th:each="itemFile, stat : ${itemFiles}"
+                             class="item-image-slot">
+
+                            <div class="item-image-box">
+                                <img th:src="@{/files/{id}(id=${itemFile.file.id})}"
+                                     th:alt="|이미지${stat.count}|"
+                                     class="item-image"
+                                     th:data-file-id="${itemFile.file.id}"
+                                     th:data-file-name="${itemFile.file.originalName()}"/>
+                            </div>
+
+                            <div class="item-file-name"
+                                 th:text="${itemFile.file.originalName()}">
+                            </div>
+                        </div>
+                    </div>
+                    <span th:if="${#lists.isEmpty(itemFiles)}"
+                          th:text="'-'"></span>
+                </td>
             </tr>
             <tr>
                 <th>비고</th>
@@ -73,6 +96,8 @@
             </tbody>
         </table>
     </div>
+
+    <div th:replace="~{fragments/modal/image-modal :: modal}"></div>
 </div>
 </body>
 </html>

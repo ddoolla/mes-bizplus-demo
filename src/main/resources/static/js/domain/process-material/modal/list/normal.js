@@ -1,5 +1,5 @@
 import ajax from "../../../../common/ajax.js";
-import modal from "../../../../common/modal.js";
+import modal from "../../../../common/modal/modal.js";
 
 const createProcessMaterialListModal = () => {
 

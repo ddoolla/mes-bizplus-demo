@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 /*
 * * 로트 관리 품목
 *   - 품목별 한 개의 로트만 재고로 관리
-*   - item_id + lot_id 복합 고유기
+*   - item_id + lot_id 복합 고유키
 *
 * * 로트 관리 안하는 품목
 *   - 품목별 한 개의 재고만 관리

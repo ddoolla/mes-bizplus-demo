@@ -33,7 +33,10 @@
 
     <!--/* 등록 폼 */-->
     <div class="app-box app-box-bg">
-        <form id="item-create-form" method="post" th:action="@{/items}">
+        <form id="item-create-form"
+              method="post"
+              th:action="@{/items}"
+              enctype="multipart/form-data">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
@@ -41,9 +44,7 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>
-                        품목 코드 <span class="app-required">*</span>
-                    </th>
+                    <th>품목 코드 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="code"
@@ -52,9 +53,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        품목명 <span class="app-required">*</span>
-                    </th>
+                    <th>품목명 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="name"
@@ -82,9 +81,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        품목 유형 <span class="app-required">*</span>
-                    </th>
+                    <th>품목 유형 <span class="app-required">*</span></th>
                     <td>
                         <select name="type" class="app-form-control app-xs">
                             <option th:each="type : ${itemTypes}"
@@ -95,9 +92,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        규격
-                    </th>
+                    <th>규격</th>
                     <td>
                         <input type="text"
                                name="specification"
@@ -105,9 +100,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        단위 (재고) <span class="app-required">*</span>
-                    </th>
+                    <th>단위 (재고) <span class="app-required">*</span></th>
                     <td>
                         <select name="uomId" class="app-form-control app-xs">
                             <option th:each="uom : ${uoms}"
@@ -118,9 +111,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        로트 관리 여부
-                    </th>
+                    <th>로트 관리 여부</th>
                     <td>
                         <label>
                             <input type="radio"
@@ -137,9 +128,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        비고
-                    </th>
+                    <th>이미지</th>
+                    <td>
+                        <input type="file"
+                               name="imageFiles"
+                               class="app-form-control app-xs"
+                               multiple/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
                     <td>
                         <input type="text"
                                name="remark"

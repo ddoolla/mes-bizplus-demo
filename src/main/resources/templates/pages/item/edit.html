@@ -2,10 +2,11 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('품목 수정', ~{}, ~{::script}, 'ITEM', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('품목 수정', ~{::link}, ~{::script}, 'ITEM', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/pages/item/item-style.css}"/>
     <script type="module" th:src="@{/js/pages/item/edit.js}"></script>
 </head>
 <body>
@@ -147,6 +148,29 @@
                                    th:checked="*{lotManaged == false}"/> 미관리
                         </label>
                         <div id="lotManaged-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이미지</th>
+                    <td>
+                        <div class="d-flex gap-3"
+                             th:unless="${#lists.isEmpty(itemFiles)}">
+                            <div th:each="itemFile, stat : ${itemFiles}"
+                                 class="item-image-slot">
+
+                                <div class="item-image-box">
+                                    <img th:src="@{/files/{id}(id=${itemFile.file.id})}"
+                                         th:alt="|이미지${stat.count}|"
+                                         class="item-image"
+                                         th:data-file-id="${itemFile.file.id}"
+                                         th:data-file-name="${itemFile.file.originalName()}"/>
+                                </div>
+
+                                <div class="item-file-name"
+                                     th:text="${itemFile.file.originalName()}">
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>

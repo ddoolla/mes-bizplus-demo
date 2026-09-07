@@ -32,8 +32,8 @@ public class ItemServiceImpl implements ItemService {
     private final InventoryValidator inventoryValidator;
 
     /*
-    * 모든 품목 조회
-    * */
+     * 모든 품목 조회
+     * */
     @Override
     public ItemListDto getItems(ItemSearchDto dto, Pageable pageable) {
         Page<ItemDto> itemPage = itemRepository.findItems(dto, pageable);
@@ -42,8 +42,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /*
-    * 제품만 조회 (완제품, 반제품)
-    * */
+     * 제품만 조회 (완제품, 반제품)
+     * */
     @Override
     public ItemListDto getProducts(ItemSearchDto dto, Pageable pageable) {
         Page<ItemDto> itemPage = itemRepository.findProducts(dto, pageable);
@@ -52,8 +52,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /*
-    * 자재만 조회 (원자재, 부자재)
-    * */
+     * 자재만 조회 (원자재, 부자재)
+     * */
     @Override
     public ItemListDto getMaterials(ItemSearchDto dto, Pageable pageable) {
         Page<ItemDto> itemPage = itemRepository.findMaterials(dto, pageable);
@@ -62,8 +62,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /*
-    * BOM 구성 품목 조회 (반제품, 원자재, 부자재)
-    * */
+     * BOM 구성 품목 조회 (반제품, 원자재, 부자재)
+     * */
     @Override
     public ItemListDto getBomItems(ItemSearchDto dto, Pageable pageable) {
         Page<ItemDto> itemPage = itemRepository.findBomItems(dto, pageable);
@@ -97,11 +97,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public void createItem(ItemCreateDto dto) {
+    public Long createItem(ItemCreateDto dto) {
         CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto));
+        return itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto)).getId();
     }
 
     @Transactional

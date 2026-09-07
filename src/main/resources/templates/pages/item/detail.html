@@ -2,10 +2,11 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('품목 상세', ~{}, ~{}, 'ITEM', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('품목 상세', ~{}, ~{::script}, 'ITEM', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="module" th:src="@{/js/pages/item/detail.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -35,36 +36,72 @@
         <table class="app-table-input" th:object="${item}">
             <colgroup>
                 <col style="width: 150px">
+                <col style="width: 500px">
+                <col style="width: 150px">
                 <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
                 <th>품목 코드</th>
                 <td th:text="*{code}"></td>
-            </tr>
-            <tr>
                 <th>품목명</th>
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
                 <th>품목 카테고리</th>
                 <td th:text="${@format.value(item.category.name)}"></td>
-            </tr>
-            <tr>
                 <th>품목 유형</th>
                 <td th:text="*{type?.description}"></td>
             </tr>
             <tr>
                 <th>규격</th>
-                <td colspan="3" th:text="${@format.value(item.specification)}"></td>
-            </tr>
-            <tr>
+                <td th:text="${@format.value(item.specification)}"></td>
                 <th>단위 (재고)</th>
-                <td colspan="3" th:text="*{uom.name}"></td>
+                <td th:text="*{uom.name}"></td>
             </tr>
             <tr>
                 <th>로트 관리 여부</th>
                 <td colspan="3" th:text="${item.lotManaged == true ? '관리' : '미관리'}"></td>
+            </tr>
+            <tr>
+                <th>이미지1</th>
+                <td>
+                    <div th:if="${image1 != null}">
+                        <div style="max-width: 500px; max-height: 250px;">
+                            <img th:src="@{/files/{id}(id=${image1.file.id})}" alt=""
+                                 class="item-image
+                                        img-fluid rounded
+                                        object-fit-contain
+                                        cursor-pointer"
+                                 style="max-height: 250px"
+                                 th:data-file-id="${image1.file.id}"
+                                 th:data-file-name="${image1.file.originalName()}"/>
+                        </div>
+                        <div class="mt-2">
+                            <span th:text="${image1.file.originalName}"></span>
+                        </div>
+                    </div>
+                    <span th:if="${image1 == null}">-</span>
+                </td>
+                <th>이미지2</th>
+                <td>
+                    <div th:if="${image2 != null}">
+                        <div style="max-width: 500px; max-height: 250px;">
+                            <img th:src="@{/files/{id}(id=${image2.file.id})}" alt=""
+                                 class="item-image
+                                        img-fluid rounded
+                                        object-fit-contain
+                                        cursor-pointer"
+                                 style="max-height: 250px"
+                                 th:data-file-id="${image2.file.id}"
+                                 th:data-file-name="${image2.file.originalName()}"/>
+                        </div>
+                        <div class="mt-2">
+                            <span th:text="${image2.file.originalName}"></span>
+                        </div>
+                    </div>
+                    <span th:if="${image2 == null}">-</span>
+                </td>
             </tr>
             <tr>
                 <th>비고</th>
@@ -73,6 +110,9 @@
             </tbody>
         </table>
     </div>
+
+    <!--/* 이미지 확대 모달 */-->
+    <div th:replace="~{fragments/modal/image-modal :: modal}"></div>
 </div>
 </body>
 </html>

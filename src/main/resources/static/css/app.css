@@ -358,6 +358,10 @@ input[type="text"]:disabled, select:disabled {
 }
 
 /* ================================ Util ================================ */
+.cursor-pointer {
+    cursor: pointer;
+}
+
 
 /* jquery.validate.min.js 에서 사용 */
 label.error {

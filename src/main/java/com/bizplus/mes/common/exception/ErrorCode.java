@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
-
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."),
 
     PERMISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "권한을 찾을 수 없습니다."),
@@ -36,6 +34,9 @@ public enum ErrorCode {
     INSPECTION_SPEC_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 기준을 찾을 수 없습니다."),
     INSPECTION_SPEC_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 기준 항목을 찾을 수 없습니다."),
     DEFECT_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "불량 항목을 찾을 수 없습니다."),
+
+    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
+    ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),
 
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),

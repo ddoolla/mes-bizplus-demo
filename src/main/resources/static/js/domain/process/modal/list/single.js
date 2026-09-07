@@ -1,4 +1,4 @@
-import modal from "../../../../common/modal.js";
+import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import pagination from "../../../../common/pagination.js";
 

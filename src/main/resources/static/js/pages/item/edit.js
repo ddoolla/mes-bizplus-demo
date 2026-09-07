@@ -1,4 +1,31 @@
+import ajax from "../../common/ajax.js";
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    const deleteButtons = document.querySelectorAll('.item-file-delete-button');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async function (e) {
+
+            if (!confirm('이미지를 삭제하시겠습니까? 삭제 시 복구할 수 없습니다.')) {
+                return;
+            }
+
+            const {id, fileId} = e.currentTarget.dataset;
+
+            try {
+                const response = await ajax.delete('/item-files', {id, fileId});
+
+                alert(response.message);
+
+                location.reload();
+
+            } catch (xhr) {
+                alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+            }
+        });
+    });
+
 
     $('#item-edit-form').validate({
         rules: {

@@ -35,6 +35,7 @@
     <div class="app-box app-box-bg">
         <form id="item-edit-form"
               method="post"
+              enctype="multipart/form-data"
               th:action="@{/items/{id}(id=${item.id})}"
               th:object="${item}">
 
@@ -147,6 +148,59 @@
                                    th:checked="*{lotManaged == false}"/> 미관리
                         </label>
                         <div id="lotManaged-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이미지1</th>
+                    <td>
+                        <div>
+                            <input type="file"
+                                   name="itemFiles[0].multipartFile"
+                                   class="app-form-control app-xs"/>
+                            <input type="hidden"
+                                   name="itemFiles[0].sortOrder"
+                                   value="1"/>
+                        </div>
+                        <div th:if="${image1 != null}" class="mt-1">
+                            <span th:text="${image1.file.originalName}"></span>
+                            <input type="hidden"
+                                   name="itemFiles[0].id"
+                                   th:value="${image1.id}"/>
+                            <input type="hidden"
+                                   name="itemFiles[0].fileId"
+                                   th:value="${image1.file.id}"/>
+                            <i class="item-file-delete-button
+                                      bi bi-x-circle cursor-pointer"
+                               th:data-id="${image1.id}"
+                               th:data-file-id="${image1.file.id}"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이미지2</th>
+                    <td>
+                        <div>
+                            <input type="file"
+                                   name="itemFiles[1].multipartFile"
+                                   class="app-form-control app-xs"/>
+                            <input type="hidden"
+                                   name="itemFiles[1].sortOrder"
+                                   value="2"/>
+                        </div>
+                        <div th:if="${image2 != null}" class="mt-1">
+                            <span th:text="${image2.file.originalName}"></span>
+                            <input type="hidden"
+                                   name="itemFiles[1].id"
+                                   th:value="${image2.id}"/>
+                            <input type="hidden"
+                                   name="itemFiles[1].fileId"
+                                   th:value="${image2.file.id}"/>
+                            <i class="item-file-delete-button
+                                      bi bi-x-circle cursor-pointer"
+                               th:data-id="${image2.id}"
+                               th:data-file-id="${image2.file.id}"></i>
+                        </div>
+
                     </td>
                 </tr>
                 <tr>

@@ -2,11 +2,10 @@ package com.bizplus.mes.domain.file.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.core.io.Resource;
 
 @Getter
 @AllArgsConstructor
-public class FileResourceDto {
+public class FileDto {
 
     private Long id;
     private String originalName;
@@ -15,5 +14,4 @@ public class FileResourceDto {
     private String extension;
     private String contentType;
     private Long size;
-    private Resource resource;
 }

@@ -1,6 +1,6 @@
 import ajax from "../../../../common/ajax.js";
 import checkbox from "../../../../common/checkbox.js";
-import modal from "../../../../common/modal.js";
+import modal from "../../../../common/modal/modal.js";
 import pagination from "../../../../common/pagination.js";
 
 const createProcessMultipleListModal = () => {

@@ -7,7 +7,7 @@ import lombok.Getter;
 public class UserDto {
 
     private final Long id;
-    private final String userId;
+    private final String loginId;
     private final String name;
     private final String email;
     private final String phone;
@@ -18,7 +18,7 @@ public class UserDto {
 
     @QueryProjection
     public UserDto(Long id,
-                   String userId,
+                   String loginId,
                    String name,
                    String email,
                    String phone,
@@ -30,7 +30,7 @@ public class UserDto {
                    String roleName,
                    String remark) {
         this.id = id;
-        this.userId = userId;
+        this.loginId = loginId;
         this.name = name;
         this.email = email;
         this.phone = phone;

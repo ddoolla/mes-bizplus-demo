@@ -8,7 +8,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserQueryRepo
 
     Optional<User> findByIdAndDeletedAtIsNull(Long id);
 
-    Optional<User> findByUserIdAndDeletedAtIsNull(String userId);
+    Optional<User> findByLoginIdAndDeletedAtIsNull(String loginId);
 
-    boolean existsByUserId(String userId);
+    boolean existsByLoginId(String loginId);
 }

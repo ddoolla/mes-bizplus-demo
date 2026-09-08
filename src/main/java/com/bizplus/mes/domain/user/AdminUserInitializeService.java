@@ -20,8 +20,8 @@ public class AdminUserInitializeService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${app.admin.user-id}")
-    private String userId;
+    @Value("${app.admin.login-id}")
+    private String loginId;
 
     @Value("${app.admin.password}")
     private String password;
@@ -31,14 +31,14 @@ public class AdminUserInitializeService {
 
     public void initialize() {
 
-        User admin = userRepository.findByUserIdAndDeletedAtIsNull(userId).orElse(null);
+        User admin = userRepository.findByLoginIdAndDeletedAtIsNull(loginId).orElse(null);
 
         if (admin == null) {
 
             admin = userRepository.save(new User(
                     null,
                     null,
-                    userId,
+                    loginId,
                     passwordEncoder.encode(password),
                     "관리자",
                     null,

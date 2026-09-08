@@ -21,7 +21,7 @@ public class UserActionLog {
     private Long id;
 
     @Column(nullable = false)
-    private String userId;
+    private String loginId;
 
     @Column(nullable = false)
     private String userName;
@@ -52,7 +52,7 @@ public class UserActionLog {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    public UserActionLog(String userId,
+    public UserActionLog(String loginId,
                          String userName,
                          MenuCode menu,
                          ActionType type,
@@ -61,7 +61,7 @@ public class UserActionLog {
                          String ipAddress,
                          String errorMessage,
                          LocalDateTime createdAt) {
-        this.userId = userId;
+        this.loginId = loginId;
         this.userName = userName;
         this.menu = menu;
         this.type = type;

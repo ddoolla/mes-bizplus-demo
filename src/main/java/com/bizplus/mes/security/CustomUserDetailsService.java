@@ -31,11 +31,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUserIdAndDeletedAtIsNull(username)
+        User user = userRepository.findByLoginIdAndDeletedAtIsNull(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found [ID: " + username + "]"));
 
         UserRole userRole = userRoleRepository.findByUser(user)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_ROLE_NOT_FOUND, "userId: " + user.getUserId()));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_ROLE_NOT_FOUND, "loginId: " + user.getLoginId()));
 
         Set<GrantedAuthority> authorities = rolePermissionRepository.findAllByRole(userRole.getRole()).stream()
                 .map(rolePermission -> new SimpleGrantedAuthority(

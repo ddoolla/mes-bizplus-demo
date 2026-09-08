@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto getUser(Long id);
 
-    boolean checkUserId(String userId);
+    boolean checkLoginId(String loginId);
 
     Long createUser(UserCreateDto dto);
 

@@ -8,7 +8,7 @@ public interface UserAuthLogService {
 
     UserAuthLogListDto getUserAuthLogs(UserAuthLogSearchDto dto, Pageable pageable);
 
-    void login(String userId,
+    void login(String loginId,
                String userName,
                String sessionId,
                String ipAddress);

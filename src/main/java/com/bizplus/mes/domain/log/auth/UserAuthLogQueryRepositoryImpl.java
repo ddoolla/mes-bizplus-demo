@@ -27,14 +27,14 @@ public class UserAuthLogQueryRepositoryImpl implements UserAuthLogQueryRepositor
     public Page<UserAuthLogDto> findUserAuthLogs(UserAuthLogSearchDto dto, Pageable pageable) {
 
         BooleanBuilder searchCondition = new BooleanBuilder()
-                .and(contains(userAuthLog.userId, dto.getUserId()))
+                .and(contains(userAuthLog.loginId, dto.getLoginId()))
                 .and(startDateGoe(userAuthLog.loginAt, dto.getStartDate()))
                 .and(endDateLoe(userAuthLog.loginAt, dto.getEndDate()));
 
         List<UserAuthLogDto> content = query
                 .select(new QUserAuthLogDto(
                         userAuthLog.id,
-                        userAuthLog.userId,
+                        userAuthLog.loginId,
                         userAuthLog.userName,
                         userAuthLog.ipAddress,
                         userAuthLog.loginAt,

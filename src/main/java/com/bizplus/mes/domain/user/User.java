@@ -26,7 +26,7 @@ public class User extends SoftDeletableEntity {
     private CommonCode position;
 
     @Column(nullable = false)
-    private String userId;
+    private String loginId;
 
     @Column(nullable = false)
     private String password;
@@ -42,7 +42,7 @@ public class User extends SoftDeletableEntity {
 
     public User(CommonCode department,
                 CommonCode position,
-                String userId,
+                String loginId,
                 String password,
                 String name,
                 String email,
@@ -50,7 +50,7 @@ public class User extends SoftDeletableEntity {
                 String remark) {
         this.department = department;
         this.position = position;
-        this.userId = userId;
+        this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;

@@ -38,7 +38,7 @@ public class CommonCodeQueryRepositoryImpl implements CommonCodeQueryRepository 
                 ))
                 .from(commonCode)
                 .where(searchCondition)
-                .orderBy(commonCode.name.asc())
+                .orderBy(commonCode.code.asc(), commonCode.name.asc())
                 .fetch();
     }
 
@@ -58,7 +58,7 @@ public class CommonCodeQueryRepositoryImpl implements CommonCodeQueryRepository 
                         notDeleted(commonCode.deletedAt),
                         eq(codeGroup.groupKey, groupKey)
                 )
-                .orderBy(commonCode.name.asc())
+                .orderBy(commonCode.code.asc(), commonCode.name.asc())
                 .fetch();
     }
 }

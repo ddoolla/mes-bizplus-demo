@@ -27,8 +27,8 @@ public class CustomUserDetails implements UserDetails {
                 .collect(Collectors.toSet());
     }
 
-    public String getUserId() {
-        return user.getUserId();
+    public String getLoginId() {
+        return user.getLoginId();
     }
 
     public String getUserName() {
@@ -47,7 +47,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUserId();
+        return user.getLoginId();
     }
 
     @Override

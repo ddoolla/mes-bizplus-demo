@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserAuthLogSearchDto {
 
-    private String userId;
+    private String loginId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;

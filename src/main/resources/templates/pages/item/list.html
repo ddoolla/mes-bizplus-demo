@@ -57,7 +57,7 @@
                            th:text="${item.code}"></a>
                     </td>
                     <td th:text="${item.name}"></td>
-                    <td th:text="${item.category.name}"></td>
+                    <td th:text="${@format.value(item.category.name)}"></td>
                     <td th:text="${item.type?.description}"></td>
                     <td th:text="${@format.value(item.specification)}"></td>
                     <td th:text="${@format.value(item.uom.name)}"></td>

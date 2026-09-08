@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class UserAuthLogDto {
 
     private final Long id;
-    private final String userId;
+    private final String loginId;
     private final String userName;
     private final String ipAddress;
     private final LocalDateTime loginAt;
@@ -19,14 +19,14 @@ public class UserAuthLogDto {
 
     @QueryProjection
     public UserAuthLogDto(Long id,
-                          String userId,
+                          String loginId,
                           String userName,
                           String ipAddress,
                           LocalDateTime loginAt,
                           LocalDateTime logoutAt,
                           LogoutType logoutType) {
         this.id = id;
-        this.userId = userId;
+        this.loginId = loginId;
         this.userName = userName;
         this.ipAddress = ipAddress;
         this.loginAt = loginAt;

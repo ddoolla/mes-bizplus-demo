@@ -35,7 +35,7 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
 
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(user.deletedAt))
-                .and(contains(user.userId, dto.getUserId()))
+                .and(contains(user.loginId, dto.getLoginId()))
                 .and(contains(user.name, dto.getName()))
                 .and(eq(user.department.id, dto.getDepartmentId()))
                 .and(eq(user.position.id, dto.getPositionId()));
@@ -43,7 +43,7 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
         List<UserDto> content = query
                 .select(new QUserDto(
                         user.id,
-                        user.userId,
+                        user.loginId,
                         user.name,
                         user.email,
                         user.phone,
@@ -61,7 +61,7 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                 .innerJoin(userRole).on(user.id.eq(userRole.user.id))
                 .innerJoin(role).on(userRole.role.id.eq(role.id))
                 .where(searchCondition)
-                .orderBy(user.userId.asc(), user.name.asc())
+                .orderBy(user.loginId.asc(), user.name.asc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
@@ -85,7 +85,7 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
                 query
                         .select(new QUserDto(
                                 user.id,
-                                user.userId,
+                                user.loginId,
                                 user.name,
                                 user.email,
                                 user.phone,

@@ -37,7 +37,7 @@ public class UserActionLogServiceImpl implements UserActionLogService {
         CustomUserDetails currentUser = SecurityUtils.getCurrentUser();
 
         userActionLogRepository.save(new UserActionLog(
-                currentUser.getUserId(),
+                currentUser.getLoginId(),
                 currentUser.getUserName(),
                 userAction.menu(),
                 userAction.type(),
@@ -63,7 +63,7 @@ public class UserActionLogServiceImpl implements UserActionLogService {
         }
 
         userActionLogRepository.save(new UserActionLog(
-                currentUser.getUserId(),
+                currentUser.getLoginId(),
                 currentUser.getUserName(),
                 userAction.menu(),
                 userAction.type(),

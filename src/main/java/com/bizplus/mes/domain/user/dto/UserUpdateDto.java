@@ -12,11 +12,8 @@ public class UserUpdateDto {
 
     @NotNull
     private Long roleId;
-
     private Long departmentId;
-
     private Long positionId;
-
     private String password;
 
     @NotBlank
@@ -24,8 +21,6 @@ public class UserUpdateDto {
 
     @Email
     private String email;
-
     private String phone;
-
     private String remark;
 }

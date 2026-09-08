@@ -95,8 +95,8 @@ public class UserController {
      * */
     @GetMapping("/check-id")
     @ResponseBody
-    public boolean checkId(String userId) {
-        return userService.checkUserId(userId);
+    public boolean checkId(String loginId) {
+        return userService.checkLoginId(loginId);
     }
 
     @PostMapping

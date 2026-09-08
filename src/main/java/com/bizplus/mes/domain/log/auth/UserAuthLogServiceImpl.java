@@ -29,13 +29,13 @@ public class UserAuthLogServiceImpl implements UserAuthLogService {
     }
 
     @Override
-    public void login(String userId,
+    public void login(String loginId,
                       String userName,
                       String sessionId,
                       String ipAddress) {
 
         userAuthLogRepository.save(new UserAuthLog(
-                userId,
+                loginId,
                 userName,
                 sessionId,
                 ipAddress,

@@ -45,7 +45,7 @@
         </thead>
         <tbody>
         <tr th:each="log : ${data.userAuthLogs}">
-          <td th:text="${log.userId}"></td>
+          <td th:text="${log.loginId}"></td>
           <td th:text="${log.userName}"></td>
           <td th:text="${log.ipAddress}"></td>
           <td th:text="${#temporals.format(log.loginAt, 'yyyy-MM-dd HH:mm:ss')} ?: '-'"></td>

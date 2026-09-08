@@ -20,7 +20,7 @@ public class UserAuthLog {
     private Long id;
 
     @Column(nullable = false)
-    private String userId;
+    private String loginId;
 
     @Column(nullable = false)
     private String userName;
@@ -39,12 +39,12 @@ public class UserAuthLog {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private LogoutType logoutType;
 
-    public UserAuthLog(String userId,
+    public UserAuthLog(String loginId,
                        String userName,
                        String sessionId,
                        String ipAddress,
                        LocalDateTime loginAt) {
-        this.userId = userId;
+        this.loginId = loginId;
         this.userName = userName;
         this.sessionId = sessionId;
         this.ipAddress = ipAddress;

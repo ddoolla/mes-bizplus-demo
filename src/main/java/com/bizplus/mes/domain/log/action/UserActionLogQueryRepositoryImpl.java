@@ -27,7 +27,7 @@ public class UserActionLogQueryRepositoryImpl implements UserActionLogQueryRepos
     public Page<UserActionLogDto> findUserActionLogs(UserActionLogSearchDto dto, Pageable pageable) {
 
         BooleanBuilder searchCondition = new BooleanBuilder()
-                .and(contains(userActionLog.userId, dto.getUserId()))
+                .and(contains(userActionLog.loginId, dto.getLoginId()))
                 .and(eq(userActionLog.menu, dto.getMenuCode()))
                 .and(eq(userActionLog.type, dto.getType()))
                 .and(startDateGoe(userActionLog.createdAt, dto.getStartDate()))
@@ -36,7 +36,7 @@ public class UserActionLogQueryRepositoryImpl implements UserActionLogQueryRepos
         List<UserActionLogDto> content = query
                 .select(new QUserActionLogDto(
                         userActionLog.id,
-                        userActionLog.userId,
+                        userActionLog.loginId,
                         userActionLog.userName,
                         userActionLog.menu,
                         userActionLog.type,

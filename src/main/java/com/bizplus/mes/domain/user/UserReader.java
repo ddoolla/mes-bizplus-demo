@@ -12,7 +12,6 @@ public class UserReader {
     private final UserRepository userRepository;
 
     public User getById(Long id) {
-
         return userRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "id: " + id));
     }

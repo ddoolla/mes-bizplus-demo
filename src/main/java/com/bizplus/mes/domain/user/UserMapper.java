@@ -12,7 +12,7 @@ public class UserMapper {
         return new User(
                 departmentCode,
                 positionCode,
-                dto.getUserId(),
+                dto.getLoginId(),
                 encodedPassword,
                 dto.getName(),
                 dto.getEmail(),

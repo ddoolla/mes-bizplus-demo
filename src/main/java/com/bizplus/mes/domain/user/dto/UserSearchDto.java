@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserSearchDto {
 
-    private String userId;
+    private String loginId;
     private String name;
     private Long departmentId;
     private Long positionId;

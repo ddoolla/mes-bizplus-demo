@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class UserActionLogDto {
 
     private final Long id;
-    private final String userId;
+    private final String loginId;
     private final String userName;
     private final MenuCode menu;
     private final ActionType type;
@@ -22,7 +22,7 @@ public class UserActionLogDto {
 
     @QueryProjection
     public UserActionLogDto(Long id,
-                            String userId,
+                            String loginId,
                             String userName,
                             MenuCode menu,
                             ActionType type,
@@ -30,7 +30,7 @@ public class UserActionLogDto {
                             String ipAddress,
                             LocalDateTime createdAt) {
         this.id = id;
-        this.userId = userId;
+        this.loginId = loginId;
         this.userName = userName;
         this.menu = menu;
         this.type = type;

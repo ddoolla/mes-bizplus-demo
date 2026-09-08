@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserActionLogSearchDto {
 
-    private String userId;
+    private String loginId;
     private MenuCode menuCode;
     private ActionType type;
 

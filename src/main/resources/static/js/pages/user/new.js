@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $('#user-create-form').validate({
         rules: {
-            userId: {
+            loginId: {
                 required: true,
                 remote: {
                     url: '/users/check-id',
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 rangelength: [11, 11],
             },
         }, messages: {
-            userId: {
+            loginId: {
                 required: '사용자 ID를 입력해 주세요.',
                 remote: '이미 존재하는 ID 입니다.',
             },

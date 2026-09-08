@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkUserId(String userId) {
-        boolean exists = userRepository.existsByUserId(userId);
+    public boolean checkLoginId(String loginId) {
+        boolean exists = userRepository.existsByLoginId(loginId);
 
         return !exists;
     }

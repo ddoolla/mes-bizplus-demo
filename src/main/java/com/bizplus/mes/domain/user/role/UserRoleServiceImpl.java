@@ -35,7 +35,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
         UserRole userRole = userRoleRepository.findByUser(user)
                 .orElseThrow(() -> new BusinessException(
-                        ErrorCode.USER_ROLE_NOT_FOUND, "userId: " + user.getUserId()));
+                        ErrorCode.USER_ROLE_NOT_FOUND, "loginId: " + user.getLoginId()));
 
         if (!userRole.getRole().getId().equals(role.getId())) {
             // 사용자별 1개의 역할만 부여

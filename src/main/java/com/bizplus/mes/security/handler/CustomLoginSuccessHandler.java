@@ -32,7 +32,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
 
         userAuthLogService.login(
-                user.getUserId(),
+                user.getLoginId(),
                 user.getUserName(),
                 session.getId(),
                 IpUtils.getClientIp(request)

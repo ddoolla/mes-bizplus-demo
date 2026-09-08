@@ -7,17 +7,43 @@
         <table class="app-table-input">
             <colgroup>
                 <col style="width: 120px">
-                <col style="width: auto">
+                <col style="width: 250px">
                 <col style="width: 120px">
-                <col style="width: auto">
+                <col style="width: 250px">
                 <col style="width: 120px">
-                <col style="width: auto">
+                <col style="width: 250px">
                 <col style="width: 120px">
-                <col style="width: auto">
+                <col style="width: 250px">
             </colgroup>
             <tbody>
             <tr>
-                <th>품목 카테고리</th>
+                <th>품목 코드</th>
+                <td>
+                    <input type="text"
+                           name="code"
+                           class="app-form-control app-xs"
+                           th:value="${param.code}">
+                </td>
+                <th>품목명</th>
+                <td>
+                    <input type="text"
+                           name="name"
+                           class="app-form-control app-xs"
+                           th:value="${param.name}">
+                </td>
+                <th>유형</th>
+                <td>
+                    <select name="type"
+                            class="app-form-control app-xs">
+                        <option value="">전체</option>
+                        <option th:each="type : ${itemTypes}"
+                                th:value="${type?.name()}"
+                                th:text="${type?.getDescription()}"
+                                th:selected="${type?.name() == selectedType?.name()}">
+                        </option>
+                    </select>
+                </td>
+                <th>카테고리</th>
                 <td>
                     <select name="categoryId"
                             class="app-form-control app-xs">
@@ -33,32 +59,6 @@
                                 th:selected="${category.id == selectedCategory}">
                         </option>
                     </select>
-                </td>
-                <th>품목 유형</th>
-                <td>
-                    <select name="type"
-                            class="app-form-control app-xs">
-                        <option value="">전체</option>
-                        <option th:each="type : ${itemTypes}"
-                                th:value="${type?.name()}"
-                                th:text="${type?.getDescription()}"
-                                th:selected="${type?.name() == selectedType?.name()}">
-                        </option>
-                    </select>
-                </td>
-                <th>품목 코드</th>
-                <td>
-                    <input type="text"
-                           name="code"
-                           class="app-form-control app-xs"
-                           th:value="${param.code}">
-                </td>
-                <th>품목명</th>
-                <td>
-                    <input type="text"
-                           name="name"
-                           class="app-form-control app-xs"
-                           th:value="${param.name}">
                 </td>
             </tr>
             </tbody>

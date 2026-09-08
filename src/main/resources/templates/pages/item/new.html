@@ -62,6 +62,17 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>품목 유형 <span class="app-required">*</span></th>
+                    <td>
+                        <select name="type" class="app-form-control app-xs">
+                            <option th:each="type : ${itemTypes}"
+                                    th:value="${type?.name()}"
+                                    th:text="${type?.getDescription()}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th>품목 카테고리</th>
                     <td>
                         <select name="categoryId"
@@ -76,17 +87,6 @@
                                     th:value="${category.id}"
                                     th:text="${category.name}"
                                     th:selected="${category.id == selectedCategory}">
-                            </option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>품목 유형 <span class="app-required">*</span></th>
-                    <td>
-                        <select name="type" class="app-form-control app-xs">
-                            <option th:each="type : ${itemTypes}"
-                                    th:value="${type?.name()}"
-                                    th:text="${type?.getDescription()}">
                             </option>
                         </select>
                     </td>

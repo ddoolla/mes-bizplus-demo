@@ -52,7 +52,7 @@
                                class="check-item"
                                th:value="${specItem.id}"/>
                     </td>
-                    <td th:text="${inspectionItem.group}"></td>
+                    <td th:text="${@format.value(inspectionItem.group)}"></td>
                     <td th:text="${@format.nameWithCode(inspectionItem.code, inspectionItem.name)}"></td>
                     <td>
                         <input type="number"

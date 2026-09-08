@@ -31,8 +31,8 @@
                 <th><input type="checkbox" class="check-all"/></th>
                 <th>품목 코드</th>
                 <th>품목명</th>
-                <th>품목 카테고리</th>
-                <th>품목 유형</th>
+                <th>유형</th>
+                <th>카테고리</th>
                 <th>규격</th>
                 <th>단위</th>
                 <th></th>
@@ -47,8 +47,8 @@
                 </td>
                 <td th:text="${item.code}"></td>
                 <td th:text="${item.name}"></td>
-                <td th:text="${item.category.name}"></td>
                 <td th:text="${item.type?.description}"></td>
+                <td th:text="${@format.value(item.category.name)}"></td>
                 <td th:text="${@format.value(item.specification)}"></td>
                 <td th:text="${@format.value(item.uom.name)}"></td>
                 <td></td>

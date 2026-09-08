@@ -49,8 +49,8 @@
                     <th><input type="checkbox" class="check-all"/></th>
                     <th>자재 코드</th>
                     <th>자재명</th>
+                    <th>유형</th>
                     <th>카테고리</th>
-                    <th>자재 유형</th>
                     <th>규격</th>
                     <th>단위 (재고)</th>
                     <th>수량</th>
@@ -76,8 +76,8 @@
                     </td>
                     <td th:text="${processMaterial.item.code}"></td>
                     <td th:text="${processMaterial.item.name}"></td>
-                    <td th:text="${@format.value(processMaterial.item.category)}"></td>
                     <td th:text="${processMaterial.item.type?.description}"></td>
+                    <td th:text="${@format.value(processMaterial.item.category)}"></td>
                     <td th:text="${@format.value(processMaterial.item.specification)}"></td>
                     <td th:text="|${stockUom.code} (${stockUom.name})|"></td>
                     <td>

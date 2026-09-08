@@ -23,8 +23,8 @@
             <tr>
                 <th>자재 코드</th>
                 <th>자재명</th>
+                <th>유형</th>
                 <th>카테고리</th>
-                <th>자재 유형</th>
                 <th>규격</th>
                 <th>수량</th>
                 <th>단위</th>
@@ -41,8 +41,8 @@
             <tr th:each="processMaterial : ${processMaterials}">
                 <td th:text="${processMaterial.item.code}"></td>
                 <td th:text="${processMaterial.item.name}"></td>
-                <td th:text="${@format.value(processMaterial.item.category)}"></td>
                 <td th:text="${processMaterial.item.type?.description}"></td>
+                <td th:text="${@format.value(processMaterial.item.category)}"></td>
                 <td th:text="${@format.value(processMaterial.item.specification)}"></td>
                 <td th:text="${#numbers.formatDecimal(processMaterial.quantity, 1, processMaterial.consumptionUom.scale)}"></td>
                 <td th:text="${processMaterial.consumptionUom.code}"></td>

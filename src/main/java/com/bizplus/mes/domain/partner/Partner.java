@@ -22,7 +22,7 @@ public class Partner extends SoftDeletableEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "varchar255", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private PartnerType type;
 

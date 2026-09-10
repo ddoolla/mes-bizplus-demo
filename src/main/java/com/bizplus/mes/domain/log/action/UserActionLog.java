@@ -24,15 +24,15 @@ public class UserActionLog {
     @Column(nullable = false)
     private String userName;
 
-    @Column(columnDefinition = "varchar255", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private MenuCode menu;
 
-    @Column(columnDefinition = "varchar255", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private ActionType type;
 
-    @Column(columnDefinition = "varchar255", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private LogResult result;
 

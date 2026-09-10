@@ -26,8 +26,11 @@ public enum MenuCode {
     INSPECTION_SPEC(MASTER, "검사기준 관리", MenuType.MENU, "/inspection-specs", 160),
     DEFECT_ITEM(MASTER, "불량항목 관리", MenuType.MENU, "/defect-items", 170),
 
-    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 180),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 190);
+    SALES(null, "수주 관리", MenuType.GROUP, null, 180),
+    SALES_ORDER(SALES, "수주 현황", MenuType.MENU, null, 190),
+
+    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 200),
+    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 210);
 
     private final MenuCode parent;
     private final String name;

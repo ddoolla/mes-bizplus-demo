@@ -33,7 +33,7 @@ public class UserAuthLog {
 
     private LocalDateTime logoutAt;
 
-    @Column(columnDefinition = "varchar255")
+    @Column(columnDefinition = "varchar(255)")
     @Enumerated(EnumType.STRING)
     private LogoutType logoutType;
 

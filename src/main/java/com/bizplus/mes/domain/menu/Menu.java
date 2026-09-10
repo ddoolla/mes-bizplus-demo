@@ -19,14 +19,14 @@ public class Menu {
     @JoinColumn(name = "parent_id")
     private Menu parent;
 
-    @Column(columnDefinition = "varchar255", unique = true, nullable = false)
+    @Column(columnDefinition = "varchar(255)", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private MenuCode code;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "varchar255", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private MenuType type;
 

@@ -80,6 +80,11 @@ public enum PermissionCode {
     DEFECT_ITEM_UPDATE(MenuCode.DEFECT_ITEM, "불량항목 수정", PermissionAction.UPDATE),
     DEFECT_ITEM_DELETE(MenuCode.DEFECT_ITEM, "불량항목 삭제", PermissionAction.DELETE),
 
+    SALES_ORDER_READ(MenuCode.SALES_ORDER, "수주 조회", PermissionAction.READ),
+    SALES_ORDER_CREATE(MenuCode.SALES_ORDER, "수주 등록", PermissionAction.CREATE),
+    SALES_ORDER_UPDATE(MenuCode.SALES_ORDER, "수주 수정", PermissionAction.UPDATE),
+    SALES_ORDER_DELETE(MenuCode.SALES_ORDER, "수주 삭제", PermissionAction.DELETE),
+
     ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;

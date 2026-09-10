@@ -21,14 +21,14 @@ public class Permission extends SoftDeletableEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(columnDefinition = "varchar255", unique = true, nullable = false)
+    @Column(columnDefinition = "varchar(255)", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private PermissionCode code;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "varchar255", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private PermissionAction action;
 

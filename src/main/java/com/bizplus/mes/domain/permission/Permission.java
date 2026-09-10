@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "permissions")
@@ -23,17 +21,15 @@ public class Permission extends SoftDeletableEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(unique = true, nullable = false)
+    @Column(columnDefinition = "varchar255", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
     private PermissionCode code;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar255", nullable = false)
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
     private PermissionAction action;
 
     public Permission(Menu menu, PermissionCode code) {

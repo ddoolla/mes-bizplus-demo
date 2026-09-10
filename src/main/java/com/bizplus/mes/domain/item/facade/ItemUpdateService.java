@@ -42,7 +42,7 @@ public class ItemUpdateService {
             }
 
             // 새로운 이미지 파일 추가
-            Long newFileId = fileService.uploadFile(
+            Long newFileId = fileService.storeFile(
                     multipartFile,
                     FileStorageType.ITEM_IMAGE
             );

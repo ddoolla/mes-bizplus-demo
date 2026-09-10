@@ -2,13 +2,15 @@ package com.bizplus.mes.domain.file;
 
 import com.bizplus.mes.domain.file.dto.FileDto;
 import com.bizplus.mes.domain.file.dto.FileResourceDto;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /*
  * 파일 서비스 (DB + 실제 파일 조작)
  * */
 public interface FileService {
-
 
     /**
      * 파일 정보 DB 저장 + 실제 파일 저장
@@ -17,7 +19,7 @@ public interface FileService {
      * @param storageType   - root-path 다음에 올 저장 경로
      * @return DB에 새로 저장된 파일 ID
      */
-    Long uploadFile(MultipartFile multipartFile, FileStorageType storageType);
+    Long storeFile(MultipartFile multipartFile, FileStorageType storageType);
 
     /**
      * DB에 저장된 파일 정보 가져오기
@@ -34,6 +36,14 @@ public interface FileService {
      * @return - 파일 메타 정보 + 실제 파일 리소스
      */
     FileResourceDto getFileResource(Long id);
+
+    /**
+     * 여러 파일을 압축파일로 가져오기
+     *
+     * @param ids - 파일 아이디 리스트
+     * @return zip 파일 리소스
+     */
+    Resource getFilesAsZip(List<Long> ids);
 
     /**
      * 파일 삭제

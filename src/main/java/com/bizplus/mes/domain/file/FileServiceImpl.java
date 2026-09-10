@@ -4,10 +4,19 @@ import com.bizplus.mes.domain.file.dto.FileDto;
 import com.bizplus.mes.domain.file.dto.FileResourceDto;
 import com.bizplus.mes.domain.file.dto.StoredFileDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +29,7 @@ public class FileServiceImpl implements FileService {
 
     @Transactional
     @Override
-    public Long uploadFile(MultipartFile multipartFile, FileStorageType storageType) {
+    public Long storeFile(MultipartFile multipartFile, FileStorageType storageType) {
 
         if (multipartFile == null || multipartFile.isEmpty()) {
             throw new IllegalArgumentException("파일이 없습니다.");
@@ -54,6 +63,40 @@ public class FileServiceImpl implements FileService {
         Resource resource = fileStorageService.load(file.getStoragePath());
 
         return FileMapper.toResourceDto(file, resource);
+    }
+
+    @Override
+    public Resource getFilesAsZip(List<Long> ids) {
+
+        try {
+            Path zipPath = Files.createTempFile("files-", ".zip");
+
+            try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(zipPath))) {
+
+                for (Long id : ids) {
+                    File file = fileReader.getById(id);
+
+                    Path filePath = Paths.get(file.getStoragePath(), file.getStoredName());
+
+                    if (!Files.exists(filePath)) {
+                        continue;
+                    }
+
+                    ZipEntry zipEntry = new ZipEntry(file.getOriginalName());
+
+                    zos.putNextEntry(zipEntry);
+
+                    Files.copy(filePath, zos);
+
+                    zos.closeEntry();
+                }
+            }
+
+            return new FileSystemResource(zipPath);
+
+        } catch (IOException e) {
+            throw new RuntimeException("ZIP 파일 생성에 실패했습니다.", e);
+        }
     }
 
     @Transactional

@@ -34,7 +34,7 @@ public class ItemCreateService {
                 return;
             }
 
-            Long newFileId = fileService.uploadFile(
+            Long newFileId = fileService.storeFile(
                     multipartFile,
                     FileStorageType.ITEM_IMAGE
             );

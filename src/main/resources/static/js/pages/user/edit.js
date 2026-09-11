@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
             name: 'required',
             password: {
                 minlength: 4,
+                maxlength: 64,
             },
             passwordConfirm: {
                 equalTo: '[name="password"]',
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
             name: '사용자 이름을 입력해 주세요.',
             password: {
                 minlength: '4자리 이상 입력해 주세요.',
+                maxlength: '64자리 이하로 입력해 주세요.',
             },
             passwordConfirm: {
                 equalTo: '비밀번호가 일치하지 않습니다.',

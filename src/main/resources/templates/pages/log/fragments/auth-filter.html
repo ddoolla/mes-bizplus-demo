@@ -3,49 +3,38 @@
 >
 
 <div th:fragment="filter (url, count)">
-    <form method="GET" th:action="${url}">
+    <form id="auth-log-search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
                 <col style="width: 150px">
                 <col style="width: auto">
                 <col style="width: 150px">
-                <col style="width: auto">
-                <col style="width: 150px">
-                <col style="width: auto">
+                <col style="width: 500px">
             </colgroup>
             <tbody>
             <tr>
-                <th>
-                    <label for="loginId">사용자 ID</label>
-                </th>
+                <th>사용자 ID</th>
                 <td>
                     <input type="text"
-                           id="loginId"
                            name="loginId"
                            class="app-form-control app-xs"
                            th:value="${param.loginId}">
                 </td>
-                <th>
-                    <label for="startDate">시작일</label>
-                </th>
+                <th>로그인 일시</th>
                 <td>
-                    <input type="text"
-                           id="startDate"
-                           name="startDate"
-                           class="app-form-control app-xs"
-                           th:value="${param.startDate}"
-                           autocomplete="off"/>
-                </td>
-                <th>
-                    <label for="endDate">종료일</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="endDate"
-                           name="endDate"
-                           class="app-form-control app-xs"
-                           th:value="${param.endDate}"
-                           autocomplete="off"/>
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="text"
+                               name="startDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.startDate}"
+                               readonly autocomplete="off"/>
+                        <span>-</span>
+                        <input type="text"
+                               name="endDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.endDate}"
+                               readonly autocomplete="off"/>
+                    </div>
                 </td>
             </tr>
             </tbody>

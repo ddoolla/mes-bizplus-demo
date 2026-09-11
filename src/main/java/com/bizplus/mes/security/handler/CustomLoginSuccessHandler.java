@@ -33,7 +33,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         userAuthLogService.login(
                 user.getLoginId(),
-                user.getUserName(),
+                user.getName(),
                 session.getId(),
                 IpUtils.getClientIp(request)
         );

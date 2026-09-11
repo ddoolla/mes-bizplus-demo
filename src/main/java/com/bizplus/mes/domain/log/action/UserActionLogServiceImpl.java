@@ -38,7 +38,7 @@ public class UserActionLogServiceImpl implements UserActionLogService {
 
         userActionLogRepository.save(new UserActionLog(
                 currentUser.getLoginId(),
-                currentUser.getUserName(),
+                currentUser.getName(),
                 userAction.menu(),
                 userAction.type(),
                 LogResult.SUCCESS,
@@ -64,7 +64,7 @@ public class UserActionLogServiceImpl implements UserActionLogService {
 
         userActionLogRepository.save(new UserActionLog(
                 currentUser.getLoginId(),
-                currentUser.getUserName(),
+                currentUser.getName(),
                 userAction.menu(),
                 userAction.type(),
                 LogResult.FAIL,

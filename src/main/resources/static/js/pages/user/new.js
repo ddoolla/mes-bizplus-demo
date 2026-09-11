@@ -8,10 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     url: '/users/check-id',
                     type: 'get',
                 },
+                minlength: 4,
+                maxlength: 20,
+                pattern: /^[a-zA-Z0-9]+$/,
             },
             password: {
                 required: true,
                 minlength: 4,
+                maxlength: 64,
             },
             passwordConfirm: {
                 required: true,
@@ -29,10 +33,14 @@ document.addEventListener('DOMContentLoaded', function () {
             loginId: {
                 required: '사용자 ID를 입력해 주세요.',
                 remote: '이미 존재하는 ID 입니다.',
+                minlength: '아이디는 4자 이상 입력해 주세요.',
+                maxlength: '아이디는 20자 이하로 입력해 주세요.',
+                pattern: '아이디는 영문과 숫자만 사용할 수 있습니다.',
             },
             password: {
                 required: '비밀번호를 입력해 주세요.',
                 minlength: '4자리 이상 입력해 주세요.',
+                maxlength: '64자리 이하로 입력해 주세요.',
             },
             passwordConfirm: {
                 required: '비밀번호를 입력해 주세요.',

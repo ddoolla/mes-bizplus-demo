@@ -24,9 +24,13 @@ public class SecurityAuditorAware implements AuditorAware<String> {
                 || !authentication.isAuthenticated()
                 || authentication instanceof AnonymousAuthenticationToken) {
 
-            return Optional.of("admin");
+            return Optional.of("system");
         }
 
-        return Optional.of(authentication.getName());
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+
+        String createdBy = principal.getName() + " [" + principal.getLoginId() + "]";
+
+        return Optional.of(createdBy);
     }
 }

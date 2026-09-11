@@ -81,6 +81,10 @@ public class UserServiceImpl implements UserService {
 
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
 
+            if (dto.getPassword().length() < 4 || dto.getPassword().length() > 64) {
+                throw new IllegalArgumentException("비밀번호는 4~64자로 입력해주세요.");
+            }
+
             user.updatePassword(passwordEncoder.encode(dto.getPassword()));
         }
     }

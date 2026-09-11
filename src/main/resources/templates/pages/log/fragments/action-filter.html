@@ -3,7 +3,7 @@
 >
 
 <div th:fragment="filter (url, count)">
-    <form method="GET" th:action="${url}">
+    <form id="action-log-search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
                 <col style="width: 100px">
@@ -13,18 +13,13 @@
                 <col style="width: 100px">
                 <col style="width: auto">
                 <col style="width: 100px">
-                <col style="width: auto">
-                <col style="width: 100px">
-                <col style="width: auto">
+                <col style="width: 500px">
             </colgroup>
             <tbody>
             <tr>
-                <th>
-                    <label for="menuCode">메뉴</label>
-                </th>
+                <th>메뉴</th>
                 <td>
                     <select name="menuCode"
-                            id="menuCode"
                             class="app-form-control app-xs">
                         <option value="">전체</option>
                         <option th:each="menuCode : ${menuCodes}"
@@ -35,12 +30,9 @@
                         </option>
                     </select>
                 </td>
-                <th>
-                    <label for="type">활동 유형</label>
-                </th>
+                <th>활동 유형</th>
                 <td>
                     <select name="type"
-                            id="type"
                             class="app-form-control app-xs">
                         <option value="">전체</option>
                         <option th:each="type : ${actionTypes}"
@@ -50,37 +42,28 @@
                         </option>
                     </select>
                 </td>
-                <th>
-                    <label for="loginId">사용자 ID</label>
-                </th>
+                <th>사용자 ID</th>
                 <td>
                     <input type="text"
-                           id="loginId"
                            name="loginId"
                            class="app-form-control app-xs"
                            th:value="${param.loginId}">
                 </td>
-                <th>
-                    <label for="startDate">시작일</label>
-                </th>
+                <th>발생 일시</th>
                 <td>
-                    <input type="text"
-                           id="startDate"
-                           name="startDate"
-                           class="app-form-control app-xs"
-                           th:value="${param.startDate}"
-                           autocomplete="off"/>
-                </td>
-                <th>
-                    <label for="endDate">종료일</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="endDate"
-                           name="endDate"
-                           class="app-form-control app-xs"
-                           th:value="${param.endDate}"
-                           autocomplete="off"/>
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="text"
+                               name="startDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.startDate}"
+                               readonly autocomplete="off"/>
+                        <span>-</span>
+                        <input type="text"
+                               name="endDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.endDate}"
+                               readonly autocomplete="off"/>
+                    </div>
                 </td>
             </tr>
             </tbody>

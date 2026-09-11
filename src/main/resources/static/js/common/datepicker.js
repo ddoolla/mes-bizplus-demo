@@ -20,10 +20,10 @@ $(function () {
 });
 
 const datepicker = {
-    init(from, to) {
-
-        const $from = $('#' + from);
-        const $to = $('#' + to);
+    init({formId, from, to}) {
+        const $form = $(`#${formId}`);
+        const $from = $form.find(`[name="${from}"]`);
+        const $to = $form.find(`[name="${to}"]`);
 
         $from.datepicker({
             dateFormat: 'yy-mm-dd',

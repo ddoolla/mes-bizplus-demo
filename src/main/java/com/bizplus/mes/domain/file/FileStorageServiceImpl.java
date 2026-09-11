@@ -22,37 +22,43 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private final FileUploadProperties properties;
 
-    @Override
-    public StoredFileDto store(MultipartFile multipartFile, FileStorageType storageType) {
+    public StoredFileDto storeFile(MultipartFile multipartFile, FileStorageType storageType, String subPath) {
         String originalName = multipartFile.getOriginalFilename();
         String extension = getExtension(originalName);
         String storedName = UUID.randomUUID() + "." + extension;
 
         LocalDate today = LocalDate.now();
 
-        // 파일 저장할 디렉토리 절대경로
-        Path directory = Paths.get(properties.getRootPath())
-                .resolve(storageType.getPath())
+        // 파일 저장할 디렉토리 상대 경로
+        Path relativePath = Paths.get(storageType.getPath());
+
+        if (subPath != null && !subPath.isBlank()) {
+            relativePath = relativePath.resolve(subPath);
+        }
+
+        relativePath = relativePath
                 .resolve(String.valueOf(today.getYear()))
                 .resolve(String.format("%02d", today.getMonthValue()));
+
+        // 파일 저장할 디렉토리 절대 경로 (root-path + 상대 경로)
+        Path directory = Paths.get(properties.getRootPath())
+                .resolve(relativePath);
 
         try {
             // 디렉토리 생성
             Files.createDirectories(directory);
 
-            // 저장할 파일 절대 경로
+            // 실제 파일 절대 경로
             Path filePath = directory.resolve(storedName);
 
             // 파일 저장
             multipartFile.transferTo(filePath);
 
-            // 저장한 파일 상대 경로 (storagePath/~)
-            String storagePath = Paths.get(
-                    storageType.getPath(),
-                    String.valueOf(today.getYear()),
-                    String.format("%02d", today.getMonthValue()),
-                    storedName
-            ).toString().replace("\\", "/");
+            // DB에 저장할 파일 상대 경로 (상대 경로 + 파일명)
+            String storagePath = relativePath
+                    .resolve(storedName)
+                    .toString()
+                    .replace("\\", "/");
 
             return new StoredFileDto(
                     originalName,
@@ -66,6 +72,16 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new IllegalStateException("파일 저장에 실패했습니다.", e);
         }
+    }
+
+    @Override
+    public StoredFileDto store(MultipartFile multipartFile, FileStorageType storageType) {
+        return storeFile(multipartFile, storageType, null);
+    }
+
+    @Override
+    public StoredFileDto store(MultipartFile multipartFile, FileStorageType storageType, String subPath) {
+        return storeFile(multipartFile, storageType, subPath);
     }
 
     private String getExtension(String originalName) {

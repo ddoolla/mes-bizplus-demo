@@ -20,6 +20,17 @@ public interface FileStorageService {
     StoredFileDto store(MultipartFile multipartFile, FileStorageType storageType);
 
     /**
+     * 파일 저장
+     * 저장 경로: root-path/storagePath/yyyy/MM/stored-file-name.xxx
+     *
+     * @param multipartFile - 업로드 파일
+     * @param storageType   - 유형별 저장 경로
+     * @param subPath       - 하위 경로 (nullable)
+     * @return 저장된 파일 메타 정보
+     */
+    StoredFileDto store(MultipartFile multipartFile, FileStorageType storageType, String subPath);
+
+    /**
      * 저장된 파일 리소스 객체로 로드
      *
      * @param storagePath - DB에 저장된 파일 경로 (상대 경로)

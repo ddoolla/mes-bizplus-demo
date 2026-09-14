@@ -22,6 +22,23 @@ public class PredicateUtils {
                 : null;
     }
 
+    public static BooleanExpression containsAny(String value, StringPath... fields) {
+        if (!StringUtils.hasText(value)) {
+            return null;
+        }
+
+        BooleanExpression result = null;
+
+        for (StringPath field : fields) {
+            BooleanExpression condition = field.containsIgnoreCase(value);
+            result = result == null
+                    ? condition
+                    : result.or(condition);
+        }
+
+        return result;
+    }
+
     public static <T> BooleanExpression eq(SimpleExpression<T> field, T value) {
         return value != null
                 ? field.eq(value)

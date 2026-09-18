@@ -25,16 +25,16 @@ public class PartnerContactController {
     private final CommonCodeService commonCodeService;
     private final MessageService messageService;
 
-    @GetMapping("/partners/{partnerId}/contacts/modal/create")
+    @GetMapping("/partners/{partnerId}/contacts/modal/form/new")
     public String viewCreateModal(Model model, @PathVariable Long partnerId) {
         model.addAttribute("partnerId", partnerId);
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
 
-        return "pages/partner-contact/modal/form/create :: form";
+        return "pages/partner-contact/modal/form/new :: form";
     }
 
-    @GetMapping("/partner-contacts/{id}/modal/edit")
+    @GetMapping("/partner-contacts/{id}/modal/form/edit")
     public String viewEditModal(Model model, @PathVariable Long id) {
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));

@@ -98,7 +98,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public Long createItem(ItemCreateDto dto) {
-        CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
+        CommonCode itemCategory = commonCodeReader.getByIdOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
         return itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto)).getId();
@@ -108,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void updateItem(Long id, ItemUpdateDto dto) {
         Item item = itemReader.getById(id);
-        CommonCode itemCategory = commonCodeReader.getOrNull(dto.getCategoryId());
+        CommonCode itemCategory = commonCodeReader.getByIdOrNull(dto.getCategoryId());
         Uom uom = uomReader.getById(dto.getUomId());
 
         // 재고가 없는 경우에만 LOT 관리 여부 변경 가능

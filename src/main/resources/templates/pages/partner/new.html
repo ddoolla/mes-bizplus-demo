@@ -27,7 +27,7 @@
         </button>
 
         <button type="submit"
-                form="partner-create-form"
+                form="partner-new-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('PARTNER_CREATE')">
             <i class="bi bi-floppy"></i> 저장
@@ -36,7 +36,7 @@
 
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
-        <form id="partner-create-form" method="post" th:action="@{/partners}">
+        <form id="partner-new-form" method="post" th:action="@{/partners}">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

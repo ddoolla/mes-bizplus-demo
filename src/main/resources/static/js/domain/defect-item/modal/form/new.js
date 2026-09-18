@@ -27,7 +27,7 @@ const createDefectItemNewFormModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#defect-item-create-form')
+        const formEl = contentEl.querySelector('#defect-item-new-form')
 
         $(formEl).validate({
             rules: {

@@ -24,7 +24,7 @@
         </button>
 
         <button type="submit"
-                form="equipment-edit-form"
+                form="user-edit-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('USER_UPDATE')">
             <i class="bi bi-floppy"></i> 저장
@@ -33,7 +33,7 @@
 
     <!--/* 수정 양식 */-->
     <div class="app-box app-box-bg">
-        <form id="equipment-edit-form"
+        <form id="user-edit-form"
               method="post"
               th:action="@{/users/{id}(id=${user.id})}"
               th:object="${user}">

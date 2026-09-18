@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createUomCreateModal from "../../domain/uom/modal/form/create.js";
-import createUomEditModal from "../../domain/uom/modal/form/edit.js";
+import createUomNewFormModal from "../../domain/uom/modal/form/new.js";
+import createUomEditFormModal from "../../domain/uom/modal/form/edit.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -11,12 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const editLinks = document.querySelectorAll('.uom-edit-link');
 
     checkbox.init(checkboxGroup);
-    const uomCreateModal = createUomCreateModal();
-    const uomEditModal = createUomEditModal();
+    const uomNewFormModal = createUomNewFormModal();
+    const uomEditModal = createUomEditFormModal();
 
     /* 단위 등록 모달 */
     createButton.addEventListener('click', function () {
-        uomCreateModal.open();
+        uomNewFormModal.open();
     });
 
     /* 단위 수정 모달 */

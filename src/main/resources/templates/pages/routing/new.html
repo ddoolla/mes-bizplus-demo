@@ -24,7 +24,7 @@
         </button>
 
         <button type="submit"
-                form="routing-create-form"
+                form="routing-new-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('ROUTING_CREATE')">
             <i class="bi bi-floppy"></i> 저장
@@ -33,7 +33,7 @@
 
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
-        <form id="routing-create-form" method="post" th:action="@{/routings}">
+        <form id="routing-new-form" method="post" th:action="@{/routings}">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

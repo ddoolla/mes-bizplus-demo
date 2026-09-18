@@ -2,7 +2,7 @@ import ajax from "../../../../common/ajax.js";
 import modal from "../../../../common/modal/modal.js";
 import "../../../../common/validation.js";
 
-const createUomConversionEditModal = () => {
+const createUomConversionEditFormModal = () => {
 
     const modalId = 'uom-conversion-form-modal';
 
@@ -83,4 +83,4 @@ const createUomConversionEditModal = () => {
     };
 }
 
-export default createUomConversionEditModal;
+export default createUomConversionEditFormModal;

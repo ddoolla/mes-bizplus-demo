@@ -2,7 +2,7 @@ import createItemSingleListModal from "../../domain/item/modal/list/single.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const routingCreateForm = document.querySelector('#routing-create-form');
+    const routingCreateForm = document.querySelector('#routing-new-form');
     const modalOpenButton = document.querySelector('#item-list-button');
 
     const itemSingleListModal = createItemSingleListModal();
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         itemSingleListModal.close();
     });
 
-    $('#routing-create-form').validate({
+    $('#routing-new-form').validate({
         rules: {
             code: {
                 required: true,

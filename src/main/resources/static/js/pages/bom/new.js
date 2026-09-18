@@ -2,7 +2,7 @@ import createItemSingleListModal from "../../domain/item/modal/list/single.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const bomCreateForm = document.querySelector('#bom-create-form');
+    const bomCreateForm = document.querySelector('#bom-new-form');
     const modalOpenButton = document.querySelector('#item-list-button');
 
     const itemSingleListModal = createItemSingleListModal();
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // BOM 등록 폼 유효성검사
-    $('#bom-create-form').validate({
+    $('#bom-new-form').validate({
         rules: {
             code: {
                 required: true,

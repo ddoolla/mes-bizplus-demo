@@ -24,7 +24,7 @@
         </button>
 
         <button type="submit"
-                form="inspection-spec-create-form"
+                form="inspection-spec-new-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('INSPECTION_SPEC_CREATE')">
             <i class="bi bi-floppy"></i> 저장
@@ -33,7 +33,7 @@
 
     <!--/* 등록 양식 */-->
     <div class="app-box app-box-bg">
-        <form id="inspection-spec-create-form" method="post" th:action="@{/inspection-specs}">
+        <form id="inspection-spec-new-form" method="post" th:action="@{/inspection-specs}">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createPartnerContactCreateModal from "../../domain/partner-contact/modal/form/create.js";
-import createPartnerContactEditModal from "../../domain/partner-contact/modal/form/edit.js";
+import createPartnerContactNewFormModal from "../../domain/partner-contact/modal/form/new.js";
+import createPartnerContactEditFormModal from "../../domain/partner-contact/modal/form/edit.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const editLinks = document.querySelectorAll('.contact-edit-link');
 
     checkbox.init(checkboxGroup);
-    const contactCreateModal = createPartnerContactCreateModal();
-    const contactEditModal = createPartnerContactEditModal();
+    const contactCreateModal = createPartnerContactNewFormModal();
+    const contactEditModal = createPartnerContactEditFormModal();
 
     /* 담당자 등록 모달 */
     createButton.addEventListener('click', function (e) {

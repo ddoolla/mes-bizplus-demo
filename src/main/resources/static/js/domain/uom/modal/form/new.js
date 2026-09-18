@@ -1,10 +1,10 @@
 import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 
-const createUomCreateModal = () => {
+const createUomNewFormModal = () => {
 
     const modalId = 'uom-form-modal';
-    const contentUrl = '/uoms/modal/form/create';
+    const contentUrl = '/uoms/modal/form/new';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const contentEl = modalEl.querySelector('.uom-form-content');
@@ -27,7 +27,7 @@ const createUomCreateModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#uom-create-form')
+        const formEl = contentEl.querySelector('#uom-new-form')
 
         $(formEl).validate({
             rules: {
@@ -92,4 +92,4 @@ const createUomCreateModal = () => {
     };
 }
 
-export default createUomCreateModal;
+export default createUomNewFormModal;

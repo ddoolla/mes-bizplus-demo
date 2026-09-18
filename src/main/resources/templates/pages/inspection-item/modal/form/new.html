@@ -2,7 +2,7 @@
 
 <th:block th:fragment="form">
     <div class="modal-body">
-        <form id="inspection-item-create-form"
+        <form id="inspection-item-new-form"
               method="post"
               th:action="@{/inspection-items}">
             <table class="app-table-input">
@@ -63,7 +63,7 @@
             <i class="bi bi-x-circle"></i> 취소
         </button>
         <button type="submit"
-                form="inspection-item-create-form"
+                form="inspection-item-new-form"
                 class="btn btn-primary btn-sm">
             <i class="bi bi-floppy"></i> 저장
         </button>

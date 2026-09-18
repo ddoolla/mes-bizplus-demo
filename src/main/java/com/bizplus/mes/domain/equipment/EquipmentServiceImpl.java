@@ -45,7 +45,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public void createEquipment(EquipmentCreateDto dto) {
-        CommonCode equipmentTypeCode = commonCodeReader.getOrNull(dto.getTypeId());
+        CommonCode equipmentTypeCode = commonCodeReader.getByIdOrNull(dto.getTypeId());
 
         equipmentRepository.save(EquipmentMapper.toEntity(equipmentTypeCode, dto));
     }
@@ -54,7 +54,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public void updateEquipment(Long id, EquipmentUpdateDto dto) {
         Equipment equipment = equipmentReader.getById(id);
-        CommonCode equipmentTypeCode = commonCodeReader.getOrNull(dto.getTypeId());
+        CommonCode equipmentTypeCode = commonCodeReader.getByIdOrNull(dto.getTypeId());
 
         EquipmentMapper.apply(equipment, equipmentTypeCode, dto);
     }

@@ -2,7 +2,7 @@
 
 <th:block th:fragment="form">
     <div class="modal-body">
-        <form id="contact-create-form"
+        <form id="contact-new-form"
               method="post"
               th:action="@{/partners/{partnerId}/contacts(partnerId=${partnerId})}">
             <table class="app-table-input">
@@ -128,7 +128,7 @@
             <i class="bi bi-x-circle"></i> 취소
         </button>
         <button type="submit"
-                form="contact-create-form"
+                form="contact-new-form"
                 class="btn btn-primary btn-sm">
             <i class="bi bi-plus-circle"></i> 등록
         </button>

@@ -1,7 +1,7 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
-import createUomConversionCreateModal from "../../domain/uom-conversion/modal/form/create.js";
-import createUomConversionEditModal from "../../domain/uom-conversion/modal/form/edit.js";
+import createUomConversionNewFormModal from "../../domain/uom-conversion/modal/form/new.js";
+import createUomConversionEditFormModal from "../../domain/uom-conversion/modal/form/edit.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -10,15 +10,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const createButton = document.querySelector('#uom-conversion-create-button');
     const editLinks = document.querySelectorAll('.uom-conversion-edit-link');
 
-    const uomConversionCreateModal = createUomConversionCreateModal();
-    const uomConversionEditModal = createUomConversionEditModal()
+    const uomConversionNewFormModal = createUomConversionNewFormModal();
+    const uomConversionEditFormModal = createUomConversionEditFormModal()
 
     /* 단위 환산 테이블 체크박스 초기화 */
     checkbox.init(checkboxGroup);
 
     /* 단위 환산 등록 모달 */
     createButton.addEventListener('click', function () {
-        uomConversionCreateModal.open();
+        uomConversionNewFormModal.open();
     });
 
     /* 단위 환산 수정 모달 */
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const uomConversionId = e.currentTarget.dataset.id;
 
-            uomConversionEditModal.open(uomConversionId);
+            uomConversionEditFormModal.open(uomConversionId);
         });
     });
 

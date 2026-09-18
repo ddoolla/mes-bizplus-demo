@@ -27,7 +27,7 @@ const createInspectionItemNewFormModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#inspection-item-create-form')
+        const formEl = contentEl.querySelector('#inspection-item-new-form')
 
         $(formEl).validate({
             rules: {

@@ -25,7 +25,7 @@
         </button>
 
         <button type="submit"
-                form="role-create-form"
+                form="role-new-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('ROLE_CREATE')">
             <i class="bi bi-floppy"></i> 저장
@@ -33,7 +33,7 @@
     </div>
 
     <!--/* 바디 */-->
-    <form id="role-create-form" method="post" th:action="@{/roles}">
+    <form id="role-new-form" method="post" th:action="@{/roles}">
         <!--/* 역할 */-->
         <div class="app-box app-box-bg">
             <div>

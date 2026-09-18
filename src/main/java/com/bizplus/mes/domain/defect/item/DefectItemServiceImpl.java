@@ -45,7 +45,7 @@ public class DefectItemServiceImpl implements DefectItemService {
 
     @Override
     public void createDefectItem(DefectItemCreateDto dto) {
-        CommonCode defectTypeCode = commonCodeReader.getOrNull(dto.getTypeId());
+        CommonCode defectTypeCode = commonCodeReader.getByIdOrNull(dto.getTypeId());
 
         defectItemRepository.save(DefectItemMapper.toEntity(defectTypeCode, dto));
     }
@@ -54,7 +54,7 @@ public class DefectItemServiceImpl implements DefectItemService {
     @Override
     public void updateDefectItem(Long id, DefectItemUpdateDto dto) {
         DefectItem defectItem = defectItemReader.getById(id);
-        CommonCode defectTypeCode = commonCodeReader.getOrNull(dto.getTypeId());
+        CommonCode defectTypeCode = commonCodeReader.getByIdOrNull(dto.getTypeId());
 
         DefectItemMapper.apply(defectItem, defectTypeCode, dto);
     }

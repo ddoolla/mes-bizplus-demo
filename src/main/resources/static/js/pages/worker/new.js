@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         userSingleListModal.close();
     });
 
-    $('#worker-create-form').validate({
+    $('#worker-new-form').validate({
         rules: {
             userName: 'required',
             code: {

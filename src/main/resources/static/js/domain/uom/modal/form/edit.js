@@ -1,7 +1,7 @@
 import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 
-const createUomEditModal = () => {
+const createUomEditFormModal = () => {
 
     const modalId = 'uom-form-modal';
 
@@ -98,4 +98,4 @@ const createUomEditModal = () => {
     };
 }
 
-export default createUomEditModal;
+export default createUomEditFormModal;

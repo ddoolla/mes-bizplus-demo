@@ -42,8 +42,8 @@ public class PartnerContactServiceImpl implements PartnerContactService {
     public void createPartnerContact(Long partnerId, PartnerContactCreateDto dto) {
 
         Partner partner = partnerReader.getById(partnerId);
-        CommonCode department = commonCodeReader.getOrNull(dto.getDepartmentId());
-        CommonCode position = commonCodeReader.getOrNull(dto.getPositionId());
+        CommonCode department = commonCodeReader.getByIdOrNull(dto.getDepartmentId());
+        CommonCode position = commonCodeReader.getByIdOrNull(dto.getPositionId());
 
         partnerContactRepository.save(PartnerContactMapper
                 .toEntity(partner, department, position, dto));
@@ -54,8 +54,8 @@ public class PartnerContactServiceImpl implements PartnerContactService {
     public void updatePartnerContact(Long id, PartnerContactUpdateDto dto) {
 
         PartnerContact partnerContact = partnerContactReader.getById(id);
-        CommonCode department = commonCodeReader.getOrNull(dto.getDepartmentId());
-        CommonCode position = commonCodeReader.getOrNull(dto.getPositionId());
+        CommonCode department = commonCodeReader.getByIdOrNull(dto.getDepartmentId());
+        CommonCode position = commonCodeReader.getByIdOrNull(dto.getPositionId());
 
         PartnerContactMapper.apply(partnerContact, department, position, dto);
     }

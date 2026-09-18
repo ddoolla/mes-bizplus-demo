@@ -24,7 +24,7 @@
         </button>
 
         <button type="submit"
-                form="bom-create-form"
+                form="bom-new-form"
                 class="btn btn-primary btn-sm"
                 sec:authorize="hasAuthority('BOM_CREATE')">
             <i class="bi bi-floppy"></i> 저장
@@ -33,7 +33,7 @@
 
     <!--/* 등록 폼 */-->
     <div class="app-box app-box-bg">
-        <form id="bom-create-form" method="post" th:action="@{/boms}">
+        <form id="bom-new-form" method="post" th:action="@{/boms}">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">

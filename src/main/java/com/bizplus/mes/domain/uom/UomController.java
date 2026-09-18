@@ -38,15 +38,15 @@ public class UomController {
         return "pages/uom/list";
     }
 
-    @GetMapping("/modal/form/create")
-    public String viewCreateModal(Model model) {
+    @GetMapping("/modal/form/new")
+    public String viewNewFormModal(Model model) {
         model.addAttribute("uomTypes", UomType.values());
 
-        return "pages/uom/modal/form/create :: form";
+        return "pages/uom/modal/form/new :: form";
     }
 
     @GetMapping("/{id}/modal/form/edit")
-    public String viewEdit(Model model, @PathVariable Long id) {
+    public String viewEditFormModal(Model model, @PathVariable Long id) {
         model.addAttribute("uomTypes", UomType.values());
         model.addAttribute("uom", uomService.getUom(id));
 

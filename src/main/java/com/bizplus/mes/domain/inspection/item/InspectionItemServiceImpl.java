@@ -45,7 +45,7 @@ public class InspectionItemServiceImpl implements InspectionItemService {
 
     @Override
     public void createInspectionItem(InspectionItemCreateDto dto) {
-        CommonCode groupCode = commonCodeReader.getOrNull(dto.getGroupId());
+        CommonCode groupCode = commonCodeReader.getByIdOrNull(dto.getGroupId());
 
         inspectionItemRepository.save(InspectionItemMapper.toEntity(groupCode, dto));
     }
@@ -54,7 +54,7 @@ public class InspectionItemServiceImpl implements InspectionItemService {
     @Override
     public void updateInspectionItem(Long id, InspectionItemUpdateDto dto) {
         InspectionItem inspectionItem = inspectionItemReader.getById(id);
-        CommonCode groupCode = commonCodeReader.getOrNull(dto.getGroupId());
+        CommonCode groupCode = commonCodeReader.getByIdOrNull(dto.getGroupId());
 
         InspectionItemMapper.apply(inspectionItem, groupCode, dto);
     }

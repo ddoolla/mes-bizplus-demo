@@ -1,7 +1,7 @@
 import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 
-const createPartnerContactEditModal = () => {
+const createPartnerContactEditFormModal = () => {
 
     const modalId = 'contact-form-modal';
 
@@ -71,7 +71,7 @@ const createPartnerContactEditModal = () => {
     const open = async (id) => {
         modal.setTitle(modalId, '담당자 수정');
 
-        const contentUrl = `/partner-contacts/${id}/modal/edit`;
+        const contentUrl = `/partner-contacts/${id}/modal/form/edit`;
 
         try {
             await load(contentUrl);
@@ -88,4 +88,4 @@ const createPartnerContactEditModal = () => {
     };
 }
 
-export default createPartnerContactEditModal;
+export default createPartnerContactEditFormModal;

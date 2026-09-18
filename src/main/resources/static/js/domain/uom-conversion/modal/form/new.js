@@ -2,10 +2,10 @@ import ajax from "../../../../common/ajax.js";
 import modal from "../../../../common/modal/modal.js";
 import "../../../../common/validation.js";
 
-const createUomConversionCreateModal = () => {
+const createUomConversionNewFormModal = () => {
 
     const modalId = 'uom-conversion-form-modal';
-    const contentUrl = '/uoms/conversions/modal/form/create';
+    const contentUrl = '/uoms/conversions/modal/form/new';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const contentEl = modalEl.querySelector('.uom-conversion-form-content');
@@ -28,32 +28,32 @@ const createUomConversionCreateModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#uom-conversion-create-form')
+        const formEl = contentEl.querySelector('#uom-conversion-new-form')
 
         $(formEl).validate({
             rules: {
                 fromUomId: {
                     required: true,
-                    notEqualTo: '#uom-conversion-create-form [name="toUomId"]',
+                    notEqualTo: '#uom-conversion-new-form [name="toUomId"]',
                     remote: {
                         url: '/uoms/conversions/duplicate',
                         type: 'GET',
                         data: {
                             toUomId: function () {
-                                return $('#uom-conversion-create-form [name="toUomId"]').val();
+                                return $('#uom-conversion-new-form [name="toUomId"]').val();
                             },
                         },
                     },
                 },
                 toUomId: {
                     required: true,
-                    notEqualTo: '#uom-conversion-create-form [name="fromUomId"]',
+                    notEqualTo: '#uom-conversion-new-form [name="fromUomId"]',
                     remote: {
                         url: '/uoms/conversions/duplicate',
                         type: 'get',
                         data: {
                             fromUomId: function () {
-                                return $('#uom-conversion-create-form [name="fromUomId"]').val();
+                                return $('#uom-conversion-new-form [name="fromUomId"]').val();
                             },
                         },
                     },
@@ -118,4 +118,4 @@ const createUomConversionCreateModal = () => {
     };
 }
 
-export default createUomConversionCreateModal;
+export default createUomConversionNewFormModal;

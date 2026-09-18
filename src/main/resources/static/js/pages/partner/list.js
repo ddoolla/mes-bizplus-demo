@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     checkbox.init(checkboxGroup);
 
-    deleteButton.addEventListener('click', function () {
+    deleteButton.addEventListener('click', async function () {
 
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteButton.disabled = true;
 
         try {
-            const response = ajax.delete('/partners', selectedIds);
+            const response = await ajax.delete('/partners', selectedIds);
 
             alert(response.message);
 

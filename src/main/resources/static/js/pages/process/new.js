@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    $('#process-create-form').validate({
+    $('#process-new-form').validate({
         rules: {
             code: {
                 required: true,

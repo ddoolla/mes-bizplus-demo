@@ -2,7 +2,7 @@
 
 <th:block th:fragment="form">
     <div class="modal-body">
-        <form id="defect-item-create-form"
+        <form id="defect-item-new-form"
               method="post"
               th:action="@{/defect-items}">
             <table class="app-table-input">
@@ -68,7 +68,7 @@
             <i class="bi bi-x-circle"></i> 취소
         </button>
         <button type="submit"
-                form="defect-item-create-form"
+                form="defect-item-new-form"
                 class="btn btn-primary btn-sm">
             <i class="bi bi-floppy"></i> 저장
         </button>

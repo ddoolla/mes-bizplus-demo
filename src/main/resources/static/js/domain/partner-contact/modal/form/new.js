@@ -1,7 +1,7 @@
 import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 
-const createPartnerContactCreateModal = () => {
+const createPartnerContactNewFormModal = () => {
 
     const modalId = 'contact-form-modal';
 
@@ -26,7 +26,7 @@ const createPartnerContactCreateModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#contact-create-form')
+        const formEl = contentEl.querySelector('#contact-new-form')
 
         $(formEl).validate({
             rules: {
@@ -69,7 +69,7 @@ const createPartnerContactCreateModal = () => {
     };
 
     const open = async (partnerId) => {
-        const contentUrl =  `/partners/${partnerId}/contacts/modal/create`;
+        const contentUrl =  `/partners/${partnerId}/contacts/modal/form/new`;
 
         modal.setTitle(modalId, '담당자 등록');
 
@@ -88,4 +88,4 @@ const createPartnerContactCreateModal = () => {
     };
 }
 
-export default createPartnerContactCreateModal;
+export default createPartnerContactNewFormModal;

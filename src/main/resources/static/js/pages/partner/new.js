@@ -3,10 +3,10 @@ import address from "../../common/address.js";
 document.addEventListener('DOMContentLoaded', function () {
 
     $('#address-search-button').on('click', function () {
-       address.search('partner-create-form');
+       address.search('partner-new-form');
     });
 
-    $('#partner-create-form').validate({
+    $('#partner-new-form').validate({
         rules: {
             code: {
                 required: true,

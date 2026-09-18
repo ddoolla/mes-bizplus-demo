@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* 폼 유효성 검사 */
-    $('#inspection-spec-create-form').validate({
+    $('#inspection-spec-new-form').validate({
         rules: {
             code: {
                 required: true,

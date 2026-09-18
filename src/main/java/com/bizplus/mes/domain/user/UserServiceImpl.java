@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Long createUser(UserCreateDto dto) {
-        CommonCode departmentCode = commonCodeReader.getOrNull(dto.getDepartmentId());
-        CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
+        CommonCode departmentCode = commonCodeReader.getByIdOrNull(dto.getDepartmentId());
+        CommonCode positionCode = commonCodeReader.getByIdOrNull(dto.getPositionId());
 
         return userRepository.save(UserMapper
                         .toEntity(
@@ -67,8 +67,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateUser(Long id, UserUpdateDto dto) {
-        CommonCode departmentCode = commonCodeReader.getOrNull(dto.getDepartmentId());
-        CommonCode positionCode = commonCodeReader.getOrNull(dto.getPositionId());
+        CommonCode departmentCode = commonCodeReader.getByIdOrNull(dto.getDepartmentId());
+        CommonCode positionCode = commonCodeReader.getByIdOrNull(dto.getPositionId());
 
         User user = userReader.getById(id);
 

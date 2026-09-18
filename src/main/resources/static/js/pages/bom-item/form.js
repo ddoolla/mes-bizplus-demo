@@ -1,6 +1,8 @@
 import ajax from "../../common/ajax.js";
 import checkbox from "../../common/checkbox.js";
 import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
+import toast from "../../common/toast.js";
+import createConfirmModal from "../../common/modal/confirm.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const bomEditForm = document.querySelector('#bom-edit-form');
     const itemMultiSelectModalButton = document.querySelector('#bom-item-create-button');
 
+    const confirmModal = createConfirmModal();
     const itemMultipleListModal = createItemMultipleListModal();
 
     // BOM 구성 품목 등록
@@ -30,14 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 {itemIds: selectedIds}
             );
 
-            alert(response.message);
+            itemMultipleListModal.close();
+
+            toast.afterReload({
+                message: response.message,
+            });
 
             location.reload();
 
-            itemMultipleListModal.close();
-
         } catch (xhr) {
-            alert(xhr.responseJSON.message);
+            toast.error({
+                message: xhr.responseJSON.message,
+            });
         }
     });
 
@@ -49,25 +56,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {
-            alert('항목을 선택해 주세요.');
+            toast.error({
+                message: '항목을 선택해 주세요.'
+            });
+
             return;
         }
 
-        if (!confirm('정말 삭제하시겠습니까?')) {
-            return;
-        }
+        confirmModal.open({
+            title: '삭제 확인',
+            content: '정말 삭제하시겠습니까?',
+            onConfirm: async () => {
+                try {
+                    const response = await ajax.delete('/bom-items', selectedIds);
 
-        deleteButton.disabled = true;
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-        try {
-            const response = await ajax.delete('/bom-items', selectedIds);
+                    location.reload();
 
-            alert(response.message);
-
-            location.reload();
-
-        } catch (xhr) {
-            alert(xhr.responseJSON.message);
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON.message,
+                    });
+                }
+            }
+        });
     });
 });

@@ -1,0 +1,45 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 알림 메시지 (서버 처리용) */-->
+<div th:fragment="toast"
+     th:if="${message}"
+     class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+     style="z-index: 1080;">
+
+    <div id="server-toast"
+         class="toast bg-light"
+         role="alert"
+         aria-live="assertive"
+         aria-atomic="true">
+
+        <div class="toast-header">
+            <i class="bi bi-square-fill text-success"></i> &nbsp;
+            <strong class="me-auto">알림</strong>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="toast"
+                    aria-label="닫기"></button>
+        </div>
+
+        <div class="toast-body"
+             th:text="${message}">
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const toastElement = document.getElementById('server-toast');
+
+            if (toastElement) {
+                const toast = new bootstrap.Toast(toastElement, {
+                    autohide: true,
+                    delay: 3000
+                });
+
+                toast.show();
+            }
+        });
+    </script>
+</div>
+</html>

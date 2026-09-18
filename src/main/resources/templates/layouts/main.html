@@ -17,7 +17,13 @@
     <div class="app-container" th:insert="${content}"></div>
 </div>
 
-<!--/* 알림 메시지 */-->
-<th:block th:replace="~{fragments/alert :: alert}"/>
+<!--/* 알림 메시지 (서버 처리용) */-->
+<th:block th:replace="~{fragments/toast/server-toast :: toast}"/>
+
+<!--/* 알림 메시지 (화면 처리용) */-->
+<th:block th:replace="~{fragments/toast/client-toast :: toast}"/>
+
+<!--/* 컨펌 모달 */-->
+<div th:replace="~{fragments/modal/confirm :: modal}"></div>
 </body>
 </html>

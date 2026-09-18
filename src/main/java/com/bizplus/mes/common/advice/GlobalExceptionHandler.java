@@ -17,9 +17,7 @@ public class GlobalExceptionHandler {
     // todo validation 예외처리
 
     @ExceptionHandler(BusinessException.class)
-    public Object handleBusinessException(BusinessException e,
-                                          HttpServletRequest request,
-                                          Model model) {
+    public Object handleBusinessException(BusinessException e, HttpServletRequest request, Model model) {
         log.error("{} {}", e.getMessage(), e.getDetail());
 
         if (isAjax(request)) {
@@ -28,21 +26,31 @@ public class GlobalExceptionHandler {
                     .body(ApiResponse.fail("오류가 발생했습니다."));
         }
 
-        model.addAttribute("message", e.getMessage());
+        model.addAttribute("status", e.getErrorCode().getStatus().value());
 
         return "error/error";
     }
 
     /*
-    * DevTools 관련 오류가 콘솔에 계속 출력되서 추가한 핸들러
-    * */
+     * DevTools 관련 오류가 콘솔에 계속 출력되서 추가한 핸들러
+     * */
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<Void> handleNoResourceFound(NoResourceFoundException e) {
-        return ResponseEntity.notFound().build();
+    public Object handleNoResourceFound(NoResourceFoundException e, HttpServletRequest request, Model model) {
+        log.error("404 error", e);
+
+        if (isAjax(request)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.fail("페이지를 찾을 수 없습니다."));
+        }
+
+        model.addAttribute("status", "404");
+
+        return "error/error";
     }
 
     @ExceptionHandler(Exception.class)
-    public Object handleException(Exception e, HttpServletRequest request) {
+    public Object handleException(Exception e, HttpServletRequest request, Model model) {
         log.error("System error", e);
 
         if (isAjax(request)) {
@@ -51,7 +59,9 @@ public class GlobalExceptionHandler {
                     .body(ApiResponse.fail("오류가 발생하였습니다. 관리자에게 문의해주세요."));
         }
 
-        return "error/500";
+        model.addAttribute("status", "500");
+
+        return "error/error";
     }
 
     private boolean isAjax(HttpServletRequest request) {

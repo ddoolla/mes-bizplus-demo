@@ -1,0 +1,31 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 컨펌 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'confirm-modal',
+        '',
+         ~{::content},
+         null
+    )}">
+        <div th:fragment="content" class="p-2">
+            <div class="modal-body">
+                <p class="fs-6"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        data-bs-dismiss="modal">
+                    취소
+                </button>
+                <button type="button"
+                        class="confirm-button
+                               btn btn-primary btn-sm">
+                    확인
+                </button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

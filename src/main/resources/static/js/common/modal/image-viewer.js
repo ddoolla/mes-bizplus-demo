@@ -1,7 +1,7 @@
 import modal from "./modal.js";
 
-const createImageModal = () => {
-    const modalId = 'image-modal';
+const createImageViewerModal = () => {
+    const modalId = 'image-viewer-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
     const modalImageEl = modalEl.querySelector('.modal-image');
@@ -19,4 +19,4 @@ const createImageModal = () => {
     };
 };
 
-export default createImageModal;
+export default createImageViewerModal;

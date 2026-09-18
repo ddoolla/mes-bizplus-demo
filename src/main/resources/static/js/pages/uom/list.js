@@ -2,6 +2,8 @@ import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
 import createUomNewFormModal from "../../domain/uom/modal/form/new.js";
 import createUomEditFormModal from "../../domain/uom/modal/form/edit.js";
+import toast from "../../common/toast.js";
+import createConfirmModal from "../../common/modal/confirm.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -11,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const editLinks = document.querySelectorAll('.uom-edit-link');
 
     checkbox.init(checkboxGroup);
+
+    const confirmModal = createConfirmModal();
     const uomNewFormModal = createUomNewFormModal();
     const uomEditModal = createUomEditFormModal();
 
@@ -35,26 +39,33 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {
-            alert('항목을 선택해 주세요.');
+            toast.error({
+                message: '항목을 선택해 주세요.'
+            });
+
             return;
         }
 
-        if (!confirm('정말 삭제하시겠습니까?')) {
-            return;
-        }
+        confirmModal.open({
+            title: '삭제 확인',
+            content: '정말 삭제하시겠습니까?',
+            onConfirm: async () => {
+                try {
+                    const response = await ajax.delete('/uoms', selectedIds);
 
-        deleteButton.disabled = true;
+                    await toast.success({
+                        message: response.message,
+                    });
 
-        try {
-            const response = await ajax.delete('/uoms', selectedIds);
+                    location.reload();
 
-            alert(response.message);
-
-            location.reload();
-
-        } catch (xhr) {
-            alert(xhr.responseJSON.message);
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON.message,
+                    });
+                }
+            }
+        });
     };
 
     deleteButton.addEventListener('click', deleteContacts);

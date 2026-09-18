@@ -2,6 +2,7 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import checkbox from "../../../../common/checkbox.js";
 import pagination from "../../../../common/pagination.js";
+import toast from "../../../../common/toast.js";
 
 const createItemMultipleListModal = () => {
 
@@ -80,11 +81,10 @@ const createItemMultipleListModal = () => {
             const selectedIds = checkbox.getCheckedValues(itemList);
 
             if (!selectedIds.length) {
-                alert('등록할 품목을 선택해 주세요.')
-                return;
-            }
+                toast.error({
+                    message: '항목을 선택해 주세요.'
+                });
 
-            if (!confirm('선택한 품목을 등록하시겠습니까?')) {
                 return;
             }
 

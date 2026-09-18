@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout/head :: head ('페이지를 불러올 수 없습니다.', ~{}, ~{})}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-에러 페이지
+<div class="vh-100 vw-100 bg-body-secondary
+            d-flex justify-content-center align-items-center">
+    <div class="d-flex flex-column justify-content-center align-items-center gap-4
+                position-relative" style="top: -5%">
+        <div>
+            <h1 style="font-size: 8rem; font-weight: bold"
+                th:text="${status}"></h1>
+        </div>
+        <div>
+            <h1 class="fw-bold">
+                <i class="bi bi-exclamation-octagon"></i>
+                요청을 처리할 수 없습니다.
+            </h1>
+        </div>
+        <div>
+            <h5 class="text-center">
+                요청을 처리하는 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.
+                <br/>
+                문제가 계속되는 경우 관리자에게 문의해 주세요.
+            </h5>
+        </div>
+        <div>
+            <button type="button"
+                    class="btn btn-secondary btn-sm"
+                    onclick="history.back()">
+                <i class="bi bi-arrow-left"></i> 이전 페이지
+            </button>
+            <button type="button"
+                    class="btn btn-secondary btn-sm"
+                    th:onclick="|location.href='@{/}'|">
+                <i class="bi bi-house"></i> 홈으로 이동
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

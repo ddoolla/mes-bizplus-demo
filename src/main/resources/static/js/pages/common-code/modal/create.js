@@ -1,5 +1,6 @@
 import ajax from "../../../common/ajax.js";
 import modal from "../../../common/modal/modal.js";
+import toast from "../../../common/toast.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -7,14 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await ajax.post(form.action, data);
 
-            alert(response.message);
+            await toast.success({
+                message: response.message,
+            });
 
             modal.close('code-create-modal');
 
             location.reload();
 
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+            toast.error({
+                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+            });
         }
     };
 

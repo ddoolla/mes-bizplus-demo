@@ -56,11 +56,9 @@ public class RoutingProcessServiceImpl implements RoutingProcessService {
         });
     }
 
-    /*
-    * 물리 삭제 데이터
-    * */
+    @Transactional
     @Override
     public void deleteRoutingProcesses(List<Long> ids) {
-        ids.forEach(routingProcessRepository::deleteById);
+        ids.forEach(id -> routingProcessReader.getById(id).delete());
     }
 }

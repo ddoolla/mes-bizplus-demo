@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.routing.process;
 
-import com.bizplus.mes.common.entity.AuditableEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.process.Process;
 import com.bizplus.mes.domain.routing.Routing;
 import jakarta.persistence.*;
@@ -9,13 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /*
- * 물리삭제 데이터
- * */
+* 동일 공정 여러 번 등록 가능
+* */
 @Entity
 @Table(name = "routing_processes")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RoutingProcess extends AuditableEntity {
+public class RoutingProcess extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

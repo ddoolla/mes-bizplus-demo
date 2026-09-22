@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await ajax.post(
                 `/routing-processes/${routingProcessId}/materials/from-boms`,
-                {bomIds: selectedIds},
+                {bomItemIds: selectedIds},
             );
 
             bomItemMultipleListModal.close();

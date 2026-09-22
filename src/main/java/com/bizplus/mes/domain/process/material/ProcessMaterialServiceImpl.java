@@ -61,7 +61,12 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
     public void createProcessMaterialsByItem(Long routingProcessId, ProcessMaterialItemCreateDto dto) {
         RoutingProcess routingProcess = routingProcessReader.getById(routingProcessId);
 
-        dto.getItemIds().forEach(itemId -> {
+        for (Long itemId : dto.getItemIds()) {
+            // 이미 등록된 소모 자재는 패스
+            if (processMaterialRepository.existsByRoutingProcessIdAndItemId(routingProcessId, itemId)) {
+                continue;
+            }
+
             Item item = itemReader.getById(itemId);
 
             processMaterialRepository.save(new ProcessMaterial(
@@ -71,7 +76,7 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
                     BigDecimal.ZERO,
                     ConsumptionMethod.BACKFLUSH
             ));
-        });
+        }
     }
 
     @Transactional
@@ -79,17 +84,23 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
     public void createProcessMaterialsByBom(Long routingProcessId, ProcessMaterialBomCreateDto dto) {
         RoutingProcess routingProcess = routingProcessReader.getById(routingProcessId);
 
-        dto.getBomIds().forEach(bomId -> {
-            BomItem bomItem = bomItemReader.getById(bomId);
+        for (Long bomItemId : dto.getBomItemIds()) {
+            BomItem bomItem = bomItemReader.getById(bomItemId);
+            Item item = bomItem.getItem();
+
+            // 이미 등록된 소모 자재는 패스
+            if (processMaterialRepository.existsByRoutingProcessIdAndItemId(routingProcessId, item.getId())) {
+                continue;
+            }
 
             processMaterialRepository.save(new ProcessMaterial(
                     routingProcess,
-                    bomItem.getItem(),
+                    item,
                     bomItem.getUom(),
                     bomItem.getQuantity(),
                     ConsumptionMethod.BACKFLUSH
             ));
-        });
+        }
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
+import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
 import static com.bizplus.mes.domain.process.QProcess.process;
 import static com.bizplus.mes.domain.routing.process.QRoutingProcess.routingProcess;
 
@@ -32,6 +33,7 @@ public class RoutingProcessQueryRepositoryImpl implements RoutingProcessQueryRep
                 .from(routingProcess)
                 .innerJoin(process).on(routingProcess.process.id.eq(process.id))
                 .where(
+                        notDeleted(routingProcess.deletedAt),
                         eq(routingProcess.routing.id, routingId)
                 )
                 .orderBy(routingProcess.stepNo.asc())
@@ -52,6 +54,7 @@ public class RoutingProcessQueryRepositoryImpl implements RoutingProcessQueryRep
                 .from(routingProcess)
                 .innerJoin(process).on(routingProcess.process.id.eq(process.id))
                 .where(
+                        notDeleted(routingProcess.deletedAt),
                         eq(routingProcess.id, id)
                 )
                 .fetchOne();

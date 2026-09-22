@@ -9,9 +9,9 @@ import java.util.List;
 public class ProcessMaterialBomCreateDto {
 
     @NotEmpty
-    private final List<Long> bomIds;
+    private final List<Long> bomItemIds;
 
-    public ProcessMaterialBomCreateDto(List<Long> bomIds) {
-        this.bomIds = bomIds == null ? List.of() : bomIds;
+    public ProcessMaterialBomCreateDto(List<Long> bomItemIds) {
+        this.bomItemIds = bomItemIds == null ? List.of() : bomItemIds;
     }
 }

@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "items")
 @Getter
@@ -38,6 +40,8 @@ public class Item extends SoftDeletableEntity {
 
     private String specification;
 
+    private BigDecimal unitPrice;
+
     private String remark;
 
     private boolean lotManaged;
@@ -48,6 +52,7 @@ public class Item extends SoftDeletableEntity {
                 String name,
                 ItemType type,
                 String specification,
+                BigDecimal unitPrice,
                 String remark,
                 boolean lotManaged) {
         this.category = category;
@@ -56,6 +61,7 @@ public class Item extends SoftDeletableEntity {
         this.name = name;
         this.type = type;
         this.specification = specification;
+        this.unitPrice = unitPrice;
         this.remark = remark;
         this.lotManaged = lotManaged;
     }
@@ -66,6 +72,7 @@ public class Item extends SoftDeletableEntity {
                        String name,
                        ItemType type,
                        String specification,
+                       BigDecimal unitPrice,
                        String remark) {
         this.category = category;
         this.uom = uom;
@@ -73,6 +80,7 @@ public class Item extends SoftDeletableEntity {
         this.name = name;
         this.type = type;
         this.specification = specification;
+        this.unitPrice = unitPrice;
         this.remark = remark;
     }
 

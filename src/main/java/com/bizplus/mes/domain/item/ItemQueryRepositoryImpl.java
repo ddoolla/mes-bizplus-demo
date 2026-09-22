@@ -51,6 +51,7 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                         item.name,
                         item.type,
                         item.specification,
+                        item.unitPrice,
                         item.remark,
                         item.lotManaged
                 ))
@@ -106,6 +107,7 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 item.name,
                                 item.type,
                                 item.specification,
+                                item.unitPrice,
                                 item.remark,
                                 item.lotManaged
                         ))

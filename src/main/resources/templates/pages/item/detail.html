@@ -60,6 +60,10 @@
                 <td th:text="*{uom.name}"></td>
             </tr>
             <tr>
+                <th>단가</th>
+                <td colspan="3" th:text="${#numbers.formatDecimal(item.unitPrice, 1, 2)} ?: '-'"></td>
+            </tr>
+            <tr>
                 <th>로트 관리 여부</th>
                 <td colspan="3" th:text="${item.lotManaged == true ? '관리' : '미관리'}"></td>
             </tr>

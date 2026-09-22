@@ -5,6 +5,8 @@ import com.bizplus.mes.domain.item.ItemType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 @Getter
 public class ItemDto {
 
@@ -15,6 +17,7 @@ public class ItemDto {
     private final String name;
     private final ItemType type;
     private final String specification;
+    private final BigDecimal unitPrice;
     private final String remark;
     private final boolean lotManaged;
 
@@ -28,6 +31,7 @@ public class ItemDto {
                    String name,
                    ItemType type,
                    String specification,
+                   BigDecimal unitPrice,
                    String remark,
                    boolean lotManaged) {
         this.id = id;
@@ -37,6 +41,7 @@ public class ItemDto {
         this.name = name;
         this.type = type;
         this.specification = specification;
+        this.unitPrice = unitPrice;
         this.remark = remark;
         this.lotManaged = lotManaged;
     }

@@ -17,6 +17,7 @@ public class ItemMapper {
                 dto.getName(),
                 dto.getType(),
                 dto.getSpecification(),
+                dto.getUnitPrice(),
                 dto.getRemark(),
                 dto.isLotManaged()
         );
@@ -33,6 +34,7 @@ public class ItemMapper {
                 dto.getName(),
                 dto.getType(),
                 dto.getSpecification(),
+                dto.getUnitPrice(),
                 dto.getRemark()
         );
     }

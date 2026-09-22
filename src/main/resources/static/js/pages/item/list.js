@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 try {
                     const response = await ajax.delete('/items', selectedIds);
 
-                    await toast.success({
+                    toast.afterReload({
                         message: response.message,
                     });
 

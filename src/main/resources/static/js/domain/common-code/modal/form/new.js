@@ -2,18 +2,18 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
-const createInspectionItemEditFormModal = () => {
+const createCodeNewFormModal = () => {
 
-    const modalId = 'inspection-item-form-modal';
+    const modalId = 'code-form-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const contentEl = modalEl.querySelector('.inspection-item-form-content');
+    const contentEl = modalEl.querySelector('.code-form-content');
 
     const onSubmit = async (form) => {
         const formData = new FormData(form);
 
         try {
-            const response = await ajax.put(form.action, formData);
+            const response = await ajax.post(form.action, formData);
 
             modal.close(modalId);
 
@@ -31,18 +31,18 @@ const createInspectionItemEditFormModal = () => {
     };
 
     const initFormValidate = () => {
-        const formEl = contentEl.querySelector('#inspection-item-edit-form')
+        const formEl = contentEl.querySelector('#code-new-form')
 
         $(formEl).validate({
             rules: {
                 code: {
                     required: true,
                     remote: {
-                        url: '/inspection-items/check-code',
+                        url: '/common-codes/check-code',
                         type: 'get',
                         data: {
-                            id: function () {
-                                return $('[name="id"]').val();
+                            groupId: function () {
+                                return $('[name="groupId"]').val();
                             }
                         }
                     },
@@ -51,10 +51,10 @@ const createInspectionItemEditFormModal = () => {
             },
             messages: {
                 code: {
-                    required: '검사항목 코드를 입력해 주세요.',
-                    remote: '이미 존재하는 검사항목 코드입니다.'
+                    required: '코드를 입력해 주세요.',
+                    remote: '이미 존재하는 코드 입니다.',
                 },
-                name: '검사항목명을 입력해 주세요.',
+                name: '코드명을 입력해 주세요.',
             },
             submitHandler: function (form) {
                 onSubmit(form);
@@ -69,19 +69,17 @@ const createInspectionItemEditFormModal = () => {
         initFormValidate();
     };
 
-    const load = async (contentUrl) => {
-        const response = await ajax.get(contentUrl);
+    const load = async (url, params) => {
+        const response = await ajax.get(url, params);
 
         render(response);
     };
 
-    const open = async (id) => {
-        modal.setTitle(modalId, '검사항목 수정');
-
-        const contentUrl = `/inspection-items/${id}/modal/form/edit`;
+    const open = async ({title = '코드 등록', url, params}) => {
+        modal.setTitle(modalId, title);
 
         try {
-            await load(contentUrl);
+            await load(url, params);
 
             modal.open(modalId);
 
@@ -97,4 +95,4 @@ const createInspectionItemEditFormModal = () => {
     };
 }
 
-export default createInspectionItemEditFormModal;
+export default createCodeNewFormModal;

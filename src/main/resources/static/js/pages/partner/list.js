@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
             toast.error({
                 message: '항목을 선택해 주세요.'
             });
+
             return;
         }
 
@@ -30,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 try {
                     const response = await ajax.delete('/partners', selectedIds);
 
-                    await toast.success({
-                        message: response.message,
+                    toast.afterReload({
+                       message: response.message,
                     });
 
                     location.reload();

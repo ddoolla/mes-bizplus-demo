@@ -18,7 +18,7 @@ const createUomNewFormModal = () => {
 
             modal.close(modalId);
 
-            await toast.success({
+            toast.afterReload({
                 message: response.message,
             });
 

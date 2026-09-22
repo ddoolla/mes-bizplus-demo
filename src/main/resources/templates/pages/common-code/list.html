@@ -6,8 +6,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/common-code/list.js}"></script>
-    <script type="module" th:src="@{/js/pages/common-code/modal/create.js}"></script>
-    <script type="module" th:src="@{/js/pages/common-code/modal/edit.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -22,6 +20,7 @@
         <!--/* 필터 */-->
         <div th:replace="~{pages/common-code/fragments/filter :: filter (
             @{/code-groups/{id}/codes(id=${codeGroup.id})},
+            ${codeGroup},
             ${commonCodes.size()},
             true)}">
         </div>
@@ -54,7 +53,8 @@
                         <a href="#"
                            class="code-edit-link"
                            th:text="${commonCode.code}"
-                           th:data-id="${commonCode.id}">></a>
+                           th:data-group-id="${codeGroup.id}"
+                           th:data-id="${commonCode.id}"></a>
                     </td>
                     <td th:text="${commonCode.name}"></td>
                     <td th:text="${@format.value(commonCode.description)}"></td>
@@ -64,11 +64,8 @@
         </div>
     </div>
 
-    <!--/* 등록 모달 */-->
-    <div th:replace="~{pages/common-code/fragments/modal/create :: create (${codeGroup})}"></div>
-
-    <!--/* 수정 모달 */-->
-    <div th:replace="~{pages/common-code/fragments/modal/edit :: edit (${codeGroup})}"></div>
+    <!--/* 코드 등록/수정 모달 */-->
+    <div th:replace="~{pages/common-code/modal/form/container :: container}"></div>
 </div>
 </body>
 </html>

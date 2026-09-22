@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     itemImages.forEach(itemImage => {
         itemImage.addEventListener('click', function (e) {
             const {fileId, fileName} = e.currentTarget.dataset;
-            console.log(fileId, fileName);
 
             imageViewerModal.open({title: fileName, url: `/files/${fileId}`});
         });

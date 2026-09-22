@@ -3,6 +3,8 @@ import ajax from "../../common/ajax.js";
 import createBomItemMultipleListModal from "../../domain/bom-item/modal/list/multiple.js";
 import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
 import tooltip from "../../common/tooltip.js";
+import toast from "../../common/toast.js";
+import createConfirmModal from "../../common/modal/confirm.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -12,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const materialListButton = document.querySelector('#btn-add-from-item');
     const bomItemListButton = document.querySelector('#btn-add-from-bom');
 
+    const confirmModal = createConfirmModal();
     const itemMultipleListModal = createItemMultipleListModal();
     const bomItemMultipleListModal = createBomItemMultipleListModal();
 
@@ -36,14 +39,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 {itemIds: selectedIds},
             );
 
-            alert(response.message);
+            itemMultipleListModal.close();
+
+            toast.afterReload({
+                message: response.message,
+            });
 
             location.reload();
 
-            itemMultipleListModal.close();
-
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+            toast.error({
+                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+            });
         }
     });
 
@@ -71,14 +78,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 {bomIds: selectedIds},
             );
 
-            alert(response.message);
+            bomItemMultipleListModal.close();
+
+            toast.afterReload({
+                message: response.message,
+            });
 
             location.reload();
 
-            bomItemMultipleListModal.close();
-
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+            toast.error({
+                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+            });
         }
     });
 
@@ -89,25 +100,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {
-            alert('항목을 선택해 주세요.');
+            toast.error({
+                message: '항목을 선택해 주세요.',
+            });
+
             return;
         }
 
-        if (!confirm('정말 삭제하시겠습니까?')) {
-            return;
-        }
+        confirmModal.open({
+            title: '삭제 확인',
+            content: '정말 삭제하시겠습니까?',
+            onConfirm: async () => {
+                try {
+                    const response = await ajax.delete('/process-materials', selectedIds);
 
-        deleteButton.disabled = true;
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-        try {
-            const response = await ajax.delete('/process-materials', selectedIds);
+                    location.reload();
 
-            alert(response.message);
-
-            location.reload();
-
-        } catch (xhr) {
-            alert(xhr.responseJSON.message || '처리중 오류가 발생했습니다.');
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
+        });
     });
 });

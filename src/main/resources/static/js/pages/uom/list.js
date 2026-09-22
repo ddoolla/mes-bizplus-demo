@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!selectedIds.length) {
             toast.error({
-                message: '항목을 선택해 주세요.'
+                message: '항목을 선택해 주세요.',
             });
 
             return;
@@ -50,10 +50,10 @@ document.addEventListener('DOMContentLoaded', function () {
             title: '삭제 확인',
             content: '정말 삭제하시겠습니까?',
             onConfirm: async () => {
-                try {
+                try {6
                     const response = await ajax.delete('/uoms', selectedIds);
 
-                    await toast.success({
+                    toast.afterReload({
                         message: response.message,
                     });
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 } catch (xhr) {
                     toast.error({
-                        message: xhr.responseJSON.message,
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
                     });
                 }
             }

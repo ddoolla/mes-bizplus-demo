@@ -4,7 +4,6 @@ import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeCreateDto;
-import com.bizplus.mes.domain.code.common.dto.CommonCodeDto;
 import com.bizplus.mes.domain.code.common.dto.CommonCodeUpdateDto;
 import com.bizplus.mes.domain.code.group.CodeGroupService;
 import com.bizplus.mes.domain.log.action.ActionType;
@@ -40,15 +39,26 @@ public class CommonCodeController {
         return "pages/common-code/list";
     }
 
-    @GetMapping("/common-codes/{id}")
-    @ResponseBody
-    public CommonCodeDto readCommonCode(@PathVariable Long id) {
-        return commonCodeService.getCommonCode(id);
+    @GetMapping("/code-groups/{groupId}/codes/modal/form/new")
+    @PreAuthorize("hasAuthority('COMMON_CODE_READ')")
+    public String viewNewFormModal(Model model,
+                                   @PathVariable Long groupId) {
+        model.addAttribute("codeGroup", codeGroupService.getCodeGroup(groupId));
+
+        return "pages/common-code/modal/form/new :: form";
     }
 
-    /*
-    * 논리 삭제된 코드도 중복으로 간주
-    * */
+    @GetMapping("/code-groups/{groupId}/codes/{id}/modal/form/edit")
+    @PreAuthorize("hasAuthority('COMMON_CODE_READ')")
+    public String viewEditFormModal(Model model,
+                                    @PathVariable Long groupId,
+                                    @PathVariable Long id) {
+        model.addAttribute("codeGroup", codeGroupService.getCodeGroup(groupId));
+        model.addAttribute("commonCode", commonCodeService.getCommonCode(id));
+
+        return "pages/common-code/modal/form/edit :: form";
+    }
+
     @GetMapping("/common-codes/check-code")
     @ResponseBody
     public boolean checkCode(@RequestParam Long groupId,

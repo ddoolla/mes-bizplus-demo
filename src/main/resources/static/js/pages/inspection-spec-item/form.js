@@ -1,6 +1,8 @@
 import ajax from "../../common/ajax.js";
 import checkbox from "../../common/checkbox.js";
 import createInspectionItemMultipleListModal from "../../domain/inspection-item/modal/list/multiple.js";
+import toast from "../../common/toast.js";
+import createConfirmModal from "../../common/modal/confirm.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -8,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteButton = document.querySelector('#inspection-spec-item-delete-button');
     const createButton = document.querySelector('#inspection-spec-item-create-button');
 
+    const confirmModal = createConfirmModal();
     const inspectionItemMultipleListModal = createInspectionItemMultipleListModal();
 
     /* 검사항목 목록 모달 */
@@ -27,14 +30,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 {inspectionItemIds: selectedIds}
             );
 
-            alert(response.message);
+            inspectionItemMultipleListModal.close();
+
+            toast.afterReload({
+                message: response.message,
+            });
 
             location.reload();
 
-            inspectionItemMultipleListModal.close();
-
         } catch (xhr) {
-            alert(xhr.responseJSON.message);
+            toast.error({
+                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+            });
         }
     });
 
@@ -45,25 +52,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
         if (!selectedIds.length) {
-            alert('항목을 선택해 주세요.');
+            toast.error({
+                message: '항목을 선택해 주세요.',
+            });
+
             return;
         }
 
-        if (!confirm('정말 삭제하시겠습니까?')) {
-            return;
-        }
+        confirmModal.open({
+            title: '삭제 확인',
+            content: '정말 삭제하시겠습니까?',
+            onConfirm: async () => {
+                try {
+                    const response = await ajax.delete('/inspection-spec-items', selectedIds);
 
-        deleteButton.disabled = true;
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-        try {
-            const response = await ajax.delete('/inspection-spec-items', selectedIds);
+                    location.reload();
 
-            alert(response.message);
-
-            location.reload();
-
-        } catch (xhr) {
-            alert(xhr.responseJSON.message);
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
+        });
     });
 });

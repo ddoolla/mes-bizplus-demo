@@ -2,7 +2,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <script src="../../../../static/js/common/checkbox.js"></script>
-<div th:fragment="filter (url, count, showActions)">
+<div th:fragment="filter (url, codeGroup, count, showActions)">
     <form method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
@@ -56,9 +56,9 @@
                         <i class="bi bi-list"></i> 그룹 목록
                     </button>
                     <button type="button"
+                            id="code-create-button"
                             class="btn btn-primary btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#code-create-modal"
+                            th:data-group-id="${codeGroup.id}"
                             sec:authorize="hasAuthority('COMMON_CODE_CREATE')">
                         <i class="bi bi-plus-circle"></i> 등록
                     </button>

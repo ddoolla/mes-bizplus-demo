@@ -1,6 +1,6 @@
-import ajax from "../../common/ajax.js";
 import toast from "../../common/toast.js";
 import createConfirmModal from "../../common/modal/confirm.js";
+import ajax from "../../common/ajax.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -10,18 +10,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     deleteButtons.forEach(button => {
         button.addEventListener('click', async function (e) {
+            const {id, fileId} = e.currentTarget.dataset;
 
             confirmModal.open({
                 title: '삭제 확인',
                 content: '이미지를 삭제하시겠습니까? 삭제 시 복구할 수 없습니다.',
                 onConfirm: async () => {
-                    const {id, fileId} = e.currentTarget.dataset;
 
                     try {
                         const response = await ajax.delete('/item-files', {id, fileId});
 
-                        await toast.success({
-                            message: response.message,
+                        toast.afterReload({
+                            message: response.message
                         });
 
                         location.reload();

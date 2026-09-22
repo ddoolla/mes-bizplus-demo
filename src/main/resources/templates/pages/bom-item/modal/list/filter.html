@@ -15,11 +15,11 @@
                 <td>
                     <select name="bomId"
                             class="app-form-control app-xs">
-                        <option th:if="${#lists.isEmpty(boms)}" value="" disabled>
-                            등록된 BOM이 없습니다.
-                        </option>
                         <option value="">
                             BOM 선택
+                        </option>
+                        <option th:if="${#lists.isEmpty(boms)}" value="" disabled>
+                            등록된 BOM이 없습니다.
                         </option>
                         <option th:each="bom : ${boms}"
                                 th:with="isPrimary=${bom.id == primaryBom?.id}"

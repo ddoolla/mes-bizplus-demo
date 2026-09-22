@@ -1,6 +1,13 @@
 const TOAST_STORAGE_KEY = 'client-toast';
 
 const toast = {
+    type: {
+        SUCCESS: 'success',
+        ERROR: 'error',
+        WARNING: 'warning',
+        INFO: 'info',
+    },
+
     show(message, type = 'success', delay = 2000) {
         const toastEl = document.querySelector('#client-toast');
 
@@ -44,26 +51,26 @@ const toast = {
         toastInstance.show();
     },
 
-    success({ message, delay }) {
+    success({message, delay}) {
         this.show(message, 'success', delay);
     },
 
-    error({ message, delay }) {
+    error({message, delay}) {
         this.show(message, 'error', delay);
     },
 
-    warning({ message, delay }) {
+    warning({message, delay}) {
         this.show(message, 'warning', delay);
     },
 
-    info({ message, delay }) {
+    info({message, delay}) {
         this.show(message, 'info', delay);
     },
 
     /*
     * 페이지 새로고침 이후 출력할 토스트 세션 저장소 저장
     * */
-    afterReload({ message, type = 'success', delay = 2000 }) {
+    afterReload({message, type = 'success', delay = 2000}) {
         sessionStorage.setItem(
             TOAST_STORAGE_KEY,
             JSON.stringify({

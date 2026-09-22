@@ -1,5 +1,6 @@
 import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
+import toast from "../../../../common/toast.js";
 
 const createPartnerContactNewFormModal = () => {
 
@@ -14,14 +15,18 @@ const createPartnerContactNewFormModal = () => {
         try {
             const response = await ajax.post(form.action, formData);
 
-            alert(response.message);
-
             modal.close(modalId);
+
+            toast.afterReload({
+                message: response.message,
+            });
 
             location.reload();
 
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+            toast.error({
+                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.'
+            });
         }
     };
 
@@ -79,7 +84,9 @@ const createPartnerContactNewFormModal = () => {
             modal.open(modalId);
 
         } catch (xhr) {
-            alert(xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.');
+            toast.error({
+                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.'
+            });
         }
     };
 

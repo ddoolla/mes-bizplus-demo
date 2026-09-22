@@ -45,6 +45,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.inventories)}">
+                    <td colspan="8" class="p-4">등록된 재고 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="inventory : ${data.inventories}">
                     <td th:text="${inventory.item.code}"></td>
                     <td th:text="${inventory.item.name}"></td>

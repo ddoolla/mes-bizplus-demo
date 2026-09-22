@@ -38,6 +38,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.processes)}">
+                    <td colspan="4" class="p-4">등록된 공정 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="process : ${data.processes}">
                     <td>
                         <input type="checkbox"

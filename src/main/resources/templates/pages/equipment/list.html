@@ -52,6 +52,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.equipments)}">
+                    <td colspan="9" class="p-4">등록된 설비 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="equipment : ${data.equipments}">
                     <td>
                         <input type="checkbox"

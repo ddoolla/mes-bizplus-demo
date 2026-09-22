@@ -25,7 +25,7 @@ public class InventoryController {
     private final CommonCodeService commonCodeService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('INVENTORY_READ')")
+    @PreAuthorize("hasAuthority('ITEM_INVENTORY_READ')")
     @UserAction(menu = MenuCode.ITEM_INVENTORY, type = ActionType.READ)
     public String viewList(Model model,
                            InventorySearchDto dto,

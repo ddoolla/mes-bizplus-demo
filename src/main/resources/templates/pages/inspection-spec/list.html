@@ -52,6 +52,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.inspectionSpecs)}">
+                    <td colspan="9" class="p-4">등록된 검사기준 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="inspectionSepc : ${data.inspectionSpecs}">
                     <td>
                         <input type="checkbox"

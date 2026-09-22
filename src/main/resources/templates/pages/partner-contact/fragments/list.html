@@ -32,6 +32,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(partnerContacts)}">
+                    <td colspan="7" class="p-4">등록된 담당자 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="contact : ${partnerContacts}">
                     <td th:text="${contact.name}"></td>
                     <td th:text="${@format.value(contact.department?.name)}"></td>

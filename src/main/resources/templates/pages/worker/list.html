@@ -51,6 +51,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.workers)}">
+                    <td colspan="8" class="p-4">등록된 작업자 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="worker : ${data.workers}">
                     <td>
                         <input type="checkbox"

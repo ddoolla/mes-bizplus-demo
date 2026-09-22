@@ -45,6 +45,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(inspectionSpecItems)}">
+                    <td colspan="7" class="p-4">등록된 검사항목 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="specItem, stat : ${inspectionSpecItems}"
                     th:with="inspectionItem=${specItem.inspectionItem}">
                     <td>

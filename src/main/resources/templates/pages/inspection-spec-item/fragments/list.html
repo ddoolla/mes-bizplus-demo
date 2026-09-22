@@ -30,6 +30,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(inspectionSpecItems)}">
+                    <td colspan="6" class="p-4">등록된 검사항목 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="specItem : ${inspectionSpecItems}"
                     th:with="inspectionItem=${specItem.inspectionItem}">
                     <td th:text="${@format.value(inspectionItem.group)}"></td>

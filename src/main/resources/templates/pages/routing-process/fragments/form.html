@@ -43,6 +43,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(routingProcesses)}">
+                    <td colspan="6" class="p-4">등록된 제품 공정 단계 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="routingProcess, stat : ${routingProcesses}">
                     <td>
                         <input type="checkbox"

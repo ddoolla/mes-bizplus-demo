@@ -28,6 +28,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(routingProcesses)}">
+                    <td colspan="5" class="p-4">등록된 제품 공정 단계 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="routingProcess : ${routingProcesses}">
                     <td th:text="${routingProcess.process.code}"></td>
                     <td th:text="${routingProcess.process.name}"></td>

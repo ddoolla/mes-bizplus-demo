@@ -41,6 +41,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${#lists.isEmpty(bomItems)}">
+                <td colspan="9" class="p-4">선택한 BOM에 등록된 품목이 없습니다.</td>
+            </tr>
             <tr th:each="bomItem : ${bomItems}">
                 <td>
                     <input type="checkbox"
@@ -55,11 +58,6 @@
                 <td th:text="${#numbers.formatDecimal(bomItem.quantity, 1, bomItem.uom.scale)}"></td>
                 <td th:text="${bomItem.uom.code}"></td>
                 <td></td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(bomItems)}">
-                <td colspan="9">
-                    선택한 BOM에 등록된 품목이 없습니다.
-                </td>
             </tr>
             </tbody>
         </table>

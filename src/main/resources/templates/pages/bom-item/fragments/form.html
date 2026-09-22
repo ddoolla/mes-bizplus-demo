@@ -47,6 +47,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(bomItems)}">
+                    <td colspan="8" class="p-4">등록된 구성품 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="bomItem, stat : ${bomItems}">
                     <td>
                         <input type="checkbox"

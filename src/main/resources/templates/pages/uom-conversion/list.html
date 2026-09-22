@@ -44,6 +44,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.uomConversions)}">
+                    <td colspan="5" class="p-4">등록된 단위 환산 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="uomConversion : ${data.uomConversions}">
                     <td>
                         <input type="checkbox"

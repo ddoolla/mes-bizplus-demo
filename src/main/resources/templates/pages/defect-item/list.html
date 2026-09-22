@@ -46,6 +46,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.defectItems)}">
+                    <td colspan="6" class="p-4">등록된 불량항목 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="defectItem : ${data.defectItems}"
                     th:with="type=${defectItem.type}">
                     <td>

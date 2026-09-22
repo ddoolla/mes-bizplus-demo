@@ -42,6 +42,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(uoms)}">
+                    <td colspan="6" class="p-4">등록된 단위 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="uom : ${uoms}">
                     <td>
                         <input type="checkbox"

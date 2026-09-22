@@ -44,6 +44,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.routings)}">
+                    <td colspan="7" class="p-4">등록된 제품 공정 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="routing : ${data.routings}">
                     <td>
                         <input type="checkbox"

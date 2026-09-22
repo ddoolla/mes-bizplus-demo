@@ -44,6 +44,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.boms)}">
+                    <td colspan="7" class="p-4">등록된 BOM 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="bom : ${data.boms}">
                     <td>
                         <input type="checkbox"

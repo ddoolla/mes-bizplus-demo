@@ -43,6 +43,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(commonCodes)}">
+                    <td colspan="4" class="p-4">등록된 코드 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="commonCode : ${commonCodes}">
                     <td>
                         <input type="checkbox"

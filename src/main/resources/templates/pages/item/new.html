@@ -103,9 +103,15 @@
                     <th>단위 (재고) <span class="app-required">*</span></th>
                     <td>
                         <select name="uomId" class="app-form-control app-xs">
+                            <option value="">
+                                단위 선택
+                            </option>
+                            <option th:if="${#lists.isEmpty(uoms)}" value="" disabled>
+                                등록된 단위가 없습니다.
+                            </option>
                             <option th:each="uom : ${uoms}"
                                     th:value="${uom.id}"
-                                    th:text="${uom.name}">
+                                    th:text="${uom.code}">
                             </option>
                         </select>
                     </td>

@@ -3,17 +3,16 @@ import ajax from "../../../../common/ajax.js";
 import pagination from "../../../../common/pagination.js";
 import toast from "../../../../common/toast.js";
 
-const createProcessSingleListModal = () => {
+const createPartnerSingleListModal = () => {
 
-    const modalId = 'process-list-modal';
-    const url = '/processes/modal/list/single';
+    const modalId = 'partner-list-modal';
 
     const modalEl = document.querySelector(`#${modalId}`);
-    const searchForm = modalEl.querySelector('.process-search-form');
-    const itemList = modalEl.querySelector('.process-list');
+    const searchForm = modalEl.querySelector('.partner-search-form');
+    const partnerList = modalEl.querySelector('.partner-list');
 
     const render = (response) => {
-        itemList.innerHTML = response;
+        partnerList.innerHTML = response;
     };
 
     const load = async (url, params = '') => {
@@ -24,16 +23,16 @@ const createProcessSingleListModal = () => {
 
         } catch (xhr) {
             toast.error({
-                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                message: xhr.responseJSON.message,
             });
         }
     };
 
     // 모달 열기
-    const open = () => {
-        modal.setTitle(modalId, '공정 목록');
+    const open = ({title = '거래처 목록', url, params}) => {
+        modal.setTitle(modalId, title);
 
-        load(url);
+        load(url, params);
 
         modal.open(modalId);
     };
@@ -55,26 +54,26 @@ const createProcessSingleListModal = () => {
     });
 
     // 페이지네이션 리렌더링 후 이벤트 연결
-    pagination.bindEvents(itemList, render);
+    pagination.bindEvents(partnerList, render);
 
     // 모달 닫기 시 폼 초기화
     modal.resetFormOnHidden(modalId);
 
     // 품목 선택 처리
     const onSelect = (callback) => {
-        itemList.addEventListener('click', function (e) {
-            const button = e.target.closest('.process-select-button');
+        partnerList.addEventListener('click', function (e) {
+            const button = e.target.closest('.partner-select-button');
 
             if (!button) {
                 return;
             }
 
-            const process = {
+            const partner = {
                 id: button.dataset.id,
                 name: button.dataset.name,
             };
 
-            callback(process);
+            callback(partner);
         });
     };
 
@@ -85,4 +84,4 @@ const createProcessSingleListModal = () => {
     };
 };
 
-export default createProcessSingleListModal;
+export default createPartnerSingleListModal;

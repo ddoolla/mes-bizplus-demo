@@ -1,0 +1,58 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div id="partner-table">
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 100px">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>코드</th>
+                <th>거래처명</th>
+                <th>유형</th>
+                <th>대표자명</th>
+                <th>주소</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(data.partners)}">
+                <td colspan="8" class="p-4">등록된 거래처 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="partner : ${data.partners}">
+                <td th:text="${partner.code}"></td>
+                <td th:text="${partner.name}"></td>
+                <td th:text="${@format.value(partner.type?.description)}"></td>
+                <td th:text="${@format.value(partner.ceoName)}"></td>
+                <td th:with="address=${partner.address + ' ' + partner.addressDetail}"
+                    th:text="${@format.value(address)}"></td>
+                <td>
+                    <button type="button"
+                            class="partner-select-button
+                                   btn btn-primary btn-sm"
+                            th:data-id="${partner.id}"
+                            th:data-name="${partner.name}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+
+</html>

@@ -24,7 +24,9 @@ const createInspectionItemMultipleListModal = () => {
             render(response);
 
         } catch (xhr) {
-            alert(xhr.responseJSON.message);
+            toast.error({
+                message: xhr.responseJSON.message,
+            });
         }
     };
 

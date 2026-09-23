@@ -1,0 +1,24 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 업체 목록 모달 */-->
+<th:block th:fragment="container (url, partnerType)">
+  <div th:replace="~{fragments/modal/default :: default (
+        'partner-list-modal',
+        '업체 목록',
+         ~{::content},
+         1200
+    )}">
+    <div th:fragment="content" class="p-2">
+      <div class="modal-body pt-0 app-modal-body">
+        <!--/* 검색 필터 */-->
+        <div th:replace="~{pages/partner/modal/list/filter :: filter (${url}, ${partnerType})}">
+        </div>
+
+        <!--/* 업체 목록 */-->
+        <div class="partner-list"></div>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</html>

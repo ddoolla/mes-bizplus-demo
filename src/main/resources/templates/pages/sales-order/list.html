@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('수주 목록', ~{}, ~{::script}, 'SALES_ORDER', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/sales-order/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('수주 목록', '수주관리, 수주현황')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/sales-order/fragments/filter :: filter (
+            '/sales-orders',
+            ${salesOrderStatus},
+            ${data.pagination.totalElements},
+            true)}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="sales-order-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>수주 번호</th>
+                    <th>거래처</th>
+                    <th>등록일</th>
+                    <th>납기일</th>
+                    <th>비고</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="salesOrder : ${data.salesOrders}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${salesOrder.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/sales-orders/{id}(id=${salesOrder.id})}"
+                           th:text="${salesOrder.orderNo}"></a>
+                    </td>
+                    <td th:text="${salesOrder.partner.name}"></td>
+                    <td th:text="${#temporals.format(salesOrder.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(salesOrder.dueDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${@format.value(salesOrder.remark)}"></td>
+                    <td th:switch="${salesOrder.status?.name}">
+                        <h6><span th:case="'DRAFT'"
+                                  class="badge text-bg-secondary p-2"
+                                  th:text="${salesOrder.status?.description}"></span></h6>
+                        <h6><span th:case="'CONFIRMED'"
+                                  class="badge text-bg-primary p-2"
+                                  th:text="${salesOrder.status?.description}"></span></h6>
+                        <h6><span th:case="'COMPLETED'"
+                                  class="badge text-bg-success p-2"
+                                  th:text="${salesOrder.status?.description}"></span></h6>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

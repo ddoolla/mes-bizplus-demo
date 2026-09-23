@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title: '삭제 확인',
             content: '정말 삭제하시겠습니까?',
             onConfirm: async () => {
-                try {6
+                try {
                     const response = await ajax.delete('/uoms', selectedIds);
 
                     toast.afterReload({

@@ -6,12 +6,12 @@ $(function () {
             prevText: "이전 달",
             nextText: "다음 달",
             monthNames: [
-                "1월","2월","3월","4월",
-                "5월","6월","7월","8월",
-                "9월","10월","11월","12월"
+                "1월", "2월", "3월", "4월",
+                "5월", "6월", "7월", "8월",
+                "9월", "10월", "11월", "12월"
             ],
             dayNamesMin: [
-                "일","월","화","수","목","금","토"
+                "일", "월", "화", "수", "목", "금", "토"
             ],
             showMonthAfterYear: true,
             yearSuffix: "년"
@@ -20,7 +20,17 @@ $(function () {
 });
 
 const datepicker = {
-    init({formId, from, to}) {
+    init(selector) {
+        $(selector).datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+    },
+
+    set(selector, date) {
+        $(selector).datepicker('setDate', date);
+    },
+
+    initRange({formId, from, to}) {
         const $form = $(`#${formId}`);
         const $from = $form.find(`[name="${from}"]`);
         const $to = $form.find(`[name="${to}"]`);
@@ -38,6 +48,21 @@ const datepicker = {
                 $from.datepicker('option', 'maxDate', date);
             }
         });
+    },
+
+    setRange({from, to, fromDate, toDate}) {
+        const $from = $(`[name="${from}"]`);
+        const $to = $(`[name="${to}"]`);
+
+        if (fromDate) {
+            $from.datepicker('setDate', fromDate);
+            $to.datepicker('option', 'minDate', fromDate);
+        }
+
+        if (toDate) {
+            $to.datepicker('setDate', toDate);
+            $from.datepicker('option', 'maxDate', toDate);
+        }
     },
 };
 

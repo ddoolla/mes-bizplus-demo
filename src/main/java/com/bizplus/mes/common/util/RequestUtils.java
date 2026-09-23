@@ -11,11 +11,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public final class RequestUtils {
 
     public static HttpServletRequest getRequest() {
-
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
 
         if (attributes instanceof ServletRequestAttributes servletAttributes) {
-
             return servletAttributes.getRequest();
         }
 
@@ -23,7 +21,6 @@ public final class RequestUtils {
     }
 
     public static String getRequestUri() {
-
         HttpServletRequest request = getRequest();
 
         return request != null
@@ -32,7 +29,6 @@ public final class RequestUtils {
     }
 
     public static String getClientIp() {
-
         HttpServletRequest request = getRequest();
 
         return request != null

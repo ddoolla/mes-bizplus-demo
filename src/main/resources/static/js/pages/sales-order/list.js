@@ -2,13 +2,20 @@ import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
 import createConfirmModal from "../../common/modal/confirm.js";
 import toast from "../../common/toast.js";
+import datepicker from "../../common/datepicker.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    const checkboxGroup = document.querySelector('#sales-order-table');
+    const deleteButton = document.querySelector('#sales-order-delete-button');
+
     const confirmModal = createConfirmModal();
 
-    const checkboxGroup = document.querySelector('#user-table');
-    const deleteButton = document.querySelector('#user-delete-button');
+    datepicker.initRange({
+        formId: 'sales-order-search-form',
+        from: 'startDate',
+        to: 'endDate'
+    });
 
     checkbox.init(checkboxGroup);
 
@@ -28,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             content: '정말 삭제하시겠습니까?',
             onConfirm: async () => {
                 try {
-                    const response = await ajax.delete('/users', selectedIds);
+                    const response = await ajax.delete('/sales-orders', selectedIds);
 
                     toast.afterReload({
                         message: response.message,
@@ -38,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 } catch (xhr) {
                     toast.error({
-                        message: xhr.responseJSON.message,
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
                     });
                 }
             }

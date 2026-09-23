@@ -26,8 +26,19 @@ public class PartnerQueryRepositoryImpl implements PartnerQueryRepository {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(partner.deletedAt))
                 .and(contains(partner.code, dto.getCode()))
-                .and(contains(partner.name, dto.getName()))
-                .and(eq(partner.type, dto.getType()));
+                .and(contains(partner.name, dto.getName()));
+
+        if (dto.getType() == PartnerType.SUPPLIER) {
+            searchCondition.and(
+                    in(partner.type, List.of(PartnerType.SUPPLIER, PartnerType.BOTH))
+            );
+        }
+
+        if (dto.getType() == PartnerType.CUSTOMER) {
+            searchCondition.and(
+                    in(partner.type, List.of(PartnerType.CUSTOMER, PartnerType.BOTH))
+            );
+        }
 
         List<Partner> content = query
                 .selectFrom(partner)

@@ -36,7 +36,7 @@
                            th:value="${param.name}">
                 </td>
                 <th>
-                    <label for="partner-type">거래처 유형</label>
+                    <label for="partner-type">구분</label>
                 </th>
                 <td>
                     <select name="type"
@@ -44,9 +44,10 @@
                             class="app-form-control app-xs">
                         <option value="">전체</option>
                         <option th:each="type: ${partnerTypes}"
-                                th:value="${type?.name()}"
-                                th:text="${type?.getDescription()}"
-                                th:selected="${selectedType?.name() == type?.name()}">
+                                th:unless="${type?.name == 'BOTH'}"
+                                th:value="${type?.name}"
+                                th:text="${type?.getDescription}"
+                                th:selected="${#strings.equals(param.type, type.name)}">
                         </option>
                     </select>
                 </td>

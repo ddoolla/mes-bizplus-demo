@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 public final class IpUtils {
 
     public static String getClientIp(HttpServletRequest request) {
-
         String[] headers = {
                 "X-Forwarded-For",
                 "Proxy-Client-IP",
@@ -18,11 +17,9 @@ public final class IpUtils {
         };
 
         for (String header : headers) {
-
             String ip = request.getHeader(header);
 
             if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
-
                 int index = ip.indexOf(',');
 
                 return index >= 0

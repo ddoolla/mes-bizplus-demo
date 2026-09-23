@@ -46,6 +46,7 @@ public class PartnerController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('PARTNER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("partner", partnerService.getPartner(id));
         model.addAttribute("partnerContacts", partnerContactService.getPartnerContacts(id));
@@ -54,6 +55,7 @@ public class PartnerController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasAuthority('PARTNER_CREATE')")
     public String viewNew(Model model) {
         model.addAttribute("partnerTypes", PartnerType.values());
 
@@ -61,12 +63,23 @@ public class PartnerController {
     }
 
     @GetMapping("/{id}/edit")
+    @PreAuthorize("hasAuthority('PARTNER_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("partnerTypes", PartnerType.values());
         model.addAttribute("partner", partnerService.getPartner(id));
         model.addAttribute("partnerContacts", partnerContactService.getPartnerContacts(id));
 
         return "/pages/partner/edit";
+    }
+
+    @GetMapping("/modal/list/single")
+    @PreAuthorize("hasAuthority('PARTNER_READ')")
+    public String viewSingleListModal(Model model,
+                                      PartnerSearchDto dto,
+                                      @PageableDefault Pageable pageable) {
+        model.addAttribute("data", partnerService.getPartners(dto, pageable));
+
+        return "/pages/partner/modal/list/single :: list";
     }
 
     /*

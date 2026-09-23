@@ -1,0 +1,96 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="filter (url, salesOrderStatus, count, showActions)">
+    <form id="sales-order-search-form" method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: 500px">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>수주 번호</th>
+                <td>
+                    <input type="text"
+                           name="orderNo"
+                           class="app-form-control app-xs"
+                           th:value="${param.orderNo}">
+                </td>
+                <th>거래처</th>
+                <td>
+                    <input type="text"
+                           name="partnerName"
+                           class="app-form-control app-xs"
+                           th:value="${param.partnerName}">
+                </td>
+                <th>상태</th>
+                <td>
+                    <select name="status"
+                            class="app-form-control app-xs"
+                            th:value="${param.status}">
+                        <option value="">전체</option>
+                        <option th:each="status : ${salesOrderStatus}"
+                                th:value="${status}"
+                                th:text="${status?.description}"
+                                th:selected="${#strings.equals(param.status, status.name)}"></option>
+                    </select>
+                </td>
+                <th>납기일</th>
+                <td>
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="text"
+                               name="startDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.startDate}"
+                               readonly autocomplete="off"/>
+                        <span>-</span>
+                        <input type="text"
+                               name="endDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.endDate}"
+                               readonly autocomplete="off"/>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <th:block th:if="${showActions}">
+                    <button type="button"
+                            class="btn btn-primary btn-sm"
+                            th:onclick="|location.href='@{/sales-orders/new}'|"
+                            sec:authorize="hasAuthority('SALES_ORDER_CREATE')">
+                        <i class="bi bi-plus-circle"></i> 등록
+                    </button>
+                    <button type="button"
+                            id="sales-order-delete-button"
+                            class="btn btn-danger btn-sm"
+                            sec:authorize="hasAuthority('SALES_ORDER_DELETE')">
+                        <i class="bi bi-trash"></i> 삭제
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

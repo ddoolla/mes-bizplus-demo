@@ -1,9 +1,6 @@
 package com.bizplus.mes.common.util;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.DateTimePath;
-import com.querydsl.core.types.dsl.SimpleExpression;
-import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.core.types.dsl.*;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
@@ -48,6 +45,18 @@ public class PredicateUtils {
     public static <T> BooleanExpression in(SimpleExpression<T> field, List<T> values) {
         return values != null && !values.isEmpty()
                 ? field.in(values)
+                : null;
+    }
+
+    public static BooleanExpression startDateGoe(DatePath<LocalDate> field, LocalDate date) {
+        return date != null
+                ? field.goe(date)
+                : null;
+    }
+
+    public static BooleanExpression endDateLoe(DatePath<LocalDate> field, LocalDate date) {
+        return date != null
+                ? field.loe(date)
                 : null;
     }
 

@@ -1,0 +1,63 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (salesOrderItems)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">수주 품목</p>
+            </div>
+        </div>
+
+        <div id="sales-order-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>코드</th>
+                    <th>품목명</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th>단가</th>
+                    <th>공급가</th>
+                    <th>세액</th>
+                    <th>총액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(salesOrderItems)}">
+                    <td colspan="9" class="p-4">등록된 수주 품목 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="salesOrderItem : ${salesOrderItems}">
+                    <td th:text="${salesOrderItem.item.code}"></td>
+                    <td th:text="${salesOrderItem.item.name}"></td>
+                    <td th:text="${@format.value(salesOrderItem.item.specification)}"></td>
+                    <td th:text="${#numbers.formatDecimal(
+                        salesOrderItem.quantity,
+                        1,
+                        salesOrderItem.uom.scale)}">
+                    </td>
+                    <td th:text="${salesOrderItem.uom.code}"></td>
+                    <td th:text="${#numbers.formatDecimal(salesOrderItem.supplyAmount, 1, 2)}"></td>
+                    <td th:text="${#numbers.formatDecimal(salesOrderItem.taxAmount, 1, 2)}"></td>
+                    <td th:text="${#numbers.formatDecimal(salesOrderItem.totalAmount, 1, 2)}"></td>
+                    <td th:text="${@format.value(salesOrderItem.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

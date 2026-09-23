@@ -36,6 +36,7 @@ public enum ErrorCode {
     DEFECT_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "불량 항목을 찾을 수 없습니다."),
 
     SALES_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "수주를 찾을 수 없습니다."),
+    SALES_ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "수주 항목을 찾을 수 없습니다."),
 
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
     ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),

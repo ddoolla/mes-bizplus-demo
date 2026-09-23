@@ -1,0 +1,109 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (salesOrderItems)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">수주 품목</p>
+            </div>
+            <div>
+                <button type="button"
+                        id="sales-order-item-create-button"
+                        class="btn btn-primary btn-sm me-1">
+                    <i class="bi bi-plus-circle"></i> 추가
+                </button>
+                <button type="button"
+                        id="sales-order-item-delete-button"
+                        class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="sales-order-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>코드</th>
+                    <th>품목명</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th>단가</th>
+                    <th>공급가</th>
+                    <th>세액</th>
+                    <th>총액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(bomItems)}">
+                    <td colspan="10" class="p-4">등록된 수주 품목 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="salesOrderItem, stat : ${salesOrderItems}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${salesOrderItem.id}"/>
+                    </td>
+                    <td th:text="${salesOrderItem.item.code}"></td>
+                    <td th:text="${salesOrderItem.item.name}"></td>
+                    <td th:text="${@format.value(salesOrderItem.item.specification)}"></td>
+                    <td>
+                        <input type="number"
+                               th:name="|salesOrderItems[${stat.index}].quantity|"
+                               class="sales-order-item-quantity
+                                      app-form-control app-xs "
+                               th:value="${#numbers.formatDecimal(salesOrderItem.quantity, 1, salesOrderItem.uom.scale)}"
+                               min="0"/>
+                        <input type="hidden"
+                               th:name="|salesOrderItems[${stat.index}].id|"
+                               th:value="${salesOrderItem.id}"/>
+                    </td>
+                    <td th:text="${salesOrderItem.uom.code}"></td>
+                    <td>
+                        <input type="number"
+                               th:name="|salesOrderItems[${stat.index}].supplyAmount|"
+                               class="sales-order-item-supply-amount
+                                      app-form-control app-xs "
+                               th:value="${#numbers.formatDecimal(salesOrderItem.supplyAmount, 1, 2)}"
+                               min="0"/>
+                    </td>
+                    <td>
+                        <input type="number"
+                               th:name="|salesOrderItems[${stat.index}].taxAmount|"
+                               class="sales-order-item-tax-amount
+                                      app-form-control app-xs "
+                               th:value="${#numbers.formatDecimal(salesOrderItem.taxAmount, 1, 2)}"
+                               min="0"/>
+                    </td>
+                    <td>
+                        <input type="number"
+                               th:name="|salesOrderItems[${stat.index}].totalAmount|"
+                               class="sales-order-item-total-amount
+                                      app-form-control app-xs "
+                               th:value="${#numbers.formatDecimal(salesOrderItem.totalAmount, 1, 2)}"
+                               min="0"/>
+                    </td>
+                    <td th:text="${@format.value(salesOrderItem.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

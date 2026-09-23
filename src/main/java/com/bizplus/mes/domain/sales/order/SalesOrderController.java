@@ -9,6 +9,7 @@ import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderCreateDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderSearchDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderUpdateDto;
+import com.bizplus.mes.domain.sales.order.item.SalesOrderItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -27,8 +28,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalesOrderController {
 
-    private final SalesOrderService salesOrderService;
     private final MessageService messageService;
+    private final SalesOrderService salesOrderService;
+    private final SalesOrderItemService salesOrderItemService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('SALES_ORDER_READ')")
@@ -44,6 +46,7 @@ public class SalesOrderController {
     @PreAuthorize("hasAuthority('SALES_ORDER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("salesOrder", salesOrderService.getSalesOrder(id));
+        model.addAttribute("salesOrderItems", salesOrderItemService.getSalesOrderItems(id));
 
         return "pages/sales-order/detail";
     }
@@ -58,6 +61,7 @@ public class SalesOrderController {
     @PreAuthorize("hasAuthority('SALES_ORDER_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("salesOrder", salesOrderService.getSalesOrder(id));
+        model.addAttribute("salesOrderItems", salesOrderItemService.getSalesOrderItems(id));
 
         return "pages/sales-order/edit";
     }

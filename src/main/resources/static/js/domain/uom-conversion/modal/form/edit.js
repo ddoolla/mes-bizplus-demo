@@ -1,6 +1,5 @@
 import ajax from "../../../../common/ajax.js";
 import modal from "../../../../common/modal/modal.js";
-import "../../../../common/validation.js";
 import toast from "../../../../common/toast.js";
 
 const createUomConversionEditFormModal = () => {

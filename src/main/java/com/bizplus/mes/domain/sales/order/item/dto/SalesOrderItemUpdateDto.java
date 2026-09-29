@@ -14,10 +14,12 @@ public class SalesOrderItemUpdateDto {
     @NotNull
     private Long id;
 
+    @NotNull
+    @PositiveOrZero
+    private final BigDecimal quantity;
+
     @PositiveOrZero
     private final BigDecimal unitPrice;
 
-    @PositiveOrZero
-    private final BigDecimal quantity;
     private final String remark;
 }

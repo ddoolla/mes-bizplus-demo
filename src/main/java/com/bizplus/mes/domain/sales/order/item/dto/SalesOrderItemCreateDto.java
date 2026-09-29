@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.sales.order.item.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SalesOrderItemCreateDto {
 
-    @NotBlank
+    @NotEmpty
     private List<Long> itemIds;
 }

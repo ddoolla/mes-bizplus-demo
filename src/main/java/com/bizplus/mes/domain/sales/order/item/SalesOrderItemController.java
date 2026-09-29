@@ -9,10 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,5 +29,15 @@ public class SalesOrderItemController {
 
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.CREATED)));
+    }
+
+    @DeleteMapping("/sales-order-items")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('SALES_ORDER_DELETE')")
+    public ResponseEntity<ApiResponse<Void>> deleteSalesOrderItems(@RequestBody List<Long> ids) {
+        salesOrderItemService.deleteSalesOrderItems(ids);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

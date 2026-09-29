@@ -39,30 +39,51 @@ public class SalesOrderItemServiceImpl implements SalesOrderItemService {
             Item item = itemReader.getById(itemId);
             Uom uom = item.getUom();
 
-            salesOrderItemRepository.save(new SalesOrderItem(
+            salesOrderItemRepository.save(SalesOrderItemMapper.toEntity(
                     salesOrder,
                     item,
                     uom,
-                    item.getUnitPrice() != null
-                            ? item.getUnitPrice()
-                            : BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    SalesOrderItemStatus.NOT_SHIPPED,
-                    ""
+                    SalesOrderItemStatus.NOT_SHIPPED
             ));
         });
     }
 
+    @Transactional
     @Override
     public void updateSalesOrderItems(List<SalesOrderItemUpdateDto> dtoList) {
+        dtoList.forEach(dto -> {
+            SalesOrderItem orderItem = salesOrderItemReader.getById(dto.getId());
+
+            // todo 단가관련 관리 정책이 확실해지면 리펙토링 진행
+            BigDecimal taxRate = BigDecimal.valueOf(0.1);
+
+            BigDecimal supplyAmount = dto.getUnitPrice() != null
+                    ? dto.getUnitPrice().multiply(dto.getQuantity())
+                    : null;
+
+            BigDecimal taxAmount = supplyAmount != null
+                    ? supplyAmount.multiply(taxRate)
+                    : null;
+
+            BigDecimal totalAmount = supplyAmount != null
+                    ? supplyAmount.add(taxAmount)
+                    : null;
+
+            orderItem.update(
+                    dto.getUnitPrice(),
+                    dto.getQuantity(),
+                    supplyAmount,
+                    taxAmount,
+                    totalAmount,
+                    dto.getRemark()
+            );
+        });
 
     }
 
+    @Transactional
     @Override
     public void deleteSalesOrderItems(List<Long> ids) {
-
+        ids.forEach(id -> salesOrderItemReader.getById(id).delete());
     }
 }

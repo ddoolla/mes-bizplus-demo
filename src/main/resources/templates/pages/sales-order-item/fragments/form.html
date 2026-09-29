@@ -1,5 +1,4 @@
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="form (salesOrderItems)">
     <div class="app-box app-box-bg mt-2">
@@ -31,9 +30,10 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
+<!--                    <col style="width: 200px">-->
+<!--                    <col style="width: 200px">-->
+<!--                    <col style="width: 200px">-->
+                    <col style="width: auto">
                 </colgroup>
                 <thead>
                 <tr>
@@ -44,14 +44,15 @@
                     <th>수량</th>
                     <th>단위</th>
                     <th>단가</th>
-                    <th>공급가</th>
-                    <th>세액</th>
-                    <th>총액</th>
+<!--                    <th>공급가액</th>-->
+<!--                    <th>세액</th>-->
+<!--                    <th>총액</th>-->
+                    <th>비고</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(bomItems)}">
-                    <td colspan="10" class="p-4">등록된 수주 품목 정보가 없습니다.</td>
+                <tr th:if="${#lists.isEmpty(salesOrderItems)}">
+                    <td colspan="11" class="p-4">등록된 수주 품목 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="salesOrderItem, stat : ${salesOrderItems}">
                     <td>
@@ -76,29 +77,35 @@
                     <td th:text="${salesOrderItem.uom.code}"></td>
                     <td>
                         <input type="number"
-                               th:name="|salesOrderItems[${stat.index}].supplyAmount|"
-                               class="sales-order-item-supply-amount
+                               th:name="|salesOrderItems[${stat.index}].unitPrice|"
+                               class="sales-order-item-supply-unit-price
                                       app-form-control app-xs "
-                               th:value="${#numbers.formatDecimal(salesOrderItem.supplyAmount, 1, 2)}"
+                               th:value="${#numbers.formatDecimal(salesOrderItem.unitPrice, 1, 2)}"
                                min="0"/>
                     </td>
+<!--                    <td>-->
+<!--                        <input type="number"-->
+<!--                               th:name="|salesOrderItems[${stat.index}].supplyAmount|"-->
+<!--                               class="sales-order-item-supply-amount-->
+<!--                                      app-form-control app-xs "-->
+<!--                               th:value="${#numbers.formatDecimal(salesOrderItem.supplyAmount, 1, 2)}"-->
+<!--                               min="0"/>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <input type="number"-->
+<!--                               th:name="|salesOrderItems[${stat.index}].taxAmount|"-->
+<!--                               class="sales-order-item-tax-amount-->
+<!--                                      app-form-control app-xs "-->
+<!--                               th:value="${#numbers.formatDecimal(salesOrderItem.taxAmount, 1, 2)}"-->
+<!--                               min="0"/>-->
+<!--                    </td>-->
+<!--                    <td th:text="${#numbers.formatDecimal(salesOrderItem.totalAmount, 1, 2)} ?: 0"></td>-->
                     <td>
-                        <input type="number"
-                               th:name="|salesOrderItems[${stat.index}].taxAmount|"
-                               class="sales-order-item-tax-amount
-                                      app-form-control app-xs "
-                               th:value="${#numbers.formatDecimal(salesOrderItem.taxAmount, 1, 2)}"
-                               min="0"/>
+                        <input type="text"
+                               th:name="|salesOrderItems[${stat.index}].remark|"
+                               class="app-form-control app-xs "
+                               th:value="${salesOrderItem.remark}"/>
                     </td>
-                    <td>
-                        <input type="number"
-                               th:name="|salesOrderItems[${stat.index}].totalAmount|"
-                               class="sales-order-item-total-amount
-                                      app-form-control app-xs "
-                               th:value="${#numbers.formatDecimal(salesOrderItem.totalAmount, 1, 2)}"
-                               min="0"/>
-                    </td>
-                    <td th:text="${@format.value(salesOrderItem.remark)}"></td>
                 </tr>
                 </tbody>
             </table>

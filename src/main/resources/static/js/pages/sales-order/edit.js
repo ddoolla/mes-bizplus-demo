@@ -3,9 +3,9 @@ import datepicker from "../../common/datepicker.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const partnerNameInput = document.querySelector('[name="partnerName"]');
-    const partnerIdInput = document.querySelector('[name="partnerId"]');
-
+    const salesOrderEditForm = document.querySelector('#sales-order-edit-form');
+    const partnerNameInput = salesOrderEditForm.querySelector('[name="partnerName"]');
+    const partnerIdInput = salesOrderEditForm.querySelector('[name="partnerId"]');
     const partnerListButton = document.querySelector('#partner-list-button');
 
     const partnerSingleListModal = createPartnerSingleListModal();
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* 폼 유효성 검사 */
-    $('#sales-order-edit-form').validate({
+    $(salesOrderEditForm).validate({
         rules: {
             partnerName: 'required',
             date: 'required',
@@ -55,5 +55,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 error.insertAfter(element);
             }
         },
+    });
+
+    $(salesOrderEditForm).find('.sales-order-item-quantity').each(function () {
+        $(this).rules('add', {
+            required: true,
+            positive: true,
+            messages: {
+                required: '수량을 입력해 주세요.',
+                number: '수량은 숫자로 입력해 주세요.',
+                positive: '0보다 큰 값을 입력해 주세요.'
+            }
+        });
     });
 });

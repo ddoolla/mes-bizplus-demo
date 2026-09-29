@@ -3,12 +3,16 @@ package com.bizplus.mes.domain.sales.order;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
+import com.bizplus.mes.domain.code.common.CommonCodeService;
+import com.bizplus.mes.domain.code.group.CodeGroupKey;
+import com.bizplus.mes.domain.item.ItemGroup;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderCreateDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderSearchDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderUpdateDto;
+import com.bizplus.mes.domain.sales.order.facade.SalesOrderUpdateService;
 import com.bizplus.mes.domain.sales.order.item.SalesOrderItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +33,9 @@ import java.util.List;
 public class SalesOrderController {
 
     private final MessageService messageService;
+    private final CommonCodeService commonCodeService;
     private final SalesOrderService salesOrderService;
+    private final SalesOrderUpdateService salesOrderUpdateService;
     private final SalesOrderItemService salesOrderItemService;
 
     @GetMapping
@@ -62,6 +68,8 @@ public class SalesOrderController {
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("salesOrder", salesOrderService.getSalesOrder(id));
         model.addAttribute("salesOrderItems", salesOrderItemService.getSalesOrderItems(id));
+        model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
+        model.addAttribute("productTypes", ItemGroup.PRODUCT.getTypes());
 
         return "pages/sales-order/edit";
     }
@@ -84,11 +92,12 @@ public class SalesOrderController {
     public String updateSalesOrder(@PathVariable Long id,
                                    @Valid SalesOrderUpdateDto dto,
                                    RedirectAttributes reAtt) {
-        salesOrderService.updateSalesOrder(id, dto);
+        salesOrderUpdateService.update(id, dto);
 
+        reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
 
-        return "redirect:/sales-orders";
+        return "redirect:/sales-orders/{id}";
     }
 
     @DeleteMapping

@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/sales-order/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/sales-order-item/form.js}"></script>
+    <script src="../../../static/js/pages/bom/edit.js"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -31,12 +33,15 @@
         </button>
     </div>
 
-    <!--/* 수정 양식 */-->
-    <div class="app-box app-box-bg">
-        <form id="sales-order-edit-form"
-              method="post"
-              th:action="@{/sales-orders/{id}(id=${salesOrder.id})}"
-              th:object="${salesOrder}">
+    <form id="sales-order-edit-form"
+          method="post"
+          th:action="@{/sales-orders/{id}(id=${salesOrder.id})}"
+          th:object="${salesOrder}">
+
+        <input type="hidden" name="id" th:value="${salesOrder.id}"/>
+
+        <!--/* 수정 양식 */-->
+        <div class="app-box app-box-bg">
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
@@ -93,13 +98,24 @@
                 </tr>
                 </tbody>
             </table>
-        </form>
-    </div>
+        </div>
+
+        <!--/* 수주 품목 폼 */-->
+        <div th:replace="~{pages/sales-order-item/fragments/form :: form (${salesOrderItems})}"></div>
+    </form>
 
     <!--/* 거래처 선택 모달 */-->
     <div th:replace="~{pages/partner/modal/list/container :: container (
         @{/partners/modal/list/single},
         'CUSTOMER')}">
+    </div>
+
+    <!--/* 품목 모달 */-->
+    <div th:replace="~{pages/item/modal/list/container :: container (
+        @{/items/modal/list/multiple},
+        'PRODUCT',
+        ${itemCategories},
+        ${productTypes})}">
     </div>
 </div>
 </body>

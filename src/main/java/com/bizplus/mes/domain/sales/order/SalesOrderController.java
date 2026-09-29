@@ -100,6 +100,15 @@ public class SalesOrderController {
         return "redirect:/sales-orders/{id}";
     }
 
+    @PatchMapping("/{id}/confirm")
+    @PreAuthorize("hasAuthority('SALES_ORDER_UPDATE')")
+    public ResponseEntity<ApiResponse<Void>> confirmSalesOrder(@PathVariable Long id) {
+        salesOrderService.confirmSalesOrder(id);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.CONFIRMED)));
+    }
+
     @DeleteMapping
     @ResponseBody
     @PreAuthorize("hasAuthority('SALES_ORDER_DELETE')")

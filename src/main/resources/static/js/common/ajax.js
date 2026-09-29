@@ -53,6 +53,18 @@ const ajax = {
             }
         });
     },
+    patch(url, data) {
+        const formData = data instanceof FormData;
+
+        return this.request({
+            url: url,
+            method: 'PATCH',
+            contentType: formData ? false : 'application/json',
+            processData: !formData,
+            data: formData ? data : JSON.stringify(data),
+            headers: {[csrfHeader]: csrfToken,}
+        });
+    },
     delete(url, data) {
         const formData = data instanceof FormData;
 

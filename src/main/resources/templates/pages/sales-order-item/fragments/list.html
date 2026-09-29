@@ -15,13 +15,14 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
+                    <col style="width: 100px">
+                    <col style="width: 100px">
                     <col style="width: 200px">
 <!--                    <col style="width: 200px">-->
 <!--                    <col style="width: 200px">-->
 <!--                    <col style="width: 200px">-->
                     <col style="width: auto">
+                    <col style="width: 100px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -35,6 +36,7 @@
 <!--                    <th>세액</th>-->
 <!--                    <th>총액</th>-->
                     <th>비고</th>
+                    <th>상태</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,6 +58,20 @@
 <!--                    <td th:text="${#numbers.formatDecimal(salesOrderItem.taxAmount, 1, 2)}"></td>-->
 <!--                    <td th:text="${#numbers.formatDecimal(salesOrderItem.totalAmount, 1, 2)}"></td>-->
                     <td th:text="${@format.value(salesOrderItem.remark)}"></td>
+                    <td th:switch="${salesOrderItem.status.name}">
+                        <h6 th:case="'NOT_SHIPPED'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${salesOrderItem.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'PARTIALLY_SHIPPED'" class="mb-0">
+                            <span class="badge text-bg-primary p-2"
+                                  th:text="${salesOrderItem.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'SHIPPED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${salesOrderItem.status?.description}"></span>
+                        </h6>
+                    </td>
                 </tr>
                 </tbody>
             </table>

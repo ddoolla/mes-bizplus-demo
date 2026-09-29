@@ -2,10 +2,11 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layouts/main :: layout ('수주 상세', ~{}, ~{}, 'SALES_ORDER', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('수주 상세', ~{}, ~{::script}, 'SALES_ORDER', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="module" th:src="@{/js/pages/sales-order/detail.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -27,6 +28,14 @@
                 th:onclick="|location.href='@{/sales-orders/{id}/edit(id=${salesOrder.id})}'|"
                 sec:authorize="hasAuthority('SALES_ORDER_UPDATE')">
             <i class="bi bi-pencil-square"></i> 수정
+        </button>
+        <button th:if="${salesOrder.status?.name == 'DRAFT'}"
+                type="button"
+                id="sales-order-confirm-button"
+                class="btn btn-success btn-sm"
+                th:data-id="${salesOrder.id}"
+                sec:authorize="hasAuthority('SALES_ORDER_UPDATE')">
+            <i class="bi bi-check-circle"></i> 확정
         </button>
     </div>
 

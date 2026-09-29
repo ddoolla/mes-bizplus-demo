@@ -15,5 +15,7 @@ public interface SalesOrderService {
 
     void updateSalesOrder(Long id, SalesOrderUpdateDto dto);
 
+    void confirmSalesOrder(Long id);
+
     void deleteSalesOrders(List<Long> ids);
 }

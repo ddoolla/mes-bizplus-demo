@@ -8,7 +8,6 @@
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/sales-order/edit.js}"></script>
     <script type="module" th:src="@{/js/pages/sales-order-item/form.js}"></script>
-    <script src="../../../static/js/pages/bom/edit.js"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -96,12 +95,32 @@
                                th:value="*{remark}"/>
                     </td>
                 </tr>
+                <tr>
+                    <th>상태</th>
+                    <td th:switch="${salesOrder.status.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${salesOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'CONFIRMED'" class="mb-0">
+                            <span class="badge text-bg-primary p-2"
+                                  th:text="${salesOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${salesOrder.status?.description}"></span>
+                        </h6>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
         <!--/* 수주 품목 폼 */-->
-        <div th:replace="~{pages/sales-order-item/fragments/form :: form (${salesOrderItems})}"></div>
+        <div th:replace="~{pages/sales-order-item/fragments/form :: form (
+            ${salesOrder},
+            ${salesOrderItems})}">
+        </div>
     </form>
 
     <!--/* 거래처 선택 모달 */-->

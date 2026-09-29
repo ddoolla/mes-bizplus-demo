@@ -75,6 +75,18 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 
     @Transactional
     @Override
+    public void confirmSalesOrder(Long id) {
+        SalesOrder salesOrder = salesOrderReader.getById(id);
+
+        if (salesOrder.getStatus() != SalesOrderStatus.DRAFT) {
+            throw new IllegalStateException("수주 작성중 상태에서만 확정 가능합니다.");
+        }
+
+        salesOrder.updateStatus(SalesOrderStatus.CONFIRMED);
+    }
+
+    @Transactional
+    @Override
     public void deleteSalesOrders(List<Long> ids) {
         ids.forEach(id -> salesOrderReader.getById(id).delete());
     }

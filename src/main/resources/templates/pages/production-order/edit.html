@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('생산지시 수정', ~{}, ~{::script}, 'PRODUCTION_ORDER', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/production-order/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('생산지시 수정', '생산관리, 생산지시, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/production-orders/{id}(id=${productionOrder.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="production-order-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('PRODUCTION_ORDER_UPDATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 수정 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="production-order-edit-form"
+              method="post"
+              th:action="@{/production-orders/{id}(id=${productionOrder.id})}"
+              th:object="${productionOrder}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>제품 코드</th>
+                    <td th:text="*{item.code}"></td>
+                </tr>
+                <tr>
+                    <th>제품명</th>
+                    <td th:text="*{item.name}"></td>
+                </tr>
+                <tr>
+                    <th>규격</th>
+                    <td th:text="${@format.value(productionOrder.item.specification)}"></td>
+                </tr>
+                <tr>
+                    <th>생산 수량 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="number"
+                               name="quantity"
+                               th:value="${@format.decimalValue(productionOrder.quantity)}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생산 예정일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="dueDate"
+                               class="app-form-control app-xs"
+                               th:value="*{dueDate}"
+                               readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               th:value="*{remark}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

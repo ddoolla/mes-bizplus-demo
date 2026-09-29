@@ -29,8 +29,12 @@ public enum MenuCode {
     SALES(null, "수주 관리", MenuType.GROUP, null, 180),
     SALES_ORDER(SALES, "수주 현황", MenuType.MENU, null, 190),
 
-    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 200),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 210);
+    PRODUCTION(null, "생산 관리", MenuType.GROUP, null, 200),
+//    PRODUCTION_PLAN(PRODUCTION, "생산계획", MenuType.MENU, "/production-plans", 210),
+    PRODUCTION_ORDER(PRODUCTION, "생산지시", MenuType.MENU, "/production-orders", 220),
+
+    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 230),
+    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 240);
 
     private final MenuCode parent;
     private final String name;

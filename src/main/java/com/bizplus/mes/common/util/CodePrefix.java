@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CodePrefix {
 
-    SALES_ORDER("SO");
+    SALES_ORDER("SO"),
+    PRODUCTION_ORDER("PO");
 
     private final String value;
 }

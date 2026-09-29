@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('생산지시 등록', ~{}, ~{::script}, 'PRODUCTION_ORDER', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/production-order/new.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('생산지시 등록', '생산관리, 생산지시, 등록')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/production-orders}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="production-order-new-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('PRODUCTION_ORDER_CREATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 등록 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="production-order-new-form" method="post" th:action="@{/production-orders}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>제품 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="itemName"
+                               class="app-form-control app-xs app-readonly-bg w-25"
+                               placeholder="제품을 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="itemId"/>
+                        <button type="button"
+                                id="item-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 제품 목록
+                        </button>
+                        <div id="item-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생산 수량 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="number"
+                               name="quantity"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생산 예정일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="dueDate"
+                               class="app-form-control app-xs"
+                               readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!--/* 제품 선택 모달 */-->
+    <div th:replace="~{pages/item/modal/list/container :: container (
+        @{/items/modal/list/single},
+        'PRODUCT',
+        ${itemCategories},
+        ${itemTypes})}">
+    </div>
+</div>
+</body>
+</html>

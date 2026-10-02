@@ -9,6 +9,8 @@ public interface RoutingService {
 
     RoutingListDto getRoutings(RoutingSearchDto dto, Pageable pageable);
 
+    List<RoutingDto> getRoutings(Long itemId);
+
     RoutingDto getRouting(Long id);
 
     boolean checkRoutingCode(Long id, String code);

@@ -34,7 +34,8 @@
             <tr th:if="${#lists.isEmpty(data.items)}">
                 <td colspan="8" class="p-4">등록된 품목 정보가 없습니다.</td>
             </tr>
-            <tr th:each="item : ${data.items}">
+            <tr th:each="item : ${data.items}"
+                th:with="bom=${item.defaultBom}, routing=${item.defaultRouting}">
                 <td th:text="${item.code}"></td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.type?.description}"></td>
@@ -46,7 +47,11 @@
                     <button type="button"
                             class="btn btn-primary btn-sm item-select-button"
                             th:data-id="${item.id}"
-                            th:data-name="${item.name}">
+                            th:data-name="${item.name}"
+                            th:data-default-bom-id="${bom.id}"
+                            th:data-default-bom-name="${bom.name}"
+                            th:data-default-routing-id="${routing.id}"
+                            th:data-default-routing-name="${routing.name}">
                         선택
                     </button>
                 </td>

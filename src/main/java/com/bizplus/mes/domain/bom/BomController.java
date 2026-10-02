@@ -82,6 +82,14 @@ public class BomController {
         return "pages/bom/edit";
     }
 
+    @GetMapping("/modal/list/single")
+    @PreAuthorize("hasAuthority('BOM_READ')")
+    public String viewSingleListModal(Model model, @RequestParam Long itemId) {
+        model.addAttribute("boms", bomService.getBoms(itemId));
+
+        return "pages/bom/modal/list/single :: list";
+    }
+
     @GetMapping("check-code")
     @ResponseBody
     public boolean checkBomCode(@RequestParam(required = false) Long id,

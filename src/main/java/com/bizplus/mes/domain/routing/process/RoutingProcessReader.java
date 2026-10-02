@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class RoutingProcessReader {
@@ -14,5 +16,9 @@ public class RoutingProcessReader {
     public RoutingProcess getById(Long id) {
         return routingProcessRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ROUTING_PROCESS_NOT_FOUND, "id: " + id));
+    }
+
+    public List<RoutingProcess> getByRoutingId(Long routingId) {
+        return routingProcessRepository.findByRoutingIdAndDeletedAtIsNull(routingId);
     }
 }

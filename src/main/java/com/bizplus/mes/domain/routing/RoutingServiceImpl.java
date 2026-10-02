@@ -31,6 +31,11 @@ public class RoutingServiceImpl implements RoutingService {
     }
 
     @Override
+    public List<RoutingDto> getRoutings(Long itemId) {
+        return routingRepository.findRoutings(itemId);
+    }
+
+    @Override
     public RoutingDto getRouting(Long id) {
         return routingRepository.findRouting(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ROUTING_NOT_FOUND, "id: " + id));

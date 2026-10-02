@@ -72,6 +72,34 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
     }
 
     @Override
+    public List<RoutingDto> findRoutings(Long itemId) {
+        return query
+                .select(new QRoutingDto(
+                        routing.id,
+                        routing.code,
+                        routing.name,
+                        routing.version,
+                        routing.description,
+                        routing.id.eq(item.defaultRouting.id).coalesce(false),
+                        item.id,
+                        item.defaultBom.id,
+                        item.code,
+                        item.name,
+                        categoryCode.name,
+                        item.type
+                ))
+                .from(routing)
+                .innerJoin(item).on(routing.item.id.eq(item.id))
+                .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
+                .where(
+                        notDeleted(routing.deletedAt),
+                        eq(routing.item.id, itemId)
+                )
+                .orderBy(routing.code.asc(), routing.name.asc())
+                .fetch();
+    }
+
+    @Override
     public Optional<RoutingDto> findRouting(Long id) {
         return Optional.ofNullable(
                 query

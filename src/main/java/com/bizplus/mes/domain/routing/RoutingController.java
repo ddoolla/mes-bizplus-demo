@@ -75,6 +75,14 @@ public class RoutingController {
         return "pages/routing/edit";
     }
 
+    @GetMapping("/modal/list/single")
+    @PreAuthorize("hasAuthority('ROUTING_READ')")
+    public String viewSingleListModal(Model model, @RequestParam Long itemId) {
+        model.addAttribute("routings", routingService.getRoutings(itemId));
+
+        return "pages/routing/modal/list/single :: list";
+    }
+
     @GetMapping("/check-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('ROUTING_READ')")

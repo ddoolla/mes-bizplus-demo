@@ -17,6 +17,12 @@ public class ProductionOrderCreateDto {
     private Long itemId;
 
     @NotNull
+    private Long bomId;
+
+    @NotNull
+    private Long routingId;
+
+    @NotNull
     @Positive
     private BigDecimal quantity;
 

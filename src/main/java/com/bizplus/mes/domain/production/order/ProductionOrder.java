@@ -1,7 +1,9 @@
 package com.bizplus.mes.domain.production.order;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
+import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.item.Item;
+import com.bizplus.mes.domain.routing.Routing;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,6 +26,14 @@ public class ProductionOrder extends SoftDeletableEntity {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bom_id", nullable = false)
+    private Bom bom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "routing_id", nullable = false)
+    private Routing routing;
+
     @Column(unique = true, nullable = false)
     private String orderNo;
 
@@ -38,12 +48,16 @@ public class ProductionOrder extends SoftDeletableEntity {
     private String remark;
 
     public ProductionOrder(Item item,
+                           Bom bom,
+                           Routing routing,
                            String orderNo,
                            BigDecimal quantity,
                            LocalDate dueDate,
                            ProductionOrderStatus status,
                            String remark) {
         this.item = item;
+        this.bom = bom;
+        this.routing = routing;
         this.orderNo = orderNo;
         this.quantity = quantity;
         this.dueDate = dueDate;

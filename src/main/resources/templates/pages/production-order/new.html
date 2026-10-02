@@ -61,7 +61,7 @@
                     <th>제품 BOM <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
-                               name="itemName"
+                               name="bomName"
                                class="app-form-control app-xs app-readonly-bg w-25"
                                placeholder="제품을 먼저 선택해 주세요."
                                readonly/>
@@ -79,7 +79,7 @@
                     <th>제품 공정 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
-                               name="itemName"
+                               name="routingName"
                                class="app-form-control app-xs app-readonly-bg w-25"
                                placeholder="제품을 먼저 선택해 주세요."
                                readonly/>
@@ -130,6 +130,12 @@
         ${itemCategories},
         ${itemTypes})}">
     </div>
+
+    <!--/* BOM 선택 모달 */-->
+    <div th:replace="~{pages/bom/modal/list/container :: container}"></div>
+
+    <!--/* 제품공정 선택 모달 */-->
+    <div th:replace="~{pages/routing/modal/list/container :: container}"></div>
 </div>
 </body>
 </html>

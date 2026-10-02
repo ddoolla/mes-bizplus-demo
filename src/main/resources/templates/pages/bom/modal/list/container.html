@@ -1,0 +1,21 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* BOM 목록 모달 */-->
+<th:block th:fragment="container">
+    <div th:replace="~{fragments/modal/default :: default (
+        'bom-list-modal',
+        'BOM 목록',
+         ~{::content},
+         700
+    )}">
+        <div th:fragment="content" class="p-2">
+            <div class="modal-body pt-0">
+
+                <!--/* BOM 목록 */-->
+                <div class="bom-list"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

@@ -78,6 +78,14 @@ const createItemSingleListModal = () => {
             const item = {
                 id: button.dataset.id,
                 name: button.dataset.name,
+                defaultBom: {
+                    id: button.dataset.defaultBomId,
+                    name: button.dataset.defaultBomName
+                },
+                defaultRouting: {
+                    id: button.dataset.defaultRoutingId,
+                    name: button.dataset.defaultRoutingName
+                }
             };
 
             callback(item);

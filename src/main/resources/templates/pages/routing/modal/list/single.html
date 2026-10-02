@@ -1,0 +1,48 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${routings.size()} 건|">
+        </div>
+    </div>
+    <div id="item-table">
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 100px">
+                <col style="width: 100px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>코드</th>
+                <th>제품공정명</th>
+                <th>버전</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(routings)}">
+                <td colspan="5" class="p-4">등록된 제품공정 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="routing : ${routings}">
+                <td th:text="${routing.code}"></td>
+                <td th:text="${routing.name}"></td>
+                <td th:text="${@format.value(routing.version)}"></td>
+                <td>
+                    <button type="button"
+                            class="routing-select-button
+                                   btn btn-primary btn-sm"
+                            th:data-id="${routing.id}"
+                            th:data-name="${routing.name}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+
+</html>

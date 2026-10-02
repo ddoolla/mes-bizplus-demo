@@ -26,9 +26,8 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
     @Override
     public void createProductionOrderProcesses(Long productionOrderId) {
         ProductionOrder productionOrder = productionOrderReader.getById(productionOrderId);
-
-        Long routingId = productionOrder.getRouting().getId();
-        List<RoutingProcess> routingProcesses = routingProcessReader.getByRoutingId(routingId);
+        List<RoutingProcess> routingProcesses = routingProcessReader
+                .getByRoutingId(productionOrder.getRouting().getId());
 
         routingProcesses.forEach(rp -> {
             Process process = processReader.getById(rp.getProcess().getId());

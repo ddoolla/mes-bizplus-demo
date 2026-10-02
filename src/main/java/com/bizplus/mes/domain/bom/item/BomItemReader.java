@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class BomItemReader {
@@ -14,5 +16,9 @@ public class BomItemReader {
     public BomItem getById(Long id) {
         return bomItemRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOM_ITEM_NOT_FOUND, "id: " + id));
+    }
+
+    public List<BomItem> getByBomId(Long bomId) {
+        return bomItemRepository.findByBomId(bomId);
     }
 }

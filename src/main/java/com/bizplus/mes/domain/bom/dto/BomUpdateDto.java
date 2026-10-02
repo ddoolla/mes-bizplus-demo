@@ -15,20 +15,20 @@ public class BomUpdateDto {
     @NotBlank
     private final String name;
     private final String version;
-    private final boolean primary;
+    private final Boolean isDefault;
     private final String remark;
     private final List<BomItemUpdateDto> bomItems;
 
     public BomUpdateDto(String code,
                         String name,
                         String version,
-                        Boolean primary,
+                        Boolean isDefault,
                         String remark,
                         List<BomItemUpdateDto> bomItems) {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = Boolean.TRUE.equals(primary);
+        this.isDefault = isDefault;
         this.remark = remark;
         this.bomItems = bomItems == null ? List.of() : bomItems;
     }

@@ -20,6 +20,8 @@ public class ItemDto {
     private final BigDecimal unitPrice;
     private final String remark;
     private final boolean lotManaged;
+    private final DefaultBomInfo defaultBom;
+    private final DefaultRoutingInfo defaultRouting;
 
     @QueryProjection
     public ItemDto(Long id,
@@ -33,7 +35,13 @@ public class ItemDto {
                    String specification,
                    BigDecimal unitPrice,
                    String remark,
-                   boolean lotManaged) {
+                   boolean lotManaged,
+                   Long defaultBomId,
+                   String defaultBomCode,
+                   String defaultBomName,
+                   Long defaultRoutingId,
+                   String defaultRoutingCode,
+                   String defaultRoutingName) {
         this.id = id;
         this.category = new IdNameDto(categoryId, categoryName);
         this.uom = new IdNameDto(uomId, uomCode);
@@ -44,5 +52,29 @@ public class ItemDto {
         this.unitPrice = unitPrice;
         this.remark = remark;
         this.lotManaged = lotManaged;
+        this.defaultBom = new DefaultBomInfo(
+                defaultBomId,
+                defaultBomCode,
+                defaultBomName
+        );
+        this.defaultRouting = new DefaultRoutingInfo(
+                defaultRoutingId,
+                defaultRoutingCode,
+                defaultRoutingName
+        );
+    }
+
+    public record DefaultBomInfo(
+            Long id,
+            String code,
+            String name
+    ) {
+    }
+
+    public record DefaultRoutingInfo(
+            Long id,
+            String code,
+            String name
+    ) {
     }
 }

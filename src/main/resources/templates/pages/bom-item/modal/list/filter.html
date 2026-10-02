@@ -2,7 +2,7 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 
-<div th:fragment="filter (url, primaryBom, boms)">
+<div th:fragment="filter (url, boms)">
     <form class="bom-item-search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
@@ -22,10 +22,9 @@
                             등록된 BOM이 없습니다.
                         </option>
                         <option th:each="bom : ${boms}"
-                                th:with="isPrimary=${bom.id == primaryBom?.id}"
                                 th:value="${bom.id}"
-                                th:text="|${bom.code} (${bom.name}) ${isPrimary ? '[기본]' : ''}|"
-                                th:selected="${isPrimary}">
+                                th:text="|${bom.code} (${bom.name}) ${bom.isDefault ? '[기본]' : ''}|"
+                                th:selected="${bom.isDefault}">
                         </option>
                     </select>
                 </td>

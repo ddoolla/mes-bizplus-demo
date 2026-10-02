@@ -43,9 +43,10 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
                         routing.code,
                         routing.name,
                         routing.version,
-                        routing.primary,
                         routing.description,
+                        routing.id.eq(item.defaultRouting.id).coalesce(false),
                         item.id,
+                        item.defaultBom.id,
                         item.code,
                         item.name,
                         categoryCode.name,
@@ -79,9 +80,10 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
                                 routing.code,
                                 routing.name,
                                 routing.version,
-                                routing.primary,
                                 routing.description,
+                                routing.id.eq(item.defaultRouting.id).coalesce(false),
                                 item.id,
+                                item.defaultBom.id,
                                 item.code,
                                 item.name,
                                 categoryCode.name,
@@ -96,31 +98,5 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
                         )
                         .fetchOne()
         );
-    }
-
-    @Override
-    public boolean existsPrimary(Long itemId) {
-        return query
-                .selectOne()
-                .from(routing)
-                .where(
-                        notDeleted(routing.deletedAt),
-                        eq(routing.item.id, itemId),
-                        eq(routing.primary, true)
-                )
-                .fetchOne() != null;
-    }
-
-    @Transactional
-    @Override
-    public void resetPrimary(Long itemId) {
-        query
-                .update(routing)
-                .set(routing.primary, false)
-                .where(
-                        eq(routing.item.id, itemId),
-                        routing.primary.isTrue()
-                )
-                .execute();
     }
 }

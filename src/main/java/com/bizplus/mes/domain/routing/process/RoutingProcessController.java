@@ -37,16 +37,14 @@ public class RoutingProcessController {
                              @PathVariable Long routingId,
                              @PathVariable Long id) {
         RoutingDto routing = routingService.getRouting(routingId);
-        Long itemId = routing.getItem().id();
 
         // 소모자재 등록 모달
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemType", ItemGroup.BOM_ITEM.getTypes());
-        model.addAttribute("boms", bomService.getBoms(itemId));
-        model.addAttribute("primaryBom", bomService.getPrimaryBom(itemId).orElse(null));
+        model.addAttribute("boms", bomService.getBoms(routing.getItem().id()));
 
         // 공정 단계 정보
-        model.addAttribute("routing", routingService.getRouting(routingId));
+        model.addAttribute("routing", routing);
         model.addAttribute("routingProcess", routingProcessService.getRoutingProcess(id));
 
         // 공정 소모 자재 목록

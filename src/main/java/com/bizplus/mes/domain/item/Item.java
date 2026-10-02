@@ -1,7 +1,9 @@
 package com.bizplus.mes.domain.item;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
+import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.code.common.CommonCode;
+import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.uom.Uom;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -27,6 +29,14 @@ public class Item extends SoftDeletableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uom_id", nullable = false)
     private Uom uom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_bom_id")
+    private Bom defaultBom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_routing_id")
+    private Routing defaultRouting;
 
     @Column(unique = true, nullable = false)
     private String code;
@@ -86,5 +96,13 @@ public class Item extends SoftDeletableEntity {
 
     public void updateLotManaged(boolean lotManaged) {
         this.lotManaged = lotManaged;
+    }
+
+    public void updateDefaultBom(Bom bom) {
+        this.defaultBom = bom;
+    }
+
+    public void updateDefaultRouting(Routing routing) {
+        this.defaultRouting = routing;
     }
 }

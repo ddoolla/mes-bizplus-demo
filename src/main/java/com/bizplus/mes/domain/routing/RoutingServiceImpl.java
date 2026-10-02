@@ -48,12 +48,14 @@ public class RoutingServiceImpl implements RoutingService {
     public Long createRouting(RoutingCreateDto dto) {
         Item item = itemReader.getById(dto.getItemId());
 
-        // 기본 공정은 무조건 1개 -> 모두 false면 추후 사용 시 기본 공정 선택되지 않음을 표시
-        if (dto.isPrimary()) {
-            routingRepository.resetPrimary(item.getId());
+        Routing newRouting = routingRepository.save(RoutingMapper.toEntity(item, dto));
+
+        // 기본 제품공정 업데이트
+        if (dto.getIsDefault() != null && dto.getIsDefault()) {
+            item.updateDefaultRouting(newRouting);
         }
 
-        return routingRepository.save(RoutingMapper.toEntity(item, dto)).getId();
+        return newRouting.getId();
     }
 
     @Transactional
@@ -61,12 +63,13 @@ public class RoutingServiceImpl implements RoutingService {
     public void updateRouting(Long id, RoutingUpdateDto dto) {
         Routing routing = routingReader.getById(id);
 
-        // 기본 공정은 무조건 1개 -> 모두 false면 추후 사용 시 기본 공정 선택되지 않음을 표시
-        if (dto.isPrimary() && !routing.isPrimary()) {
-            routingRepository.resetPrimary(routing.getItem().getId());
-        }
-
         RoutingMapper.apply(routing, dto);
+
+        // 기본 제품공정 업데이트
+        if (dto.getIsDefault() != null && dto.getIsDefault()) {
+            Item item = itemReader.getById(routing.getItem().getId());
+            item.updateDefaultRouting(routing);
+        }
     }
 
     @Transactional

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,11 +41,6 @@ public class BomServiceImpl implements BomService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOM_NOT_FOUND, "id: " + id));
     }
 
-    @Override
-    public Optional<BomDto> getPrimaryBom(Long itemId) {
-        return bomRepository.findPrimaryBom(itemId);
-    }
-
     /*
      * 논리삭제된 코드도 중복으로 간주
      * */
@@ -62,11 +56,14 @@ public class BomServiceImpl implements BomService {
     public Long createBom(BomCreateDto dto) {
         Item item = itemReader.getById(dto.getItemId());
 
-        if (dto.isPrimary()) {
-            bomRepository.resetPrimary(item.getId());
+        Bom newBom = bomRepository.save(BomMapper.toEntity(item, dto));
+
+        // 기본 BOM 업데이트
+        if (dto.getIsDefault() != null && dto.getIsDefault()) {
+            item.updateDefaultBom(newBom);
         }
 
-        return bomRepository.save(BomMapper.toEntity(item, dto)).getId();
+        return newBom.getId();
     }
 
     @Transactional
@@ -74,11 +71,13 @@ public class BomServiceImpl implements BomService {
     public void updateBom(Long id, BomUpdateDto dto) {
         Bom bom = bomReader.getById(id);
 
-        if (dto.isPrimary() && !bom.isPrimary()) {
-            bomRepository.resetPrimary(bom.getItem().getId());
-        }
-
         BomMapper.apply(bom, dto);
+
+        // 기본 BOM 업데이트
+        if (dto.getIsDefault() != null && dto.getIsDefault()) {
+            Item item = itemReader.getById(bom.getItem().getId());
+            item.updateDefaultBom(bom);
+        }
     }
 
     @Transactional

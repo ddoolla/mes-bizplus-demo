@@ -29,35 +29,27 @@ public class Bom extends SoftDeletableEntity {
 
     private String version;
 
-    // 모두 false 가능 -> 사용자에게 기본 없음을 표시
-    @Column(name = "is_primary")
-    private boolean primary;
-
     private String remark;
 
     public Bom(Item item,
                String code,
                String name,
                String version,
-               boolean primary,
                String remark) {
         this.item = item;
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.remark = remark;
     }
 
     public void update(String code,
                        String name,
                        String version,
-                       boolean primary,
                        String remark) {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.remark = remark;
     }
 }

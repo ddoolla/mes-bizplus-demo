@@ -10,8 +10,8 @@ public class BomDto {
     private final String code;
     private final String name;
     private final String version;
-    private final boolean primary;
     private final String remark;
+    private final Boolean isDefault;
     private final ItemInfo item;
 
     @QueryProjection
@@ -19,8 +19,8 @@ public class BomDto {
                   String code,
                   String name,
                   String version,
-                  boolean primary,
                   String remark,
+                  Boolean isDefault,
                   Long itemId,
                   String itemCode,
                   String itemName) {
@@ -28,8 +28,8 @@ public class BomDto {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.remark = remark;
+        this.isDefault = isDefault;
         this.item = new ItemInfo(itemId, itemCode, itemName);
     }
 

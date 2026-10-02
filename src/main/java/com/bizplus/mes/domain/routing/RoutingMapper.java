@@ -12,7 +12,6 @@ public class RoutingMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getVersion(),
-                dto.isPrimary(),
                 dto.getDescription()
         );
     }
@@ -22,7 +21,6 @@ public class RoutingMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getVersion(),
-                dto.isPrimary(),
                 dto.getDescription()
         );
     }

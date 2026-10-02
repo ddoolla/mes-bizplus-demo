@@ -40,8 +40,8 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         bom.code,
                         bom.name,
                         bom.version,
-                        bom.primary,
                         bom.remark,
+                        bom.id.eq(item.defaultBom.id).coalesce(false),
                         item.id,
                         item.code,
                         item.name
@@ -70,8 +70,8 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         bom.code,
                         bom.name,
                         bom.version,
-                        bom.primary,
                         bom.remark,
+                        bom.id.eq(item.defaultBom.id).coalesce(false),
                         item.id,
                         item.code,
                         item.name
@@ -94,8 +94,8 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                                 bom.code,
                                 bom.name,
                                 bom.version,
-                                bom.primary,
                                 bom.remark,
+                                bom.id.eq(item.defaultBom.id).coalesce(false),
                                 item.id,
                                 item.code,
                                 item.name
@@ -108,44 +108,5 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         )
                         .fetchOne()
         );
-    }
-
-    @Override
-    public Optional<BomDto> findPrimaryBom(Long itemId) {
-        return Optional.ofNullable(
-                query
-                        .select(new QBomDto(
-                                bom.id,
-                                bom.code,
-                                bom.name,
-                                bom.version,
-                                bom.primary,
-                                bom.remark,
-                                item.id,
-                                item.code,
-                                item.name
-                        ))
-                        .from(bom)
-                        .innerJoin(item).on(bom.item.id.eq(item.id))
-                        .where(
-                                notDeleted(bom.deletedAt),
-                                eq(bom.item.id, itemId),
-                                eq(bom.primary, true)
-                        )
-                        .fetchOne()
-        );
-    }
-
-    @Transactional
-    @Override
-    public void resetPrimary(Long itemId) {
-        query
-                .update(bom)
-                .set(bom.primary, false)
-                .where(
-                        eq(bom.item.id, itemId),
-                        eq(bom.primary, true)
-                )
-                .execute();
     }
 }

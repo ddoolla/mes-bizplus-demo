@@ -11,8 +11,8 @@ public class RoutingDto {
     private final String code;
     private final String name;
     private final String version;
-    private final boolean primary;
     private final String description;
+    private final Boolean isDefault;
     private final ItemInfo item;
 
     @QueryProjection
@@ -20,9 +20,10 @@ public class RoutingDto {
                       String code,
                       String name,
                       String version,
-                      boolean primary,
                       String description,
+                      Boolean isDefault,
                       Long itemId,
+                      Long defaultBomId,
                       String itemCode,
                       String itemName,
                       String itemCategory,
@@ -31,10 +32,11 @@ public class RoutingDto {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.description = description;
+        this.isDefault = isDefault;
         this.item = new ItemInfo(
                 itemId,
+                defaultBomId,
                 itemCode,
                 itemName,
                 itemCategory,
@@ -43,6 +45,7 @@ public class RoutingDto {
 
     public record ItemInfo(
             Long id,
+            Long defaultBomId,
             String code,
             String name,
             String category,

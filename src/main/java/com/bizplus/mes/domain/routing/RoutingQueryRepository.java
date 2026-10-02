@@ -12,8 +12,4 @@ public interface RoutingQueryRepository {
     Page<RoutingDto> findRoutings(RoutingSearchDto dto, Pageable pageable);
 
     Optional<RoutingDto> findRouting(Long id);
-
-    boolean existsPrimary(Long itemId);
-
-    void resetPrimary(Long itemId);
 }

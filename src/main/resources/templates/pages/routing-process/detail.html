@@ -71,9 +71,8 @@
 
         <!--/* 공정 소모 자재 목록 */-->
         <div th:replace="~{pages/process-material/fragments/form :: form (
+            ${routing},
             ${routingProcess},
-            ${routing.item},
-            ${primaryBom},
             ${processMaterialData})}">
         </div>
     </form>
@@ -89,7 +88,6 @@
     <!--/* BOM에서 추가 모달 */-->
     <div th:replace="~{pages/bom-item/modal/list/container :: container (
          @{/bom-items/modal/list/multiple},
-         ${primaryBom},
          ${boms})}">
     </div>
 </div>

@@ -15,20 +15,20 @@ public class RoutingUpdateDto {
     @NotBlank
     private final String name;
     private final String version;
-    private final boolean primary;
+    private final Boolean isDefault;
     private final String description;
     private final List<RoutingProcessUpdateDto> routingProcesses;
 
     public RoutingUpdateDto(String code,
                             String name,
                             String version,
-                            Boolean primary,
+                            Boolean isDefault,
                             String description,
                             List<RoutingProcessUpdateDto> routingProcesses) {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = Boolean.TRUE.equals(primary);
+        this.isDefault = isDefault;
         this.description = description;
         this.routingProcesses = routingProcesses == null ? List.of() : routingProcesses;
     }

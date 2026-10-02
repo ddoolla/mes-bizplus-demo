@@ -12,7 +12,6 @@ public class BomMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getVersion(),
-                dto.isPrimary(),
                 dto.getRemark()
         );
     }
@@ -22,7 +21,6 @@ public class BomMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getVersion(),
-                dto.isPrimary(),
                 dto.getRemark()
         );
     }

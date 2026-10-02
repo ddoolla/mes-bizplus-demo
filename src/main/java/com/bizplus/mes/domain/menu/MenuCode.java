@@ -27,7 +27,7 @@ public enum MenuCode {
     DEFECT_ITEM(MASTER, "불량항목 관리", MenuType.MENU, "/defect-items", 170),
 
     SALES(null, "수주 관리", MenuType.GROUP, null, 180),
-    SALES_ORDER(SALES, "수주 현황", MenuType.MENU, null, 190),
+    SALES_ORDER(SALES, "수주 현황", MenuType.MENU, "/sales-orders", 190),
 
     PRODUCTION(null, "생산 관리", MenuType.GROUP, null, 200),
 //    PRODUCTION_PLAN(PRODUCTION, "생산계획", MenuType.MENU, "/production-plans", 210),

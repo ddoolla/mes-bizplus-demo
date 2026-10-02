@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
+import static com.bizplus.mes.domain.bom.QBom.bom;
 import static com.bizplus.mes.domain.item.QItem.item;
+import static com.bizplus.mes.domain.routing.QRouting.routing;
 import static com.bizplus.mes.domain.uom.QUom.uom;
 
 @Transactional(readOnly = true)
@@ -53,11 +55,19 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                         item.specification,
                         item.unitPrice,
                         item.remark,
-                        item.lotManaged
+                        item.lotManaged,
+                        bom.id,
+                        bom.code,
+                        bom.name,
+                        routing.id,
+                        routing.code,
+                        routing.name
                 ))
                 .from(item)
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(bom).on(item.defaultBom.id.eq(bom.id))
+                .leftJoin(routing).on(item.defaultRouting.id.eq(routing.id))
                 .where(searchCondition)
                 .orderBy(item.code.asc(), item.name.asc())
                 .limit(pageable.getPageSize())
@@ -109,11 +119,19 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 item.specification,
                                 item.unitPrice,
                                 item.remark,
-                                item.lotManaged
+                                item.lotManaged,
+                                bom.id,
+                                bom.code,
+                                bom.name,
+                                routing.id,
+                                routing.code,
+                                routing.name
                         ))
                         .from(item)
                         .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                         .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                        .leftJoin(bom).on(item.defaultBom.id.eq(bom.id))
+                        .leftJoin(routing).on(item.defaultRouting.id.eq(routing.id))
                         .where(
                                 notDeleted(item.deletedAt),
                                 eq(item.id, id)

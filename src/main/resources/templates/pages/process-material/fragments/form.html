@@ -1,7 +1,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="form (routingProcess, item, primaryBom, processMaterialData)">
+<th:block th:fragment="form (routing, routingProcess, processMaterialData)">
     <div class="app-box app-box-bg mt-2">
         <div class="d-flex justify-content-between">
             <div>
@@ -17,8 +17,8 @@
                 <button type="button"
                         id="btn-add-from-bom"
                         th:data-routing-process-id="${routingProcess.id}"
-                        th:data-primary-bom-id="${primaryBom?.id}"
-                        th:data-item-name="${item.name}"
+                        th:data-default-bom-id="${routing.item.defaultBomId}"
+                        th:data-item-name="${routing.item.name}"
                         class="btn btn-primary btn-sm me-1">
                     <i class="bi bi-plus-circle"></i> BOM에서 추가
                 </button>

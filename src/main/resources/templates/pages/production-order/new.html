@@ -58,6 +58,42 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>제품 BOM <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="itemName"
+                               class="app-form-control app-xs app-readonly-bg w-25"
+                               placeholder="제품을 먼저 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="bomId"/>
+                        <button type="button"
+                                id="bom-list-button"
+                                class="btn btn-secondary app-btn-xs"
+                                disabled>
+                            <i class="bi bi-list"></i> BOM 목록
+                        </button>
+                        <div id="bom-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제품 공정 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="itemName"
+                               class="app-form-control app-xs app-readonly-bg w-25"
+                               placeholder="제품을 먼저 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="routingId"/>
+                        <button type="button"
+                                id="routing-list-button"
+                                class="btn btn-secondary app-btn-xs"
+                                disabled>
+                            <i class="bi bi-list"></i> 공정 목록
+                        </button>
+                        <div id="routing-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
                     <th>생산 수량 <span class="app-required">*</span></th>
                     <td>
                         <input type="number"

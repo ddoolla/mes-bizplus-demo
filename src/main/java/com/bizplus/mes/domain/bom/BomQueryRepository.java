@@ -15,8 +15,4 @@ public interface BomQueryRepository {
     List<BomDto> findBoms(Long itemId);
 
     Optional<BomDto> findBom(Long id);
-
-    Optional<BomDto> findPrimaryBom(Long itemId);
-
-    void resetPrimary(Long itemId);
 }

@@ -22,8 +22,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 품목 선택 처리
     itemSingleListModal.onSelect(function (item) {
+        // 제품 정보 입력
         createForm.querySelector('[name="itemId"]').value = item.id;
         createForm.querySelector('[name="itemName"]').value = item.name;
+
+        // BOM 정보 입력
+        // 제품공정 정보 입력
+
         itemSingleListModal.close();
     });
 

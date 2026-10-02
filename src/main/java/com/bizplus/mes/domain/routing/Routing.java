@@ -32,34 +32,27 @@ public class Routing extends SoftDeletableEntity {
 
     private String version;
 
-    @Column(name = "is_primary", nullable = false)
-    private boolean primary;
-
     private String description;
 
     public Routing(Item item,
                    String code,
                    String name,
                    String version,
-                   boolean primary,
                    String description) {
         this.item = item;
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.description = description;
     }
 
     public void update(String code,
                        String name,
                        String version,
-                       boolean primary,
                        String description) {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.description = description;
     }
 }

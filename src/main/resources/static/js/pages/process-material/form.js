@@ -56,10 +56,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* BOM 구성품 목록 모달 */
     bomItemListButton.addEventListener('click', function (e) {
-        const {primaryBomId, itemName} = bomItemListButton.dataset;
+        const {defaultBomId, itemName} = bomItemListButton.dataset;
 
-        const params = primaryBomId
-            ? new URLSearchParams({bomId: primaryBomId}).toString()
+        const params = defaultBomId
+            ? new URLSearchParams({bomId: defaultBomId}).toString()
             : '';
 
         bomItemMultipleListModal.open(

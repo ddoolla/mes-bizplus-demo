@@ -4,7 +4,6 @@ import com.bizplus.mes.domain.bom.dto.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BomService {
 
@@ -13,8 +12,6 @@ public interface BomService {
     List<BomDto> getBoms(Long itemId);
 
     BomDto getBom(Long id);
-
-    Optional<BomDto> getPrimaryBom(Long itemId);
 
     boolean checkCode(Long id, String code);
 

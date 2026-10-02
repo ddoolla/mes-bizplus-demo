@@ -37,9 +37,9 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
     private Uom uom;
 
     // 생산지시 당시 품목 정보 스냅샷
-    private String itemCode;
-    private String itemName;
-    private String itemSpec;
+    private String code;
+    private String name;
+    private String specification;
 
     @Column(precision = 38, scale = 10)
     private BigDecimal requiredQuantity;
@@ -51,13 +51,21 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
     @Enumerated(EnumType.STRING)
     private ConsumptionStatus status;
 
-    public ProductionOrderMaterial(ProductionOrder productionOrder, Item item, Uom uom, String itemCode, String itemName, String itemSpec, BigDecimal requiredQuantity, BigDecimal consumedQuantity, ConsumptionStatus status) {
+    public ProductionOrderMaterial(ProductionOrder productionOrder,
+                                   Item item,
+                                   Uom uom,
+                                   String code,
+                                   String name,
+                                   String specification,
+                                   BigDecimal requiredQuantity,
+                                   BigDecimal consumedQuantity,
+                                   ConsumptionStatus status) {
         this.productionOrder = productionOrder;
         this.item = item;
         this.uom = uom;
-        this.itemCode = itemCode;
-        this.itemName = itemName;
-        this.itemSpec = itemSpec;
+        this.code = code;
+        this.name = name;
+        this.specification = specification;
         this.requiredQuantity = requiredQuantity;
         this.consumedQuantity = consumedQuantity;
         this.status = status;

@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum CodePrefix {
 
     SALES_ORDER("SO"),
-    PRODUCTION_ORDER("PO");
+    PRODUCTION_ORDER("PO"),
+    WORK_ORDER("WO");
 
     private final String value;
 }

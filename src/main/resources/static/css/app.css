@@ -378,3 +378,14 @@ label.error {
     color: #e53e3e;
     font-weight: bold;
 }
+
+.app-w-50 { width: 50px; }
+.app-w-100 { width: 100px; }
+.app-w-150 { width: 150px; }
+.app-w-200 { width: 200px; }
+.app-w-250 { width: 250px; }
+.app-w-300 { width: 300px; }
+.app-w-350 { width: 350px; }
+.app-w-400 { width: 400px; }
+.app-w-450 { width: 450px; }
+.app-w-500 { width: 500px; }

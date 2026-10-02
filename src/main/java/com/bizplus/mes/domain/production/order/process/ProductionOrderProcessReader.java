@@ -11,6 +11,10 @@ public class ProductionOrderProcessReader {
 
     private final ProductionOrderProcessRepository productionOrderProcessRepository;
 
+    public ProductionOrderProcess getById(Long id) {
+        return
+    }
+
     public List<ProductionOrderProcess> getByProductionOrderId(Long productionOrderId) {
         return productionOrderProcessRepository.findByProductionOrderIdAndDeletedAtIsNull(productionOrderId);
     }

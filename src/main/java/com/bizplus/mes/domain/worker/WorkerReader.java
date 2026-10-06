@@ -15,4 +15,11 @@ public class WorkerReader {
         return workerRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.WORKER_NOT_FOUND, "id: " + id));
     }
+
+    public Worker getByIdOrNull(Long id) {
+        return id != null
+                ? workerRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.WORKER_NOT_FOUND, "id: " + id))
+                : null;
+    }
 }

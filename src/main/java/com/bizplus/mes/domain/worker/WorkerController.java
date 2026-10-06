@@ -73,6 +73,12 @@ public class WorkerController {
         return "pages/worker/edit";
     }
 
+    @GetMapping("/modal/list/single")
+    public String viewSingleListModal(Model model, WorkerSearchDto dto, @PageableDefault Pageable pageable) {
+        model.addAttribute("data", workerService.getWorkers(dto, pageable));
+        return "pages/worker/modal/list/single :: list";
+    }
+
     @GetMapping("/check-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('WORKER_READ')")

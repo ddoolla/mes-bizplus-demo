@@ -32,9 +32,10 @@ public enum MenuCode {
     PRODUCTION(null, "생산 관리", MenuType.GROUP, null, 200),
 //    PRODUCTION_PLAN(PRODUCTION, "생산계획", MenuType.MENU, "/production-plans", 210),
     PRODUCTION_ORDER(PRODUCTION, "생산지시", MenuType.MENU, "/production-orders", 220),
+    WORK_ORDER(PRODUCTION, "작업지시", MenuType.MENU, "/work-orders", 230),
 
-    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 230),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 240);
+    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 240),
+    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 250);
 
     private final MenuCode parent;
     private final String name;

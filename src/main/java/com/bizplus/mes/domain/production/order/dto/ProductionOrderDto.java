@@ -17,6 +17,8 @@ public class ProductionOrderDto {
     private final ProductionOrderStatus status;
     private final String remark;
     private final ItemInfo item;
+    private final BomInfo bom;
+    private final RoutingInfo routing;
 
     @QueryProjection
     public ProductionOrderDto(Long id,
@@ -30,7 +32,13 @@ public class ProductionOrderDto {
                               String itemName,
                               String itemSpec,
                               String itemUomCode,
-                              Integer itemUomScale) {
+                              Integer itemUomScale,
+                              Long bomId,
+                              String bomCode,
+                              String bomName,
+                              Long routingId,
+                              String routingCode,
+                              String routingName) {
         this.id = id;
         this.orderNo = orderNo;
         this.quantity = quantity;
@@ -43,6 +51,16 @@ public class ProductionOrderDto {
                 itemName,
                 itemSpec,
                 new ItemUomInfo(itemUomCode, itemUomScale)
+        );
+        this.bom = new BomInfo(
+                bomId,
+                bomCode,
+                bomName
+        );
+        this.routing = new RoutingInfo(
+                routingId,
+                routingCode,
+                routingName
         );
     }
 
@@ -58,6 +76,20 @@ public class ProductionOrderDto {
     public record ItemUomInfo(
             String code,
             Integer scale
+    ) {
+    }
+
+    public record BomInfo(
+            Long id,
+            String code,
+            String name
+    ) {
+    }
+
+    public record RoutingInfo(
+            Long id,
+            String code,
+            String name
     ) {
     }
 }

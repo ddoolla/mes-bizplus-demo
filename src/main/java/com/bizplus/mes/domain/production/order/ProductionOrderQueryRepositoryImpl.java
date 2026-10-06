@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
+import static com.bizplus.mes.domain.bom.QBom.bom;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.production.order.QProductionOrder.productionOrder;
+import static com.bizplus.mes.domain.routing.QRouting.routing;
 import static com.bizplus.mes.domain.uom.QUom.uom;
 
 @Transactional(readOnly = true)
@@ -49,11 +51,19 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
                         item.name,
                         item.specification,
                         uom.code,
-                        uom.scale
+                        uom.scale,
+                        bom.id,
+                        bom.code,
+                        bom.name,
+                        routing.id,
+                        routing.code,
+                        routing.name
                 ))
                 .from(productionOrder)
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .innerJoin(bom).on(productionOrder.bom.id.eq(bom.id))
+                .innerJoin(routing).on(productionOrder.routing.id.eq(routing.id))
                 .where(searchCondition)
                 .orderBy(productionOrder.createdAt.desc())
                 .limit(pageable.getPageSize())
@@ -65,6 +75,8 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
                 .from(productionOrder)
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .innerJoin(bom).on(productionOrder.bom.id.eq(bom.id))
+                .innerJoin(routing).on(productionOrder.routing.id.eq(routing.id))
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
@@ -86,11 +98,19 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
                                 item.name,
                                 item.specification,
                                 uom.code,
-                                uom.scale
+                                uom.scale,
+                                bom.id,
+                                bom.code,
+                                bom.name,
+                                routing.id,
+                                routing.code,
+                                routing.name
                         ))
                         .from(productionOrder)
                         .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                         .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                        .innerJoin(bom).on(productionOrder.bom.id.eq(bom.id))
+                        .innerJoin(routing).on(productionOrder.routing.id.eq(routing.id))
                         .where(
                                 notDeleted(productionOrder.deletedAt),
                                 eq(productionOrder.id, id)

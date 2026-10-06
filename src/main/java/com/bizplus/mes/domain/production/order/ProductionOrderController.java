@@ -12,6 +12,10 @@ import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderCreateDto;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderSearchDto;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderUpdateDto;
+import com.bizplus.mes.domain.production.order.facade.ProductionOrderCreateService;
+import com.bizplus.mes.domain.production.order.facade.ProductionOrderUpdateService;
+import com.bizplus.mes.domain.production.order.process.ProductionOrderProcessService;
+import com.bizplus.mes.domain.work.order.WorkOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +37,11 @@ public class ProductionOrderController {
     private final MessageService messageService;
     private final CommonCodeService commonCodeService;
     private final ProductionOrderService productionOrderService;
+    private final ProductionOrderProcessService productionOrderProcessService;
+    private final WorkOrderService workOrderService;
+
+    private final ProductionOrderCreateService productionOrderCreateService;
+    private final ProductionOrderUpdateService productionOrderUpdateService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_READ')")
@@ -48,6 +57,7 @@ public class ProductionOrderController {
     @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("productionOrder", productionOrderService.getProductionOrder(id));
+        model.addAttribute("workOrders", workOrderService.getWorkOrders(id));
 
         return "pages/production-order/detail";
     }
@@ -64,6 +74,11 @@ public class ProductionOrderController {
     @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("productionOrder", productionOrderService.getProductionOrder(id));
+        model.addAttribute("workOrders", workOrderService.getWorkOrders(id));
+        model.addAttribute("equipmentTypes", commonCodeService.getCommonCodes(CodeGroupKey.EQUIPMENT_TYPE));
+        model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
+        model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
+        model.addAttribute("productionOrderProcesses", productionOrderProcessService.getProductionOrderProcesses(id));
 
         return "pages/production-order/edit";
     }
@@ -72,12 +87,12 @@ public class ProductionOrderController {
     @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_CREATE')")
     @UserAction(menu = MenuCode.PRODUCTION_ORDER, type = ActionType.CREATE)
     public String createProductionOrder(@Valid ProductionOrderCreateDto dto, RedirectAttributes reAtt) {
-        Long createdId = productionOrderService.createProductionOrder(dto);
+        Long createdId = productionOrderCreateService.create(dto);
 
         reAtt.addAttribute("id", createdId);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
-        return "redirect:/production-orders/{id}";
+        return "redirect:/production-orders/{id}/edit";
     }
 
     @PostMapping("/{id}")
@@ -86,7 +101,7 @@ public class ProductionOrderController {
     public String updateProductionOrder(@PathVariable Long id,
                                         @Valid ProductionOrderUpdateDto dto,
                                         RedirectAttributes reAtt) {
-        productionOrderService.updateProductionOrder(id, dto);
+        productionOrderUpdateService.update(id, dto);
 
         reAtt.addAttribute("id", id);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));

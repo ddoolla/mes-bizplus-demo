@@ -15,4 +15,11 @@ public class EquipmentReader {
         return equipmentRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.EQUIPMENT_NOT_FOUND, "id: " + id));
     }
+
+    public Equipment getByIdOrNull(Long id) {
+        return id != null
+                ? equipmentRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.EQUIPMENT_NOT_FOUND, "id: " + id))
+                : null;
+    }
 }

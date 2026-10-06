@@ -95,6 +95,11 @@ public enum PermissionCode {
     PRODUCTION_ORDER_UPDATE(MenuCode.PRODUCTION_ORDER, "생산지시 수정", PermissionAction.UPDATE),
     PRODUCTION_ORDER_DELETE(MenuCode.PRODUCTION_ORDER, "생산지시 삭제", PermissionAction.DELETE),
 
+    WORK_ORDER_READ(MenuCode.WORK_ORDER, "작업지시 조회", PermissionAction.READ),
+    WORK_ORDER_CREATE(MenuCode.WORK_ORDER, "작업지시 등록", PermissionAction.CREATE),
+    WORK_ORDER_UPDATE(MenuCode.WORK_ORDER, "작업지시 수정", PermissionAction.UPDATE),
+    WORK_ORDER_DELETE(MenuCode.WORK_ORDER, "작업지시 삭제", PermissionAction.DELETE),
+
     ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;

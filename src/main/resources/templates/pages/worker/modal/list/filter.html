@@ -1,0 +1,73 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, departments, positions)">
+    <form class="worker-search-form" method="GET" th:action="${url}">
+
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>작업자 코드</th>
+                <td>
+                    <input type="text"
+                           name="code"
+                           class="app-form-control app-xs"
+                           th:value="${param.code}">
+                </td>
+                <th>작업자명</th>
+                <td>
+                    <input type="text"
+                           name="name"
+                           class="app-form-control app-xs"
+                           th:value="${param.userName}">
+                </td>
+                <th>부서</th>
+                <td>
+                    <select name="departmentId"
+                            class="app-form-control app-xs"
+                            th:value="${param.departmentId}">
+                        <option value="">전체</option>
+                        <option th:if="${#lists.isEmpty(departments)}" disabled>
+                            등록된 부서가 없습니다.
+                        </option>
+                        <option th:each="department : ${departments}"
+                                th:value="${department.id}"
+                                th:text="${@format.nameWithCode(department.code, department.name)}"
+                                th:selected="${#strings.equals(param.departmentId, department.id)}"></option>
+                    </select>
+                </td>
+                <th>직책</th>
+                <td>
+                    <select name="positionId"
+                            class="app-form-control app-xs"
+                            th:value="${param.positionId}">
+                        <option value="">전체</option>
+                        <option th:if="${#lists.isEmpty(positions)}" disabled>
+                            등록된 직책이 없습니다.
+                        </option>
+                        <option th:each="position : ${positions}"
+                                th:value="${position.id}"
+                                th:text="${@format.nameWithCode(position.code, position.name)}"
+                                th:selected="${#strings.equals(param.positionId, position.id)}"></option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+    </form>
+</div>
+
+</html>

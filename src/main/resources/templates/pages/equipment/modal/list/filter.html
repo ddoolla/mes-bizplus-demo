@@ -1,0 +1,60 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, equipmentTypes)">
+    <form class="equipment-search-form" method="GET" th:action="${url}">
+
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>설비 코드</th>
+                <td>
+                    <input type="text"
+                           name="code"
+                           class="app-form-control app-xs"
+                           th:value="${param.code}">
+                </td>
+                <th>설비명</th>
+                <td>
+                    <input type="text"
+                           name="name"
+                           class="app-form-control app-xs"
+                           th:value="${param.name}">
+                </td>
+                <th>설비 유형</th>
+                <td>
+                    <select name="typeId"
+                            class="app-form-control app-xs"
+                            th:value="${param.typeId}">
+                        <option value="">전체</option>
+                        <option th:if="${#lists.isEmpty(equipmentTypes)}" disabled>
+                            등록된 설비 유형이 없습니다.
+                        </option>
+                        <option th:each="type : ${equipmentTypes}"
+                                th:value="${type.id}"
+                                th:text="${@format.nameWithCode(type.code, type.name)}"
+                                th:selected="${#strings.equals(param.typeId, type.id)}"></option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+    </form>
+</div>
+
+</html>

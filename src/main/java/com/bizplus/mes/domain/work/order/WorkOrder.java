@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,6 +41,8 @@ public class WorkOrder extends SoftDeletableEntity {
     @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
+    private LocalDate date;
+
     @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private WorkOrderStatus status;
@@ -47,22 +50,40 @@ public class WorkOrder extends SoftDeletableEntity {
     private LocalDateTime startedAt;
     private LocalDateTime completedAt;
 
+    private String remark;
+
     public WorkOrder(ProductionOrderProcess productionOrderProcess,
                      Equipment equipment,
                      Worker worker,
                      String orderNo,
                      BigDecimal quantity,
+                     LocalDate date,
                      WorkOrderStatus status,
                      LocalDateTime startedAt,
-                     LocalDateTime completedAt) {
+                     LocalDateTime completedAt,
+                     String remark) {
         this.productionOrderProcess = productionOrderProcess;
         this.equipment = equipment;
         this.worker = worker;
         this.orderNo = orderNo;
         this.quantity = quantity;
+        this.date = date;
         this.status = status;
         this.startedAt = startedAt;
         this.completedAt = completedAt;
+        this.remark = remark;
+    }
+
+    public void update(Equipment equipment,
+                       Worker worker,
+                       BigDecimal quantity,
+                       LocalDate date,
+                       String remark) {
+        this.equipment = equipment;
+        this.worker = worker;
+        this.quantity = quantity;
+        this.date = date;
+        this.remark = remark;
     }
 }
 

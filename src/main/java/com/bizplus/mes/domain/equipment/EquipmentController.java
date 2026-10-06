@@ -70,6 +70,15 @@ public class EquipmentController {
         return "pages/equipment/edit";
     }
 
+    @GetMapping("/modal/list/single")
+    public String viewSingleListModal(Model model,
+                                      EquipmentSearchDto dto,
+                                      @PageableDefault Pageable pageable) {
+        model.addAttribute("data", equipmentService.getEquipments(dto, pageable));
+
+        return "pages/equipment/modal/list/single :: list";
+    }
+
     @GetMapping("/check-code")
     @ResponseBody
     public boolean checkEquipmentCode(@RequestParam(required = false) Long id,

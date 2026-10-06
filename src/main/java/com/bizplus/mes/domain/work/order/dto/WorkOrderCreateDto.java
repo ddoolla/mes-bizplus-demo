@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.work.order.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,5 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class WorkOrderCreateDto {
 
-    private List<Long> productionOrderProcessId;
+    @NotEmpty
+    private List<Long> productionOrderProcessIds;
 }

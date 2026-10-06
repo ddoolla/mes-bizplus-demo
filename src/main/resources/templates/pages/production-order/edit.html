@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/production-order/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/work-order/components/form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -31,29 +32,46 @@
         </button>
     </div>
 
-    <!--/* 수정 양식 */-->
-    <div class="app-box app-box-bg">
-        <form id="production-order-edit-form"
-              method="post"
-              th:action="@{/production-orders/{id}(id=${productionOrder.id})}"
-              th:object="${productionOrder}">
+    <form id="production-order-edit-form"
+          method="post"
+          th:action="@{/production-orders/{id}(id=${productionOrder.id})}"
+          th:object="${productionOrder}">
+        <!--/* 생산지시 수정 폼 */-->
+        <div class="app-box app-box-bg">
             <table class="app-table-input">
                 <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 500px">
                     <col style="width: 150px">
                     <col style="width: auto">
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>제품 코드</th>
-                    <td th:text="*{item.code}"></td>
+                    <th>생산지시 번호</th>
+                    <td colspan="3" th:text="*{orderNo}"></td>
                 </tr>
                 <tr>
+                    <th>제품 코드</th>
+                    <td th:text="*{item.code}"></td>
                     <th>제품명</th>
                     <td th:text="*{item.name}"></td>
                 </tr>
                 <tr>
                     <th>규격</th>
                     <td th:text="${@format.value(productionOrder.item.specification)}"></td>
+                    <th>단위</th>
+                    <td>
+                        <span th:text="${productionOrder.item.uom.code}"></span>
+                        <input type="hidden"
+                               name="uomScale"
+                               th:value="*{item.uom.scale}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제품 BOM</th>
+                    <td th:text="*{bom.name}"></td>
+                    <th>제품 공정</th>
+                    <td th:text="*{routing.name}"></td>
                 </tr>
                 <tr>
                     <th>생산 수량 <span class="app-required">*</span></th>
@@ -63,8 +81,6 @@
                                th:value="${@format.decimalValue(productionOrder.quantity)}"
                                class="app-form-control app-xs"/>
                     </td>
-                </tr>
-                <tr>
                     <th>생산 예정일 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
@@ -76,16 +92,57 @@
                 </tr>
                 <tr>
                     <th>비고</th>
-                    <td>
+                    <td colspan="3">
                         <input type="text"
                                name="remark"
                                th:value="*{remark}"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
+                <tr>
+                    <th>상태</th>
+                    <td colspan="3" th:switch="${productionOrder.status?.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${productionOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'CONFIRMED'" class="mb-0">
+                            <span class="badge text-bg-primary p-2"
+                                  th:text="${productionOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'IN_PROGRESS'" class="mb-0">
+                            <span class="badge text-bg-warning p-2"
+                                  th:text="${productionOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${productionOrder.status?.description}"></span>
+                        </h6>
+                    </td>
+                </tr>
                 </tbody>
             </table>
-        </form>
+        </div>
+
+        <!--/* 작업지시 수정 폼 */-->
+        <div th:replace="~{pages/work-order/fragments/form :: form (${workOrders})}"></div>
+    </form>
+
+    <!--/* 설비 선택 모달 */-->
+    <div th:replace="~{pages/equipment/modal/list/container :: container (
+        @{/equipments/modal/list/single},
+        ${equipmentTypes})}">
+    </div>
+
+    <!--/* 작업자 선택 모달 */-->
+    <div th:replace="~{pages/worker/modal/list/container :: container (
+        @{/workers/modal/list/single},
+        ${departments},
+        ${positions})}">
+    </div>
+
+    <!--/* 작업지시 추가 모달 */-->
+    <div th:replace="~{pages/work-order/modal/add :: modal (${productionOrderProcesses})}">
     </div>
 </div>
 </body>

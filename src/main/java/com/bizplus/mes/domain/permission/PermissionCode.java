@@ -60,10 +60,10 @@ public enum PermissionCode {
     EQUIPMENT_UPDATE(MenuCode.EQUIPMENT, "설비 수정", PermissionAction.UPDATE),
     EQUIPMENT_DELETE(MenuCode.EQUIPMENT, "설비 삭제", PermissionAction.DELETE),
 
-    WORKER_READ(MenuCode.WORKER, "작업자 조회", PermissionAction.READ),
-    WORKER_CREATE(MenuCode.WORKER, "작업자 등록", PermissionAction.CREATE),
-    WORKER_UPDATE(MenuCode.WORKER, "작업자 수정", PermissionAction.UPDATE),
-    WORKER_DELETE(MenuCode.WORKER, "작업자 삭제", PermissionAction.DELETE),
+//    WORKER_READ(MenuCode.WORKER, "작업자 조회", PermissionAction.READ),
+//    WORKER_CREATE(MenuCode.WORKER, "작업자 등록", PermissionAction.CREATE),
+//    WORKER_UPDATE(MenuCode.WORKER, "작업자 수정", PermissionAction.UPDATE),
+//    WORKER_DELETE(MenuCode.WORKER, "작업자 삭제", PermissionAction.DELETE),
 
     INSPECTION_ITEM_READ(MenuCode.INSPECTION_ITEM, "검사항목 조회", PermissionAction.READ),
     INSPECTION_ITEM_CREATE(MenuCode.INSPECTION_ITEM, "검사항목 등록", PermissionAction.CREATE),

@@ -7,6 +7,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/*
+* 작업자 메뉴 - 비활성 처리, 나중에 작업자용 데이터가 더 추가되면 사용 검토
+* */
 @Entity
 @Table(name = "workers")
 @Getter

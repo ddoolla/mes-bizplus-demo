@@ -21,7 +21,7 @@ public enum MenuCode {
     PROCESS(MASTER, "공정 관리", MenuType.MENU, "/processes", 110),
     ROUTING(MASTER, "제품 공정 관리", MenuType.MENU, "/routings", 120),
     EQUIPMENT(MASTER, "설비 관리", MenuType.MENU, "/equipments", 130),
-    WORKER(MASTER, "작업자 관리", MenuType.MENU, "/workers", 140),
+//    WORKER(MASTER, "작업자 관리", MenuType.MENU, "/workers", 140),
     INSPECTION_ITEM(MASTER, "검사항목 관리", MenuType.MENU, "/inspection-items", 150),
     INSPECTION_SPEC(MASTER, "검사기준 관리", MenuType.MENU, "/inspection-specs", 160),
     DEFECT_ITEM(MASTER, "불량항목 관리", MenuType.MENU, "/defect-items", 170),

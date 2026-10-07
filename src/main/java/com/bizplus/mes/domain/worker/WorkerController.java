@@ -5,9 +5,6 @@ import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
-import com.bizplus.mes.domain.log.action.ActionType;
-import com.bizplus.mes.domain.log.action.UserAction;
-import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.worker.dto.WorkerCreateDto;
 import com.bizplus.mes.domain.worker.dto.WorkerSearchDto;
 import com.bizplus.mes.domain.worker.dto.WorkerUpdateDto;
@@ -37,7 +34,7 @@ public class WorkerController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('WORKER_READ')")
-    @UserAction(menu = MenuCode.WORKER, type = ActionType.READ)
+//    @UserAction(menu = MenuCode.WORKER, type = ActionType.READ)
     public String viewList(Model model, WorkerSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("departments", commonCodeService.getCommonCodes(CodeGroupKey.DEPARTMENT));
         model.addAttribute("positions", commonCodeService.getCommonCodes(CodeGroupKey.POSITION));
@@ -89,7 +86,7 @@ public class WorkerController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('WORKER_CREATE')")
-    @UserAction(menu = MenuCode.WORKER, type = ActionType.CREATE)
+//    @UserAction(menu = MenuCode.WORKER, type = ActionType.CREATE)
     public String createWorker(@Valid WorkerCreateDto dto, RedirectAttributes reAtt) {
         Long createdId = workerService.createWorker(dto);
 
@@ -101,7 +98,7 @@ public class WorkerController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('WORKER_UPDATE')")
-    @UserAction(menu = MenuCode.WORKER, type = ActionType.UPDATE)
+//    @UserAction(menu = MenuCode.WORKER, type = ActionType.UPDATE)
     public String updateWorker(@PathVariable Long id,
                                @Valid WorkerUpdateDto dto,
                                RedirectAttributes reAtt) {
@@ -116,7 +113,7 @@ public class WorkerController {
     @DeleteMapping
     @ResponseBody
     @PreAuthorize("hasAuthority('WORKER_DELETE')")
-    @UserAction(menu = MenuCode.WORKER, type = ActionType.DELETE)
+//    @UserAction(menu = MenuCode.WORKER, type = ActionType.DELETE)
     public ResponseEntity<ApiResponse<Void>> deleteWorkers(@RequestBody List<Long> ids) {
         workerService.deleteWorkers(ids);
 

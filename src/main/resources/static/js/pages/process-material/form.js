@@ -26,32 +26,31 @@ document.addEventListener('DOMContentLoaded', function () {
         itemMultipleListModal.open({
             title: '자재 목록',
             url: '/items/modal/list/multiple',
-            params: {group: 'BOM_ITEM'}
+            params: {group: 'BOM_ITEM'},
+            onRegister: async (selectedIds) => {
+                const {routingProcessId} = materialListButton.dataset;
+
+                try {
+                    const response = await ajax.post(
+                        `/routing-processes/${routingProcessId}/materials/from-items`,
+                        {itemIds: selectedIds},
+                    );
+
+                    itemMultipleListModal.close();
+
+                    toast.afterReload({
+                        message: response.message,
+                    });
+
+                    location.reload();
+
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
         });
-    });
-
-    itemMultipleListModal.onRegister(async (selectedIds) => {
-        const {routingProcessId} = materialListButton.dataset;
-
-        try {
-            const response = await ajax.post(
-                `/routing-processes/${routingProcessId}/materials/from-items`,
-                {itemIds: selectedIds},
-            );
-
-            itemMultipleListModal.close();
-
-            toast.afterReload({
-                message: response.message,
-            });
-
-            location.reload();
-
-        } catch (xhr) {
-            toast.error({
-                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
-            });
-        }
     });
 
     /* BOM 구성품 목록 모달 */
@@ -62,35 +61,34 @@ document.addEventListener('DOMContentLoaded', function () {
             ? new URLSearchParams({bomId: defaultBomId}).toString()
             : '';
 
-        bomItemMultipleListModal.open(
-            `BOM 구성품 목록 - ${itemName}`,
-            '/bom-items/modal/list/multiple',
-            params
-        );
-    });
+        bomItemMultipleListModal.open({
+            title: `BOM 구성품 목록 - ${itemName}`,
+            url: '/bom-items/modal/list/multiple',
+            params: params,
+            onRegister: async (selectedIds) => {
+                const {routingProcessId} = bomItemListButton.dataset;
 
-    bomItemMultipleListModal.onRegister(async (selectedIds) => {
-        const {routingProcessId} = bomItemListButton.dataset;
+                try {
+                    const response = await ajax.post(
+                        `/routing-processes/${routingProcessId}/materials/from-boms`,
+                        {bomItemIds: selectedIds},
+                    );
 
-        try {
-            const response = await ajax.post(
-                `/routing-processes/${routingProcessId}/materials/from-boms`,
-                {bomItemIds: selectedIds},
-            );
+                    bomItemMultipleListModal.close();
 
-            bomItemMultipleListModal.close();
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-            toast.afterReload({
-                message: response.message,
-            });
+                    location.reload();
 
-            location.reload();
-
-        } catch (xhr) {
-            toast.error({
-                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
-            });
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
+        });
     });
 
     /* 공정 소모 자재 삭제 */

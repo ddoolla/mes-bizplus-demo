@@ -4,13 +4,14 @@ import checkbox from "../../../../common/checkbox.js";
 import pagination from "../../../../common/pagination.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'item-list-modal';
+
 const createItemMultipleListModal = () => {
-
-    const modalId = 'item-list-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const searchForm = modalEl.querySelector('.item-search-form');
     const itemList = modalEl.querySelector('.item-list');
+
+    let registerCallback = null;
 
     const render = (response) => {
         itemList.innerHTML = response;
@@ -18,7 +19,6 @@ const createItemMultipleListModal = () => {
     };
 
     const load = async ({url, params = {}}) => {
-
         try {
             const response = await ajax.get(url, params);
             render(response);
@@ -31,22 +31,39 @@ const createItemMultipleListModal = () => {
     };
 
     // 모달 열기
-    const open = ({
-                      title = '품목 목록',
-                      url,
-                      params = {}
-                  }) => {
-        modal.setTitle(modalId, title);
+    const open = ({title = '품목 목록', url, params, onRegister}) => {
+        registerCallback = onRegister ?? null;
 
+        modal.setTitle(MODAL_ID, title);
         load({url, params});
-
-        modal.open(modalId);
+        modal.open(MODAL_ID);
     };
 
     // 모달 닫기
     const close = () => {
-        modal.close(modalId);
+        modal.close(MODAL_ID);
     };
+
+    // 모달 등록 버튼 클릭
+    itemList.addEventListener('click', function (e) {
+        const createBtn = e.target.closest('.item-select-confirm-button');
+
+        if (!createBtn) {
+            return;
+        }
+
+        const selectedIds = checkbox.getCheckedValues(itemList);
+
+        if (!selectedIds.length) {
+            toast.error({
+                message: '항목을 선택해 주세요.'
+            });
+
+            return;
+        }
+
+        registerCallback?.(selectedIds);
+    });
 
     // 검색 폼 초기화
     $(searchForm).validate({
@@ -68,36 +85,11 @@ const createItemMultipleListModal = () => {
     pagination.bindEvents(itemList, render);
 
     // 모달 닫기 시 폼 초기화
-    modal.resetFormOnHidden(modalId);
-
-    // 품목 등록 처리
-    const onRegister = (callback) => {
-        itemList.addEventListener('click', function (e) {
-
-            const createBtn = e.target.closest('.item-select-confirm-button');
-
-            if (!createBtn) {
-                return;
-            }
-
-            const selectedIds = checkbox.getCheckedValues(itemList);
-
-            if (!selectedIds.length) {
-                toast.error({
-                    message: '항목을 선택해 주세요.'
-                });
-
-                return;
-            }
-
-            callback(selectedIds);
-        });
-    };
+    modal.resetFormOnHidden(MODAL_ID);
 
     return {
         open,
         close,
-        onRegister,
     };
 };
 

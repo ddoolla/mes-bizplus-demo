@@ -2,12 +2,13 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'bom-list-modal';
+
 const createBomSingleListModal = () => {
-
-    const modalId = 'bom-list-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const bomList = modalEl.querySelector('.bom-list');
+
+    let selectCallback = null;
 
     const render = (response) => {
         bomList.innerHTML = response;
@@ -30,42 +31,40 @@ const createBomSingleListModal = () => {
     const open = ({
                       title = 'BOM 목록',
                       url,
-                      params = {}
+                      params = {},
+                      onSelect,
                   }) => {
-        modal.setTitle(modalId, title);
+        selectCallback = onSelect ?? null;
 
+        modal.setTitle(MODAL_ID, title);
         load({url, params});
-
-        modal.open(modalId);
+        modal.open(MODAL_ID);
     };
 
     // 모달 닫기
     const close = () => {
-        modal.close(modalId);
+        modal.close(MODAL_ID);
     };
 
-    // BOm 선택 처리
-    const onSelect = (callback) => {
-        bomList.addEventListener('click', function (e) {
-            const button = e.target.closest('.bom-select-button');
+    // 선택 버튼 클릭 (이벤트 위임)
+    bomList.addEventListener('click', function (e) {
+        const button = e.target.closest('.bom-select-button');
 
-            if (!button) {
-                return;
-            }
+        if (!button) {
+            return;
+        }
 
-            const bom = {
-                id: button.dataset.id,
-                name: button.dataset.name,
-            };
+        const bom = {
+            id: button.dataset.id,
+            name: button.dataset.name,
+        };
 
-            callback(bom);
-        });
-    };
+        selectCallback?.(bom);
+    });
 
     return {
         open,
         close,
-        onSelect,
     };
 };
 

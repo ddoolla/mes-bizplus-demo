@@ -2,11 +2,10 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'code-form-modal';
+
 const createCodeEditFormModal = () => {
-
-    const modalId = 'code-form-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const contentEl = modalEl.querySelector('.code-form-content');
 
     const onSubmit = async (form) => {
@@ -15,7 +14,7 @@ const createCodeEditFormModal = () => {
         try {
             const response = await ajax.put(form.action, formData);
 
-            modal.close(modalId);
+            modal.close(MODAL_ID);
 
             toast.afterReload({
                 message: response.message,
@@ -74,17 +73,16 @@ const createCodeEditFormModal = () => {
 
     const load = async (url, params) => {
         const response = await ajax.get(url, params);
-
         render(response);
     };
 
     const open = async ({title = '코드 수정', url, params}) => {
-        modal.setTitle(modalId, title);
+        modal.setTitle(MODAL_ID, title);
 
         try {
             await load(url, params);
 
-            modal.open(modalId);
+            modal.open(MODAL_ID);
 
         } catch (xhr) {
             toast.error({

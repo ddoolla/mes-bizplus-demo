@@ -2,11 +2,10 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'code-form-modal';
+
 const createCodeNewFormModal = () => {
-
-    const modalId = 'code-form-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const contentEl = modalEl.querySelector('.code-form-content');
 
     const onSubmit = async (form) => {
@@ -15,7 +14,7 @@ const createCodeNewFormModal = () => {
         try {
             const response = await ajax.post(form.action, formData);
 
-            modal.close(modalId);
+            modal.close(MODAL_ID);
 
             toast.afterReload({
                 message: response.message,
@@ -76,12 +75,12 @@ const createCodeNewFormModal = () => {
     };
 
     const open = async ({title = '코드 등록', url, params}) => {
-        modal.setTitle(modalId, title);
+        modal.setTitle(MODAL_ID, title);
 
         try {
             await load(url, params);
 
-            modal.open(modalId);
+            modal.open(MODAL_ID);
 
         } catch (xhr) {
             toast.error({

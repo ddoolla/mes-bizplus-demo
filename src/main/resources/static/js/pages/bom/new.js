@@ -12,15 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
         itemSingleListModal.open({
             title: '제품 목록 (완제품/반제품)',
             url: '/items/modal/list/single',
-            params: {group: 'PRODUCT'}
+            params: {group: 'PRODUCT'},
+            onSelect: (item) => {
+                bomCreateForm.querySelector('[name="itemId"]').value = item.id;
+                bomCreateForm.querySelector('[name="itemName"]').value = item.name;
+                itemSingleListModal.close();
+            }
         });
-    });
-
-    // 품목 선택 처리
-    itemSingleListModal.onSelect(function (item) {
-        bomCreateForm.querySelector('[name="itemId"]').value = item.id;
-        bomCreateForm.querySelector('[name="itemName"]').value = item.name;
-        itemSingleListModal.close();
     });
 
     // BOM 등록 폼 유효성검사

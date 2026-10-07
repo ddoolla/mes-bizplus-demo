@@ -2,12 +2,11 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'defect-item-form-modal';
+const CONTENT_URL = '/defect-items/modal/form/new';
+
 const createDefectItemNewFormModal = () => {
-
-    const modalId = 'defect-item-form-modal';
-    const contentUrl = '/defect-items/modal/form/new';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const contentEl = modalEl.querySelector('.defect-item-form-content');
 
     const onSubmit = async (form) => {
@@ -16,7 +15,7 @@ const createDefectItemNewFormModal = () => {
         try {
             const response = await ajax.post(form.action, formData);
 
-            modal.close(modalId);
+            modal.close(MODAL_ID);
 
             toast.afterReload({
                 message: response.message,
@@ -66,18 +65,18 @@ const createDefectItemNewFormModal = () => {
     };
 
     const load = async () => {
-        const response = await ajax.get(contentUrl);
+        const response = await ajax.get(CONTENT_URL);
 
         render(response);
     };
 
     const open = async () => {
-        modal.setTitle(modalId, '불량항목 등록');
+        modal.setTitle(MODAL_ID, '불량항목 등록');
 
         try {
             await load();
 
-            modal.open(modalId);
+            modal.open(MODAL_ID);
 
         } catch (xhr) {
             toast.error({

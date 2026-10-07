@@ -29,50 +29,48 @@ document.addEventListener('DOMContentLoaded', function () {
         itemSingleListModal.open({
             title: '제품 목록 (완제품/반제품)',
             url: '/items/modal/list/single',
-            params: {group: 'PRODUCT'}
+            params: {group: 'PRODUCT'},
+            onSelect: (item) => {
+                // BOM, 제품공정 정보 초기화
+                bomIdInput.value = '';
+                bomNameInput.value = '';
+                routingIdInput.value = '';
+                routingNameInput.value = '';
+
+                // 제품 정보 입력
+                itemIdInput.value = item.id;
+                itemNameInput.value = item.name;
+
+                validator.element(itemNameInput);
+
+                // BOM 정보 입력
+                if (item.defaultBom.name) {
+                    bomIdInput.value = item.defaultBom.id;
+                    bomNameInput.value = item.defaultBom.name;
+
+                    validator.element(bomNameInput);
+
+                } else {
+                    bomNameInput.placeholder = '제품 BOM을 선택해 주세요.';
+                }
+
+                // 제품공정 정보 입력
+                if (item.defaultRouting.name) {
+                    routingIdInput.value = item.defaultRouting.id;
+                    routingNameInput.value = item.defaultRouting.name;
+
+                    validator.element(routingNameInput);
+
+                } else {
+                    routingNameInput.placeholder = '제품 공정을 선택해 주세요.';
+                }
+
+                bomListButton.disabled = false;
+                routingListButton.disabled = false;
+
+                itemSingleListModal.close();
+            }
         });
-    });
-
-    /* 품목 선택 처리 */
-    itemSingleListModal.onSelect(function (item) {
-        // BOM, 제품공정 정보 초기화
-        bomIdInput.value = '';
-        bomNameInput.value = '';
-        routingIdInput.value = '';
-        routingNameInput.value = '';
-
-        // 제품 정보 입력
-        itemIdInput.value = item.id;
-        itemNameInput.value = item.name;
-
-        validator.element(itemNameInput);
-
-        // BOM 정보 입력
-        if (item.defaultBom.name) {
-            bomIdInput.value = item.defaultBom.id;
-            bomNameInput.value = item.defaultBom.name;
-
-            validator.element(bomNameInput);
-
-        } else {
-            bomNameInput.placeholder = '제품 BOM을 선택해 주세요.';
-        }
-
-        // 제품공정 정보 입력
-        if (item.defaultRouting.name) {
-            routingIdInput.value = item.defaultRouting.id;
-            routingNameInput.value = item.defaultRouting.name;
-
-            validator.element(routingNameInput);
-
-        } else {
-            routingNameInput.placeholder = '제품 공정을 선택해 주세요.';
-        }
-
-        bomListButton.disabled = false;
-        routingListButton.disabled = false;
-
-        itemSingleListModal.close();
     });
 
     /* BOM 선택 */
@@ -82,15 +80,14 @@ document.addEventListener('DOMContentLoaded', function () {
         bomSingleListModal.open({
             title: 'BOM 목록',
             url: `/boms/modal/list/single`,
-            params: {itemId: itemId}
+            params: {itemId: itemId},
+            onSelect: (bom) => {
+                bomIdInput.value = bom.id;
+                bomNameInput.value = bom.name;
+
+                bomSingleListModal.close();
+            }
         });
-    });
-
-    bomSingleListModal.onSelect((bom) => {
-        bomIdInput.value = bom.id;
-        bomNameInput.value = bom.name;
-
-        bomSingleListModal.close();
     });
 
     /* 제품공정 선택 */

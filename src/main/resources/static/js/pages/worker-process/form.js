@@ -13,37 +13,39 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmModal = createConfirmModal();
     const processMultipleListModal = createProcessMultipleListModal();
 
+    checkbox.init(checkboxGroup);
+
     /* 담당 공정 추가 */
     createButton.addEventListener('click', function (e) {
-       processMultipleListModal.open('공정 목록');
-    });
+        processMultipleListModal.open({
+            title: '공정 목록',
+            url: '/processes/modal/list/multiple',
+            onRegister: async (selectedIds) => {
+                const {workerId} = createButton.dataset;
 
-    processMultipleListModal.onRegister(async (selectedIds) => {
-        const {workerId} = createButton.dataset;
+                try {
+                    const response = await ajax.post(
+                        `/workers/${workerId}/processes`,
+                        {processIds: selectedIds});
 
-        try {
-            const response = await ajax.post(
-                `/workers/${workerId}/processes`,
-                {processIds: selectedIds});
+                    processMultipleListModal.close();
 
-            processMultipleListModal.close();
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-            toast.afterReload({
-                message: response.message,
-            });
+                    location.reload();
 
-            location.reload();
-
-        } catch (xhr) {
-            toast.error({
-                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
-            });
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
+        });
     });
 
     /* 담당 공정 목록 삭제 */
-    checkbox.init(checkboxGroup);
-
     deleteButton.addEventListener('click', async function () {
 
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);

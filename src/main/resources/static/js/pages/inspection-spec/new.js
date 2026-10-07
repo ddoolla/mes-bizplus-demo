@@ -31,13 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
         itemSingleListModal.open({
             title: '제품 목록',
             url: '/items/modal/list/single',
+            onSelect: (item) => {
+                itemIdInput.value = item.id;
+                itemNameInput.value = item.name;
+                itemSingleListModal.close();
+            }
         });
-    });
-
-    itemSingleListModal.onSelect((item) => {
-        itemIdInput.value = item.id;
-        itemNameInput.value = item.name;
-        itemSingleListModal.close();
     });
 
     /* 공정 선택 */

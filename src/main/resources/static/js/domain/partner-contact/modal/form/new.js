@@ -2,11 +2,10 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'contact-form-modal';
+
 const createPartnerContactNewFormModal = () => {
-
-    const modalId = 'contact-form-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const contentEl = modalEl.querySelector('.contact-form-content');
 
     const onSubmit = async (form) => {
@@ -15,7 +14,7 @@ const createPartnerContactNewFormModal = () => {
         try {
             const response = await ajax.post(form.action, formData);
 
-            modal.close(modalId);
+            modal.close(MODAL_ID);
 
             toast.afterReload({
                 message: response.message,
@@ -76,12 +75,12 @@ const createPartnerContactNewFormModal = () => {
     const open = async (partnerId) => {
         const contentUrl =  `/partners/${partnerId}/contacts/modal/form/new`;
 
-        modal.setTitle(modalId, '담당자 등록');
+        modal.setTitle(MODAL_ID, '담당자 등록');
 
         try {
             await load(contentUrl);
 
-            modal.open(modalId);
+            modal.open(MODAL_ID);
 
         } catch (xhr) {
             toast.error({

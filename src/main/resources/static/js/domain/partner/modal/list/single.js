@@ -3,22 +3,22 @@ import ajax from "../../../../common/ajax.js";
 import pagination from "../../../../common/pagination.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'partner-list-modal';
+
 const createPartnerSingleListModal = () => {
-
-    const modalId = 'partner-list-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const searchForm = modalEl.querySelector('.partner-search-form');
     const partnerList = modalEl.querySelector('.partner-list');
+
+    let selectCallback = null;
 
     const render = (response) => {
         partnerList.innerHTML = response;
     };
 
-    const load = async (url, params = '') => {
+    const load = async (url, params = {}) => {
         try {
             const response = await ajax.get(url, params);
-
             render(response);
 
         } catch (xhr) {
@@ -29,18 +29,34 @@ const createPartnerSingleListModal = () => {
     };
 
     // 모달 열기
-    const open = ({title = '거래처 목록', url, params}) => {
-        modal.setTitle(modalId, title);
+    const open = ({title = '거래처 목록', url, params, onSelect}) => {
+        selectCallback = onSelect ?? null;
 
+        modal.setTitle(MODAL_ID, title);
         load(url, params);
-
-        modal.open(modalId);
+        modal.open(MODAL_ID);
     };
 
     // 모달 닫기
     const close = () => {
-        modal.close(modalId);
+        modal.close(MODAL_ID);
     };
+
+    // 선택 버튼 클릭
+    partnerList.addEventListener('click', function (e) {
+        const button = e.target.closest('.partner-select-button');
+
+        if (!button) {
+            return;
+        }
+
+        const partner = {
+            id: button.dataset.id,
+            name: button.dataset.name,
+        };
+
+        selectCallback?.(partner);
+    });
 
     // 검색 폼 초기화
     $(searchForm).validate({
@@ -57,30 +73,11 @@ const createPartnerSingleListModal = () => {
     pagination.bindEvents(partnerList, render);
 
     // 모달 닫기 시 폼 초기화
-    modal.resetFormOnHidden(modalId);
-
-    // 품목 선택 처리
-    const onSelect = (callback) => {
-        partnerList.addEventListener('click', function (e) {
-            const button = e.target.closest('.partner-select-button');
-
-            if (!button) {
-                return;
-            }
-
-            const partner = {
-                id: button.dataset.id,
-                name: button.dataset.name,
-            };
-
-            callback(partner);
-        });
-    };
+    modal.resetFormOnHidden(MODAL_ID);
 
     return {
         open,
         close,
-        onSelect,
     };
 };
 

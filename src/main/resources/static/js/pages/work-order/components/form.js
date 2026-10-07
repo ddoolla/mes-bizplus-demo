@@ -1,24 +1,23 @@
 import datepicker from "../../../common/datepicker.js";
 import createEquipmentSingleListModal from "../../../domain/equipment/modal/list/single.js";
-import createWorkerSingleListModal from "../../../domain/worker/modal/list/single.js";
 import checkbox from "../../../common/checkbox.js";
 import toast from "../../../common/toast.js";
 import ajax from "../../../common/ajax.js";
 import createConfirmModal from "../../../common/modal/confirm.js";
 import createWorkOrderAddModal from "../../../domain/work-order/modal/add.js";
+import createUserSingleListModal from "../../../domain/user/modal/list/single.js";
 
 document.addEventListener('DOMContentLoaded', function () {
-
 
     const checkboxGroup = document.querySelector('#work-order-table');
     const createButton = document.querySelector('#work-order-create-button');
     const deleteButton = document.querySelector('#work-order-delete-button');
     const equipmentListButtons = document.querySelectorAll('.equipment-list-button');
-    const workerListButtons = document.querySelectorAll('.worker-list-button');
+    const userListButtons = document.querySelectorAll('.user-list-button');
 
     const confirmModal = createConfirmModal();
     const equipmentSingleListModal = createEquipmentSingleListModal();
-    const workerSingleListModal = createWorkerSingleListModal();
+    const userSingleListModal = createUserSingleListModal();
     const workOrderAddModal = createWorkOrderAddModal()
 
     checkbox.init(checkboxGroup);
@@ -46,21 +45,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* 작업자 선택 모달 */
-    workerListButtons.forEach(button => {
+    userListButtons.forEach(button => {
         button.addEventListener('click', function (e) {
             const {index} = e.currentTarget.dataset;
 
-            const workerIdInput = document.querySelector(`[name="workOrders[${index}].workerId"]`);
-            const workerNameInput = document.querySelector(`[name="workOrders[${index}].workerName"]`);
+            const userIdInput = document.querySelector(`[name="workOrders[${index}].userId"]`);
+            const userNameInput = document.querySelector(`[name="workOrders[${index}].userName"]`);
 
-            workerSingleListModal.open({
+            userSingleListModal.open({
                 title: '작업자 선택',
-                url: '/workers/modal/list/single',
-                onSelect: (worker) => {
-                    workerIdInput.value = worker.id;
-                    workerNameInput.value = worker.name;
+                url: '/users/modal/list/single',
+                onSelect: (user) => {
+                    userIdInput.value = user.id;
+                    userNameInput.value = user.name;
 
-                    workerSingleListModal.close();
+                    userSingleListModal.close();
                 }
             })
         });

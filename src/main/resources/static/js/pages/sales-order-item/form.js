@@ -21,32 +21,31 @@ document.addEventListener('DOMContentLoaded', function () {
         itemMultipleListModal.open({
             title: '제품 목록',
             url: `/items/modal/list/multiple`,
-            params: {group: 'PRODUCT'}
+            params: {group: 'PRODUCT'},
+            onRegister: async (selectedIds) => {
+                const salesOrderId = salesOrderEditForm.querySelector('[name="id"]').value;
+
+                try {
+                    const response = await ajax.post(
+                        `/sales-orders/${salesOrderId}/items`,
+                        {itemIds: selectedIds}
+                    );
+
+                    itemMultipleListModal.close();
+
+                    toast.afterReload({
+                        message: response.message,
+                    });
+
+                    location.reload();
+
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON.message,
+                    });
+                }
+            }
         });
-    });
-
-    itemMultipleListModal.onRegister(async function (selectedIds) {
-        const salesOrderId = salesOrderEditForm.querySelector('[name="id"]').value;
-
-        try {
-            const response = await ajax.post(
-                `/sales-orders/${salesOrderId}/items`,
-                {itemIds: selectedIds}
-            );
-
-            itemMultipleListModal.close();
-
-            toast.afterReload({
-                message: response.message,
-            });
-
-            location.reload();
-
-        } catch (xhr) {
-            toast.error({
-                message: xhr.responseJSON.message,
-            });
-        }
     });
 
     /* 수주 품목 삭제 */

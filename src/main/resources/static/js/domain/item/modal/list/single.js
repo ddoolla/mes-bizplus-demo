@@ -3,13 +3,14 @@ import ajax from "../../../../common/ajax.js";
 import pagination from "../../../../common/pagination.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'item-list-modal';
+
 const createItemSingleListModal = () => {
-
-    const modalId = 'item-list-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const searchForm = modalEl.querySelector('.item-search-form');
     const itemList = modalEl.querySelector('.item-list');
+
+    let selectCallback = null;
 
     const render = (response) => {
         itemList.innerHTML = response;
@@ -18,7 +19,6 @@ const createItemSingleListModal = () => {
     const load = async ({url, params = {}}) => {
         try {
             const response = await ajax.get(url, params);
-
             render(response);
 
         } catch (xhr) {
@@ -29,22 +29,42 @@ const createItemSingleListModal = () => {
     };
 
     // 모달 열기
-    const open = ({
-                      title = '품목 목록',
-                      url,
-                      params = {}
-                  }) => {
-        modal.setTitle(modalId, title);
+    const open = ({title = '품목 목록', url, params, onSelect}) => {
+        selectCallback = onSelect ?? null;
 
+        modal.setTitle(MODAL_ID, title);
         load({url, params});
-
-        modal.open(modalId);
+        modal.open(MODAL_ID);
     };
 
     // 모달 닫기
     const close = () => {
-        modal.close(modalId);
+        modal.close(MODAL_ID);
     };
+
+    // 모달 선택 버튼 클릭
+    itemList.addEventListener('click', function (e) {
+        const button = e.target.closest('.item-select-button');
+
+        if (!button) {
+            return;
+        }
+
+        const item = {
+            id: button.dataset.id,
+            name: button.dataset.name,
+            defaultBom: {
+                id: button.dataset.defaultBomId,
+                name: button.dataset.defaultBomName
+            },
+            defaultRouting: {
+                id: button.dataset.defaultRoutingId,
+                name: button.dataset.defaultRoutingName
+            }
+        };
+
+        selectCallback?.(item);
+    });
 
     // 검색 폼 초기화
     $(searchForm).validate({
@@ -64,38 +84,11 @@ const createItemSingleListModal = () => {
     pagination.bindEvents(itemList, render);
 
     // 모달 닫기 시 폼 초기화
-    modal.resetFormOnHidden(modalId);
-
-    // 품목 선택 처리
-    const onSelect = (callback) => {
-        itemList.addEventListener('click', function (e) {
-            const button = e.target.closest('.item-select-button');
-
-            if (!button) {
-                return;
-            }
-
-            const item = {
-                id: button.dataset.id,
-                name: button.dataset.name,
-                defaultBom: {
-                    id: button.dataset.defaultBomId,
-                    name: button.dataset.defaultBomName
-                },
-                defaultRouting: {
-                    id: button.dataset.defaultRoutingId,
-                    name: button.dataset.defaultRoutingName
-                }
-            };
-
-            callback(item);
-        });
-    };
+    modal.resetFormOnHidden(MODAL_ID);
 
     return {
         open,
         close,
-        onSelect,
     };
 };
 

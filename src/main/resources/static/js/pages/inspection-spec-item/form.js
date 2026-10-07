@@ -18,31 +18,30 @@ document.addEventListener('DOMContentLoaded', function () {
         inspectionItemMultipleListModal.open({
             title: '검사항목 목록',
             url: '/inspection-items/modal/list/multiple',
+            onRegister: async (selectedIds) => {
+                const {inspectionSpecId} = createButton.dataset;
+
+                try {
+                    const response = await ajax.post(
+                        `/inspection-specs/${inspectionSpecId}/items`,
+                        {inspectionItemIds: selectedIds}
+                    );
+
+                    inspectionItemMultipleListModal.close();
+
+                    toast.afterReload({
+                        message: response.message,
+                    });
+
+                    location.reload();
+
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
         });
-    });
-
-    inspectionItemMultipleListModal.onRegister(async (selectedIds) => {
-        const {inspectionSpecId} = createButton.dataset;
-
-        try {
-            const response = await ajax.post(
-                `/inspection-specs/${inspectionSpecId}/items`,
-                {inspectionItemIds: selectedIds}
-            );
-
-            inspectionItemMultipleListModal.close();
-
-            toast.afterReload({
-                message: response.message,
-            });
-
-            location.reload();
-
-        } catch (xhr) {
-            toast.error({
-                message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
-            });
-        }
     });
 
     /* 검사 항목 삭제 */

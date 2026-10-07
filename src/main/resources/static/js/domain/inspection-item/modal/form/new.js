@@ -2,12 +2,11 @@ import modal from "../../../../common/modal/modal.js";
 import ajax from "../../../../common/ajax.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'inspection-item-form-modal';
+const CONTENT_URL = '/inspection-items/modal/form/new';
+
 const createInspectionItemNewFormModal = () => {
-
-    const modalId = 'inspection-item-form-modal';
-    const contentUrl = '/inspection-items/modal/form/new';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const contentEl = modalEl.querySelector('.inspection-item-form-content');
 
     const onSubmit = async (form) => {
@@ -16,7 +15,7 @@ const createInspectionItemNewFormModal = () => {
         try {
             const response = await ajax.post(form.action, formData);
 
-            modal.close(modalId);
+            modal.close(MODAL_ID);
 
             toast.afterReload({
                 message: response.message,
@@ -66,18 +65,18 @@ const createInspectionItemNewFormModal = () => {
     };
 
     const load = async () => {
-        const response = await ajax.get(contentUrl);
+        const response = await ajax.get(CONTENT_URL);
 
         render(response);
     };
 
     const open = async () => {
-        modal.setTitle(modalId, '검사항목 등록');
+        modal.setTitle(MODAL_ID, '검사항목 등록');
 
         try {
             await load();
 
-            modal.open(modalId);
+            modal.open(MODAL_ID);
 
         } catch (xhr) {
             toast.error({

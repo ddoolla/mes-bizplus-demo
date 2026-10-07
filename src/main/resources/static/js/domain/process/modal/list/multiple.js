@@ -4,20 +4,21 @@ import modal from "../../../../common/modal/modal.js";
 import pagination from "../../../../common/pagination.js";
 import toast from "../../../../common/toast.js";
 
-const createProcessMultipleListModal = () => {
-    const modalId = 'process-list-modal';
-    const listUrl = '/processes/modal/list/multiple';
+const MODAL_ID = 'process-list-modal';
 
-    const modalEl = document.querySelector(`#${modalId}`);
+const createProcessMultipleListModal = () => {
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const searchForm = modalEl.querySelector('.process-search-form');
     const processList = modalEl.querySelector('.process-list');
+
+    let registerCallback = null;
 
     const render = (response) => {
         processList.innerHTML = response;
         checkbox.init(processList);
     };
 
-    const load = async (url = listUrl, params = '') => {
+    const load = async (url, params = {}) => {
         try {
             const response = await ajax.get(url, params);
             render(response);
@@ -30,18 +31,39 @@ const createProcessMultipleListModal = () => {
     };
 
     // 모달 열기
-    const open = (title = '공정 목록') => {
-        modal.setTitle(modalId, title);
+    const open = ({title = '공정 목록', url, params, onRegister}) => {
+        registerCallback = onRegister ?? null;
 
-        load();
-
-        modal.open(modalId);
+        modal.setTitle(MODAL_ID, title);
+        load(url, params);
+        modal.open(MODAL_ID);
     };
 
     // 모달 닫기
     const close = () => {
-        modal.close(modalId);
+        modal.close(MODAL_ID);
     };
+
+    // 등록 버튼 클릭
+    processList.addEventListener('click', function (e) {
+        const createBtn = e.target.closest('.process-select-confirm-button');
+
+        if (!createBtn) {
+            return;
+        }
+
+        const selectedIds = checkbox.getCheckedValues(processList);
+
+        if (!selectedIds.length) {
+            toast.error({
+                message: '항목을 선택해 주세요.',
+            });
+
+            return;
+        }
+
+        registerCallback?.(selectedIds);
+    });
 
     // 검색 폼 초기화
     $(searchForm).validate({
@@ -60,36 +82,11 @@ const createProcessMultipleListModal = () => {
     pagination.bindEvents(processList, render);
 
     // 모달 닫기 시 폼 초기화
-    modal.resetFormOnHidden(modalId);
-
-    // 등록
-    const onRegister = (callback) => {
-        processList.addEventListener('click', function (e) {
-
-            const createBtn = e.target.closest('.process-select-confirm-button');
-
-            if (!createBtn) {
-                return;
-            }
-
-            const selectedIds = checkbox.getCheckedValues(processList);
-
-            if (!selectedIds.length) {
-                toast.error({
-                    message: '항목을 선택해 주세요.',
-                });
-
-                return;
-            }
-
-            callback(selectedIds);
-        });
-    };
+    modal.resetFormOnHidden(MODAL_ID);
 
     return {
         open,
         close,
-        onRegister,
     };
 };
 

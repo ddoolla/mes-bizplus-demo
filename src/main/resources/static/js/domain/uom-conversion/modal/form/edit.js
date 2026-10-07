@@ -2,11 +2,10 @@ import ajax from "../../../../common/ajax.js";
 import modal from "../../../../common/modal/modal.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'uom-conversion-form-modal';
+
 const createUomConversionEditFormModal = () => {
-
-    const modalId = 'uom-conversion-form-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const contentEl = modalEl.querySelector('.uom-conversion-form-content');
 
     const onSubmit = async (form) => {
@@ -15,7 +14,7 @@ const createUomConversionEditFormModal = () => {
         try {
             const response = await ajax.put(form.action, formData);
 
-            modal.close(modalId);
+            modal.close(MODAL_ID);
 
             toast.afterReload({
                 message: response.message,
@@ -68,14 +67,14 @@ const createUomConversionEditFormModal = () => {
     };
 
     const open = async (id) => {
-        modal.setTitle(modalId, '단위 환산 수정');
+        modal.setTitle(MODAL_ID, '단위 환산 수정');
 
         const contentUrl = `/uoms/conversions/${id}/modal/form/edit`;
 
         try {
             await load(contentUrl);
 
-            modal.open(modalId);
+            modal.open(MODAL_ID);
 
         } catch (xhr) {
             toast.error({

@@ -13,38 +13,40 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmModal = createConfirmModal();
     const processMultipleListModal = createProcessMultipleListModal();
 
+    checkbox.init(checkboxGroup);
+
     // 제품 공정 단계 등록
     createButton.addEventListener('click', function () {
-        processMultipleListModal.open('공정 목록');
-    });
+        processMultipleListModal.open({
+            title: '공정 목록',
+            url: '/processes/modal/list/multiple',
+            onRegister: async (selectedIds) => {
+                const routingId = createButton.dataset.routingId;
 
-    processMultipleListModal.onRegister(async function (selectedIds) {
-        const routingId = createButton.dataset.routingId;
+                try {
+                    const response = await ajax.post(
+                        `/routings/${routingId}/processes`,
+                        {processIds: selectedIds}
+                    );
 
-        try {
-            const response = await ajax.post(
-                `/routings/${routingId}/processes`,
-                {processIds: selectedIds}
-            );
+                    processMultipleListModal.close();
 
-            processMultipleListModal.close();
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-            toast.afterReload({
-                message: response.message,
-            });
+                    location.reload();
 
-            location.reload();
-
-        } catch (xhr) {
-            toast.error({
-                message: xhr.responseJSON.message,
-            });
-        }
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON.message,
+                    });
+                }
+            }
+        });
     });
 
     // 제품 공정 단계 삭제
-    checkbox.init(checkboxGroup);
-
     deleteButton.addEventListener('click', async function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 

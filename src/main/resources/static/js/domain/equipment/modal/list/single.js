@@ -3,13 +3,14 @@ import ajax from "../../../../common/ajax.js";
 import pagination from "../../../../common/pagination.js";
 import toast from "../../../../common/toast.js";
 
+const MODAL_ID = 'equipment-list-modal';
+
 const createEquipmentSingleListModal = () => {
-
-    const modalId = 'equipment-list-modal';
-
-    const modalEl = document.querySelector(`#${modalId}`);
+    const modalEl = document.querySelector(`#${MODAL_ID}`);
     const searchForm = modalEl.querySelector('.equipment-search-form');
     const equipmentList = modalEl.querySelector('.equipment-list');
+
+    let selectCallback = null;
 
     const render = (response) => {
         equipmentList.innerHTML = response;
@@ -35,21 +36,33 @@ const createEquipmentSingleListModal = () => {
                       params = {},
                       onSelect,
                   }) => {
-        modal.setTitle(modalId, title);
+        selectCallback = onSelect ?? null;
 
+        modal.setTitle(MODAL_ID, title);
         load({url, params});
-
-        if (onSelect) {
-            handleSelect(onSelect);
-        }
-
-        modal.open(modalId);
+        modal.open(MODAL_ID);
     };
 
     // 모달 닫기
     const close = () => {
-        modal.close(modalId);
+        modal.close(MODAL_ID);
     };
+
+    // 선택 버튼 클릭 (이벤트 위임)
+    equipmentList.addEventListener('click', function (e) {
+        const button = e.target.closest('.equipment-select-button');
+
+        if (!button) {
+            return;
+        }
+
+        const equipment = {
+            id: button.dataset.id,
+            name: button.dataset.name,
+        };
+
+        selectCallback?.(equipment);
+    });
 
     // 검색 폼 초기화
     $(searchForm).validate({
@@ -69,25 +82,7 @@ const createEquipmentSingleListModal = () => {
     pagination.bindEvents(equipmentList, render);
 
     // 모달 닫기 시 폼 초기화
-    modal.resetFormOnHidden(modalId);
-
-    // 선택 버튼 이벤트
-    const handleSelect = (onSelect) => {
-        equipmentList.addEventListener('click', function (e) {
-            const button = e.target.closest('.equipment-select-button');
-
-            if (!button) {
-                return;
-            }
-
-            const equipment = {
-                id: button.dataset.id,
-                name: button.dataset.name,
-            };
-
-            onSelect(equipment);
-        });
-    };
+    modal.resetFormOnHidden(MODAL_ID);
 
     return {
         open,

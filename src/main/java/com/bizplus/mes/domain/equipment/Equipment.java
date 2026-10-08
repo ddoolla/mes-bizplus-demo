@@ -39,6 +39,16 @@ public class Equipment extends SoftDeletableEntity {
 
     private String remark;
 
+    /*
+    * 데이터 수집 프로그램 설정 파일의 senderId 값
+    * 현재는 테이블에 직접 매핑하고 있음
+    * */
+    @Column(
+            unique = true,
+            comment = "데이터 수집 프로그램 설정 파일의 senderId 값"
+    )
+    private Long senderId;
+
     public Equipment(CommonCode type,
                      String code,
                      String name,

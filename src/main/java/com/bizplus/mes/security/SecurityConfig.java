@@ -37,6 +37,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                "/api/login", // 니즈 프로그램 연결용 제외
+                                "/api/sensor-events" // PLC 데이터 수집용 제외
+                        )
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
@@ -44,17 +50,18 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**",
                                 "/fonts/**",
-                                "/lib/**"
+                                "/lib/**",
+                                "/api/login", // 니즈프로그램 연결용
+                                "/ws/**", // 웹소켓 연결 요청 오픈
+                                "/api/sensor-events" // PLC 데이터 전송 오픈
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
                 // 세션 만료 시 비동기 요청 처리
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authExcpetion) -> {
-                            System.out.println("여기 타나요?");
                             if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                                System.out.println("비동기 여기 타나요?");
                                 return;
                             }
 

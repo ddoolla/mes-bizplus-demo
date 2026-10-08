@@ -4,6 +4,7 @@ import com.bizplus.mes.domain.code.group.CodeGroupInitializeService;
 import com.bizplus.mes.domain.menu.MenuInitializeService;
 import com.bizplus.mes.domain.permission.PermissionInitializeService;
 import com.bizplus.mes.domain.role.AdminRoleInitializeService;
+import com.bizplus.mes.domain.sensor.SensorInitializeService;
 import com.bizplus.mes.domain.user.AdminUserInitializeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SystemDataInitializer implements ApplicationRunner {
 
+    private final SensorInitializeService sensorInitializeService;
     private final MenuInitializeService menuInitializeService;
     private final CodeGroupInitializeService codeGroupInitializeService;
     private final PermissionInitializeService permissionInitializeService;
@@ -29,6 +31,7 @@ public class SystemDataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
+        sensorInitializeService.initialize();
         menuInitializeService.initialize();
         codeGroupInitializeService.initialize();
         permissionInitializeService.initialize();

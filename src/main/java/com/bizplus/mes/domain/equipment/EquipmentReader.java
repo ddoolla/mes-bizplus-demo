@@ -22,4 +22,9 @@ public class EquipmentReader {
                 .orElseThrow(() -> new BusinessException(ErrorCode.EQUIPMENT_NOT_FOUND, "id: " + id))
                 : null;
     }
+
+    public Equipment getBySenderId(Long senderId) {
+        return equipmentRepository.findBySenderId(senderId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.EQUIPMENT_NOT_FOUND, "senderId: " + senderId));
+    }
 }

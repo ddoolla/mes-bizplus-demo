@@ -8,5 +8,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long>, Equ
 
     Optional<Equipment> findByIdAndDeletedAtIsNull(Long id);
 
+    Optional<Equipment> findBySenderId(Long senderId);
+
     boolean existsByCodeAndIdNot(String code, Long id);
 }

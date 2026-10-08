@@ -48,6 +48,8 @@ public enum ErrorCode {
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
     ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),
 
+    SENSOR_NOT_FOUND(HttpStatus.NOT_FOUND, "센서를 찾을 수 없습니다."),
+
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
 

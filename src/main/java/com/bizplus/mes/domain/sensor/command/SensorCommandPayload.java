@@ -1,4 +1,4 @@
-package com.bizplus.mes.domain.sensor.event.dto;
+package com.bizplus.mes.domain.sensor.command;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

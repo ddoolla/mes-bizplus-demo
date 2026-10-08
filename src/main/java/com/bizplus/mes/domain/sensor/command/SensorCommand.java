@@ -1,4 +1,4 @@
-package com.bizplus.mes.domain.sensor.event;
+package com.bizplus.mes.domain.sensor.command;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

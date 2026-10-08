@@ -1,6 +1,5 @@
-package com.bizplus.mes.domain.sensor.event;
+package com.bizplus.mes.domain.sensor.command;
 
-import com.bizplus.mes.domain.sensor.event.dto.SensorCommandPayload;
 import com.bizplus.mes.websocket.WebSocketPublisher;
 import com.bizplus.mes.websocket.WsEnvelope;
 import lombok.RequiredArgsConstructor;

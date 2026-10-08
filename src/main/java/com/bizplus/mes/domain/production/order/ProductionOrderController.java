@@ -9,9 +9,11 @@ import com.bizplus.mes.domain.item.ItemGroup;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.production.order.dto.ProductionOrderConfirmDto;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderCreateDto;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderSearchDto;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderUpdateDto;
+import com.bizplus.mes.domain.production.order.facade.ProductionOrderConfirmService;
 import com.bizplus.mes.domain.production.order.facade.ProductionOrderCreateService;
 import com.bizplus.mes.domain.production.order.facade.ProductionOrderUpdateService;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcessService;
@@ -42,6 +44,7 @@ public class ProductionOrderController {
 
     private final ProductionOrderCreateService productionOrderCreateService;
     private final ProductionOrderUpdateService productionOrderUpdateService;
+    private final ProductionOrderConfirmService productionOrderConfirmService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_READ')")
@@ -108,6 +111,17 @@ public class ProductionOrderController {
 
         return "redirect:/production-orders/{id}";
     }
+
+    @PatchMapping("/{id}/confirm")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Void>> confirmProductionOrder(@PathVariable Long id,
+                                                                    @RequestBody @Valid ProductionOrderConfirmDto dto) {
+        productionOrderConfirmService.confirm(id, dto);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.CONFIRMED)));
+    }
+
 
     @DeleteMapping
     @ResponseBody

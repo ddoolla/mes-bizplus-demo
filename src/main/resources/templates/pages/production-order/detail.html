@@ -34,6 +34,7 @@
                 id="production-order-confirm-button"
                 class="btn btn-success btn-sm"
                 th:data-id="${productionOrder.id}"
+                th:data-item-id="${productionOrder.item.id}"
                 sec:authorize="hasAuthority('PRODUCTION_ORDER_UPDATE')">
             <i class="bi bi-check-circle"></i> 확정
         </button>
@@ -79,6 +80,10 @@
                 </td>
                 <th>생산 예정일</th>
                 <td th:text="${#temporals.format(productionOrder.dueDate, 'yyyy-MM-dd')}"></td>
+            </tr>
+            <tr>
+                <th>생산 로트</th>
+                <td colspan="3" th:text="*{lot.no} ?: '생산지시 확정 시 생성됩니다.'"></td>
             </tr>
             <tr>
                 <th>비고</th>

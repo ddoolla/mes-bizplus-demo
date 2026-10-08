@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WorkOrderStatus {
 
-    DRAFT("작성중"),
     PENDING("대기"),
     IN_PROGRESS("작업중"),
     COMPLETED("완료");

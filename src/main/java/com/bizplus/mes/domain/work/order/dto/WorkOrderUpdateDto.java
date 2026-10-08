@@ -16,7 +16,7 @@ public class WorkOrderUpdateDto {
     @NotNull
     private Long id;
     private Long equipmentId;
-    private Long workerId;
+    private Long userId;
 
     @NotNull
     @Positive

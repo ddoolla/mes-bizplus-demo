@@ -1,0 +1,87 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, workOrderStatuses, count)">
+    <form id="work-order-search-form" method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
+                <col style="width: 500px">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>제품</th>
+                <td>
+                    <input type="text"
+                           name="item"
+                           class="app-form-control app-xs"
+                           th:value="${param.item}">
+                </td>
+                <th>공정</th>
+                <td>
+                    <input type="text"
+                           name="process"
+                           class="app-form-control app-xs"
+                           th:value="${param.process}">
+                </td>
+                <th>작업 상태</th>
+                <td>
+                    <select name="status"
+                            class="app-form-control app-xs"
+                            th:value="${param.status}">
+                        <option value="">전체</option>
+                        <option th:each="status : ${workOrderStatuses}"
+                                th:value="${status}"
+                                th:text="${status?.description}"
+                                th:selected="${#strings.equals(param.status, status.name)}"></option>
+                    </select>
+                </td>
+                <th>기간</th>
+                <td>
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="text"
+                               name="startDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.startDate}"
+                               readonly autocomplete="off"/>
+                        <span>-</span>
+                        <input type="text"
+                               name="endDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.endDate}"
+                               readonly autocomplete="off"/>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/work-orders/completed}'|">
+                    <i class="bi bi-list"></i> 완료 목록
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

@@ -19,10 +19,11 @@ public class WorkOrderDto {
     private final LocalDateTime startedAt;
     private final LocalDateTime completedAt;
     private final String remark;
-    private final ProductionOrderProcessInfo productionOrderProcess;
+    private final ProductionOrderProcessInfo process;
     private final EquipmentInfo equipment;
-    private final WorkerInfo worker;
-    private final ItemUomInfo uom;
+    private final UserInfo user;
+    private final ItemInfo item;
+    private final LotInfo lot;
 
     @QueryProjection
     public WorkOrderDto(Long id,
@@ -39,11 +40,16 @@ public class WorkOrderDto {
                         Long equipmentId,
                         String equipmentCode,
                         String equipmentName,
-                        Long workerId,
-                        String workerCode,
-                        String workerName,
+                        Long userId,
+                        String userName,
+                        Long itemId,
+                        String itemCode,
+                        String itemName,
+                        String itemSpec,
                         String uomCode,
-                        Integer uomScale) {
+                        Integer uomScale,
+                        Long lotId,
+                        String lotNo) {
         this.id = id;
         this.orderNo = orderNo;
         this.quantity = quantity;
@@ -52,7 +58,7 @@ public class WorkOrderDto {
         this.startedAt = startedAt;
         this.completedAt = completedAt;
         this.remark = remark;
-        this.productionOrderProcess = new ProductionOrderProcessInfo(
+        this.process = new ProductionOrderProcessInfo(
                 popId,
                 popCode,
                 popName
@@ -62,14 +68,20 @@ public class WorkOrderDto {
                 equipmentCode,
                 equipmentName
         );
-        this.worker = new WorkerInfo(
-                workerId,
-                workerCode,
-                workerName
+        this.user = new UserInfo(
+                userId,
+                userName
         );
-        this.uom = new ItemUomInfo(
-                uomCode,
-                uomScale
+        this.item = new ItemInfo(
+                itemId,
+                itemCode,
+                itemName,
+                itemSpec,
+                new ItemUomInfo(uomCode, uomScale)
+        );
+        this.lot = new LotInfo(
+                lotId,
+                lotNo
         );
     }
 
@@ -87,16 +99,30 @@ public class WorkOrderDto {
     ) {
     }
 
-    public record WorkerInfo(
+    public record UserInfo(
+            Long id,
+            String name
+    ) {
+    }
+
+    public record ItemInfo(
             Long id,
             String code,
-            String name
+            String name,
+            String specification,
+            ItemUomInfo uom
     ) {
     }
 
     public record ItemUomInfo(
             String code,
             Integer scale
+    ) {
+    }
+
+    public record LotInfo(
+            Long id,
+            String no
     ) {
     }
 }

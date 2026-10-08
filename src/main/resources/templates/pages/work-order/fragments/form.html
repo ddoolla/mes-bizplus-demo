@@ -43,7 +43,7 @@
                     <th>작업 수량</th>
                     <th>설비</th>
                     <th>작업자</th>
-                    <th>비고</th>
+                    <th>전달사항</th>
                     <th>상태</th>
                 </tr>
                 </thead>
@@ -61,7 +61,7 @@
                                th:value="${workOrder.id}"/>
                     </td>
                     <td th:text="${workOrder.orderNo}"></td>
-                    <td th:text="${workOrder.productionOrderProcess.name}"></td>
+                    <td th:text="${workOrder.process.name}"></td>
                     <td>
                         <input type="text"
                                th:name="|workOrders[${stat.index}].date|"
@@ -75,7 +75,7 @@
                                th:name="|workOrders[${stat.index}].quantity|"
                                class="work-order-quantity
                                       app-form-control app-xs "
-                               th:value="${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.uom.scale)}"/>
+                               th:value="${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.item.uom.scale)}"/>
                     </td>
                     <td>
                         <div class="d-flex gap-1">
@@ -99,16 +99,16 @@
                     <td>
                         <div class="d-flex gap-1">
                             <input type="text"
-                                   th:name="|workOrders[${stat.index}].workerName|"
-                                   class="work-order-worker
+                                   th:name="|workOrders[${stat.index}].userName|"
+                                   class="work-order-user
                                           app-form-control app-xs app-readonly-bg"
-                                   th:value="${workOrder.worker.name}"
+                                   th:value="${workOrder.user.name}"
                                    readonly/>
                             <input type="hidden"
-                                   th:name="|workOrders[${stat.index}].workerId|"
-                                   th:value="${workOrder.worker.id}"/>
+                                   th:name="|workOrders[${stat.index}].userId|"
+                                   th:value="${workOrder.user.id}"/>
                             <button type="button"
-                                    class="worker-list-button
+                                    class="user-list-button
                                            btn btn-secondary app-btn-xs"
                                     th:data-index="${stat.index}">
                                 <i class="bi bi-list"></i>
@@ -122,10 +122,6 @@
                                th:value="${workOrder.remark}"/>
                     </td>
                     <td th:switch="${workOrder.status?.name}">
-                        <h6 th:case="'DRAFT'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2"
-                                  th:text="${workOrder.status?.description}"></span>
-                        </h6>
                         <h6 th:case="'PENDING'" class="mb-0">
                             <span class="badge text-bg-secondary p-2"
                                   th:text="${workOrder.status?.description}"></span>

@@ -79,7 +79,13 @@
                         <input type="number"
                                name="quantity"
                                th:value="${@format.decimalValue(productionOrder.quantity)}"
-                               class="app-form-control app-xs"/>
+                               class="app-form-control app-xs"
+                               th:disabled="*{status.name != 'DRAFT'}"/>
+
+                        <input type="hidden"
+                               th:if="*{status.name != 'DRAFT'}"
+                               name="quantity"
+                               th:value="*{quantity}"/>
                     </td>
                     <th>생산 예정일 <span class="app-required">*</span></th>
                     <td>
@@ -87,8 +93,18 @@
                                name="dueDate"
                                class="app-form-control app-xs"
                                th:value="*{dueDate}"
+                               th:disabled="*{status.name != 'DRAFT'}"
                                readonly/>
+
+                        <input type="hidden"
+                               th:if="*{status.name != 'DRAFT'}"
+                               name="dueDate"
+                               th:value="*{dueDate}"/>
                     </td>
+                </tr>
+                <tr>
+                    <th>생산 로트</th>
+                    <td colspan="3" th:text="*{lot.no} ?: '생산지시 확정 시 생성됩니다.'"></td>
                 </tr>
                 <tr>
                     <th>비고</th>
@@ -135,8 +151,8 @@
     </div>
 
     <!--/* 작업자 선택 모달 */-->
-    <div th:replace="~{pages/worker/modal/list/container :: container (
-        @{/workers/modal/list/single},
+    <div th:replace="~{pages/user/modal/list/container :: container (
+        @{/users/modal/list/single},
         ${departments},
         ${positions})}">
     </div>

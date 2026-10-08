@@ -15,4 +15,11 @@ public class UserReader {
         return userRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "id: " + id));
     }
+
+    public User getByIdOrNull(Long id) {
+        return id != null
+                ? userRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "id: " + id))
+                : null;
+    }
 }

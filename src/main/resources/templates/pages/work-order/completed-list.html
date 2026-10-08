@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('작업 완료 목록', ~{}, ~{::script}, 'WORK_ORDER', ~{::#app-content})}">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="module" th:src="@{/js/pages/work-order/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+  <!--/* 헤더 */-->
+  <div th:replace="~{fragments/content :: header ('작업 완료 목록', '생산관리, 작업지시, 완료내역')}">
+  </div>
+
+  <!--/* 바디 */-->
+  <div class="app-box app-box-bg">
+    <!--/* 필터 */-->
+    <div th:replace="~{pages/work-order/fragments/completed-filter :: filter (
+            '/work-orders/completed',
+            ${data.pagination.totalElements})}">
+    </div>
+
+    <!--/* 목록 */-->
+    <div id="work-order-table">
+      <table class="app-table-list text-center">
+        <colgroup>
+          <col style="width: 150px">
+          <col style="width: 200px">
+          <col style="width: 200px">
+          <col style="width: 150px">
+          <col style="width: 150px">
+          <col style="width: 200px">
+          <col style="width: auto">
+          <col style="width: 100px">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>작업지시 번호</th>
+          <th>제품</th>
+          <th>공정</th>
+          <th>작업 수량</th>
+          <th>작업일</th>
+          <th>설비</th>
+          <th>전달사항</th>
+          <th>상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(data.workOrders)}">
+          <td colspan="8" class="p-4">등록된 작업 완료 내역 정보가 없습니다.</td>
+        </tr>
+        <tr th:each="workOrder : ${data.workOrders}">
+          <td class="fw-bold">
+            <a th:href="@{/work-orders/{id}(id=${workOrder.id})}"
+               th:text="${workOrder.orderNo}"></a>
+          </td>
+          <td th:text="${workOrder.item.name}"></td>
+          <td th:text="${workOrder.process.name}"></td>
+          <td th:text="${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.item.uom.scale)}"></td>
+          <td th:text="${#temporals.format(workOrder.date, 'yyyy-MM-dd')}"></td>
+          <td th:text="${@format.value(workOrder.equipment.name)}"></td>
+          <td th:text="${@format.value(workOrder.remark)}"></td>
+          <td th:switch="${workOrder.status?.name}">
+            <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${workOrder.status?.description}"></span>
+            </h6>
+            <h6 th:case="'IN_PROGRESS'" class="mb-0">
+                            <span class="badge text-bg-primary p-2"
+                                  th:text="${workOrder.status?.description}"></span>
+            </h6>
+            <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${workOrder.status?.description}"></span>
+            </h6>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+  </div>
+</div>
+</body>
+</html>

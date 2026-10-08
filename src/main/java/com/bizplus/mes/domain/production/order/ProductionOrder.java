@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.production.order;
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.item.Item;
+import com.bizplus.mes.domain.lot.Lot;
 import com.bizplus.mes.domain.routing.Routing;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -33,6 +34,10 @@ public class ProductionOrder extends SoftDeletableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "routing_id", nullable = false)
     private Routing routing;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lot_id")
+    private Lot lot;
 
     @Column(unique = true, nullable = false)
     private String orderNo;
@@ -71,5 +76,13 @@ public class ProductionOrder extends SoftDeletableEntity {
         this.quantity = quantity;
         this.dueDate = dueDate;
         this.remark = remark;
+    }
+
+    public void updateStatus(ProductionOrderStatus status) {
+        this.status = status;
+    }
+
+    public void updateLot(Lot lot) {
+        this.lot = lot;
     }
 }

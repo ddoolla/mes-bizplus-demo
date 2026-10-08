@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.work.order;
 
+import com.bizplus.mes.domain.production.order.ProductionOrderStatus;
 import com.bizplus.mes.domain.work.order.dto.QWorkOrderDto;
 import com.bizplus.mes.domain.work.order.dto.WorkOrderDto;
 import com.bizplus.mes.domain.work.order.dto.WorkOrderSearchDto;
@@ -19,12 +20,12 @@ import java.util.Optional;
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.equipment.QEquipment.equipment;
 import static com.bizplus.mes.domain.item.QItem.item;
+import static com.bizplus.mes.domain.lot.QLot.lot;
 import static com.bizplus.mes.domain.production.order.QProductionOrder.productionOrder;
 import static com.bizplus.mes.domain.production.order.process.QProductionOrderProcess.productionOrderProcess;
 import static com.bizplus.mes.domain.uom.QUom.uom;
 import static com.bizplus.mes.domain.user.QUser.user;
 import static com.bizplus.mes.domain.work.order.QWorkOrder.workOrder;
-import static com.bizplus.mes.domain.worker.QWorker.worker;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -33,12 +34,40 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public Page<WorkOrderDto> findWorkOrders(WorkOrderSearchDto dto, Pageable pageable) {
+    public Page<WorkOrderDto> findWorkOrders(WorkOrderListType listType,
+                                             WorkOrderSearchDto dto,
+                                             Pageable pageable) {
+        return findWorkOrders(listType, null, dto, pageable);
+    }
+
+    @Override
+    public Page<WorkOrderDto> findWorkOrdersByUserId(WorkOrderListType listType,
+                                                     Long userId,
+                                                     WorkOrderSearchDto dto,
+                                                     Pageable pageable) {
+        return findWorkOrders(listType, userId, dto, pageable);
+    }
+
+    private Page<WorkOrderDto> findWorkOrders(WorkOrderListType listType,
+                                              Long userId,
+                                              WorkOrderSearchDto dto,
+                                              Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(workOrder.deletedAt))
-                .and(contains(workOrder.orderNo, dto.getOrderNo()))
+                .and(productionOrder.status.ne(ProductionOrderStatus.DRAFT))
+                .and(containsAny(dto.getItem(), item.code, item.name))
+                .and(containsAny(dto.getProcess(), productionOrderProcess.code, productionOrderProcess.name))
+                .and(eq(workOrder.status, dto.getStatus()))
                 .and(startDateGoe(workOrder.date, dto.getStartDate()))
                 .and(endDateLoe(workOrder.date, dto.getEndDate()));
+
+        if (userId != null) {
+            searchCondition.and(eq(workOrder.user.id, userId));
+        }
+
+        if (listType != null) {
+            searchCondition.and(in(workOrder.status, listType.getStatuses()));
+        }
 
         List<WorkOrderDto> content = query
                 .select(new QWorkOrderDto(
@@ -56,18 +85,23 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         equipment.id,
                         equipment.code,
                         equipment.name,
-                        worker.id,
-                        worker.code,
+                        user.id,
                         user.name,
+                        item.id,
+                        item.code,
+                        item.name,
+                        item.specification,
                         uom.code,
-                        uom.scale
+                        uom.scale,
+                        lot.id,
+                        lot.no
                 ))
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                 .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
-                .leftJoin(worker).on(workOrder.worker.id.eq(worker.id))
-                .leftJoin(user).on(worker.user.id.eq(user.id))
+                .leftJoin(user).on(workOrder.user.id.eq(user.id))
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(searchCondition)
@@ -81,9 +115,9 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                 .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
-                .leftJoin(worker).on(workOrder.worker.id.eq(worker.id))
-                .leftJoin(user).on(worker.user.id.eq(user.id))
+                .leftJoin(user).on(workOrder.user.id.eq(user.id))
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(searchCondition);
@@ -109,18 +143,23 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         equipment.id,
                         equipment.code,
                         equipment.name,
-                        worker.id,
-                        worker.code,
+                        user.id,
                         user.name,
+                        item.id,
+                        item.code,
+                        item.name,
+                        item.specification,
                         uom.code,
-                        uom.scale
+                        uom.scale,
+                        lot.id,
+                        lot.no
                 ))
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                 .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
-                .leftJoin(worker).on(workOrder.worker.id.eq(worker.id))
-                .leftJoin(user).on(worker.user.id.eq(user.id))
+                .leftJoin(user).on(workOrder.user.id.eq(user.id))
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(
@@ -150,18 +189,23 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                 equipment.id,
                                 equipment.code,
                                 equipment.name,
-                                worker.id,
-                                worker.code,
+                                user.id,
                                 user.name,
+                                item.id,
+                                item.code,
+                                item.name,
+                                item.specification,
                                 uom.code,
-                                uom.scale
+                                uom.scale,
+                                lot.id,
+                                lot.no
                         ))
                         .from(workOrder)
                         .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                         .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                        .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                         .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
-                        .leftJoin(worker).on(workOrder.worker.id.eq(worker.id))
-                        .leftJoin(user).on(worker.user.id.eq(user.id))
+                        .leftJoin(user).on(workOrder.user.id.eq(user.id))
                         .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                         .innerJoin(uom).on(item.uom.id.eq(uom.id))
                         .where(

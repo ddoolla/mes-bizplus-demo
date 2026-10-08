@@ -19,6 +19,7 @@ public class ProductionOrderDto {
     private final ItemInfo item;
     private final BomInfo bom;
     private final RoutingInfo routing;
+    private final LotInfo lot;
 
     @QueryProjection
     public ProductionOrderDto(Long id,
@@ -38,7 +39,9 @@ public class ProductionOrderDto {
                               String bomName,
                               Long routingId,
                               String routingCode,
-                              String routingName) {
+                              String routingName,
+                              Long lotId,
+                              String lotNo) {
         this.id = id;
         this.orderNo = orderNo;
         this.quantity = quantity;
@@ -61,6 +64,10 @@ public class ProductionOrderDto {
                 routingId,
                 routingCode,
                 routingName
+        );
+        this.lot = new LotInfo(
+                lotId,
+                lotNo
         );
     }
 
@@ -90,6 +97,12 @@ public class ProductionOrderDto {
             Long id,
             String code,
             String name
+    ) {
+    }
+
+    public record LotInfo(
+            Long id,
+            String no
     ) {
     }
 }

@@ -9,6 +9,8 @@ import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.bom.BomReader;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
+import com.bizplus.mes.domain.lot.Lot;
+import com.bizplus.mes.domain.lot.LotReader;
 import com.bizplus.mes.domain.production.order.dto.*;
 import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.routing.RoutingReader;
@@ -31,6 +33,7 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
     private final BomReader bomReader;
     private final RoutingReader routingReader;
     private final ProductionOrderReader productionOrderReader;
+    private final LotReader lotReader;
 
     @Override
     public ProductionOrderListDto getProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
@@ -84,6 +87,20 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
                 dto.getDueDate(),
                 dto.getRemark()
         );
+    }
+
+    @Transactional
+    @Override
+    public void confirmProductionOrder(Long id, Long lotId) {
+        ProductionOrder productionOrder = productionOrderReader.getById(id);
+        Lot lot = lotReader.getById(lotId);
+
+        if (productionOrder.getStatus() != ProductionOrderStatus.DRAFT) {
+            throw new IllegalStateException("생산지시 작성중 상태에서만 확정 가능합니다. id: " + id);
+        }
+
+        productionOrder.updateStatus(ProductionOrderStatus.CONFIRMED);
+        productionOrder.updateLot(lot);
     }
 
     @Transactional

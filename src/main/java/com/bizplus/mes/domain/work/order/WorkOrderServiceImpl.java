@@ -11,9 +11,10 @@ import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.production.order.ProductionOrderReader;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcess;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcessReader;
+import com.bizplus.mes.domain.user.User;
+import com.bizplus.mes.domain.user.UserReader;
 import com.bizplus.mes.domain.work.order.dto.*;
-import com.bizplus.mes.domain.worker.Worker;
-import com.bizplus.mes.domain.worker.WorkerReader;
+import com.bizplus.mes.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +30,24 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
     private final WorkOrderRepository workOrderRepository;
 
+    private final UserReader userReader;
     private final EquipmentReader equipmentReader;
-    private final WorkerReader workerReader;
     private final ProductionOrderReader productionOrderReader;
     private final ProductionOrderProcessReader productionOrderProcessReader;
     private final WorkOrderReader workOrderReader;
 
     @Override
-    public WorkOrderListDto getWorkOrders(WorkOrderSearchDto dto, Pageable pageable) {
-        Page<WorkOrderDto> workOrderPage = workOrderRepository.findWorkOrders(dto, pageable);
+    public WorkOrderListDto getWorkOrders(WorkOrderListType listType, WorkOrderSearchDto dto, Pageable pageable) {
+        User user = SecurityUtils.getCurrentUser().getUser();
+
+        Page<WorkOrderDto> workOrderPage;
+
+        if ("admin".equals(user.getLoginId())) {
+            workOrderPage = workOrderRepository.findWorkOrders(listType, dto, pageable);
+
+        } else {
+            workOrderPage = workOrderRepository.findWorkOrdersByUserId(listType, user.getId(), dto, pageable);
+        }
 
         return new WorkOrderListDto(workOrderPage.getContent(), Pagination.of(workOrderPage));
     }
@@ -61,13 +71,10 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
         ProductionOrder productionOrder = productionOrderReader.getById(productionOrderId);
 
-        // todo 일단 생산지시 생성 시, 기본적으로 하나씩 생성해 주고, 추가하는 방향으로
         popIds.forEach(popId -> {
             ProductionOrderProcess pop = productionOrderProcessReader.getById(popId);
 
             String maxOrderNo = workOrderRepository.findMaxOrderNo(today);
-
-            // todo 이미 생성된 작업지시가 있다면, 수량 비교 후 quantity 설정 또는 null 설정
 
             workOrderRepository.save(new WorkOrder(
                     pop,
@@ -76,7 +83,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     CodeGenerator.generate(CodePrefix.WORK_ORDER, today, maxOrderNo),
                     productionOrder.getQuantity(),
                     productionOrder.getDueDate(), // 일단 생산 예정일로 생성
-                    WorkOrderStatus.DRAFT,
+                    WorkOrderStatus.PENDING,
                     null,
                     null,
                     null
@@ -101,7 +108,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     CodeGenerator.generate(CodePrefix.WORK_ORDER, today, maxOrderNo),
                     null,
                     null,
-                    WorkOrderStatus.DRAFT,
+                    WorkOrderStatus.PENDING,
                     null,
                     null,
                     null
@@ -115,11 +122,11 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         dtoList.forEach(dto -> {
             WorkOrder workOrder = workOrderReader.getById(dto.getId());
             Equipment equipment = equipmentReader.getByIdOrNull(dto.getEquipmentId());
-            Worker worker = workerReader.getByIdOrNull(dto.getWorkerId());
+            User user = userReader.getByIdOrNull(dto.getUserId());
 
             workOrder.update(
                     equipment,
-                    worker,
+                    user,
                     dto.getQuantity(),
                     dto.getDate(),
                     dto.getRemark()

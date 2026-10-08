@@ -3,7 +3,7 @@ package com.bizplus.mes.domain.work.order;
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.equipment.Equipment;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcess;
-import com.bizplus.mes.domain.worker.Worker;
+import com.bizplus.mes.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,8 +32,8 @@ public class WorkOrder extends SoftDeletableEntity {
     private Equipment equipment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id")
-    private Worker worker;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(unique = true, nullable = false)
     private String orderNo;
@@ -54,7 +54,7 @@ public class WorkOrder extends SoftDeletableEntity {
 
     public WorkOrder(ProductionOrderProcess productionOrderProcess,
                      Equipment equipment,
-                     Worker worker,
+                     User user,
                      String orderNo,
                      BigDecimal quantity,
                      LocalDate date,
@@ -64,7 +64,7 @@ public class WorkOrder extends SoftDeletableEntity {
                      String remark) {
         this.productionOrderProcess = productionOrderProcess;
         this.equipment = equipment;
-        this.worker = worker;
+        this.user = user;
         this.orderNo = orderNo;
         this.quantity = quantity;
         this.date = date;
@@ -75,12 +75,12 @@ public class WorkOrder extends SoftDeletableEntity {
     }
 
     public void update(Equipment equipment,
-                       Worker worker,
+                       User user,
                        BigDecimal quantity,
                        LocalDate date,
                        String remark) {
         this.equipment = equipment;
-        this.worker = worker;
+        this.user = user;
         this.quantity = quantity;
         this.date = date;
         this.remark = remark;

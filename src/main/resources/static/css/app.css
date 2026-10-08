@@ -253,9 +253,9 @@ input[type="checkbox"], input[type="radio"] {
     margin-right: 5px;
 }
 
-input[type="text"]:disabled, select:disabled {
-    background: #dddddd;
-}
+/*input[type="text"]:disabled, select:disabled {*/
+/*    background: #dddddd;*/
+/*}*/
 
 /* ================================ Table ================================ */
 

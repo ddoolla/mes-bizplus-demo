@@ -1,12 +1,11 @@
 package com.bizplus.mes.domain.lot;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
+import com.bizplus.mes.domain.item.Item;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lots")
@@ -18,23 +17,15 @@ public class Lot extends SoftDeletableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
+
     @Column(unique = true, nullable = false)
     private String no;
 
-    private LocalDateTime manufactureDate;
-
-    private LocalDateTime expireDate;
-
-    @Enumerated(EnumType.STRING)
-    private LotStatus status;
-
-    public Lot(String no,
-               LocalDateTime manufactureDate,
-               LocalDateTime expireDate,
-               LotStatus status) {
+    public Lot(Item item, String no) {
+        this.item = item;
         this.no = no;
-        this.manufactureDate = manufactureDate;
-        this.expireDate = expireDate;
-        this.status = status;
     }
 }

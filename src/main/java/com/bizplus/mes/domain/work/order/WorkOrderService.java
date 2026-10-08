@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface WorkOrderService {
 
-    WorkOrderListDto getWorkOrders(WorkOrderSearchDto dto, Pageable pageable);
+    WorkOrderListDto getWorkOrders(WorkOrderListType listType, WorkOrderSearchDto dto, Pageable pageable);
 
     List<WorkOrderDto> getWorkOrders(Long ProductionOrderId);
 

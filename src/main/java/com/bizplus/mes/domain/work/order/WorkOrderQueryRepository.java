@@ -11,7 +11,14 @@ import java.util.Optional;
 
 public interface WorkOrderQueryRepository {
 
-    Page<WorkOrderDto> findWorkOrders(WorkOrderSearchDto dto, Pageable pageable);
+    Page<WorkOrderDto> findWorkOrders(WorkOrderListType listType,
+                                      WorkOrderSearchDto dto,
+                                      Pageable pageable);
+
+    Page<WorkOrderDto> findWorkOrdersByUserId(WorkOrderListType listType,
+                                              Long userId,
+                                              WorkOrderSearchDto dto,
+                                              Pageable pageable);
 
     List<WorkOrderDto> findWorkOrders(Long productionOrderId);
 

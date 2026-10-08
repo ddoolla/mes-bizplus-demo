@@ -79,7 +79,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         SalesOrder salesOrder = salesOrderReader.getById(id);
 
         if (salesOrder.getStatus() != SalesOrderStatus.DRAFT) {
-            throw new IllegalStateException("수주 작성중 상태에서만 확정 가능합니다.");
+            throw new IllegalStateException("수주 작성중 상태에서만 확정 가능합니다. id: " + id);
         }
 
         salesOrder.updateStatus(SalesOrderStatus.CONFIRMED);

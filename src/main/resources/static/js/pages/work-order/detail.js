@@ -11,14 +11,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const progressbar = document.querySelector('.progress-bar');
     const progressRateSpan = document.querySelector('#progress-rate');
 
-    const productionCount = document.querySelector('#production-count');
-    const goodCount = document.querySelector('#good-count');
-    const defectCount = document.querySelector('#defect-count');
+    const productionCountSpan = document.querySelector('#production-count');
+    const goodCountSpan = document.querySelector('#good-count');
+    const defectCountSpan = document.querySelector('#defect-count');
 
     const workOrderId = document.querySelector('[name="id"]').value;
     const equipmentId = document.querySelector('[name="equipmentId"]').value;
     const workStatus = document.querySelector('[name="status"]').value;
     const targetCount = document.querySelector('[name="quantity"]').value;
+    const productionQuantity = document.querySelector('[name="productionQuantity"]').value;
+    const goodQuantity = document.querySelector('[name="goodQuantity"]').value;
+    const defectQuantity = document.querySelector('[name="defectQuantity"]').value;
 
     const confirmModal = createConfirmModal();
 
@@ -31,22 +34,22 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await ajax.get(
                 `/api/sensor-events/equipments/${equipmentId}/current`,
-                {sensorCode: '0003'}
+                {sensorCode: '0003'} // 생산 카운트
             );
 
-            // PLC 생산 카운트
+            // PLC 생산 카운트 (작업 시작, 재개 시 초기화)
             const plcCount = response.data.numericValue ?? 0;
 
-            // 생산 현황 업데이트
-            productionCount.textContent = plcCount;
-            goodCount.textContent = plcCount;
+            const productionCount = Number(productionQuantity) + Number(plcCount);
+            const goodCount = Number(goodQuantity) + Number(plcCount);
 
-            // todo 불량 카운트
-            // todo 진행률도 ㅇ
+            // 생산 현황 업데이트 (생산 카운트, 양품 수량)
+            productionCountSpan.textContent = productionCount.toLocaleString();
+            goodCountSpan.textContent = goodCount.toLocaleString();
 
             // 진행률 업데이트
             if (targetCount !== 0) {
-                const progressRate = ((plcCount / targetCount) * 100).toFixed() + '%';
+                const progressRate = ((productionCount / targetCount) * 100).toFixed() + '%';
                 progressbar.style.width = progressRate;
                 progressRateSpan.textContent = progressRate;
             }
@@ -113,7 +116,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 content: '작업을 중지하시겠습니까?',
                 onConfirm: async () => {
                     try {
-                        const response = await ajax.patch(`/work-orders/${workOrderId}/stop`)
+                        const data = {
+                            productionQuantity: productionCountSpan.textContent,
+                            goodQuantity: goodCountSpan.textContent,
+                            defectQuantity: defectCountSpan.textContent
+                        };
+
+                        const response = await ajax.patch(`/work-orders/${workOrderId}/stop`, data)
 
                         toast.afterReload({
                             message: response.message,

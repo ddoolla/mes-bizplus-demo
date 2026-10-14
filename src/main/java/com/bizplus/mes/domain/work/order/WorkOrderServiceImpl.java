@@ -65,7 +65,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
 
         BigDecimal quantity = workOrderDto.getQuantity();
-        BigDecimal productionCount = workOrderDto.getResult().productionCount();
+        BigDecimal productionCount = workOrderDto.getResult().productionQuantity();
         BigDecimal progressRate = BigDecimal.ZERO;
 
         if (quantity != null && quantity.compareTo(BigDecimal.ZERO) > 0 && productionCount != null) {

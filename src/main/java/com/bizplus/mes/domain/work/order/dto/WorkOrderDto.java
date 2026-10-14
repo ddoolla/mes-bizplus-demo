@@ -50,7 +50,7 @@ public class WorkOrderDto {
                         Integer uomScale,
                         Long lotId,
                         String lotNo,
-                        BigDecimal productionCount,
+                        BigDecimal productionQuantity,
                         BigDecimal goodQuantity,
                         BigDecimal defectQuantity,
                         LocalDateTime startedAt,
@@ -92,7 +92,7 @@ public class WorkOrderDto {
                 lotNo
         );
         this.result = new ResultInfo(
-                productionCount,
+                productionQuantity,
                 goodQuantity,
                 defectQuantity,
                 startedAt,
@@ -150,7 +150,7 @@ public class WorkOrderDto {
     }
 
     public record ResultInfo(
-            BigDecimal productionCount,
+            BigDecimal productionQuantity,
             BigDecimal goodQuantity,
             BigDecimal defectQuantity,
             LocalDateTime startedAt,

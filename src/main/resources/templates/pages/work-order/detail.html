@@ -32,6 +32,9 @@
                 <input type="hidden" name="equipmentId" th:value="${workOrder.equipment.id}"/>
                 <input type="hidden" name="status" th:value="${workOrder.status}"/>
                 <input type="hidden" name="quantity" th:value="${workOrder.quantity}"/>
+                <input type="hidden" name="productionQuantity" th:value="${workOrder.result.productionQuantity}"/>
+                <input type="hidden" name="goodQuantity" th:value="${workOrder.result.goodQuantity}"/>
+                <input type="hidden" name="defectQuantity" th:value="${workOrder.result.defectQuantity}"/>
 
                 <table class="app-table-input" th:object="${workOrder}">
                     <colgroup>
@@ -185,7 +188,8 @@
                                         </div>
                                         <div>
                                             <span id="production-count"
-                                                  class="h4 fw-bold">0</span>
+                                                  class="h4 fw-bold"
+                                                  th:text="${#numbers.formatDecimal(workOrder.result.productionQuantity, 1,'COMMA', 0, 'POINT')} ?: '0'"></span>
                                             <span th:text="${workOrder.item.uom.code}"></span>
                                         </div>
                                     </div>
@@ -199,7 +203,8 @@
                                         </div>
                                         <div>
                                             <span id="good-count"
-                                                  class="h4 fw-bold">0</span>
+                                                  class="h4 fw-bold"
+                                                  th:text="${#numbers.formatDecimal(workOrder.result.goodQuantity, 1,'COMMA', 0, 'POINT')} ?: '0'"></span>
                                             <span th:text="${workOrder.item.uom.code}"></span>
                                         </div>
                                     </div>
@@ -213,7 +218,8 @@
                                         </div>
                                         <div>
                                             <span id="defect-count"
-                                                  class="h4 fw-bold">0</span>
+                                                  class="h4 fw-bold"
+                                                  th:text="${#numbers.formatDecimal(workOrder.result.defectQuantity, 1,'COMMA', 0, 'POINT')} ?: '0'"></span>
                                             <span th:text="${workOrder.item.uom.code}"></span>
                                         </div>
                                     </div>
@@ -249,13 +255,13 @@
                                 <h6 class="fw-bold">진행률</h6>
                             </div>
                             <div class="row">
-                                <div class="col-11">
+                                <div class="col-10">
                                     <div class="progress">
                                         <div class="progress-bar"
                                              th:style="|width: ${progressRate}%|"></div>
                                     </div>
                                 </div>
-                                <div class="col-1">
+                                <div class="col-2">
                                     <span id="progress-rate"
                                           class="fs-6 fw-bold"
                                           th:text="|${progressRate}%|"></span>

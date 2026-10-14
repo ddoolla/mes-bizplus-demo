@@ -8,7 +8,9 @@ import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.work.order.dto.WorkOrderCreateDto;
 import com.bizplus.mes.domain.work.order.dto.WorkOrderSearchDto;
+import com.bizplus.mes.domain.work.order.dto.WorkStopDto;
 import com.bizplus.mes.domain.work.order.facade.WorkStartService;
+import com.bizplus.mes.domain.work.order.facade.WorkStopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,7 @@ public class WorkOrderController {
     private final WorkOrderService workOrderService;
 
     private final WorkStartService workStartService;
+    private final WorkStopService workStopService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('WORK_ORDER_READ')")
@@ -58,7 +61,7 @@ public class WorkOrderController {
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("workOrder", workOrderService.getWorkOrder(id).getWorkOrder());
         model.addAttribute("progressRate", workOrderService.getWorkOrder(id).getProgressRate());
-        
+
         return "pages/work-order/detail";
     }
 
@@ -72,8 +75,8 @@ public class WorkOrderController {
 
     @PatchMapping("/{id}/stop")
     @ResponseBody
-    public ResponseEntity<ApiResponse<Void>> stopWork(@PathVariable Long id) {
-        workOrderService.stopWork(id);
+    public ResponseEntity<ApiResponse<Void>> stopWork(@PathVariable Long id, @RequestBody WorkStopDto dto) {
+        workStopService.stop(id, dto);
 
         return ResponseEntity.ok(ApiResponse.success("작업을 중지합니다."));
     }

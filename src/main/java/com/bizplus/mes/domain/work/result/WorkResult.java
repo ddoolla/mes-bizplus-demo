@@ -25,7 +25,7 @@ public class WorkResult extends SoftDeletableEntity {
     private WorkOrder workOrder;
 
     @Column(precision = 38, scale = 10)
-    private BigDecimal productionCount;
+    private BigDecimal productionQuantity;
 
     @Column(precision = 38, scale = 10)
     private BigDecimal goodQuantity;
@@ -39,17 +39,37 @@ public class WorkResult extends SoftDeletableEntity {
     private String remark;
 
     public WorkResult(WorkOrder workOrder,
-                      BigDecimal productionCount,
+                      BigDecimal productionQuantity,
                       BigDecimal goodQuantity,
                       BigDecimal defectQuantity,
                       LocalDateTime startedAt,
                       LocalDateTime completedAt,
                       String remark) {
         this.workOrder = workOrder;
-        this.productionCount = productionCount;
+        this.productionQuantity = productionQuantity;
         this.goodQuantity = goodQuantity;
         this.defectQuantity = defectQuantity;
         this.startedAt = startedAt;
+        this.completedAt = completedAt;
+        this.remark = remark;
+    }
+
+    public void stopWork(BigDecimal productionQuantity,
+                         BigDecimal goodQuantity,
+                         BigDecimal defectQuantity) {
+        this.productionQuantity = productionQuantity;
+        this.goodQuantity = goodQuantity;
+        this.defectQuantity = defectQuantity;
+    }
+
+    public void completeWork(BigDecimal productionQuantity,
+                             BigDecimal goodQuantity,
+                             BigDecimal defectQuantity,
+                             LocalDateTime completedAt,
+                             String remark) {
+        this.productionQuantity = productionQuantity;
+        this.goodQuantity = goodQuantity;
+        this.defectQuantity = defectQuantity;
         this.completedAt = completedAt;
         this.remark = remark;
     }

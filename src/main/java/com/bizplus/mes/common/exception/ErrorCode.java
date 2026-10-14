@@ -44,6 +44,7 @@ public enum ErrorCode {
     LOT_NOT_FOUND(HttpStatus.NOT_FOUND, "로트를 찾을 수 없습니다."),
 
     WORK_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "작업지시를 찾을 수 없습니다."),
+    WORK_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "작업실적을 찾을 수 없습니다."),
 
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
     ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),

@@ -16,14 +16,14 @@ public class WorkOrderDto {
     private final BigDecimal quantity;
     private final LocalDate date;
     private final WorkOrderStatus status;
-    private final LocalDateTime startedAt;
-    private final LocalDateTime completedAt;
     private final String remark;
+    private final ProductionOrderInfo productionOrder;
     private final ProductionOrderProcessInfo process;
     private final EquipmentInfo equipment;
     private final UserInfo user;
     private final ItemInfo item;
     private final LotInfo lot;
+    private final ResultInfo result;
 
     @QueryProjection
     public WorkOrderDto(Long id,
@@ -31,9 +31,9 @@ public class WorkOrderDto {
                         BigDecimal quantity,
                         LocalDate date,
                         WorkOrderStatus status,
-                        LocalDateTime startedAt,
-                        LocalDateTime completedAt,
                         String remark,
+                        Long productionOrderId,
+                        String productionOrderNo,
                         Long popId,
                         String popCode,
                         String popName,
@@ -49,15 +49,23 @@ public class WorkOrderDto {
                         String uomCode,
                         Integer uomScale,
                         Long lotId,
-                        String lotNo) {
+                        String lotNo,
+                        BigDecimal productionCount,
+                        BigDecimal goodQuantity,
+                        BigDecimal defectQuantity,
+                        LocalDateTime startedAt,
+                        LocalDateTime completedAt,
+                        String resultRemark) {
         this.id = id;
         this.orderNo = orderNo;
         this.quantity = quantity;
         this.date = date;
         this.status = status;
-        this.startedAt = startedAt;
-        this.completedAt = completedAt;
         this.remark = remark;
+        this.productionOrder = new ProductionOrderInfo(
+                productionOrderId,
+                productionOrderNo
+        );
         this.process = new ProductionOrderProcessInfo(
                 popId,
                 popCode,
@@ -83,6 +91,21 @@ public class WorkOrderDto {
                 lotId,
                 lotNo
         );
+        this.result = new ResultInfo(
+                productionCount,
+                goodQuantity,
+                defectQuantity,
+                startedAt,
+                completedAt,
+                resultRemark
+        );
+
+    }
+
+    public record ProductionOrderInfo(
+            Long id,
+            String orderNo
+    ) {
     }
 
     public record ProductionOrderProcessInfo(
@@ -123,6 +146,16 @@ public class WorkOrderDto {
     public record LotInfo(
             Long id,
             String no
+    ) {
+    }
+
+    public record ResultInfo(
+            BigDecimal productionCount,
+            BigDecimal goodQuantity,
+            BigDecimal defectQuantity,
+            LocalDateTime startedAt,
+            LocalDateTime completedAt,
+            String remark
     ) {
     }
 }

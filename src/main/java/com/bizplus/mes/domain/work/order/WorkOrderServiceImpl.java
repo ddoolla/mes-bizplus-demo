@@ -21,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -58,9 +60,21 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     }
 
     @Override
-    public WorkOrderDto getWorkOrder(Long id) {
-        return workOrderRepository.findWorkOrder(id)
+    public WorkOrderDetailDto getWorkOrder(Long id) {
+        WorkOrderDto workOrderDto = workOrderRepository.findWorkOrder(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
+
+        BigDecimal quantity = workOrderDto.getQuantity();
+        BigDecimal productionCount = workOrderDto.getResult().productionCount();
+        BigDecimal progressRate = BigDecimal.ZERO;
+
+        if (quantity != null && quantity.compareTo(BigDecimal.ZERO) > 0 && productionCount != null) {
+            progressRate = productionCount
+                    .multiply(BigDecimal.valueOf(100))
+                    .divide(quantity, 0, RoundingMode.HALF_UP);
+        }
+
+        return new WorkOrderDetailDto(workOrderDto, progressRate);
     }
 
     @Transactional
@@ -84,8 +98,6 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     productionOrder.getQuantity(),
                     productionOrder.getDueDate(), // 일단 생산 예정일로 생성
                     WorkOrderStatus.PENDING,
-                    null,
-                    null,
                     null
             ));
         });
@@ -109,11 +121,75 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     null,
                     null,
                     WorkOrderStatus.PENDING,
-                    null,
-                    null,
                     null
             ));
         });
+    }
+
+    @Transactional
+    @Override
+    public Equipment startWork(Long id) {
+        WorkOrder workOrder = workOrderRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
+
+        User assignedUser = workOrder.getUser();
+        User currentUser = SecurityUtils.getCurrentUser().getUser();
+
+        if (workOrder.getStatus() != WorkOrderStatus.PENDING) {
+            throw new IllegalStateException("작업 대기 상태에서만 시작 가능합니다.");
+        }
+
+        if (assignedUser != null
+                && !assignedUser.getId().equals(currentUser.getId())) {
+            throw new IllegalStateException("다른 작업자에게 지정된 작업지시입니다.");
+        }
+
+        // 작업자가 없는 경우 현재 사용자로 할당
+        if (assignedUser == null) {
+            workOrder.assignWorker(currentUser);
+        }
+
+        workOrder.startWork();
+
+        return workOrder.getEquipment();
+    }
+
+    @Transactional
+    @Override
+    public void stopWork(Long id) {
+        WorkOrder workOrder = workOrderReader.getById(id);
+
+        if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
+            throw new IllegalStateException("작업 진행중 상태에서만 중지 가능합니다.");
+        }
+
+        workOrder.stopWork();
+    }
+
+    @Transactional
+    @Override
+    public void resumeWork(Long id) {
+        WorkOrder workOrder = workOrderReader.getById(id);
+
+        if (workOrder.getStatus() != WorkOrderStatus.PAUSED) {
+            throw new IllegalStateException("작업 중지 상태에서만 재개 가능합니다.");
+        }
+
+        workOrder.resumeWork();
+    }
+
+    @Transactional
+    @Override
+    public void completeWork(Long id) {
+        WorkOrder workOrder = workOrderReader.getById(id);
+
+        if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
+            throw new IllegalStateException("작업 중지중 상태에서만 완료 가능합니다.");
+        }
+
+        // todo 마지막 공정일 경우 재고 추가
+
+        workOrder.completeWork();
     }
 
     @Transactional
@@ -132,6 +208,14 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     dto.getRemark()
             );
         });
+    }
+
+    @Transactional
+    @Override
+    public void assignEquipment(Long id, Long equipmentId) {
+        WorkOrder workOrder = workOrderReader.getById(id);
+        Equipment equipment = equipmentReader.getById(equipmentId);
+        workOrder.assignEquipment(equipment);
     }
 
     @Transactional

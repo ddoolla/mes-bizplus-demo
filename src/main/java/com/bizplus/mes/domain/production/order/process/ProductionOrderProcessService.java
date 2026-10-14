@@ -8,5 +8,7 @@ public interface ProductionOrderProcessService {
 
     List<ProductionOrderProcessDto> getProductionOrderProcesses(Long productionOrderId);
 
-    List<Long> createProductionOrderProcesses(Long productionOrderId);
+    boolean isLastProcess(Long productionOrderId);
+
+    List<Long> createProductionOrderProcesses(Long id);
 }

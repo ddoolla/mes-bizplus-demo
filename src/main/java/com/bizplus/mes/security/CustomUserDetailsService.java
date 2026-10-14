@@ -37,6 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserRole userRole = userRoleRepository.findByUser(user)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_ROLE_NOT_FOUND, "loginId: " + user.getLoginId()));
 
+        // todo n+1 최적화
         Set<GrantedAuthority> authorities = rolePermissionRepository.findAllByRole(userRole.getRole()).stream()
                 .map(rolePermission -> new SimpleGrantedAuthority(
                         rolePermission.getPermission().getCode().name()

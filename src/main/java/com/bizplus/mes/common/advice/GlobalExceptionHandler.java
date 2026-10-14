@@ -56,7 +56,8 @@ public class GlobalExceptionHandler {
         if (isAjax(request)) {
             return ResponseEntity
                     .internalServerError()
-                    .body(ApiResponse.fail("오류가 발생하였습니다. 관리자에게 문의해주세요."));
+                    .body(ApiResponse.fail(e.getMessage()));
+//                    .body(ApiResponse.fail("오류가 발생하였습니다. 관리자에게 문의해주세요."));
         }
 
         model.addAttribute("status", "500");

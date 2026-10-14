@@ -11,7 +11,11 @@ public enum WorkOrderListType {
 
     ACTIVE(
             "진행 작업",
-            List.of(WorkOrderStatus.PENDING, WorkOrderStatus.IN_PROGRESS)
+            List.of(
+                    WorkOrderStatus.PENDING,
+                    WorkOrderStatus.IN_PROGRESS,
+                    WorkOrderStatus.PAUSED
+            )
     ),
     COMPLETED(
             "완료 작업",

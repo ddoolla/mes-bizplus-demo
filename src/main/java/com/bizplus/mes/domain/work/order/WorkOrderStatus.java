@@ -9,6 +9,7 @@ public enum WorkOrderStatus {
 
     PENDING("대기"),
     IN_PROGRESS("작업중"),
+    PAUSED("작업 중지"),
     COMPLETED("완료");
 
     private final String description;

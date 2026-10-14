@@ -26,6 +26,7 @@ import static com.bizplus.mes.domain.production.order.process.QProductionOrderPr
 import static com.bizplus.mes.domain.uom.QUom.uom;
 import static com.bizplus.mes.domain.user.QUser.user;
 import static com.bizplus.mes.domain.work.order.QWorkOrder.workOrder;
+import static com.bizplus.mes.domain.work.result.QWorkResult.workResult;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -61,8 +62,11 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                 .and(startDateGoe(workOrder.date, dto.getStartDate()))
                 .and(endDateLoe(workOrder.date, dto.getEndDate()));
 
+        // 내 작업지시 + 작업자 미저정 작업지시
         if (userId != null) {
-            searchCondition.and(eq(workOrder.user.id, userId));
+            searchCondition.and(
+                    workOrder.user.id.eq(userId).or(workOrder.user.id.isNull())
+            );
         }
 
         if (listType != null) {
@@ -76,9 +80,9 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         workOrder.quantity,
                         workOrder.date,
                         workOrder.status,
-                        workOrder.startedAt,
-                        workOrder.completedAt,
                         workOrder.remark,
+                        productionOrder.id,
+                        productionOrder.orderNo,
                         productionOrderProcess.id,
                         productionOrderProcess.code,
                         productionOrderProcess.name,
@@ -94,11 +98,18 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         uom.code,
                         uom.scale,
                         lot.id,
-                        lot.no
+                        lot.no,
+                        workResult.productionCount,
+                        workResult.goodQuantity,
+                        workResult.defectQuantity,
+                        workResult.startedAt,
+                        workResult.completedAt,
+                        workResult.remark
                 ))
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(workResult).on(workResult.workOrder.id.eq(workOrder.id))
                 .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                 .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
                 .leftJoin(user).on(workOrder.user.id.eq(user.id))
@@ -115,6 +126,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(workResult).on(workResult.workOrder.id.eq(workOrder.id))
                 .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                 .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
                 .leftJoin(user).on(workOrder.user.id.eq(user.id))
@@ -134,9 +146,9 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         workOrder.quantity,
                         workOrder.date,
                         workOrder.status,
-                        workOrder.startedAt,
-                        workOrder.completedAt,
                         workOrder.remark,
+                        productionOrder.id,
+                        productionOrder.orderNo,
                         productionOrderProcess.id,
                         productionOrderProcess.code,
                         productionOrderProcess.name,
@@ -152,11 +164,18 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         uom.code,
                         uom.scale,
                         lot.id,
-                        lot.no
+                        lot.no,
+                        workResult.productionCount,
+                        workResult.goodQuantity,
+                        workResult.defectQuantity,
+                        workResult.startedAt,
+                        workResult.completedAt,
+                        workResult.remark
                 ))
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(workResult).on(workResult.workOrder.id.eq(workOrder.id))
                 .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                 .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
                 .leftJoin(user).on(workOrder.user.id.eq(user.id))
@@ -180,9 +199,9 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                 workOrder.quantity,
                                 workOrder.date,
                                 workOrder.status,
-                                workOrder.startedAt,
-                                workOrder.completedAt,
                                 workOrder.remark,
+                                productionOrder.id,
+                                productionOrder.orderNo,
                                 productionOrderProcess.id,
                                 productionOrderProcess.code,
                                 productionOrderProcess.name,
@@ -198,11 +217,18 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                 uom.code,
                                 uom.scale,
                                 lot.id,
-                                lot.no
+                                lot.no,
+                                workResult.productionCount,
+                                workResult.goodQuantity,
+                                workResult.defectQuantity,
+                                workResult.startedAt,
+                                workResult.completedAt,
+                                workResult.remark
                         ))
                         .from(workOrder)
                         .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                         .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                        .leftJoin(workResult).on(workResult.workOrder.id.eq(workOrder.id))
                         .leftJoin(lot).on(productionOrder.lot.id.eq(lot.id))
                         .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
                         .leftJoin(user).on(workOrder.user.id.eq(user.id))

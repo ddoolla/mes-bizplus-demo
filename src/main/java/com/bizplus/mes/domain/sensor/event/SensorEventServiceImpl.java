@@ -3,9 +3,11 @@ package com.bizplus.mes.domain.sensor.event;
 import com.bizplus.mes.domain.equipment.Equipment;
 import com.bizplus.mes.domain.equipment.EquipmentReader;
 import com.bizplus.mes.domain.sensor.Sensor;
+import com.bizplus.mes.domain.sensor.SensorCode;
 import com.bizplus.mes.domain.sensor.SensorDataType;
 import com.bizplus.mes.domain.sensor.SensorReader;
 import com.bizplus.mes.domain.sensor.event.dto.SensorEventCreateDto;
+import com.bizplus.mes.domain.sensor.event.dto.SensorEventDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,22 +25,32 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SensorEventServiceImpl implements SensorEventService {
 
-    private static final String RUNNING_SENSOR_CODE = "0001"; // 가동비가동 데이터 코드
-
     private final SensorEventRepository sensorEventRepository;
 
     private final EquipmentReader equipmentReader;
     private final SensorReader sensorReader;
+
+    @Override
+    public SensorEventDto getCurrentData(Long equipmentId, String sensorCode) {
+        Sensor sensor = sensorReader.getByCode(sensorCode);
+
+        return sensorEventRepository.findCurrentData(sensor.getId(), equipmentId).orElse(null);
+    }
 
     @Transactional
     @Override
     public void createSensorEvent(SensorEventCreateDto dto) {
         Equipment equipment = equipmentReader.getBySenderId(dto.getSenderId());
 
+        if (equipment == null) {
+            log.warn("연결된 설비 데이터가 없습니다. [senderId: {}]", dto.getSenderId());
+            return;
+        }
+
         Map<String, Sensor> sensorMap = sensorReader.getAll().stream()
                 .collect(Collectors.toMap(Sensor::getCode, Function.identity()));
 
-        Object runningRaw = dto.getData().get(RUNNING_SENSOR_CODE);
+        Object runningRaw = dto.getData().get(SensorCode.EQUIPMENT_RUNNING.getCode());
         Boolean running = runningRaw == null
                 ? null
                 : Boolean.parseBoolean(runningRaw.toString());

@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.work.order;
 
+import com.bizplus.mes.domain.equipment.Equipment;
 import com.bizplus.mes.domain.work.order.dto.*;
 import org.springframework.data.domain.Pageable;
 
@@ -11,7 +12,7 @@ public interface WorkOrderService {
 
     List<WorkOrderDto> getWorkOrders(Long ProductionOrderId);
 
-    WorkOrderDto getWorkOrder(Long id);
+    WorkOrderDetailDto getWorkOrder(Long id);
 
     /**
      * 생산지시 등록 시 자동생성용
@@ -23,7 +24,17 @@ public interface WorkOrderService {
      */
     void createWorkOrders(WorkOrderCreateDto dto);
 
+    Equipment startWork(Long id);
+
+    void stopWork(Long id);
+
+    void resumeWork(Long id);
+
+    void completeWork(Long id);
+
     void updateWorkOrders(List<WorkOrderUpdateDto> dtoList);
+
+    void assignEquipment(Long id, Long equipmentId);
 
     void deleteWorkOrders(List<Long> ids);
 }

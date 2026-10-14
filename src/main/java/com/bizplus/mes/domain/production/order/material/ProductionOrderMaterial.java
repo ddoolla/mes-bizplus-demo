@@ -34,9 +34,9 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uom_id", nullable = false)
-    private Uom uom;
+    private Uom uom; // BOM 요구 단위
 
-    // 생산지시 당시 품목 정보 스냅샷
+    /* 생산지시 당시 품목 정보 스냅샷 */
     private String code;
     private String name;
     private String specification;

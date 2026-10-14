@@ -22,6 +22,7 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
     private final ProcessReader processReader;
     private final RoutingProcessReader routingProcessReader;
     private final ProductionOrderReader productionOrderReader;
+    private final ProductionOrderProcessReader productionOrderProcessReader;
 
     @Override
     public List<ProductionOrderProcessDto> getProductionOrderProcesses(Long productionOrderId) {
@@ -36,6 +37,13 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
                         )
                 )
                 .toList();
+    }
+
+    @Override
+    public boolean isLastProcess(Long id) {
+        ProductionOrderProcess pop = productionOrderProcessReader.getById(id);
+        return productionOrderProcessRepository
+                .findLastStepNo(pop.getProductionOrder().getId()) == pop.getStepNo();
     }
 
     @Transactional

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "work_orders")
@@ -47,9 +46,6 @@ public class WorkOrder extends SoftDeletableEntity {
     @Enumerated(EnumType.STRING)
     private WorkOrderStatus status;
 
-    private LocalDateTime startedAt;
-    private LocalDateTime completedAt;
-
     private String remark;
 
     public WorkOrder(ProductionOrderProcess productionOrderProcess,
@@ -59,8 +55,6 @@ public class WorkOrder extends SoftDeletableEntity {
                      BigDecimal quantity,
                      LocalDate date,
                      WorkOrderStatus status,
-                     LocalDateTime startedAt,
-                     LocalDateTime completedAt,
                      String remark) {
         this.productionOrderProcess = productionOrderProcess;
         this.equipment = equipment;
@@ -69,8 +63,6 @@ public class WorkOrder extends SoftDeletableEntity {
         this.quantity = quantity;
         this.date = date;
         this.status = status;
-        this.startedAt = startedAt;
-        this.completedAt = completedAt;
         this.remark = remark;
     }
 
@@ -84,6 +76,30 @@ public class WorkOrder extends SoftDeletableEntity {
         this.quantity = quantity;
         this.date = date;
         this.remark = remark;
+    }
+
+    public void assignWorker(User user) {
+        this.user = user;
+    }
+
+    public void assignEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
+    public void startWork() {
+        this.status = WorkOrderStatus.IN_PROGRESS;
+    }
+
+    public void completeWork() {
+        this.status = WorkOrderStatus.COMPLETED;
+    }
+
+    public void stopWork() {
+        this.status = WorkOrderStatus.PAUSED;
+    }
+
+    public void resumeWork() {
+        this.status = WorkOrderStatus.IN_PROGRESS;
     }
 }
 

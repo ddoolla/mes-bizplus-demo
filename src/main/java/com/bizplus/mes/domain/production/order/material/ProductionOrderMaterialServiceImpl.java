@@ -35,7 +35,7 @@ public class ProductionOrderMaterialServiceImpl implements ProductionOrderMateri
             productionOrderMaterialRepository.save(new ProductionOrderMaterial(
                     productionOrder,
                     item,
-                    item.getUom(),
+                    bomItem.getUom(),
                     item.getCode(),
                     item.getName(),
                     item.getSpecification(),

@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductionOrderProcessRepository extends JpaRepository<ProductionOrderProcess, Long> {
+public interface ProductionOrderProcessRepository extends
+        JpaRepository<ProductionOrderProcess, Long>, ProductionOrderProcessQueryRepository {
 
     Optional<ProductionOrderProcess> findByIdAndDeletedAtIsNull(Long id);
 

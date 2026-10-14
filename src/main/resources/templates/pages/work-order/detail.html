@@ -24,44 +24,248 @@
     </div>
 
     <!--/* 상세 정보 */-->
-    <div class="app-box app-box-bg">
-        <table class="app-table-input" th:object="${workOrder}">
-            <colgroup>
-                <col style="width: 150px">
-                <col style="width: auto">
-            </colgroup>
-            <tbody>
-            <tr>
-                <th>작업지시 번호</th>
-                <td colspan="3" th:text="*{orderNo}"></td>
-            </tr>
-            <tr>
-                <th>제품</th>
-                <td th:text="*{item.name}"></td>
-            </tr>
-            <tr>
-                <th>비고</th>
-                <td th:text="${@format.value(workOrder.remark)}"></td>
-            </tr>
-            <tr>
-                <th>상태</th>
-                <td th:switch="${workOrder.status?.name}">
-                    <h6 th:case="'PENDING'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2"
-                                  th:text="${workOrder.status?.description}"></span>
-                    </h6>
-                    <h6 th:case="'IN_PROGRESS'" class="mb-0">
-                            <span class="badge text-bg-primary p-2"
-                                  th:text="${workOrder.status?.description}"></span>
-                    </h6>
-                    <h6 th:case="'COMPLETED'" class="mb-0">
-                            <span class="badge text-bg-success p-2"
-                                  th:text="${workOrder.status?.description}"></span>
-                    </h6>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="app-box app-box-bg container-fluid">
+        <div class="row">
+            <!--/* 작업지시 정보 */-->
+            <div class="col-4">
+                <input type="hidden" name="id" th:value="${workOrder.id}"/>
+                <input type="hidden" name="equipmentId" th:value="${workOrder.equipment.id}"/>
+                <input type="hidden" name="status" th:value="${workOrder.status}"/>
+                <input type="hidden" name="quantity" th:value="${workOrder.quantity}"/>
+
+                <table class="app-table-input" th:object="${workOrder}">
+                    <colgroup>
+                        <col style="width: 120px">
+                        <col style="width: auto">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>작업지시 번호</th>
+                        <td colspan="3" th:text="*{orderNo}"></td>
+                    </tr>
+                    <tr>
+                        <th>생산지시 번호</th>
+                        <td colspan="3" th:text="*{productionOrder.orderNo}"></td>
+                    </tr>
+                    <tr>
+                        <th>제품 코드</th>
+                        <td th:text="*{item.code}"></td>
+                    </tr>
+                    <tr>
+                        <th>제품명</th>
+                        <td th:text="*{item.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>규격</th>
+                        <td th:text="${@format.value(workOrder.item.specification)}"></td>
+                    </tr>
+                    <tr>
+                        <th>로트</th>
+                        <td th:text="*{lot.no}"></td>
+                    </tr>
+                    <tr>
+                        <th>공정</th>
+                        <td th:text="*{process.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>작업 수량</th>
+                        <td th:text="|${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.item.uom.scale)} *{item.uom.code}|"></td>
+                    </tr>
+                    <tr>
+                        <th>작업 일자</th>
+                        <td th:text="${#temporals.format(workOrder.date, 'yyyy-MM-dd')}"></td>
+                    </tr>
+                    <tr>
+                        <th>작업 설비</th>
+                        <td th:text="*{equipment.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>작업자</th>
+                        <td th:text="*{user.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>전달사항</th>
+                        <td th:text="${@format.value(workOrder.remark)}"></td>
+                    </tr>
+                    <tr>
+                        <th>상태</th>
+                        <td th:switch="${workOrder.status?.name}">
+                            <h6 th:case="'PENDING'" class="mb-0">
+                                    <span class="badge text-bg-secondary p-2"
+                                          th:text="${workOrder.status?.description}"></span>
+                            </h6>
+                            <h6 th:case="'IN_PROGRESS'" class="mb-0">
+                                    <span class="badge text-bg-primary p-2"
+                                          th:text="${workOrder.status?.description}"></span>
+                            </h6>
+                            <h6 th:case="'PAUSED'" class="mb-0">
+                                    <span class="badge text-bg-secondary p-2"
+                                          th:text="${workOrder.status?.description}"></span>
+                            </h6>
+                            <h6 th:case="'COMPLETED'" class="mb-0">
+                                    <span class="badge text-bg-success p-2"
+                                          th:text="${workOrder.status?.description}"></span>
+                            </h6>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--/* 작업 정보 */-->
+            <div class="col-6">
+                <!--/* 버튼 영역 */-->
+                <div class="row g-2">
+                    <div class="col">
+                        <th:block th:if="${workOrder.status.name == 'PENDING'}">
+                            <button type="button"
+                                    id="work-start-button"
+                                    class="btn btn-secondary btn-lg
+                                           w-100 py-4 fw-bold">
+                                <i class="bi bi-play-fill"></i> 작업 시작
+                            </button>
+                        </th:block>
+                        <th:block th:if="${workOrder.status.name == 'IN_PROGRESS'}">
+                            <button type="button"
+                                    id="work-stop-button"
+                                    class="btn btn-secondary btn-lg
+                                       w-100 py-4 fw-bold">
+                                <i class="bi bi-pause-fill"></i> 작업 중지
+                            </button>
+                        </th:block>
+                        <th:block th:if="${workOrder.status.name == 'PAUSED'}">
+                            <button type="button"
+                                    id="work-resume-button"
+                                    class="btn btn-secondary btn-lg
+                                       w-100 py-4 fw-bold">
+                                <i class="bi bi-play-fill"></i> 작업 재개
+                            </button>
+                        </th:block>
+                    </div>
+                    <div class="col">
+                        <button type="button"
+                                id="work-complete-button"
+                                class="btn btn-secondary btn-lg
+                                       w-100 py-4 fw-bold">
+                            <i class="bi bi-check-circle"></i> 작업 완료
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button"
+                                id="material-feed-button"
+                                class="btn btn-secondary btn-lg
+                                       w-100 py-4 fw-bold">
+                            <i class="bi bi-box"></i> 자재 투입
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button"
+                                id="defect-add-button"
+                                class="btn btn-secondary btn-lg
+                                       w-100 py-4 fw-bold">
+                            <i class="bi bi-exclamation-triangle-fill"></i> 불량 추가
+                        </button>
+                    </div>
+                </div>
+
+                <!--/* 생산 현황 / 기간 정보 */-->
+                <div class="row g-2 mt-1">
+                    <div class="col-8">
+                        <div class="card p-2 app-h-150">
+                            <div>
+                                <h6 class="fw-bold">생산 현황</h6>
+                            </div>
+                            <div class="row g-2 h-100">
+                                <div class="col">
+                                    <div class="card h-100 p-3
+                                                d-flex justify-content-between
+                                                bg-primary-subtle text-primary-emphasis">
+                                        <div>
+                                            <h6>생산 카운트</h6>
+                                        </div>
+                                        <div>
+                                            <span id="production-count"
+                                                  class="h4 fw-bold">0</span>
+                                            <span th:text="${workOrder.item.uom.code}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card h-100 p-3
+                                                d-flex justify-content-between
+                                                bg-success-subtle text-success-emphasis">
+                                        <div>
+                                            <h6>양품 수량</h6>
+                                        </div>
+                                        <div>
+                                            <span id="good-count"
+                                                  class="h4 fw-bold">0</span>
+                                            <span th:text="${workOrder.item.uom.code}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card h-100 p-3
+                                                d-flex justify-content-between
+                                                bg-danger-subtle text-danger-emphasis">
+                                        <div>
+                                            <h6>불량 수량</h6>
+                                        </div>
+                                        <div>
+                                            <span id="defect-count"
+                                                  class="h4 fw-bold">0</span>
+                                            <span th:text="${workOrder.item.uom.code}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card p-2 app-h-150">
+                            <div>
+                                <h6 class="fw-bold">기간 정보</h6>
+                            </div>
+                            <div class="p-1">
+                                <div class="p-1">
+                                    <h6 class="fw-bold text-secondary">시작 시간</h6>
+                                    <span th:text="${#temporals.format(workOrder.result.startedAt, 'yyyy-MM-dd HH:mm:ss')} ?: '-'"></span>
+                                </div>
+                                <div class="p-1">
+                                    <h6 class="fw-bold text-secondary">종료 시간</h6>
+                                    <span th:text="${#temporals.format(workOrder.result.completedAt, 'yyyy-MM-dd HH:mm:ss')} ?: '-'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--/* 진행률 */-->
+                <div class="row app-h-100 mt-2">
+                    <div class="col">
+                        <div class="card h-100 p-3
+                                    d-flex justify-content-between">
+                            <div>
+                                <h6 class="fw-bold">진행률</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-11">
+                                    <div class="progress">
+                                        <div class="progress-bar"
+                                             th:style="|width: ${progressRate}%|"></div>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <span id="progress-rate"
+                                          class="fs-6 fw-bold"
+                                          th:text="|${progressRate}%|"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

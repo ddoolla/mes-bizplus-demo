@@ -14,8 +14,10 @@ import com.bizplus.mes.domain.production.order.process.ProductionOrderProcessRea
 import com.bizplus.mes.domain.user.User;
 import com.bizplus.mes.domain.user.UserReader;
 import com.bizplus.mes.domain.work.order.dto.*;
+import com.bizplus.mes.domain.work.order.event.WorkStartedEvent;
 import com.bizplus.mes.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     private final ProductionOrderReader productionOrderReader;
     private final ProductionOrderProcessReader productionOrderProcessReader;
     private final WorkOrderReader workOrderReader;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public WorkOrderListDto getWorkOrders(WorkOrderListType listType, WorkOrderSearchDto dto, Pageable pageable) {
@@ -176,6 +180,11 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         }
 
         workOrder.resumeWork();
+
+        // 설비를 사용한 작업일 경우 - PLC 메모리 초기화 (senderId를 잘 맞춰줘야 함)
+        if (workOrder.getEquipment() != null) {
+            eventPublisher.publishEvent(new WorkStartedEvent(workOrder.getEquipment().getSenderId()));
+        }
     }
 
     @Transactional

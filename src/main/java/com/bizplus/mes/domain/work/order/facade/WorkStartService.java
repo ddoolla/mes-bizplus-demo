@@ -26,7 +26,7 @@ public class WorkStartService {
         // 작업실적 데이터 생성
         workResultService.createWorkResult(workOrderId);
 
-        // 설비를 사용한 작업일 경우 - plc 초기화 이벤트 (senderId를 잘 맞춰줘야 함)
+        // 설비를 사용한 작업일 경우 - PLC 메모리 초기화 (senderId를 잘 맞춰줘야 함)
         if (equipment != null) {
             eventPublisher.publishEvent(new WorkStartedEvent(equipment.getSenderId()));
         }

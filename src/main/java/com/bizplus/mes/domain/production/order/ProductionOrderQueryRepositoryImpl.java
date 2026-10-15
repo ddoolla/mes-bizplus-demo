@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.production.order.dto.QProductionOrderDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -123,6 +124,20 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
                                 notDeleted(productionOrder.deletedAt),
                                 eq(productionOrder.id, id)
                         )
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<ProductionOrder> findProductionOrderForUpdate(Long id) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(productionOrder)
+                        .where(
+                                notDeleted(productionOrder.deletedAt),
+                                eq(productionOrder.id, id)
+                        )
+                        .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 쓰기 잠금 조회
                         .fetchOne()
         );
     }

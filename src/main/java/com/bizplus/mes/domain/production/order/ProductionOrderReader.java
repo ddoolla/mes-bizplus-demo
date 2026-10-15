@@ -15,4 +15,9 @@ public class ProductionOrderReader {
         return productionOrderRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCTION_ORDER_NOT_FOUND, "id:" + id));
     }
+
+    public ProductionOrder getForUpdate(Long id) {
+        return productionOrderRepository.findProductionOrderForUpdate(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCTION_ORDER_NOT_FOUND, "id:" + id));
+    }
 }

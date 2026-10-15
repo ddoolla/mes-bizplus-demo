@@ -93,14 +93,9 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
     @Override
     public void confirmProductionOrder(Long id, Long lotId) {
         ProductionOrder productionOrder = productionOrderReader.getById(id);
-        Lot lot = lotReader.getById(lotId);
+        Lot lot = lotReader.getByIdOrNull(lotId);
 
-        if (productionOrder.getStatus() != ProductionOrderStatus.DRAFT) {
-            throw new IllegalStateException("생산지시 작성중 상태에서만 확정 가능합니다. id: " + id);
-        }
-
-        productionOrder.updateStatus(ProductionOrderStatus.CONFIRMED);
-        productionOrder.updateLot(lot);
+        productionOrder.confirm(lot);
     }
 
     @Transactional

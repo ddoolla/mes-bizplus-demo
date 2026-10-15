@@ -17,10 +17,10 @@ public class LotServiceImpl implements LotService {
     public Long createLot(Long itemId, String lotNo) {
         Item item = itemReader.getById(itemId);
 
-        return lotRepository.save(new Lot(
-                        item,
-                        lotNo
-                ))
-                .getId();
+        if (!item.isLotManaged()) {
+            throw new IllegalStateException("LOT 관리 품목이 아닙니다. itemId: " + item);
+        }
+
+        return lotRepository.save(new Lot(item, lotNo)).getId();
     }
 }

@@ -14,5 +14,7 @@ public interface ProductionOrderQueryRepository {
 
     Optional<ProductionOrderDto> findProductionOrder(Long id);
 
+    Optional<ProductionOrder> findProductionOrderForUpdate(Long id);
+
     String findMaxOrderNo(LocalDate date);
 }

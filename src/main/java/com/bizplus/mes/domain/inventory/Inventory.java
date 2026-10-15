@@ -50,15 +50,19 @@ public class Inventory extends SoftDeletableEntity {
 
     public Inventory(Item item,
                      Lot lot,
-                     BigDecimal quantity,
-                     BigDecimal reservedQuantity) {
+                     BigDecimal quantity) {
         this.item = item;
         this.lot = lot;
         this.quantity = quantity;
-        this.reservedQuantity = reservedQuantity;
     }
 
-    public void updateQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
+    public void changeQuantity(BigDecimal signedQuantity) {
+        BigDecimal newQuantity = this.quantity.add(signedQuantity);
+
+        if (newQuantity.signum() < 0) {
+            throw new IllegalStateException("재고가 부족합니다.");
+        }
+
+        this.quantity = newQuantity;
     }
 }

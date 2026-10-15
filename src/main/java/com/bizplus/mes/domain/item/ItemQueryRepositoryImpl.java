@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.item.dto.QItemDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -136,6 +137,20 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 notDeleted(item.deletedAt),
                                 eq(item.id, id)
                         )
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<Item> findItemForUpdate(Long id) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(item)
+                        .where(
+                                notDeleted(item.deletedAt),
+                                eq(item.id, id)
+                        )
+                        .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 쓰기 잠금 조회
                         .fetchOne()
         );
     }

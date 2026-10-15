@@ -18,4 +18,6 @@ public interface ItemQueryRepository {
     Page<ItemDto> findBomItems(ItemSearchDto dto, Pageable pageable);
 
     Optional<ItemDto> findItem(Long id);
+
+    Optional<Item> findItemForUpdate(Long id);
 }

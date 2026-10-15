@@ -15,4 +15,11 @@ public class LotReader {
         return lotRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.LOT_NOT_FOUND, "id: " + id));
     }
+
+    public Lot getByIdOrNull(Long id) {
+        return id == null
+                ? null
+                : lotRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.LOT_NOT_FOUND, "id: " + id));
+    }
 }

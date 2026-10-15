@@ -5,8 +5,10 @@ import com.bizplus.mes.domain.inventory.dto.InventoryDto;
 import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
 import com.bizplus.mes.domain.inventory.dto.QInventoryDto;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.inventory.QInventory.inventory;
@@ -77,6 +80,26 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
     }
 
     @Override
+    public Optional<Inventory> findInventoryForUpdate(Long itemId, Long lotId) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(inventory)
+                        .where(
+                                eq(inventory.item.id, itemId),
+                                lotIdEq(lotId)
+                        )
+                        .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 쓰기 잠금 조회
+                        .fetchOne()
+        );
+    }
+
+    private BooleanExpression lotIdEq(Long lotId) {
+        return lotId == null
+                ? inventory.lot.isNull()
+                : inventory.lot.id.eq(lotId);
+    }
+
+    @Override
     public boolean existsStockByItemId(Long itemId) {
         return query
                 .selectOne()
@@ -86,5 +109,17 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                         inventory.quantity.gt(BigDecimal.ZERO)
                 )
                 .fetchFirst() != null;
+    }
+
+    @Override
+    public Optional<Inventory> findByItemIdAndLotIsNull(Long itemId) {
+        return Optional.ofNullable(
+                query.selectFrom(inventory)
+                        .where(
+                                inventory.item.id.eq(itemId),
+                                inventory.lot.isNull()
+                        )
+                        .fetchOne()
+        );
     }
 }

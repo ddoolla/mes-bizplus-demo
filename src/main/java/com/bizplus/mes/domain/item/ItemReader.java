@@ -15,4 +15,9 @@ public class ItemReader {
         return itemRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ITEM_NOT_FOUND, "id: " + id));
     }
+
+    public Item getForUpdate(Long id) {
+        return itemRepository.findItemForUpdate(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ITEM_NOT_FOUND, "id: " + id));
+    }
 }

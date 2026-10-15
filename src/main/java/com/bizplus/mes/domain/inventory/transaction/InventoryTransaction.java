@@ -35,5 +35,17 @@ public class InventoryTransaction extends SoftDeletableEntity {
     @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
-    private LocalDateTime transaction_at;
+    private LocalDateTime transactionAt;
+
+    public InventoryTransaction(Item item,
+                                Lot lot,
+                                TransactionType type,
+                                BigDecimal quantity,
+                                LocalDateTime transactionAt) {
+        this.item = item;
+        this.lot = lot;
+        this.type = type;
+        this.quantity = quantity;
+        this.transactionAt = transactionAt;
+    }
 }

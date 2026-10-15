@@ -104,7 +104,12 @@
                 </tr>
                 <tr>
                     <th>생산 로트</th>
-                    <td colspan="3" th:text="*{lot.no} ?: '생산지시 확정 시 생성됩니다.'"></td>
+                    <td colspan="3">
+                    <span th:if="*{item.lotManaged}"
+                          th:text="*{lot?.no} ?: '생산지시 확정 시 생성됩니다.'"></span>
+                        <span th:unless="*{item.lotManaged}"
+                              th:text="'로트 미관리 제품입니다.'"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th>비고</th>

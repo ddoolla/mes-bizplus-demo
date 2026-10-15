@@ -32,6 +32,7 @@ public class ProductionOrderDto {
                               String itemCode,
                               String itemName,
                               String itemSpec,
+                              boolean lotManaged,
                               String itemUomCode,
                               Integer itemUomScale,
                               Long bomId,
@@ -53,6 +54,7 @@ public class ProductionOrderDto {
                 itemCode,
                 itemName,
                 itemSpec,
+                lotManaged,
                 new ItemUomInfo(itemUomCode, itemUomScale)
         );
         this.bom = new BomInfo(
@@ -76,6 +78,7 @@ public class ProductionOrderDto {
             String code,
             String name,
             String specification,
+            boolean lotManaged,
             ItemUomInfo uom
     ) {
     }

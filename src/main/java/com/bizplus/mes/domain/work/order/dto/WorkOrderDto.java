@@ -46,6 +46,7 @@ public class WorkOrderDto {
                         String itemCode,
                         String itemName,
                         String itemSpec,
+                        boolean lotManaged,
                         String uomCode,
                         Integer uomScale,
                         Long lotId,
@@ -85,6 +86,7 @@ public class WorkOrderDto {
                 itemCode,
                 itemName,
                 itemSpec,
+                lotManaged,
                 new ItemUomInfo(uomCode, uomScale)
         );
         this.lot = new LotInfo(
@@ -133,6 +135,7 @@ public class WorkOrderDto {
             String code,
             String name,
             String specification,
+            boolean lotManaged,
             ItemUomInfo uom
     ) {
     }

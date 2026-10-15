@@ -8,6 +8,16 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    /* 공통 */
+    NOT_FOUND(HttpStatus.NOT_FOUND, "데이터를 찾을 수 없습니다."),
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+    INVALID_STATE(HttpStatus.CONFLICT, "현재 상태에서 처리할 수 없습니다."),
+    INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
+    FORBIDDEN(HttpStatus.FORBIDDEN, "처리 권한이 없습니다."),
+    CONFLICT(HttpStatus.CONFLICT, "처리 중 충돌이 발생했습니다."),
+    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다."),
+
+    /* NOT FOUND 세부 */
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."),
 
     PERMISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "권한을 찾을 수 없습니다."),
@@ -50,9 +60,6 @@ public enum ErrorCode {
     ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),
 
     SENSOR_NOT_FOUND(HttpStatus.NOT_FOUND, "센서를 찾을 수 없습니다."),
-
-    INVALID_PERMISSION(HttpStatus.BAD_REQUEST, "잘못된 권한 정보입니다."),
-    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
 
     UOM_QUANTITY_SCALE_EXCEEDED(HttpStatus.BAD_REQUEST, "단위의 허용 소수점 자릿수를 초과했습니다."),
     ITEM_HAS_STOCK(HttpStatus.BAD_REQUEST, "재고가 있는 품목은 LOT 관리 여부를 변경할 수 없습니다.");

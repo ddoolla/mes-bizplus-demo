@@ -133,19 +133,14 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Transactional
     @Override
     public Equipment startWork(Long id) {
-        WorkOrder workOrder = workOrderRepository.findByIdForUpdate(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
+        WorkOrder workOrder = workOrderReader.getById(id);
 
         User assignedUser = workOrder.getUser();
         User currentUser = SecurityUtils.getCurrentUser().getUser();
 
-        if (workOrder.getStatus() != WorkOrderStatus.PENDING) {
-            throw new IllegalStateException("작업 대기 상태에서만 시작 가능합니다.");
-        }
-
         if (assignedUser != null
                 && !assignedUser.getId().equals(currentUser.getId())) {
-            throw new IllegalStateException("다른 작업자에게 지정된 작업지시입니다.");
+            throw new BusinessException(ErrorCode.FORBIDDEN, "다른 작업자에게 지정된 작업지시입니다.");
         }
 
         // 작업자가 없는 경우 현재 사용자로 할당
@@ -162,11 +157,6 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Override
     public void stopWork(Long id) {
         WorkOrder workOrder = workOrderReader.getById(id);
-
-        if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
-            throw new IllegalStateException("작업 진행중 상태에서만 중지 가능합니다.");
-        }
-
         workOrder.stopWork();
     }
 
@@ -176,12 +166,12 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         WorkOrder workOrder = workOrderReader.getById(id);
 
         if (workOrder.getStatus() != WorkOrderStatus.PAUSED) {
-            throw new IllegalStateException("작업 중지 상태에서만 재개 가능합니다.");
+            throw new BusinessException(ErrorCode.INVALID_STATE, "작업 중지 상태에서만 재개 가능합니다.");
         }
 
         workOrder.resumeWork();
 
-        // 설비를 사용한 작업일 경우 - PLC 메모리 초기화 (senderId를 잘 맞춰줘야 함)
+        // PLC 초기화 이벤트 (senderId를 잘 맞춰줘야 함)
         if (workOrder.getEquipment() != null) {
             eventPublisher.publishEvent(new WorkStartedEvent(workOrder.getEquipment().getSenderId()));
         }
@@ -191,13 +181,6 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Override
     public void completeWork(Long id) {
         WorkOrder workOrder = workOrderReader.getById(id);
-
-        if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
-            throw new IllegalStateException("작업 중지중 상태에서만 완료 가능합니다.");
-        }
-
-        // todo 마지막 공정일 경우 재고 추가
-
         workOrder.completeWork();
     }
 
@@ -221,7 +204,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
     @Transactional
     @Override
-    public void assignEquipment(Long id, Long equipmentId) {
+    public void changeEquipment(Long id, Long equipmentId) {
         WorkOrder workOrder = workOrderReader.getById(id);
         Equipment equipment = equipmentReader.getById(equipmentId);
         workOrder.assignEquipment(equipment);

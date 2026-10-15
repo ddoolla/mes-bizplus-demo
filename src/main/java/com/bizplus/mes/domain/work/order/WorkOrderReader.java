@@ -15,4 +15,9 @@ public class WorkOrderReader {
         return workOrderRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
     }
+
+    public WorkOrder getForUpdate(Long id) {
+        return workOrderRepository.findWorkOrderForUpdate(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
+    }
 }

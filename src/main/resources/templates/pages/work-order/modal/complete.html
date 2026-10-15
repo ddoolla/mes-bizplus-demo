@@ -1,0 +1,82 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 작업 완료 모달 */-->
+<th:block th:fragment="modal (workOrder)">
+    <div th:replace="~{fragments/modal/default :: default (
+        'work-complete-modal',
+        '작업 완료',
+         ~{::content},
+         null
+    )}">
+        <div th:fragment="content" class="p-2">
+            <div class="modal-body pt-0">
+                <form id="work-complete-form"
+                      method="post"
+                      th:action="@{/work-orders/{id}/complete(id=${workOrder.id})}">
+                    <table class="app-table-input">
+                        <colgroup>
+                            <col style="width: 150px">
+                            <col style="width: auto">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th>총 생산 수량 <span class="app-required">*</span></th>
+                            <td>
+                                <input type="number"
+                                       name="productionQuantity"
+                                       class="app-form-control app-xs"
+                                       placeholder="총 생산 수량을 입력해 주세요."/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>양품 수량 <span class="app-required">*</span></th>
+                            <td>
+                                <input type="number"
+                                       name="goodQuantity"
+                                       class="app-form-control app-xs"
+                                       placeholder="양품 수량을 입력해 주세요."/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>불량 수량 <span class="app-required">*</span></th>
+                            <td>
+                                <input type="number"
+                                       name="defectQuantity"
+                                       class="app-form-control app-xs"
+                                       placeholder="불량 수량을 입력해 주세요."/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비고</th>
+                            <td>
+                                <input type="text"
+                                       name="remark"
+                                       class="app-form-control app-xs"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>종료 시간</th>
+                            <td th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:ss:mm')}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> 취소
+                </button>
+                <button type="submit"
+                        form="work-complete-form"
+                        class="btn btn-primary btn-sm">
+                    <i class="bi bi-floppy"></i> 저장
+                </button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

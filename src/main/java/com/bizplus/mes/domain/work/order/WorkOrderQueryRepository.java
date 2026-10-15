@@ -24,5 +24,7 @@ public interface WorkOrderQueryRepository {
 
     Optional<WorkOrderDto> findWorkOrder(Long id);
 
+    Optional<WorkOrder> findWorkOrderForUpdate(Long id);
+
     String findMaxOrderNo(LocalDate date);
 }

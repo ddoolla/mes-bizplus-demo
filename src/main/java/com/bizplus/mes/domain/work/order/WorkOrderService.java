@@ -20,7 +20,7 @@ public interface WorkOrderService {
     void autoCreateWorkOrders(Long productionOrderId, WorkOrderCreateDto dto);
 
     /**
-     * 수동 추가용
+     * 추가 작업지시 생성용
      */
     void createWorkOrders(WorkOrderCreateDto dto);
 
@@ -34,7 +34,7 @@ public interface WorkOrderService {
 
     void updateWorkOrders(List<WorkOrderUpdateDto> dtoList);
 
-    void assignEquipment(Long id, Long equipmentId);
+    void changeEquipment(Long id, Long equipmentId);
 
     void deleteWorkOrders(List<Long> ids);
 }

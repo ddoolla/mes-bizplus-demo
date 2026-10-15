@@ -1,7 +1,12 @@
 package com.bizplus.mes.domain.work.order.facade;
 
+import com.bizplus.mes.common.exception.BusinessException;
+import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.equipment.Equipment;
+import com.bizplus.mes.domain.work.order.WorkOrder;
+import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import com.bizplus.mes.domain.work.order.WorkOrderService;
+import com.bizplus.mes.domain.work.order.WorkOrderStatus;
 import com.bizplus.mes.domain.work.order.event.WorkStartedEvent;
 import com.bizplus.mes.domain.work.result.WorkResultService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class WorkStartService {
 
+    private final WorkOrderReader workOrderReader;
+
     private final WorkOrderService workOrderService;
     private final WorkResultService workResultService;
 
@@ -20,13 +27,21 @@ public class WorkStartService {
 
     @Transactional
     public void start(Long workOrderId) {
-        // 작업지시 상태 변경
+        // 1. 작업지시 잠금 조회
+        WorkOrder workOrder = workOrderReader.getForUpdate(workOrderId);
+
+        // 2. 작업 시작 가능 여부 검증
+        if (workOrder.getStatus() != WorkOrderStatus.PENDING) {
+            throw new BusinessException(ErrorCode.INVALID_STATE, "작업 대기 상태에서만 시작 가능합니다.");
+        }
+
+        // 3. 작업지시 시작 처리
         Equipment equipment = workOrderService.startWork(workOrderId);
 
-        // 작업실적 데이터 생성
+        // 4. 작업실적 생성
         workResultService.createWorkResult(workOrderId);
 
-        // 설비를 사용한 작업일 경우 - PLC 메모리 초기화 (senderId를 잘 맞춰줘야 함)
+        // 5. PLC 초기화 이벤트 (senderId를 잘 맞춰줘야 함)
         if (equipment != null) {
             eventPublisher.publishEvent(new WorkStartedEvent(equipment.getSenderId()));
         }

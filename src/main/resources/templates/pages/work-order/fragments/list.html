@@ -54,6 +54,10 @@
                             <span class="badge text-bg-primary p-2"
                                   th:text="${workOrder.status?.description}"></span>
                         </h6>
+                        <h6 th:case="'PAUSED'" class="mb-0">
+                            <span class="badge text-bg-warning p-2"
+                                  th:text="${workOrder.status?.description}"></span>
+                        </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">
                             <span class="badge text-bg-success p-2"
                                   th:text="${workOrder.status?.description}"></span>

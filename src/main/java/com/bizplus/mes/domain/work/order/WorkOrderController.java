@@ -3,12 +3,16 @@ package com.bizplus.mes.domain.work.order;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
+import com.bizplus.mes.domain.code.common.CommonCodeService;
+import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.work.order.dto.WorkCompleteDto;
 import com.bizplus.mes.domain.work.order.dto.WorkOrderCreateDto;
 import com.bizplus.mes.domain.work.order.dto.WorkOrderSearchDto;
 import com.bizplus.mes.domain.work.order.dto.WorkStopDto;
+import com.bizplus.mes.domain.work.order.facade.WorkCompleteService;
 import com.bizplus.mes.domain.work.order.facade.WorkStartService;
 import com.bizplus.mes.domain.work.order.facade.WorkStopService;
 import jakarta.validation.Valid;
@@ -29,10 +33,12 @@ import java.util.List;
 public class WorkOrderController {
 
     private final MessageService messageService;
+    private final CommonCodeService commonCodeService;
     private final WorkOrderService workOrderService;
 
     private final WorkStartService workStartService;
     private final WorkStopService workStopService;
+    private final WorkCompleteService workCompleteService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('WORK_ORDER_READ')")
@@ -61,6 +67,7 @@ public class WorkOrderController {
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("workOrder", workOrderService.getWorkOrder(id).getWorkOrder());
         model.addAttribute("progressRate", workOrderService.getWorkOrder(id).getProgressRate());
+        model.addAttribute("equipmentTypes", commonCodeService.getCommonCodes(CodeGroupKey.EQUIPMENT_TYPE));
 
         return "pages/work-order/detail";
     }
@@ -71,6 +78,14 @@ public class WorkOrderController {
         workStartService.start(id);
 
         return ResponseEntity.ok(ApiResponse.success("작업을 시작합니다."));
+    }
+
+    @PatchMapping("/{id}/equipment")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Void>> changeEquipment(@PathVariable Long id, @RequestBody Long equipmentId) {
+        workOrderService.changeEquipment(id, equipmentId);
+
+        return ResponseEntity.ok(ApiResponse.success("작업 설비가 설정되었습니다."));
     }
 
     @PatchMapping("/{id}/stop")
@@ -91,10 +106,10 @@ public class WorkOrderController {
 
     @PatchMapping("/{id}/complete")
     @ResponseBody
-    public ResponseEntity<ApiResponse<Void>> completeWork(@PathVariable Long id) {
-        workOrderService.completeWork(id);
+    public ResponseEntity<ApiResponse<Void>> completeWork(@PathVariable Long id, @Valid WorkCompleteDto dto) {
+        workCompleteService.complete(id, dto);
 
-        return ResponseEntity.ok(ApiResponse.success("작업을 완료합니다."));
+        return ResponseEntity.ok(ApiResponse.success("작업이 완료되었습니다."));
     }
 
     @PostMapping

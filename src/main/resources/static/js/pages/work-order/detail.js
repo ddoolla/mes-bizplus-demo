@@ -1,6 +1,8 @@
 import ajax from "../../common/ajax.js";
 import createConfirmModal from "../../common/modal/confirm.js";
 import toast from "../../common/toast.js";
+import createEquipmentSingleListModal from "../../domain/equipment/modal/list/single.js";
+import createWorkCompleteModal from "../../domain/work-order/modal/complete.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const completeBtn = document.querySelector('#work-complete-button');
     const progressbar = document.querySelector('.progress-bar');
     const progressRateSpan = document.querySelector('#progress-rate');
+    const equipmentListButton = document.querySelector('#equipment-list-button');
 
     const productionCountSpan = document.querySelector('#production-count');
     const goodCountSpan = document.querySelector('#good-count');
@@ -24,6 +27,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const defectQuantity = document.querySelector('[name="defectQuantity"]').value;
 
     const confirmModal = createConfirmModal();
+    const equipmentSingleListModal = createEquipmentSingleListModal();
+    const workCompleteModal = createWorkCompleteModal();
+
+    /* 설비 변경 */
+    if (equipmentListButton) {
+        equipmentListButton.addEventListener('click', function () {
+            equipmentSingleListModal.open({
+                title: '설비 변경',
+                url: `/equipments/modal/list/single`,
+                onSelect: async (equipment) => {
+                    try {
+                        const response = await ajax.patch(
+                            `/work-orders/${workOrderId}/equipment`, equipment.id
+                        );
+
+                        toast.afterReload({
+                            message: response.message,
+                        });
+
+                        equipmentSingleListModal.close();
+
+                        location.reload();
+
+                    } catch (xhr) {
+                        toast.error({
+                            message: xhr.responseJSON?.message,
+                        });
+                    }
+                }
+            })
+        });
+    }
 
     // PLC 생산 데이터 조회 함수
     const fetchSensorData = async () => {
@@ -55,7 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
         } catch (xhr) {
-            alert(xhr.responseJSON?.message);
+            toast.error({
+                message: xhr.responseJSON?.message ?? '설비 연결을 확인해 주세요.'
+            })
         }
 
         if (workStatus === 'IN_PROGRESS') {
@@ -184,25 +221,36 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        confirmModal.open({
-            title: '작업 완료 확인',
-            content: '작업을 완료하시겠습니까?',
-            onConfirm: async () => {
-                try {
-                    const response = await ajax.patch(`/work-orders/${workOrderId}/complete`)
+        const form = document.querySelector('#work-complete-form');
+        const prodQtyInput = form.querySelector('[name="productionQuantity"]');
+        const goodQtyInput = form.querySelector('[name="goodQuantity"]');
+        const defectQtyInput = form.querySelector('[name="defectQuantity"]');
 
-                    toast.afterReload({
-                        message: response.message,
-                    });
+        prodQtyInput.value = productionCountSpan.textContent;
+        goodQtyInput.value = goodCountSpan.textContent;
+        defectQtyInput.value = defectCountSpan.textContent;
 
-                    location.reload();
+        workCompleteModal.open();
 
-                } catch (xhr) {
-                    toast.error({
-                        message: xhr.responseJSON?.message,
-                    });
-                }
-            }
-        });
+        // confirmModal.open({
+        //     title: '작업 완료 확인',
+        //     content: '작업을 완료하시겠습니까?',
+        //     onConfirm: async () => {
+        //         try {
+        //             const response = await ajax.patch(`/work-orders/${workOrderId}/complete`)
+        //
+        //             toast.afterReload({
+        //                 message: response.message,
+        //             });
+        //
+        //             location.reload();
+        //
+        //         } catch (xhr) {
+        //             toast.error({
+        //                 message: xhr.responseJSON?.message,
+        //             });
+        //         }
+        //     }
+        // });
     });
 });

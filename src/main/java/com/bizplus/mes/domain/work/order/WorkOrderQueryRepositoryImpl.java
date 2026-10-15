@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.work.order.dto.WorkOrderSearchDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -95,6 +96,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         item.code,
                         item.name,
                         item.specification,
+                        item.lotManaged,
                         uom.code,
                         uom.scale,
                         lot.id,
@@ -161,6 +163,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         item.code,
                         item.name,
                         item.specification,
+                        item.lotManaged,
                         uom.code,
                         uom.scale,
                         lot.id,
@@ -214,6 +217,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                 item.code,
                                 item.name,
                                 item.specification,
+                                item.lotManaged,
                                 uom.code,
                                 uom.scale,
                                 lot.id,
@@ -238,6 +242,20 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                 notDeleted(workOrder.deletedAt),
                                 eq(workOrder.id, id)
                         )
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<WorkOrder> findWorkOrderForUpdate(Long id) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(workOrder)
+                        .where(
+                                notDeleted(workOrder.deletedAt),
+                                eq(workOrder.id, id)
+                        )
+                        .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                         .fetchOne()
         );
     }

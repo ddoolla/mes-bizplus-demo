@@ -2,6 +2,7 @@ package com.bizplus.mes.domain.work.result;
 
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import com.bizplus.mes.domain.work.order.WorkOrderReader;
+import com.bizplus.mes.domain.work.order.dto.WorkCompleteDto;
 import com.bizplus.mes.domain.work.order.dto.WorkStopDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,20 @@ public class WorkResultServiceImpl implements WorkResultService {
                 dto.getProductionQuantity(),
                 dto.getGoodQuantity(),
                 dto.getDefectQuantity()
+        );
+    }
+
+    @Transactional
+    @Override
+    public void completeWork(Long workOrderId, WorkCompleteDto dto) {
+        WorkResult workResult = workResultReader.getByWorkOrderId(workOrderId);
+
+        workResult.completeWork(
+                dto.getProductionQuantity(),
+                dto.getGoodQuantity(),
+                dto.getDefectQuantity(),
+                LocalDateTime.now(),
+                dto.getRemark()
         );
     }
 }

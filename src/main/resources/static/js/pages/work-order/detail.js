@@ -235,26 +235,5 @@ document.addEventListener('DOMContentLoaded', function () {
         defectQtyInput.value = defectCountSpan.textContent;
 
         workCompleteModal.open();
-
-        // confirmModal.open({
-        //     title: '작업 완료 확인',
-        //     content: '작업을 완료하시겠습니까?',
-        //     onConfirm: async () => {
-        //         try {
-        //             const response = await ajax.patch(`/work-orders/${workOrderId}/complete`)
-        //
-        //             toast.afterReload({
-        //                 message: response.message,
-        //             });
-        //
-        //             location.reload();
-        //
-        //         } catch (xhr) {
-        //             toast.error({
-        //                 message: xhr.responseJSON?.message,
-        //             });
-        //         }
-        //     }
-        // });
     });
 });

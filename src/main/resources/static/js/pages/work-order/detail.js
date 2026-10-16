@@ -66,6 +66,10 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        if (!equipmentId) {
+            return;
+        }
+
         try {
             const response = await ajax.get(
                 `/api/sensor-events/equipments/${equipmentId}/current`,

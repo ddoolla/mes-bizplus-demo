@@ -9,6 +9,8 @@ import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.production.order.ProductionOrderReader;
 import com.bizplus.mes.domain.production.order.ProductionOrderService;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcessService;
+import com.bizplus.mes.domain.production.result.ProductionResultService;
+import com.bizplus.mes.domain.production.result.dto.ProductionResultCreateDto;
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import com.bizplus.mes.domain.work.order.WorkOrderService;
@@ -30,6 +32,7 @@ public class WorkCompleteService {
 
     private final ProductionOrderService productionOrderService;
     private final ProductionOrderProcessService productionOrderProcessService;
+    private final ProductionResultService productionResultService;
     private final WorkOrderService workOrderService;
     private final WorkResultService workResultService;
     private final InventoryService inventoryService;
@@ -58,6 +61,8 @@ public class WorkCompleteService {
         boolean isLastProcess = productionOrderProcessService.isLastProcess(processId);
 
         if (isLastProcess) {
+            LocalDateTime now = LocalDateTime.now();
+
             // 5. 재고 증가
             inventoryService.changeStock(new InventoryChangeDto(
                     productionOrder.getItem().getId(),
@@ -66,7 +71,17 @@ public class WorkCompleteService {
                             : null,
                     TransactionType.PRODUCTION_IN,
                     dto.getGoodQuantity(),
-                    LocalDateTime.now()
+                    now
+            ));
+
+            // 6. 생산실적 생성
+            productionResultService.create(new ProductionResultCreateDto(
+                    productionOrder.getId(),
+                    workOrder.getId(),
+                    dto.getProductionQuantity(),
+                    dto.getGoodQuantity(),
+                    dto.getDefectQuantity(),
+                    now
             ));
         }
 
@@ -74,11 +89,8 @@ public class WorkCompleteService {
         boolean isAllCompleted = workOrderService.isAllCompleted(productionOrder.getId());
 
         if (isAllCompleted) {
-            // 6. 생산지시 상태 업데이트
+            // 7. 생산지시 상태 업데이트
             productionOrderService.completeProduction(productionOrder.getId());
-
-
-            // 7. 생산실적 생성
         }
     }
 }

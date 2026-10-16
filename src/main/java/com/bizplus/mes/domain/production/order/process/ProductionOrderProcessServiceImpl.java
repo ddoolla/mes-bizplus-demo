@@ -31,9 +31,10 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
                 .map(pop ->
                         new ProductionOrderProcessDto(
                                 pop.getId(),
-                                pop.getCode(),
-                                pop.getName(),
-                                pop.getStepNo()
+                                pop.getProcessId(),
+                                pop.getProcessCode(),
+                                pop.getProcessName(),
+                                pop.getProcessStepNo()
                         )
                 )
                 .toList();
@@ -43,7 +44,7 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
     public boolean isLastProcess(Long id) {
         ProductionOrderProcess pop = productionOrderProcessReader.getById(id);
         return productionOrderProcessRepository
-                .findLastStepNo(pop.getProductionOrder().getId()) == pop.getStepNo();
+                .findLastStepNo(pop.getProductionOrder().getId()) == pop.getProcessStepNo();
     }
 
     @Transactional
@@ -53,15 +54,16 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
         List<RoutingProcess> routingProcesses = routingProcessReader
                 .getByRoutingId(productionOrder.getRouting().getId());
 
-        return routingProcesses.stream().map(rp -> {
-                    Process process = processReader.getById(rp.getProcess().getId());
+        return routingProcesses.stream().map(routingProcess -> {
+                    Process process = processReader.getById(routingProcess.getProcess().getId());
 
                     return productionOrderProcessRepository.save(new ProductionOrderProcess(
                                     productionOrder,
-                                    process,
+                                    routingProcess,
+                                    process.getId(),
                                     process.getCode(),
                                     process.getName(),
-                                    rp.getStepNo()
+                                    routingProcess.getStepNo()
                             ))
                             .getId();
                 })

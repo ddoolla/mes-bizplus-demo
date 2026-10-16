@@ -37,8 +37,9 @@ public class ProductionOrderMaterialServiceImpl implements ProductionOrderMateri
 
             productionOrderMaterialRepository.save(new ProductionOrderMaterial(
                     productionOrder,
-                    item,
+                    bomItem,
                     bomItem.getUom(),
+                    item.getId(),
                     item.getCode(),
                     item.getName(),
                     item.getSpecification(),
@@ -57,7 +58,7 @@ public class ProductionOrderMaterialServiceImpl implements ProductionOrderMateri
                 .findAllByProductionOrderId(productionOrderId);
 
         poms.forEach(pom -> {
-            BigDecimal requiredQuantity = pom.getBomQuantity()
+            BigDecimal requiredQuantity = pom.getUnitRequiredQuantity()
                     .multiply(plannedQuantity);
 
             pom.update(requiredQuantity);

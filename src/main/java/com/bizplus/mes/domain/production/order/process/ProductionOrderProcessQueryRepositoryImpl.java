@@ -17,7 +17,7 @@ public class ProductionOrderProcessQueryRepositoryImpl implements ProductionOrde
     @Override
     public Integer findLastStepNo(Long productionOrderId) {
         return query
-                .select(productionOrderProcess.stepNo.max())
+                .select(productionOrderProcess.processStepNo.max())
                 .from(productionOrderProcess)
                 .where(
                         notDeleted(productionOrderProcess.deletedAt),

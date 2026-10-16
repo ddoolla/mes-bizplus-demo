@@ -58,7 +58,11 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                 .and(notDeleted(workOrder.deletedAt))
                 .and(productionOrder.status.ne(ProductionOrderStatus.DRAFT))
                 .and(containsAny(dto.getItem(), item.code, item.name))
-                .and(containsAny(dto.getProcess(), productionOrderProcess.code, productionOrderProcess.name))
+                .and(containsAny(
+                        dto.getProcess(),
+                        productionOrderProcess.processCode,
+                        productionOrderProcess.processName
+                ))
                 .and(eq(workOrder.status, dto.getStatus()))
                 .and(startDateGoe(workOrder.date, dto.getStartDate()))
                 .and(endDateLoe(workOrder.date, dto.getEndDate()));
@@ -85,8 +89,8 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         productionOrder.id,
                         productionOrder.orderNo,
                         productionOrderProcess.id,
-                        productionOrderProcess.code,
-                        productionOrderProcess.name,
+                        productionOrderProcess.processCode,
+                        productionOrderProcess.processName,
                         equipment.id,
                         equipment.code,
                         equipment.name,
@@ -118,7 +122,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .where(searchCondition)
-                .orderBy(workOrder.date.asc(), productionOrderProcess.stepNo.asc())
+                .orderBy(workOrder.date.asc(), productionOrderProcess.processStepNo.asc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
@@ -152,8 +156,8 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         productionOrder.id,
                         productionOrder.orderNo,
                         productionOrderProcess.id,
-                        productionOrderProcess.code,
-                        productionOrderProcess.name,
+                        productionOrderProcess.processCode,
+                        productionOrderProcess.processName,
                         equipment.id,
                         equipment.code,
                         equipment.name,
@@ -188,7 +192,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         notDeleted(workOrder.deletedAt),
                         eq(productionOrder.id, productionOrderId)
                 )
-                .orderBy(productionOrderProcess.stepNo.asc())
+                .orderBy(productionOrderProcess.processStepNo.asc())
                 .fetch();
     }
 
@@ -206,8 +210,8 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                 productionOrder.id,
                                 productionOrder.orderNo,
                                 productionOrderProcess.id,
-                                productionOrderProcess.code,
-                                productionOrderProcess.name,
+                                productionOrderProcess.processCode,
+                                productionOrderProcess.processName,
                                 equipment.id,
                                 equipment.code,
                                 equipment.name,

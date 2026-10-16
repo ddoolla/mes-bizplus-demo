@@ -1,8 +1,8 @@
 package com.bizplus.mes.domain.production.order.process;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
-import com.bizplus.mes.domain.process.Process;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
+import com.bizplus.mes.domain.routing.process.RoutingProcess;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,23 +26,26 @@ public class ProductionOrderProcess extends SoftDeletableEntity {
     private ProductionOrder productionOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "process_id")
-    private Process process; // 공정 참조값
+    @JoinColumn(name = "routing_process_id")
+    private RoutingProcess routingProcess; // 공정 단계 참조용
 
-    // 생산지시 시점의 공정 정보
-    private String code;
-    private String name;
-    private int stepNo;
+    // 생산지시 시점의 공정 정보 스냅샷
+    private Long processId;
+    private String processCode;
+    private String processName;
+    private int processStepNo;
 
     public ProductionOrderProcess(ProductionOrder productionOrder,
-                                  Process process,
-                                  String code,
-                                  String name,
-                                  int stepNo) {
+                                  RoutingProcess routingProcess,
+                                  Long processId,
+                                  String processCode,
+                                  String processName,
+                                  int processStepNo) {
         this.productionOrder = productionOrder;
-        this.process = process;
-        this.code = code;
-        this.name = name;
-        this.stepNo = stepNo;
+        this.routingProcess = routingProcess;
+        this.processId = processId;
+        this.processCode = processCode;
+        this.processName = processName;
+        this.processStepNo = processStepNo;
     }
 }

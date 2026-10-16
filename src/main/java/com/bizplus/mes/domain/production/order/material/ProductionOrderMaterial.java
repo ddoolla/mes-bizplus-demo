@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.production.order.material;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
-import com.bizplus.mes.domain.item.Item;
+import com.bizplus.mes.domain.bom.item.BomItem;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.uom.Uom;
 import jakarta.persistence.*;
@@ -29,20 +29,21 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
     private ProductionOrder productionOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", nullable = false)
-    private Item item;
+    @JoinColumn(name = "bom_item_id", nullable = false)
+    private BomItem bomItem; // 원본 참조용
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uom_id", nullable = false)
     private Uom uom; // BOM 요구 단위
 
     /* 생산지시 당시 품목 정보 스냅샷 */
-    private String code;
-    private String name;
-    private String specification;
+    private Long itemId;
+    private String itemCode;
+    private String itemName;
+    private String itemSpecification;
 
     @Column(precision = 38, scale = 10)
-    private BigDecimal bomQuantity;
+    private BigDecimal unitRequiredQuantity; // BOM 요구 수량 스냅샷
 
     @Column(precision = 38, scale = 10)
     private BigDecimal requiredQuantity;
@@ -55,22 +56,24 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
     private ConsumptionStatus status;
 
     public ProductionOrderMaterial(ProductionOrder productionOrder,
-                                   Item item,
+                                   BomItem bomItem,
                                    Uom uom,
-                                   String code,
-                                   String name,
-                                   String specification,
-                                   BigDecimal bomQuantity,
+                                   Long itemId,
+                                   String itemCode,
+                                   String itemName,
+                                   String itemSpecification,
+                                   BigDecimal unitRequiredQuantity,
                                    BigDecimal requiredQuantity,
                                    BigDecimal consumedQuantity,
                                    ConsumptionStatus status) {
         this.productionOrder = productionOrder;
-        this.item = item;
+        this.bomItem = bomItem;
         this.uom = uom;
-        this.code = code;
-        this.name = name;
-        this.specification = specification;
-        this.bomQuantity = bomQuantity;
+        this.itemId = itemId;
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.itemSpecification = itemSpecification;
+        this.unitRequiredQuantity = unitRequiredQuantity;
         this.requiredQuantity = requiredQuantity;
         this.consumedQuantity = consumedQuantity;
         this.status = status;

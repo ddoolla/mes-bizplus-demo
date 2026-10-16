@@ -17,5 +17,9 @@ public interface ProductionOrderService {
 
     void confirmProductionOrder(Long id, Long lotId);
 
+    void startProduction(Long id);
+
+    void completeProduction(Long id);
+
     void deleteProductionOrders(List<Long> ids);
 }

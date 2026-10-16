@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.work.order.facade;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.equipment.Equipment;
+import com.bizplus.mes.domain.production.order.ProductionOrderService;
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import com.bizplus.mes.domain.work.order.WorkOrderService;
@@ -20,6 +21,7 @@ public class WorkStartService {
 
     private final WorkOrderReader workOrderReader;
 
+    private final ProductionOrderService productionOrderService;
     private final WorkOrderService workOrderService;
     private final WorkResultService workResultService;
 
@@ -41,7 +43,11 @@ public class WorkStartService {
         // 4. 작업실적 생성
         workResultService.createWorkResult(workOrderId);
 
-        // 5. PLC 초기화 이벤트 (senderId를 잘 맞춰줘야 함)
+        // 5. 생산지시 상태 변경 - 생산중
+        productionOrderService.startProduction(
+                workOrder.getProductionOrderProcess().getProductionOrder().getId());
+
+        // 6. PLC 초기화 이벤트 (senderId를 잘 맞춰줘야 함)
         if (equipment != null) {
             eventPublisher.publishEvent(new WorkStartedEvent(equipment.getSenderId()));
         }

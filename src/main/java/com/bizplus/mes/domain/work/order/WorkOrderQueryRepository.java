@@ -11,20 +11,22 @@ import java.util.Optional;
 
 public interface WorkOrderQueryRepository {
 
-    Page<WorkOrderDto> findWorkOrders(WorkOrderListType listType,
-                                      WorkOrderSearchDto dto,
-                                      Pageable pageable);
+    Page<WorkOrderDto> fetchWorkOrders(WorkOrderListType listType,
+                                       WorkOrderSearchDto dto,
+                                       Pageable pageable);
 
-    Page<WorkOrderDto> findWorkOrdersByUserId(WorkOrderListType listType,
-                                              Long userId,
-                                              WorkOrderSearchDto dto,
-                                              Pageable pageable);
+    Page<WorkOrderDto> fetchWorkOrdersByUserId(WorkOrderListType listType,
+                                               Long userId,
+                                               WorkOrderSearchDto dto,
+                                               Pageable pageable);
 
-    List<WorkOrderDto> findWorkOrders(Long productionOrderId);
+    List<WorkOrderDto> fetchWorkOrders(Long productionOrderId);
 
-    Optional<WorkOrderDto> findWorkOrder(Long id);
+    Optional<WorkOrderDto> fetchWorkOrder(Long id);
 
     Optional<WorkOrder> findWorkOrderForUpdate(Long id);
 
     String findMaxOrderNo(LocalDate date);
+
+    boolean existsIncompleteWorkOrder(Long productionOrderId);
 }

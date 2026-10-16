@@ -14,6 +14,8 @@ public interface WorkOrderService {
 
     WorkOrderDetailDto getWorkOrder(Long id);
 
+    boolean isAllCompleted(Long productionOrderId);
+
     /**
      * 생산지시 등록 시 자동생성용
      */

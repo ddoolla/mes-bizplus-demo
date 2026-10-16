@@ -78,6 +78,10 @@ public class ProductionOrder extends SoftDeletableEntity {
         this.remark = remark;
     }
 
+    public void updateStatus(ProductionOrderStatus status) {
+        this.status = status;
+    }
+
     public void confirm(Lot lot) {
         this.status = ProductionOrderStatus.CONFIRMED;
         this.lot = lot;

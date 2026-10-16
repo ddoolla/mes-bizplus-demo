@@ -49,10 +49,10 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         Page<WorkOrderDto> workOrderPage;
 
         if ("admin".equals(user.getLoginId())) {
-            workOrderPage = workOrderRepository.findWorkOrders(listType, dto, pageable);
+            workOrderPage = workOrderRepository.fetchWorkOrders(listType, dto, pageable);
 
         } else {
-            workOrderPage = workOrderRepository.findWorkOrdersByUserId(listType, user.getId(), dto, pageable);
+            workOrderPage = workOrderRepository.fetchWorkOrdersByUserId(listType, user.getId(), dto, pageable);
         }
 
         return new WorkOrderListDto(workOrderPage.getContent(), Pagination.of(workOrderPage));
@@ -60,12 +60,12 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
     @Override
     public List<WorkOrderDto> getWorkOrders(Long ProductionOrderId) {
-        return workOrderRepository.findWorkOrders(ProductionOrderId);
+        return workOrderRepository.fetchWorkOrders(ProductionOrderId);
     }
 
     @Override
     public WorkOrderDetailDto getWorkOrder(Long id) {
-        WorkOrderDto workOrderDto = workOrderRepository.findWorkOrder(id)
+        WorkOrderDto workOrderDto = workOrderRepository.fetchWorkOrder(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.WORK_ORDER_NOT_FOUND, "id: " + id));
 
         BigDecimal quantity = workOrderDto.getQuantity();
@@ -79,6 +79,11 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         }
 
         return new WorkOrderDetailDto(workOrderDto, progressRate);
+    }
+
+    @Override
+    public boolean isAllCompleted(Long productionOrderId) {
+        return !workOrderRepository.existsIncompleteWorkOrder(productionOrderId);
     }
 
     @Transactional

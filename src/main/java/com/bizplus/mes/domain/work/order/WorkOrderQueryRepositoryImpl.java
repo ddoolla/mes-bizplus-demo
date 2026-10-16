@@ -36,17 +36,17 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public Page<WorkOrderDto> findWorkOrders(WorkOrderListType listType,
-                                             WorkOrderSearchDto dto,
-                                             Pageable pageable) {
+    public Page<WorkOrderDto> fetchWorkOrders(WorkOrderListType listType,
+                                              WorkOrderSearchDto dto,
+                                              Pageable pageable) {
         return findWorkOrders(listType, null, dto, pageable);
     }
 
     @Override
-    public Page<WorkOrderDto> findWorkOrdersByUserId(WorkOrderListType listType,
-                                                     Long userId,
-                                                     WorkOrderSearchDto dto,
-                                                     Pageable pageable) {
+    public Page<WorkOrderDto> fetchWorkOrdersByUserId(WorkOrderListType listType,
+                                                      Long userId,
+                                                      WorkOrderSearchDto dto,
+                                                      Pageable pageable) {
         return findWorkOrders(listType, userId, dto, pageable);
     }
 
@@ -140,7 +140,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     }
 
     @Override
-    public List<WorkOrderDto> findWorkOrders(Long productionOrderId) {
+    public List<WorkOrderDto> fetchWorkOrders(Long productionOrderId) {
         return query
                 .select(new QWorkOrderDto(
                         workOrder.id,
@@ -193,7 +193,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     }
 
     @Override
-    public Optional<WorkOrderDto> findWorkOrder(Long id) {
+    public Optional<WorkOrderDto> fetchWorkOrder(Long id) {
         return Optional.ofNullable(
                 query
                         .select(new QWorkOrderDto(
@@ -270,5 +270,19 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         endDateLoe(workOrder.createdAt, date)
                 )
                 .fetchFirst();
+    }
+
+    @Override
+    public boolean existsIncompleteWorkOrder(Long productionOrderId) {
+        return query
+                .selectOne()
+                .from(workOrder)
+                .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
+                .where(
+                        notDeleted(workOrder.deletedAt),
+                        eq(productionOrderProcess.productionOrder.id, productionOrderId),
+                        workOrder.status.ne(WorkOrderStatus.COMPLETED)
+                )
+                .fetchFirst() != null;
     }
 }

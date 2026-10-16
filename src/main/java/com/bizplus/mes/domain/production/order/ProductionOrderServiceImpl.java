@@ -14,6 +14,7 @@ import com.bizplus.mes.domain.lot.LotReader;
 import com.bizplus.mes.domain.production.order.dto.*;
 import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.routing.RoutingReader;
+import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,9 +32,10 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
 
     private final ItemReader itemReader;
     private final BomReader bomReader;
+    private final LotReader lotReader;
     private final RoutingReader routingReader;
     private final ProductionOrderReader productionOrderReader;
-    private final LotReader lotReader;
+    private final WorkOrderReader workOrderReader;
 
     @Override
     public ProductionOrderListDto getProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
@@ -96,6 +98,33 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
         Lot lot = lotReader.getByIdOrNull(lotId);
 
         productionOrder.confirm(lot);
+    }
+
+    @Override
+    public void startProduction(Long id) {
+        ProductionOrder productionOrder = productionOrderReader.getById(id);
+
+        if (productionOrder.getStatus() == ProductionOrderStatus.IN_PROGRESS) {
+            return;
+        }
+
+        if (productionOrder.getStatus() != ProductionOrderStatus.CONFIRMED) {
+            throw new IllegalStateException("생산 진행이 불가능한 생산지시 상태입니다.");
+        }
+
+        productionOrder.updateStatus(ProductionOrderStatus.IN_PROGRESS);
+    }
+
+    @Transactional
+    @Override
+    public void completeProduction(Long id) {
+        ProductionOrder productionOrder = productionOrderReader.getById(id);
+
+        if (productionOrder.getStatus() != ProductionOrderStatus.IN_PROGRESS) {
+            throw new IllegalStateException("생산 완료가 불가능한 생산지시 상태입니다.");
+        }
+
+        productionOrder.updateStatus(ProductionOrderStatus.COMPLETED);
     }
 
     @Transactional

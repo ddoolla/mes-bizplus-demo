@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 public class WorkCompleteDto {
 
     @NotNull
+    private Long productionOrderId;
+
+    @NotNull
     @PositiveOrZero
     private BigDecimal productionQuantity;
 

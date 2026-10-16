@@ -13,6 +13,9 @@
                 <form id="work-complete-form"
                       method="post"
                       th:action="@{/work-orders/{id}/complete(id=${workOrder.id})}">
+
+                    <input type="hidden" name="productionOrderId" th:value="${workOrder.productionOrder.id}"/>
+
                     <table class="app-table-input">
                         <colgroup>
                             <col style="width: 150px">
@@ -56,7 +59,7 @@
                         </tr>
                         <tr>
                             <th>종료 시간</th>
-                            <td th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:ss:mm')}">
+                            <td th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}">
                             </td>
                         </tr>
                         </tbody>

@@ -42,6 +42,9 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
     private String specification;
 
     @Column(precision = 38, scale = 10)
+    private BigDecimal bomQuantity;
+
+    @Column(precision = 38, scale = 10)
     private BigDecimal requiredQuantity;
 
     @Column(precision = 38, scale = 10)
@@ -57,6 +60,7 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
                                    String code,
                                    String name,
                                    String specification,
+                                   BigDecimal bomQuantity,
                                    BigDecimal requiredQuantity,
                                    BigDecimal consumedQuantity,
                                    ConsumptionStatus status) {
@@ -66,8 +70,13 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
         this.code = code;
         this.name = name;
         this.specification = specification;
+        this.bomQuantity = bomQuantity;
         this.requiredQuantity = requiredQuantity;
         this.consumedQuantity = consumedQuantity;
         this.status = status;
+    }
+
+    public void update(BigDecimal requiredQuantity) {
+        this.requiredQuantity = requiredQuantity;
     }
 }

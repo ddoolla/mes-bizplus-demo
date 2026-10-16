@@ -28,7 +28,7 @@ public class ProductionOrderCreateService {
 
         // 2. BOM 정보, 공정 라우팅 정보 스냅샷
         List<Long> newPopIds = productionOrderProcessService.createProductionOrderProcesses(newProductionOrderId);
-        productionOrderMaterialService.createProductionOrderMaterials(newProductionOrderId);
+        productionOrderMaterialService.create(newProductionOrderId);
 
         // 3. 작업지시 자동 생성
         workOrderService.autoCreateWorkOrders(

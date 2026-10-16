@@ -25,12 +25,15 @@ public class ProductionOrderMaterialServiceImpl implements ProductionOrderMateri
 
     @Transactional
     @Override
-    public void createProductionOrderMaterials(Long productionOrderId) {
+    public void create(Long productionOrderId) {
         ProductionOrder productionOrder = productionOrderReader.getById(productionOrderId);
         List<BomItem> bomItems = bomItemReader.getByBomId(productionOrder.getBom().getId());
 
         bomItems.forEach(bomItem -> {
             Item item = itemReader.getById(bomItem.getItem().getId());
+
+            BigDecimal requiredQuantity = bomItem.getQuantity()
+                    .multiply(productionOrder.getQuantity());
 
             productionOrderMaterialRepository.save(new ProductionOrderMaterial(
                     productionOrder,
@@ -40,9 +43,24 @@ public class ProductionOrderMaterialServiceImpl implements ProductionOrderMateri
                     item.getName(),
                     item.getSpecification(),
                     bomItem.getQuantity(),
+                    requiredQuantity,
                     BigDecimal.ZERO,
                     ConsumptionStatus.PENDING
             ));
+        });
+    }
+
+    @Transactional
+    @Override
+    public void update(Long productionOrderId, BigDecimal plannedQuantity) {
+        List<ProductionOrderMaterial> poms = productionOrderMaterialRepository
+                .findAllByProductionOrderId(productionOrderId);
+
+        poms.forEach(pom -> {
+            BigDecimal requiredQuantity = pom.getBomQuantity()
+                    .multiply(plannedQuantity);
+
+            pom.update(requiredQuantity);
         });
     }
 }

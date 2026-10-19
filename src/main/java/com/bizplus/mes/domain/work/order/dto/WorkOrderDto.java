@@ -35,6 +35,7 @@ public class WorkOrderDto {
                         Long productionOrderId,
                         String productionOrderNo,
                         Long popId,
+                        Long routingProcessId,
                         String popCode,
                         String popName,
                         Long equipmentId,
@@ -69,6 +70,7 @@ public class WorkOrderDto {
         );
         this.process = new ProductionOrderProcessInfo(
                 popId,
+                routingProcessId,
                 popCode,
                 popName
         );
@@ -112,6 +114,7 @@ public class WorkOrderDto {
 
     public record ProductionOrderProcessInfo(
             Long id,
+            Long routingProcessId,
             String code,
             String name
     ) {

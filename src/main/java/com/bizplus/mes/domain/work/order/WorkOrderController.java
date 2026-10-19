@@ -7,11 +7,9 @@ import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
+import com.bizplus.mes.domain.material.input.MaterialInputService;
 import com.bizplus.mes.domain.menu.MenuCode;
-import com.bizplus.mes.domain.work.order.dto.WorkCompleteDto;
-import com.bizplus.mes.domain.work.order.dto.WorkOrderCreateDto;
-import com.bizplus.mes.domain.work.order.dto.WorkOrderSearchDto;
-import com.bizplus.mes.domain.work.order.dto.WorkStopDto;
+import com.bizplus.mes.domain.work.order.dto.*;
 import com.bizplus.mes.domain.work.order.facade.WorkCompleteService;
 import com.bizplus.mes.domain.work.order.facade.WorkStartService;
 import com.bizplus.mes.domain.work.order.facade.WorkStopService;
@@ -39,6 +37,7 @@ public class WorkOrderController {
     private final WorkStartService workStartService;
     private final WorkStopService workStopService;
     private final WorkCompleteService workCompleteService;
+    private final MaterialInputService materialInputService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('WORK_ORDER_READ')")
@@ -65,9 +64,12 @@ public class WorkOrderController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('WORK_ORDER_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
-        model.addAttribute("workOrder", workOrderService.getWorkOrder(id).getWorkOrder());
+        WorkOrderDto workOrder = workOrderService.getWorkOrder(id).getWorkOrder();
+
+        model.addAttribute("workOrder", workOrder);
         model.addAttribute("progressRate", workOrderService.getWorkOrder(id).getProgressRate());
         model.addAttribute("equipmentTypes", commonCodeService.getCommonCodes(CodeGroupKey.EQUIPMENT_TYPE));
+        model.addAttribute("consumptionMaterials", materialInputService.getConsumptionMaterials(id, workOrder.getProcess().routingProcessId()));
 
         return "pages/work-order/detail";
     }

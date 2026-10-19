@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.material.input;
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.Lot;
+import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -31,6 +32,10 @@ public class MaterialInput extends SoftDeletableEntity {
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uom_id", nullable = false)
+    private Uom uom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lot_id")
     private Lot lot;
 
@@ -49,6 +54,7 @@ public class MaterialInput extends SoftDeletableEntity {
 
     public MaterialInput(WorkOrder workOrder,
                          Item item,
+                         Uom uom,
                          Lot lot,
                          MaterialInputType type,
                          MaterialInputStatus status,
@@ -56,6 +62,7 @@ public class MaterialInput extends SoftDeletableEntity {
                          LocalDateTime inputAt) {
         this.workOrder = workOrder;
         this.item = item;
+        this.uom = uom;
         this.lot = lot;
         this.type = type;
         this.status = status;

@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const stopBtn = document.querySelector('#work-stop-button');
     const resumeBtn = document.querySelector('#work-resume-button');
     const completeBtn = document.querySelector('#work-complete-button');
+    const inputBtn = document.querySelector('#material-input-button');
     const progressbar = document.querySelector('.progress-bar');
     const progressRateSpan = document.querySelector('#progress-rate');
     const equipmentListButton = document.querySelector('#equipment-list-button');
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const defectCountSpan = document.querySelector('#defect-count');
 
     const workOrderId = document.querySelector('[name="id"]').value;
+    const routingProcessId = document.querySelector('[name="routingProcessId"]').value;
     const equipmentId = document.querySelector('[name="equipmentId"]').value;
     const workStatus = document.querySelector('[name="status"]').value;
     const targetCount = document.querySelector('[name="quantity"]').value;
@@ -235,5 +237,16 @@ document.addEventListener('DOMContentLoaded', function () {
         defectQtyInput.value = defectCountSpan.textContent;
 
         workCompleteModal.open();
+    });
+
+    /* 자재 투입 */
+    inputBtn.addEventListener('click', function () {
+        if (workStatus !== 'IN_PROGRESS') {
+            toast.warning({
+                message: '현재 작업이 진행 중인 상태가 아닙니다.',
+            });
+
+            return;
+        }
     });
 });

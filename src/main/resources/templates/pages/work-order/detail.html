@@ -29,6 +29,7 @@
             <!--/* 작업지시 정보 */-->
             <div class="col-4">
                 <input type="hidden" name="id" th:value="${workOrder.id}"/>
+                <input type="hidden" name="routingProcessId" th:value="${workOrder.process.routingProcessId()}"/>
                 <input type="hidden" name="equipmentId" th:value="${workOrder.equipment.id}"/>
                 <input type="hidden" name="status" th:value="${workOrder.status}"/>
                 <input type="hidden" name="quantity" th:value="${workOrder.quantity}"/>
@@ -175,7 +176,7 @@
                     </div>
                     <div class="col">
                         <button type="button"
-                                id="material-feed-button"
+                                id="material-input-button"
                                 class="btn btn-secondary btn-lg
                                        w-100 py-4 fw-bold">
                             <i class="bi bi-box"></i> 자재 투입
@@ -302,6 +303,10 @@
 
     <!--/* 작업 완료 모달 */-->
     <div th:replace="~{pages/work-order/modal/complete :: modal (${workOrder})}"></div>
+
+    <!--/* 자재 투입 모달 */-->
+    <div th:replace="~{pages/material-input/modal/input/material-selection :: modal (${consumptionMaterials})}"></div>
+    <div th:replace="~{pages/material-input/modal/input/material-input :: modal}"></div>
 </div>
 </body>
 </html>

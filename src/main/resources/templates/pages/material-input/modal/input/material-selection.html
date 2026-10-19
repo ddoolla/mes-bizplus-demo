@@ -1,0 +1,74 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 투입 자재 목록 모달 */-->
+<th:block th:fragment="modal (consumptionMaterials)">
+    <div th:replace="~{fragments/modal/default :: default (
+        'material-selection-modal',
+        '투입 자재 목록',
+         ~{::content},
+         1200
+    )}">
+        <div th:fragment="content" class="p-2">
+            <div class="modal-body pt-0">
+                <div class="d-flex justify-content-start">
+                    <div class="fw-bold"
+                         th:text="|Total : ${consumptionMaterials.size()} 건|">
+                    </div>
+                </div>
+                <div>
+                    <table class="app-table-list text-center">
+                        <colgroup>
+                            <col style="width: 200px">
+                            <col style="width: 200px">
+                            <col style="width: auto">
+                            <col style="width: 150px">
+                            <col style="width: 150px">
+                            <col style="width: 150px">
+                            <col style="width: 100px">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>자재 코드</th>
+                            <th>자재명</th>
+                            <th>규격</th>
+                            <th>요구 수량</th>
+                            <th>투입 수량</th>
+                            <th>남은 수량</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(consumptionMaterials)}">
+                            <td colspan="6" class="p-4">등록된 소모 자재 정보가 없습니다.</td>
+                        </tr>
+                        <tr th:each="cm : ${consumptionMaterials}">
+                            <td th:text="${cm.item.code}"></td>
+                            <td th:text="${cm.item.name}"></td>
+                            <td th:text="${@format.value(cm.item.specification)}"></td>
+                            <td th:text="|${#numbers.formatDecimal(cm.requiredQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
+                            <td th:text="|${#numbers.formatDecimal(cm.inputQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
+                            <td th:text="|${#numbers.formatDecimal(cm.remainingQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
+                            <td>
+                                <button type="button"
+                                        class="item-select-button
+                                   btn btn-primary btn-sm"
+                                        th:data-item-id="${cm.item.id}"
+                                        th:data-item-code="${cm.item.code}"
+                                        th:data-item-name="${cm.item.name}"
+                                        th:data-item-spec="${cm.item.specification}"
+                                        th:data-required-quantity="${cm.requiredQuantity}"
+                                        th:data-input-quantity="${cm.inputQuantity}"
+                                        th:data-remaining-quantity="${cm.remainingQuantity}">
+                                    선택
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

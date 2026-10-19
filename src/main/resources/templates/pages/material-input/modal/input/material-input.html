@@ -1,0 +1,75 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 자재 투입 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'material-input-modal',
+        '자재 투입',
+         ~{::.app-modal-content},
+         1200
+    )}">
+        <div class="app-modal-content p-2">
+            <div class="container-fluid">
+                <!--/* 버튼 */-->
+                <div class="row">
+                    <div class="col text-end">
+                        <button type="button"
+                                class="back-button
+                                       btn btn-secondary btn-sm">
+                            <i class="bi bi-chevron-left"></i> 소모 자재 목록
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!--/* 자재 정보 */-->
+                    <div class="col">
+                        <table class="app-table-input">
+                            <colgroup>
+                                <col style="width: 150px">
+                                <col style="width: auto">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>자재 코드</th>
+                                <td>
+                                    <span class="material-code"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>자재명</th>
+                                <td>
+                                    <span class="material-name"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>규격</th>
+                                <td>
+                                    <span class="material-spec"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--/* 로트 스캔 정보 */-->
+                    <div class="col">
+                        <input type="text" class="form-control form-control-lg"/>
+                        <button type="button"
+                                class="btn btn-secondary btn-lg text-nowrap">
+                            <i class="bi bi-upc-scan"></i> 조회
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!--/* 자재 투입 모달 콘텐츠 */-->
+<div th:fragment="content" class="p-2">
+    <div class="modal-body pt-0">
+    </div>
+</div>
+
+</html>

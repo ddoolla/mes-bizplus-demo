@@ -35,10 +35,10 @@ const createMaterialInputModal = () => {
         setMaterialInfo('itemCode', selectedItem.itemCode);
         setMaterialInfo('itemName', selectedItem.itemName);
         setMaterialInfo('itemSpec', selectedItem.itemSpec ?? '-');
-        setMaterialInfo('requiredQuantity', selectedItem.requiredQuantity + unit);
-        setMaterialInfo('inputQuantity', selectedItem.inputQuantity + unit);
-        setMaterialInfo('remainingQuantity', selectedItem.remainingQuantity + unit);
-        setMaterialInfo('excessQuantity', selectedItem.excessQuantity + unit);
+        setMaterialInfo('requiredQuantity', Number(selectedItem.requiredQuantity)?.toLocaleString() + unit);
+        setMaterialInfo('inputQuantity', Number(selectedItem.inputQuantity)?.toLocaleString() + unit);
+        setMaterialInfo('remainingQuantity', Number(selectedItem.remainingQuantity)?.toLocaleString() + unit);
+        setMaterialInfo('excessQuantity', Number(selectedItem.excessQuantity)?.toLocaleString() + unit);
 
         lotManaged = selectedItem.lotManaged === 'true';
         lotScanSection.style.display = lotManaged ? '' : 'none';
@@ -94,6 +94,7 @@ const createMaterialInputModal = () => {
         e.preventDefault();
 
         const lotNo = lotScanInput.value.trim();
+        const inputUomId = selectedItem.uomId;
 
         if (!lotNo) {
             lotScanInput.focus();
@@ -108,27 +109,25 @@ const createMaterialInputModal = () => {
         lotScanInput.classList.remove('is-valid', 'is-invalid');
 
         try {
-            const response = await ajax.get('/api/lots', {lotNo});
-            const lot = response?.data;
+            const response = await ajax.get('/api/material-inputs/lot', {lotNo, inputUomId});
+            scannedLot = response?.data;
 
             // 다른 자재의 LOT인지 확인
-            if (String(lot?.item.id) !== String(selectedItem.itemId)) {
+            if (String(scannedLot?.itemId) !== String(selectedItem.itemId)) {
                 lotScanInput.classList.add('is-invalid');
                 toast.warning({message: '선택한 자재의 LOT가 아닙니다.'});
                 lotScanInput.focus();
                 return;
             }
 
-            scannedLot = lot;
+            const lotQuantity = Number(scannedLot?.quantity);
+            const remainingQuantity = Number(selectedItem.remainingQuantity);
+            const inputUnit = scannedLot.inputUomCode;
 
-            const lotQuantity = scannedLot?.inventory?.quantity;
+            lotNoField.value = scannedLot.no ?? '-';
+            lotQuantityField.value = (lotQuantity.toLocaleString() ?? '-') + ' ' + inputUnit;
 
-            lotNoField.value = scannedLot?.no ?? '-';
-            lotQuantityField.value = lotQuantity?.toLocaleString() ?? '-';
-
-            inputQuantityInput.value = lotQuantity > selectedItem.remainingQuantity
-                ? selectedItem.remainingQuantity
-                : lotQuantity;
+            inputQuantityInput.value = Math.min(lotQuantity, remainingQuantity);
 
             lotScanInput.classList.add('is-valid');
             inputQuantityInput.focus();
@@ -149,7 +148,7 @@ const createMaterialInputModal = () => {
         setInputQuantityError();
 
         const inputQty = inputQuantityInput.value
-        const lotQty = scannedLot?.inventory?.quantity
+        const lotQty = scannedLot.quantity
 
         inputQuantityInput.value = inputQty > lotQty ? lotQty : inputQty;
     });

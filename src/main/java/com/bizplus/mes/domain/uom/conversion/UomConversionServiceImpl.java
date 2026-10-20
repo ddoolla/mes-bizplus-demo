@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,21 @@ public class UomConversionServiceImpl implements UomConversionService {
         boolean exists = uomConversionRepository.existsByFromUomIdAndToUomId(fromUomId, toUomId);
 
         return !exists;
+    }
+
+    @Override
+    public BigDecimal convert(BigDecimal quantity, Long fromUomId, Long toUomId) {
+        if (Objects.equals(fromUomId, toUomId)) {
+            return quantity;
+        }
+
+        UomConversion uomConversion = uomConversionRepository.findByFromUomIdAndToUomId(fromUomId, toUomId)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.UOM_CONVERSION_NOT_FOUND,
+                        String.format("fromUomId: %d, toUomId: %d", fromUomId, toUomId)
+                ));
+
+        return quantity.multiply(uomConversion.getFactor());
     }
 
     @Override

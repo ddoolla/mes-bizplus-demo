@@ -15,13 +15,16 @@ import com.bizplus.mes.domain.material.input.MaterialInputStatus;
 import com.bizplus.mes.domain.material.input.dto.MaterialInputCreateDto;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
+import com.bizplus.mes.domain.uom.conversion.UomConversionService;
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class MaterialInputCreateService {
 
     private final MaterialInputRepository materialInputRepository;
 
+    private final UomConversionService uomConversionService;
     private final InventoryService inventoryService;
 
     private final WorkOrderReader workOrderReader;
@@ -41,23 +45,42 @@ public class MaterialInputCreateService {
     public void create(MaterialInputCreateDto dto) {
         WorkOrder workOrder = workOrderReader.getById(dto.getWorkOrderId());
         Item item = itemReader.getById(dto.getItemId());
-        Lot lot = lotReader.getById(dto.getLotId());
-        Uom uom = uomReader.getById(dto.getUomId());
+        Uom inputUom = uomReader.getById(dto.getUomId());
 
-        Inventory inventory = inventoryReader.getForUpdate(item.getId(), lot.getId());
+        Lot lot = lotReader.getByIdOrNull(dto.getLotId());
 
-        boolean hasEnoughStock =
-                inventory.getQuantity().compareTo(dto.getQuantity()) >= 0;
+        if (lot != null && !Objects.equals(lot.getItem().getId(), item.getId())) {
+            throw new IllegalArgumentException("선택한 자재의 LOT가 아닙니다.");
+        }
+
+        if (dto.getQuantity() == null || dto.getQuantity().signum() <= 0) {
+            throw new IllegalArgumentException("투입 수량은 0보다 커야합니다.");
+        }
+
+        // 품목 기준 단위로 환산
+        BigDecimal inventoryQuantity = uomConversionService.convert(
+                dto.getQuantity(),
+                inputUom.getId(),
+                item.getUom().getId()
+        );
+
+        Inventory inventory = inventoryReader.getForUpdate(item.getId(), dto.getLotId());
+
+        boolean hasEnoughStock = inventory != null
+                && inventory.getQuantity().compareTo(inventoryQuantity) >= 0;
 
         MaterialInputStatus status;
+        LocalDateTime inputAt = null;
 
         if (hasEnoughStock) {
+            inputAt = LocalDateTime.now();
+
             inventoryService.changeStock(new InventoryChangeDto(
                     dto.getItemId(),
                     dto.getLotId(),
                     TransactionType.PRODUCTION_OUT,
-                    dto.getQuantity(),
-                    LocalDateTime.now()
+                    inventoryQuantity,
+                    inputAt
             ));
 
             status = MaterialInputStatus.COMPLETED;
@@ -69,14 +92,12 @@ public class MaterialInputCreateService {
         materialInputRepository.save(new MaterialInput(
                 workOrder,
                 item,
-                uom,
+                inputUom,
                 lot,
                 dto.getType(),
                 status,
                 dto.getQuantity(),
-                status == MaterialInputStatus.COMPLETED
-                        ? LocalDateTime.now()
-                        : null
+                inputAt
         ));
     }
 }

@@ -44,7 +44,7 @@
                         </thead>
                         <tbody>
                         <tr th:if="${#lists.isEmpty(consumptionMaterials)}">
-                            <td colspan="6" class="p-4">등록된 소모 자재 정보가 없습니다.</td>
+                            <td colspan="8" class="p-4">등록된 소모 자재 정보가 없습니다.</td>
                         </tr>
                         <tr th:each="cm : ${consumptionMaterials}">
                             <td th:text="${cm.item.code}"></td>

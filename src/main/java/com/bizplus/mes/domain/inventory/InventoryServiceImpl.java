@@ -2,9 +2,9 @@ package com.bizplus.mes.domain.inventory;
 
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
-import com.bizplus.mes.domain.inventory.dto.InventoryDto;
 import com.bizplus.mes.domain.inventory.dto.InventoryListDto;
 import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
+import com.bizplus.mes.domain.inventory.dto.InventorySummaryDto;
 import com.bizplus.mes.domain.inventory.transaction.InventoryTransaction;
 import com.bizplus.mes.domain.inventory.transaction.InventoryTransactionRepository;
 import com.bizplus.mes.domain.item.Item;
@@ -33,7 +33,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryListDto getInventories(InventorySearchDto dto, Pageable pageable) {
-        Page<InventoryDto> inventoryPage = inventoryRepository.findInventoriesGroupByItem(dto, pageable);
+        Page<InventorySummaryDto> inventoryPage = inventoryRepository.findInventorySummaries(dto, pageable);
 
         return new InventoryListDto(
                 inventoryPage.getContent(),

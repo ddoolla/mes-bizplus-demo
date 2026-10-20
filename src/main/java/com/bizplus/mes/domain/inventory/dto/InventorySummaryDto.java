@@ -10,26 +10,26 @@ import lombok.Getter;
 import java.math.BigDecimal;
 
 @Getter
-public class InventoryDto {
+public class InventorySummaryDto {
 
     private final ItemInfo item;
     private final BigDecimal totalQuantity;
     private final BigDecimal totalReservedQuantity;
 
     @QueryProjection
-    public InventoryDto(Long itemId,
-                        String itemCode,
-                        String itemName,
-                        String itemCategory,
-                        ItemType itemType,
-                        String itemSpec,
-                        Long uomId,
-                        String uomCode,
-                        String uomName,
-                        UomType uomType,
-                        Integer scale,
-                        BigDecimal totalQuantity,
-                        BigDecimal totalReservedQuantity) {
+    public InventorySummaryDto(Long itemId,
+                               String itemCode,
+                               String itemName,
+                               String itemCategory,
+                               ItemType itemType,
+                               String itemSpec,
+                               Long uomId,
+                               String uomCode,
+                               String uomName,
+                               UomType uomType,
+                               Integer scale,
+                               BigDecimal totalQuantity,
+                               BigDecimal totalReservedQuantity) {
 
         this.item = new ItemInfo(
                 itemId,

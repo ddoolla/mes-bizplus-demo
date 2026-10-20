@@ -30,5 +30,4 @@ public class MaterialInputController {
     public String viewMaterialLotSelectionModal() {
         return "pages/material-input/modal/input/material-lot-selection :: list";
     }
-
 }

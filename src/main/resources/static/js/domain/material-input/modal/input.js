@@ -2,61 +2,174 @@ import modal from "../../../common/modal/modal.js";
 import ajax from "../../../common/ajax.js";
 import toast from "../../../common/toast.js";
 
-const MODAL_ID = 'material-input-modal';
+const createMaterialInputModal = () => {
 
-const createMaterialInputModal2 = () => {
-    const modalEl = document.querySelector(`#${MODAL_ID}`);
-    const modalContent = modalEl.querySelector('.app-modal-content');
-    const itemSelectButtons = modalContent.querySelectorAll('.item-select-button');
+    /* 투입 자재 선택 모달 */
+    const materialSelectionModalEl = document.querySelector('#material-selection-modal');
+    const materialSelectButtons = materialSelectionModalEl.querySelectorAll('.material-select-button');
+    const workOrderId = materialSelectionModalEl.querySelector('[name="workOrderId"]').value;
 
-    const load = async (url, params) => {
-        try {
-            modalContent.innerHTML = await ajax.get(url, params);
+    /* 자재 투입 모달 */
+    const materialInputModalEl = document.querySelector('#material-input-modal');
+    const backButton = materialInputModalEl.querySelector('.back-button');
+    const lotScanSection = materialInputModalEl.querySelector('#lot-scan-section');
+    const lotScanInput = materialInputModalEl.querySelector('input[name="lotNo"]');
+    const inputQuantityInput = materialInputModalEl.querySelector('input[name="inputQuantity"]');
+    const lotScanForm = materialInputModalEl.querySelector('#lot-scan-form');
+    const lotInputForm = materialInputModalEl.querySelector('#lot-input-form');
+    const lotNoField = materialInputModalEl.querySelector('input[data-field="lotNo"]');
+    const lotQuantityField = materialInputModalEl.querySelector('input[data-field="lotQuantity"]');
 
-        } catch (xhr) {
-            toast.error(xhr.responseJSON?.message);
-        }
+    let lotManaged = false;
+    let selectedItem = null;
+    let scannedLot = null;
+
+    const openMaterialSelectionModal = () => {
+        modal.setTitle('material-selection-modal', '투입 자재 목록');
+        modal.open('material-selection-modal');
     }
-    // 모달 열기
 
-    const open = ({title, url, params}) => {
-        modal.setTitle(MODAL_ID, title);
-        load(url, params);
-        modal.open(MODAL_ID);
-    };
-    // 모달 닫기
+    const openMaterialInputModal = () => {
+        const unit = ' ' + selectedItem.uomCode;
+        setMaterialInfo('itemCode', selectedItem.itemCode);
+        setMaterialInfo('itemName', selectedItem.itemName);
+        setMaterialInfo('itemSpec', selectedItem.itemSpec ?? '-');
+        setMaterialInfo('requiredQuantity', selectedItem.requiredQuantity + unit);
+        setMaterialInfo('inputQuantity', selectedItem.inputQuantity + unit);
+        setMaterialInfo('remainingQuantity', selectedItem.remainingQuantity + unit);
 
-    const close = () => {
-        modal.close(MODAL_ID);
-    };
+        lotManaged = selectedItem.lotManaged === 'true';
+        lotScanSection.style.display = lotManaged ? '' : 'none';
 
-    // 소모 자재 선택
-    modalContent.addEventListener('click', function (e) {
-        const button = e.target.closest('.item-select-button');
+        modal.setTitle('material-input-modal', '자재 투입');
+        modal.open('material-input-modal');
+    }
 
-        if (!button || !modalContent.contains(button)) {
+    const setMaterialInfo = (field, value) => {
+        materialInputModalEl.querySelector(`[data-field="${field}"]`).textContent = value;
+    }
+
+    const closeMaterialSelectionModal = () => {
+        modal.close('material-selection-modal');
+    }
+
+    const closeMaterialInputModal = () => {
+        modal.close('material-input-modal');
+    }
+
+    // 모달 열림 시 포커싱
+    materialInputModalEl.addEventListener('shown.bs.modal', () => {
+        if (lotManaged) {
+            lotScanInput.focus();
+
+        } else {
+            inputQuantityInput.focus();
+        }
+    });
+
+    // 투입 자재 선택
+    materialSelectButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            selectedItem = e.currentTarget.dataset;
+            closeMaterialSelectionModal();
+            openMaterialInputModal();
+        });
+    });
+
+    // 투입 자재 목록으로 돌아가기
+    backButton.addEventListener('click', function () {
+        closeMaterialInputModal();
+        openMaterialSelectionModal();
+    });
+
+    // 자재 로트 스캔
+    lotScanForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const lotNo = lotScanInput.value;
+
+        if (!lotNo) {
+            lotScanInput.focus();
             return;
         }
 
-        const {
-            itemId,
-            itemCode,
-            itemName,
-            itemSpec,
-            requiredQuantity,
-            inputQuantity,
-            remainingQuantity
-        } = button.dataset;
+        try {
+            const response = await ajax.get('/api/lots', {lotNo});
+            scannedLot = response?.data ?? null;
 
-        modal.setTitle(MODAL_ID, 'ㅇㅇㅇ');
+            lotNoField.value = scannedLot?.no ?? '-';
+            lotQuantityField.value = scannedLot?.inventory?.quantity.toLocaleString() ?? '-';
 
-        load('/material-inputs/modal/input/material-lot/selection');
+            lotScanInput.classList.add('is-valid');
+
+            inputQuantityInput.focus();
+
+        } catch (xhr) {
+            lotScanInput.classList.add('is-invalid');
+        }
+    });
+
+    // 자재 투입
+    inputQuantityInput.addEventListener('input', function () {
+        const inputQuantity = Number(inputQuantityInput.value);
+
+        if (inputQuantity > selectedItem.requiredQuantity) {
+            inputQuantityInput.value = selectedItem.remainingQuantity;
+        }
+    });
+
+    lotInputForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const inputQuantity = inputQuantityInput.value;
+
+        if (!scannedLot) {
+            toast.warning({message: '로트 스캔 정보를 확인해 주세요.'});
+            lotScanInput.focus();
+            return;
+        }
+
+        if (!inputQuantity) {
+            toast.warning({message: '투입 수량을 입력해 주세요.'});
+            inputQuantityInput.focus();
+            return;
+        }
+
+        const data = {
+            workOrderId: workOrderId,
+            itemId: selectedItem.itemId,
+            lotId: scannedLot.id,
+            uomId: selectedItem.uomId,
+            type: 'MANUAL',
+            quantity: inputQuantity
+        };
+
+        try {
+            const response = await ajax.post(`/api/material-inputs`, data);
+
+            toast.afterReload({message: response.message});
+
+            closeMaterialInputModal();
+
+            location.reload();
+
+        } catch (xhr) {
+            toast.error({message: xhr.responseJSON?.message});
+        }
+    });
+
+    // 모달 닫힘 시 초기화
+    materialInputModalEl.addEventListener('hidden.bs.modal', () => {
+        lotScanForm.reset();
+        lotInputForm.reset();
+        lotScanInput.classList.remove('is-valid', 'is-invalid');
+        lotNoField.value = '';
+        lotQuantityField.value = '';
     });
 
     return {
-        open,
-        close,
-    };
+        open: () => openMaterialSelectionModal(),
+    }
 };
 
-export default createMaterialInputModal2;
+export default createMaterialInputModal;

@@ -48,13 +48,6 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
     @Column(precision = 38, scale = 10)
     private BigDecimal requiredQuantity;
 
-    @Column(precision = 38, scale = 10)
-    private BigDecimal consumedQuantity;
-
-    @Column(columnDefinition = "varchar(255)", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ConsumptionStatus status;
-
     public ProductionOrderMaterial(ProductionOrder productionOrder,
                                    BomItem bomItem,
                                    Uom uom,
@@ -63,9 +56,7 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
                                    String itemName,
                                    String itemSpecification,
                                    BigDecimal unitRequiredQuantity,
-                                   BigDecimal requiredQuantity,
-                                   BigDecimal consumedQuantity,
-                                   ConsumptionStatus status) {
+                                   BigDecimal requiredQuantity) {
         this.productionOrder = productionOrder;
         this.bomItem = bomItem;
         this.uom = uom;
@@ -75,8 +66,6 @@ public class ProductionOrderMaterial extends SoftDeletableEntity {
         this.itemSpecification = itemSpecification;
         this.unitRequiredQuantity = unitRequiredQuantity;
         this.requiredQuantity = requiredQuantity;
-        this.consumedQuantity = consumedQuantity;
-        this.status = status;
     }
 
     public void update(BigDecimal requiredQuantity) {

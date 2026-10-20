@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface LotRepository extends JpaRepository<Lot, Long>, LotQueryRepository {
 
     Optional<Lot> findByIdAndDeletedAtIsNull(Long id);
+
+    Optional<Lot> findByNoAndDeletedAtIsNull(String lotNo);
 }

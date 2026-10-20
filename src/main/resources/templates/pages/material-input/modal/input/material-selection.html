@@ -1,7 +1,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <!--/* 투입 자재 목록 모달 */-->
-<th:block th:fragment="modal (consumptionMaterials)">
+<th:block th:fragment="modal (workOrder, consumptionMaterials)">
     <div th:replace="~{fragments/modal/default :: default (
         'material-selection-modal',
         '투입 자재 목록',
@@ -9,6 +9,9 @@
          1200
     )}">
         <div th:fragment="content" class="p-2">
+
+            <input type="hidden" name="workOrderId" th:value="${workOrder.id}"/>
+
             <div class="modal-body pt-0">
                 <div class="d-flex justify-content-start">
                     <div class="fw-bold"
@@ -50,15 +53,18 @@
                             <td th:text="|${#numbers.formatDecimal(cm.remainingQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
                             <td>
                                 <button type="button"
-                                        class="item-select-button
+                                        class="material-select-button
                                    btn btn-primary btn-sm"
                                         th:data-item-id="${cm.item.id}"
                                         th:data-item-code="${cm.item.code}"
                                         th:data-item-name="${cm.item.name}"
                                         th:data-item-spec="${cm.item.specification}"
-                                        th:data-required-quantity="${cm.requiredQuantity}"
-                                        th:data-input-quantity="${cm.inputQuantity}"
-                                        th:data-remaining-quantity="${cm.remainingQuantity}">
+                                        th:data-lot-managed="${cm.item.lotManaged}"
+                                        th:data-uom-id="${cm.uom.id}"
+                                        th:data-uom-code="${cm.uom.code}"
+                                        th:data-required-quantity="${cm.requiredQuantity.intValue()}"
+                                        th:data-input-quantity="${cm.inputQuantity.intValue()}"
+                                        th:data-remaining-quantity="${cm.remainingQuantity.intValue()}">
                                     선택
                                 </button>
                             </td>

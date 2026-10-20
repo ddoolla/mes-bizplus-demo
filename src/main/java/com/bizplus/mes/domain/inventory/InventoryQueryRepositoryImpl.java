@@ -1,9 +1,9 @@
 package com.bizplus.mes.domain.inventory;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
-import com.bizplus.mes.domain.inventory.dto.InventoryDto;
 import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
-import com.bizplus.mes.domain.inventory.dto.QInventoryDto;
+import com.bizplus.mes.domain.inventory.dto.InventorySummaryDto;
+import com.bizplus.mes.domain.inventory.dto.QInventorySummaryDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -33,16 +33,16 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
     private static final QCommonCode categoryCode = new QCommonCode("categoryCode");
 
     @Override
-    public Page<InventoryDto> findInventoriesGroupByItem(InventorySearchDto dto, Pageable pageable) {
+    public Page<InventorySummaryDto> findInventorySummaries(InventorySearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
-                .and(notDeleted(item.deletedAt))
+                .and(notDeleted(inventory.deletedAt))
                 .and(contains(item.code, dto.getItemCode()))
                 .and(contains(item.name, dto.getItemName()))
                 .and(eq(item.type, dto.getItemType()))
                 .and(eq(item.category.id, dto.getCategoryCodeId()));
 
-        List<InventoryDto> content = query
-                .select(new QInventoryDto(
+        List<InventorySummaryDto> content = query
+                .select(new QInventorySummaryDto(
                         item.id,
                         item.code,
                         item.name,
@@ -77,6 +77,20 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Optional<Inventory> findInventory(Long itemId, Long lotId) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(inventory)
+                        .where(
+                                notDeleted(inventory.deletedAt),
+                                eq(inventory.item.id, itemId),
+                                lotIdEq(lotId)
+                        )
+                        .fetchOne()
+        );
     }
 
     @Override

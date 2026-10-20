@@ -44,9 +44,7 @@ public class ProductionOrderMaterialServiceImpl implements ProductionOrderMateri
                     item.getName(),
                     item.getSpecification(),
                     bomItem.getQuantity(),
-                    requiredQuantity,
-                    BigDecimal.ZERO,
-                    ConsumptionStatus.PENDING
+                    requiredQuantity
             ));
         });
     }

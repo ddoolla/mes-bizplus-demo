@@ -3,6 +3,7 @@ import createConfirmModal from "../../common/modal/confirm.js";
 import toast from "../../common/toast.js";
 import createEquipmentSingleListModal from "../../domain/equipment/modal/list/single.js";
 import createWorkCompleteModal from "../../domain/work-order/modal/complete.js";
+import createMaterialInputModal from "../../domain/material-input/modal/input.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmModal = createConfirmModal();
     const equipmentSingleListModal = createEquipmentSingleListModal();
     const workCompleteModal = createWorkCompleteModal();
+    const materialInputModal = createMaterialInputModal();
 
     /* 설비 변경 */
     if (equipmentListButton) {
@@ -248,5 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             return;
         }
+
+        materialInputModal.open();
     });
 });

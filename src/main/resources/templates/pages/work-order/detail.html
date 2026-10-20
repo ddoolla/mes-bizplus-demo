@@ -305,7 +305,7 @@
     <div th:replace="~{pages/work-order/modal/complete :: modal (${workOrder})}"></div>
 
     <!--/* 자재 투입 모달 */-->
-    <div th:replace="~{pages/material-input/modal/input/material-selection :: modal (${consumptionMaterials})}"></div>
+    <div th:replace="~{pages/material-input/modal/input/material-selection :: modal (${workOrder}, ${consumptionMaterials})}"></div>
     <div th:replace="~{pages/material-input/modal/input/material-input :: modal}"></div>
 </div>
 </body>

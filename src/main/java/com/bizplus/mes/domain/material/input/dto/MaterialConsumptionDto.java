@@ -18,6 +18,7 @@ public class MaterialConsumptionDto {
                                   String itemName,
                                   String itemSpec,
                                   boolean lotManaged,
+                                  Long uomId,
                                   String uomCode,
                                   Integer uomScale,
                                   BigDecimal requiredQuantity,
@@ -32,6 +33,7 @@ public class MaterialConsumptionDto {
                 lotManaged
         );
         this.uom = new UomInfo(
+                uomId,
                 uomCode,
                 uomScale
         );
@@ -46,7 +48,8 @@ public class MaterialConsumptionDto {
                            boolean lotManaged) {
     }
 
-    public record UomInfo(String code,
+    public record UomInfo(Long id,
+                          String code,
                           Integer scale) {
     }
 }

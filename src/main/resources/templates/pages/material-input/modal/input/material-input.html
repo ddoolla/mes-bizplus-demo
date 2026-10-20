@@ -6,13 +6,13 @@
         'material-input-modal',
         '자재 투입',
          ~{::.app-modal-content},
-         1200
+         800
     )}">
         <div class="app-modal-content p-2">
             <div class="container-fluid">
                 <!--/* 버튼 */-->
-                <div class="row">
-                    <div class="col text-end">
+                <div class="row mb-2">
+                    <div class="col">
                         <button type="button"
                                 class="back-button
                                        btn btn-secondary btn-sm">
@@ -21,10 +21,10 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <!--/* 자재 정보 */-->
+                <!--/* 자재 정보 */-->
+                <div class="row mb-5">
                     <div class="col">
-                        <table class="app-table-input">
+                        <table class="app-table-input mb-2">
                             <colgroup>
                                 <col style="width: 150px">
                                 <col style="width: auto">
@@ -32,44 +32,103 @@
                             <tbody>
                             <tr>
                                 <th>자재 코드</th>
-                                <td>
-                                    <span class="material-code"></span>
-                                </td>
+                                <td data-field="itemCode"></td>
                             </tr>
                             <tr>
                                 <th>자재명</th>
-                                <td>
-                                    <span class="material-name"></span>
-                                </td>
+                                <td data-field="itemName"></td>
                             </tr>
                             <tr>
                                 <th>규격</th>
-                                <td>
-                                    <span class="material-spec"></span>
-                                </td>
+                                <td data-field="itemSpec"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="app-table-input">
+                            <thead>
+                            <tr>
+                                <th>요구 수량</th>
+                                <th>투입 수량</th>
+                                <th>남은 수량</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td data-field="requiredQuantity"></td>
+                                <td data-field="inputQuantity"></td>
+                                <td data-field="remainingQuantity"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <!--/* 로트 스캔 정보 */-->
+                <!--/* 로트 스캔 / 재고 정보 */-->
+                <div id=lot-scan-section class="row mb-2">
                     <div class="col">
-                        <input type="text" class="form-control form-control-lg"/>
-                        <button type="button"
-                                class="btn btn-secondary btn-lg text-nowrap">
-                            <i class="bi bi-upc-scan"></i> 조회
-                        </button>
+                        <form id="lot-scan-form" th:action="@{/api/lots}">
+                            <div class="d-flex gap-2 mb-2">
+                                <div class="flex-grow-1">
+                                    <input type="text"
+                                           name="lotNo"
+                                           class="form-control form-control-lg"
+                                           placeholder="투입할 자재 로트를 스캔해 주세요."
+                                           autocomplete="off"/>
+                                    <div class="invalid-feedback">
+                                        <span class="h6">로트 번호를 확인해 주세요.</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit"
+                                            class="btn btn-secondary btn-lg text-nowrap">
+                                        <i class="bi bi-upc-scan"></i> 조회
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text app-w-100">로트 번호</span>
+                                <input type="text"
+                                       class="form-control"
+                                       data-field="lotNo"
+                                       placeholder="-"
+                                       disabled>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text app-w-100">재고</span>
+                                <input type="text"
+                                       class="form-control"
+                                       data-field="lotQuantity"
+                                       placeholder="-"
+                                       disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--/* 자재 투입 */-->
+                <div class="row mb-5">
+                    <div class="col">
+                        <form id="lot-input-form" action="">
+                            <div class="d-flex gap-2">
+                                <input type="number"
+                                       name="inputQuantity"
+                                       class="form-control form-control-lg"
+                                       placeholder="투입 수량을 입력해 주세요."
+                                       autocomplete="off"/>
+                                <button type="submit"
+                                        class="btn btn-secondary btn-lg text-nowrap">
+                                    <i class="bi bi-box-arrow-in-down"></i> 투입
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </th:block>
-
-<!--/* 자재 투입 모달 콘텐츠 */-->
-<div th:fragment="content" class="p-2">
-    <div class="modal-body pt-0">
-    </div>
-</div>
-
 </html>

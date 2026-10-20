@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class InventoryListDto {
 
-    private List<InventoryDto> inventories;
+    private List<InventorySummaryDto> inventories;
     private Pagination pagination;
 }

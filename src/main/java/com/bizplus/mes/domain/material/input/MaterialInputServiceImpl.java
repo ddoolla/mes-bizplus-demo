@@ -2,7 +2,6 @@ package com.bizplus.mes.domain.material.input;
 
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.material.input.dto.MaterialConsumptionDto;
-import com.bizplus.mes.domain.material.input.dto.MaterialInputCreateDto;
 import com.bizplus.mes.domain.material.input.dto.MaterialInputSummaryDto;
 import com.bizplus.mes.domain.process.material.ProcessMaterial;
 import com.bizplus.mes.domain.process.material.ProcessMaterialReader;
@@ -53,6 +52,7 @@ public class MaterialInputServiceImpl implements MaterialInputService {
                             item.getName(),
                             item.getSpecification(),
                             item.isLotManaged(),
+                            processMaterial.getUom().getId(),
                             processMaterial.getUom().getCode(),
                             processMaterial.getUom().getScale(),
                             requiredQuantity,
@@ -61,10 +61,5 @@ public class MaterialInputServiceImpl implements MaterialInputService {
                     );
                 })
                 .toList();
-    }
-
-    @Override
-    public void create(Long workOrderId, MaterialInputCreateDto dto) {
-
     }
 }

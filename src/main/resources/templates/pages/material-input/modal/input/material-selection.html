@@ -27,6 +27,7 @@
                             <col style="width: 150px">
                             <col style="width: 150px">
                             <col style="width: 150px">
+                            <col style="width: 150px">
                             <col style="width: 100px">
                         </colgroup>
                         <thead>
@@ -37,6 +38,7 @@
                             <th>요구 수량</th>
                             <th>투입 수량</th>
                             <th>남은 수량</th>
+                            <th>초과 수량</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -51,6 +53,7 @@
                             <td th:text="|${#numbers.formatDecimal(cm.requiredQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
                             <td th:text="|${#numbers.formatDecimal(cm.inputQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
                             <td th:text="|${#numbers.formatDecimal(cm.remainingQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
+                            <td th:text="|${#numbers.formatDecimal(cm.excessQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
                             <td>
                                 <button type="button"
                                         class="material-select-button
@@ -64,7 +67,8 @@
                                         th:data-uom-code="${cm.uom.code}"
                                         th:data-required-quantity="${cm.requiredQuantity.intValue()}"
                                         th:data-input-quantity="${cm.inputQuantity.intValue()}"
-                                        th:data-remaining-quantity="${cm.remainingQuantity.intValue()}">
+                                        th:data-remaining-quantity="${cm.remainingQuantity.intValue()}"
+                                        th:data-excess-quantity="${cm.excessQuantity.intValue()}">
                                     선택
                                 </button>
                             </td>

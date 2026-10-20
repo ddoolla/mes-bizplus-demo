@@ -12,6 +12,7 @@ public class MaterialConsumptionDto {
     private final BigDecimal requiredQuantity;
     private final BigDecimal inputQuantity;
     private final BigDecimal remainingQuantity;
+    private final BigDecimal excessQuantity;
 
     public MaterialConsumptionDto(Long itemId,
                                   String itemCode,
@@ -23,8 +24,8 @@ public class MaterialConsumptionDto {
                                   Integer uomScale,
                                   BigDecimal requiredQuantity,
                                   BigDecimal inputQuantity,
-                                  BigDecimal remainingQuantity) {
-        this.remainingQuantity = remainingQuantity;
+                                  BigDecimal remainingQuantity,
+                                  BigDecimal excessQuantity) {
         this.item = new ItemInfo(
                 itemId,
                 itemCode,
@@ -39,6 +40,8 @@ public class MaterialConsumptionDto {
         );
         this.requiredQuantity = requiredQuantity;
         this.inputQuantity = inputQuantity;
+        this.remainingQuantity = remainingQuantity;
+        this.excessQuantity = excessQuantity;
     }
 
     public record ItemInfo(Long id,

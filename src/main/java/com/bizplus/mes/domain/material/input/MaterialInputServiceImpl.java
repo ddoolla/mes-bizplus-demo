@@ -44,7 +44,11 @@ public class MaterialInputServiceImpl implements MaterialInputService {
 
                     BigDecimal inputQuantity = inputQuantities.getOrDefault(item.getId(), BigDecimal.ZERO);
 
-                    BigDecimal remainingQuantity = requiredQuantity.subtract(inputQuantity);
+                    BigDecimal difference = requiredQuantity.subtract(inputQuantity);
+
+                    BigDecimal remainingQuantity = difference.max(BigDecimal.ZERO);
+
+                    BigDecimal excessQuantity = difference.negate().max(BigDecimal.ZERO);
 
                     return new MaterialConsumptionDto(
                             item.getId(),
@@ -57,7 +61,8 @@ public class MaterialInputServiceImpl implements MaterialInputService {
                             processMaterial.getUom().getScale(),
                             requiredQuantity,
                             inputQuantity,
-                            remainingQuantity
+                            remainingQuantity,
+                            excessQuantity
                     );
                 })
                 .toList();

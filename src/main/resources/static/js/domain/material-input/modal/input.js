@@ -19,6 +19,7 @@ const createMaterialInputModal = () => {
     const lotInputForm = materialInputModalEl.querySelector('#lot-input-form');
     const lotNoField = materialInputModalEl.querySelector('input[data-field="lotNo"]');
     const lotQuantityField = materialInputModalEl.querySelector('input[data-field="lotQuantity"]');
+    const inputQuantityErrorContainer = materialInputModalEl.querySelector('#input-quantity-error-container');
 
     let lotManaged = false;
     let selectedItem = null;
@@ -37,6 +38,7 @@ const createMaterialInputModal = () => {
         setMaterialInfo('requiredQuantity', selectedItem.requiredQuantity + unit);
         setMaterialInfo('inputQuantity', selectedItem.inputQuantity + unit);
         setMaterialInfo('remainingQuantity', selectedItem.remainingQuantity + unit);
+        setMaterialInfo('excessQuantity', selectedItem.excessQuantity + unit);
 
         lotManaged = selectedItem.lotManaged === 'true';
         lotScanSection.style.display = lotManaged ? '' : 'none';
@@ -48,6 +50,11 @@ const createMaterialInputModal = () => {
     const setMaterialInfo = (field, value) => {
         materialInputModalEl.querySelector(`[data-field="${field}"]`).textContent = value;
     }
+
+    const setInputQuantityError = (message = '') => {
+        inputQuantityInput.classList.toggle('is-invalid', !!message);
+        inputQuantityErrorContainer.textContent = message;
+    };
 
     const closeMaterialSelectionModal = () => {
         modal.close('material-selection-modal');
@@ -86,51 +93,86 @@ const createMaterialInputModal = () => {
     lotScanForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const lotNo = lotScanInput.value;
+        const lotNo = lotScanInput.value.trim();
 
         if (!lotNo) {
             lotScanInput.focus();
             return;
         }
 
+        // 기존 스캔 정보 초기화
+        scannedLot = null;
+        lotNoField.value = '';
+        lotQuantityField.value = '';
+        inputQuantityInput.value = '';
+        lotScanInput.classList.remove('is-valid', 'is-invalid');
+
         try {
             const response = await ajax.get('/api/lots', {lotNo});
-            scannedLot = response?.data ?? null;
+            const lot = response?.data;
+
+            // 다른 자재의 LOT인지 확인
+            if (String(lot?.item.id) !== String(selectedItem.itemId)) {
+                lotScanInput.classList.add('is-invalid');
+                toast.warning({message: '선택한 자재의 LOT가 아닙니다.'});
+                lotScanInput.focus();
+                return;
+            }
+
+            scannedLot = lot;
+
+            const lotQuantity = scannedLot?.inventory?.quantity;
 
             lotNoField.value = scannedLot?.no ?? '-';
-            lotQuantityField.value = scannedLot?.inventory?.quantity.toLocaleString() ?? '-';
+            lotQuantityField.value = lotQuantity?.toLocaleString() ?? '-';
+
+            inputQuantityInput.value = lotQuantity > selectedItem.remainingQuantity
+                ? selectedItem.remainingQuantity
+                : lotQuantity;
 
             lotScanInput.classList.add('is-valid');
-
             inputQuantityInput.focus();
 
         } catch (xhr) {
             lotScanInput.classList.add('is-invalid');
+
+            toast.error({
+                message: xhr.responseJSON?.message ?? 'LOT 조회에 실패했습니다.'
+            });
+
+            lotScanInput.focus();
         }
     });
 
     // 자재 투입
-    inputQuantityInput.addEventListener('input', function () {
-        const inputQuantity = Number(inputQuantityInput.value);
+    inputQuantityInput.addEventListener('input', function (e) {
+        setInputQuantityError();
 
-        if (inputQuantity > selectedItem.requiredQuantity) {
-            inputQuantityInput.value = selectedItem.remainingQuantity;
-        }
+        const inputQty = inputQuantityInput.value
+        const lotQty = scannedLot?.inventory?.quantity
+
+        inputQuantityInput.value = inputQty > lotQty ? lotQty : inputQty;
     });
 
     lotInputForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const inputQuantity = inputQuantityInput.value;
+        const inputQuantity = Number(inputQuantityInput.value);
 
-        if (!scannedLot) {
+        if (lotManaged && !scannedLot) {
             toast.warning({message: '로트 스캔 정보를 확인해 주세요.'});
             lotScanInput.focus();
             return;
         }
 
         if (!inputQuantity) {
-            toast.warning({message: '투입 수량을 입력해 주세요.'});
+            setInputQuantityError('투입 수량을 입력해 주세요.');
+            inputQuantityInput.focus();
+            return;
+        }
+
+        if (!Number.isFinite(inputQuantity) || inputQuantity <= 0) {
+            setInputQuantityError('투입 수량은 0보다 커야 합니다.');
             inputQuantityInput.focus();
             return;
         }
@@ -160,9 +202,11 @@ const createMaterialInputModal = () => {
 
     // 모달 닫힘 시 초기화
     materialInputModalEl.addEventListener('hidden.bs.modal', () => {
+        scannedLot = null;
         lotScanForm.reset();
         lotInputForm.reset();
         lotScanInput.classList.remove('is-valid', 'is-invalid');
+        setInputQuantityError();
         lotNoField.value = '';
         lotQuantityField.value = '';
     });

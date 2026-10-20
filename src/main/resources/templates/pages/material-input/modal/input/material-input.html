@@ -51,6 +51,7 @@
                                 <th>요구 수량</th>
                                 <th>투입 수량</th>
                                 <th>남은 수량</th>
+                                <th>초과 수량</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -58,6 +59,7 @@
                                 <td data-field="requiredQuantity"></td>
                                 <td data-field="inputQuantity"></td>
                                 <td data-field="remainingQuantity"></td>
+                                <td data-field="excessQuantity"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -114,15 +116,23 @@
                     <div class="col">
                         <form id="lot-input-form" action="">
                             <div class="d-flex gap-2">
-                                <input type="number"
-                                       name="inputQuantity"
-                                       class="form-control form-control-lg"
-                                       placeholder="투입 수량을 입력해 주세요."
-                                       autocomplete="off"/>
-                                <button type="submit"
-                                        class="btn btn-secondary btn-lg text-nowrap">
-                                    <i class="bi bi-box-arrow-in-down"></i> 투입
-                                </button>
+                                <div class="flex-grow-1">
+                                    <input type="number"
+                                           name="inputQuantity"
+                                           class="form-control form-control-lg"
+                                           placeholder="투입 수량을 입력해 주세요."
+                                           autocomplete="off"/>
+                                    <div class="invalid-feedback">
+                                        <span id="input-quantity-error-container"
+                                              class="h6"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit"
+                                            class="btn btn-secondary btn-lg text-nowrap">
+                                        <i class="bi bi-box-arrow-in-down"></i> 투입
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

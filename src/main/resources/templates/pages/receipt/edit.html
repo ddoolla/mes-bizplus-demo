@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('자재 입고 수정', ~{}, ~{::script}, 'RECEIPT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/receipt/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('자재 입고 수정', '재고관리, 자재입고, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/receipts/{id}(id=${receipt.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="receipt-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('RECEIPT_UPDATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <form id="receipt-edit-form"
+          method="post"
+          th:action="@{/receipts/{id}(id=${receipt.id})}"
+          th:object="${receipt}">
+
+        <input type="hidden" name="id" th:value="${receipt.id}"/>
+
+        <!--/* 수정 양식 */-->
+        <div class="app-box app-box-bg">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>거래처 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="partnerName"
+                               class="app-form-control app-xs app-readonly-bg w-25"
+                               th:value="*{partner.name}"
+                               placeholder="거래처를 선택해 주세요."
+                               readonly/>
+                        <input type="hidden"
+                               name="partnerId"
+                               th:value="*{partner.id}"/>
+                        <button type="button"
+                                id="partner-list-button"
+                                class="btn btn-secondary app-btn-xs"
+                                th:disabled="*{status?.name != 'DRAFT'}">
+                            <i class="bi bi-list"></i> 거래처 목록
+                        </button>
+                        <div id="partner-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>입고일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="date"
+                               th:value="${#temporals.format(receipt.date, 'yyyy-MM-dd')}"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               class="app-form-control app-xs"
+                               th:value="*{remark}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상태</th>
+                    <td th:switch="${receipt.status.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${receipt.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${receipt.status?.description}"></span>
+                        </h6>
+                    </td>                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 입고 자재 목록 */-->
+    </form>
+
+    <!--/* 거래처 선택 모달 */-->
+    <div th:replace="~{pages/partner/modal/list/container :: container (
+        @{/partners/modal/list/single},
+        'SUPPLIER')}">
+    </div>
+
+    <!--/* 품목 모달 */-->
+    <div th:replace="~{pages/item/modal/list/container :: container (
+        @{/items/modal/list/multiple},
+        'MATERIAL',
+        ${itemCategories},
+        ${materialTypes})}">
+    </div>
+</div>
+</body>
+</html>

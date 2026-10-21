@@ -9,7 +9,8 @@ public enum CodePrefix {
 
     SALES_ORDER("SO"),
     PRODUCTION_ORDER("PO"),
-    WORK_ORDER("WO");
+    WORK_ORDER("WO"),
+    RECEIPT("MR");
 
     private final String value;
 }

@@ -48,6 +48,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(data.receipts)}">
+                    <td colspan="7" class="p-4">등록된 수주 정보가 없습니다.</td>
+                </tr>
                 <tr th:each="salesOrder : ${data.salesOrders}">
                     <td>
                         <input type="checkbox"

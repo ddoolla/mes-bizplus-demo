@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('자재 입고 목록', ~{}, ~{::script}, 'RECEIPT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/receipt/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('자재 입고 목록', '재고관리, 자재입고')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/receipt/fragments/filter :: filter ('/receipts', ${data.pagination.totalElements})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="receipt-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 150px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>입고 번호</th>
+                    <th>입고일</th>
+                    <th>거래처</th>
+                    <th>비고</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(data.receipts)}">
+                    <td colspan="6" class="p-4">등록된 자재 입고 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="receipt : ${data.receipts}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${receipt.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/receipts/{id}(id=${receipt.id})}"
+                           th:text="${receipt.receiptNo}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(receipt.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${receipt.partner.name}"></td>
+                    <td th:text="${@format.value(receipt.remark)}"></td>
+                    <td th:switch="${receipt.status.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${receipt.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${receipt.status?.description}"></span>
+                        </h6>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

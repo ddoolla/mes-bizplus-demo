@@ -10,15 +10,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const processNameInput = document.querySelector('[name="processName"]');
     const itemListButton = document.querySelector('#item-list-button');
     const processListButton = document.querySelector('#process-list-button');
+    const processField = document.querySelector('[data-field="process"]');
+    const defaultSpecField = document.querySelector('[data-field="defaultSpec"]');
 
     const itemSingleListModal = createItemSingleListModal();
     const processSingleListModal = createProcessSingleListModal();
 
     /* 검사 유형 선택 */
     typeInput.addEventListener('change', function (e) {
-        const isProcess = e.currentTarget.value === 'PROCESS';
+        const isProcess = e.currentTarget.value === 'IN_PROCESS';
 
-        processListButton.disabled = !isProcess;
+        processField.classList.toggle('d-none', !isProcess);
+        defaultSpecField.classList.toggle('d-none', isProcess);
 
         if (!isProcess) {
             processIdInput.value = '';
@@ -65,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
             itemName: 'required',
             processName: {
                 required: function () {
-                    return $('[name="type"]').val() === 'PROCESS';
+                    return $('[name="type"]').val() === 'IN_PROCESS';
                 },
             },
         }, messages: {

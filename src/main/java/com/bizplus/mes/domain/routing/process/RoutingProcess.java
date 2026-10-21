@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.routing.process;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
+import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.process.Process;
 import com.bizplus.mes.domain.routing.Routing;
 import jakarta.persistence.*;
@@ -29,6 +30,10 @@ public class RoutingProcess extends SoftDeletableEntity {
     @JoinColumn(name = "process_id", nullable = false)
     private Process process;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_ipqc_spec_id")
+    private InspectionSpec defaultIpqcSpec; // 공정 검사
+
     private int stepNo;
 
     public RoutingProcess(Routing routing,
@@ -41,5 +46,9 @@ public class RoutingProcess extends SoftDeletableEntity {
 
     public void updateStep(int stepNo) {
         this.stepNo = stepNo;
+    }
+
+    public void updateDefaultIpqcSpec(InspectionSpec inspectionSpec) {
+        this.defaultIpqcSpec = inspectionSpec;
     }
 }

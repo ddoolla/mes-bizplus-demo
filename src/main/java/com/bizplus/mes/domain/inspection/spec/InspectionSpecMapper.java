@@ -15,7 +15,6 @@ public class InspectionSpecMapper {
                 dto.getName(),
                 dto.getType(),
                 dto.getVersion(),
-                dto.isPrimary(),
                 dto.getRemark()
         );
     }
@@ -25,7 +24,6 @@ public class InspectionSpecMapper {
                 dto.getCode(),
                 dto.getName(),
                 dto.getVersion(),
-                dto.isPrimary(),
                 dto.getRemark()
         );
     }

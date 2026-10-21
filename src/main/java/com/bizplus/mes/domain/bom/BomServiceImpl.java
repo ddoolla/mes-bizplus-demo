@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +60,7 @@ public class BomServiceImpl implements BomService {
         Bom newBom = bomRepository.save(BomMapper.toEntity(item, dto));
 
         // 기본 BOM 업데이트
-        if (dto.getIsDefault() != null && dto.getIsDefault()) {
+        if (Boolean.TRUE.equals(dto.getIsDefault())) {
             item.updateDefaultBom(newBom);
         }
 
@@ -70,14 +71,18 @@ public class BomServiceImpl implements BomService {
     @Override
     public void updateBom(Long id, BomUpdateDto dto) {
         Bom bom = bomReader.getById(id);
-
-        BomMapper.apply(bom, dto);
+        Item item = bom.getItem();
 
         // 기본 BOM 업데이트
-        if (dto.getIsDefault() != null && dto.getIsDefault()) {
-            Item item = itemReader.getById(bom.getItem().getId());
+        if (Boolean.TRUE.equals(dto.getIsDefault())) {
             item.updateDefaultBom(bom);
+
+        } else if (item.getDefaultBom() != null
+                && Objects.equals(item.getDefaultBom().getId(), id)) {
+            item.updateDefaultBom(null);
         }
+
+        BomMapper.apply(bom, dto);
     }
 
     @Transactional

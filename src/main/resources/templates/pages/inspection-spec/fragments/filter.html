@@ -2,7 +2,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
-<div th:fragment="filter (url, inspectionTypes, count, showActions)">
+<div th:fragment="filter (url, inspectionTypes, count)">
     <form method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
@@ -12,26 +12,15 @@
                 <col style="width: auto">
                 <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 120px">
-                <col style="width: auto">
-                <col style="width: 120px">
-                <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
-                <th>검사기준 코드</th>
+                <th>검사기준</th>
                 <td>
                     <input type="text"
-                           name="code"
+                           name="spec"
                            class="app-form-control app-xs"
-                           th:value="${param.code}">
-                </td>
-                <th>검사기준명</th>
-                <td>
-                    <input type="text"
-                           name="name"
-                           class="app-form-control app-xs"
-                           th:value="${param.name}">
+                           th:value="${param.spec}">
                 </td>
                 <th>검사 유형</th>
                 <td>
@@ -45,19 +34,12 @@
                                 th:selected="${#strings.equals(param.type, type.name)}"></option>
                     </select>
                 </td>
-                <th>제품 코드</th>
+                <th>품목</th>
                 <td>
                     <input type="text"
-                           name="itemCode"
+                           name="item"
                            class="app-form-control app-xs"
-                           th:value="${param.itemCode}">
-                </td>
-                <th>제품명</th>
-                <td>
-                    <input type="text"
-                           name="itemName"
-                           class="app-form-control app-xs"
-                           th:value="${param.itemName}">
+                           th:value="${param.item}">
                 </td>
             </tr>
             </tbody>
@@ -74,20 +56,18 @@
                  th:text="|Total : ${count} 건|">
             </div>
             <div>
-                <th:block th:if="${showActions}">
-                    <button type="button"
-                            class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/inspection-specs/new}'|"
-                            sec:authorize="hasAuthority('INSPECTION_SPEC_CREATE')">
-                        <i class="bi bi-plus-circle"></i> 등록
-                    </button>
-                    <button type="button"
-                            id="inspection-spec-delete-button"
-                            class="btn btn-danger btn-sm"
-                            sec:authorize="hasAuthority('INSPECTION_SPEC_DELETE')">
-                        <i class="bi bi-trash"></i> 삭제
-                    </button>
-                </th:block>
+                <button type="button"
+                        class="btn btn-primary btn-sm"
+                        th:onclick="|location.href='@{/inspection-specs/new}'|"
+                        sec:authorize="hasAuthority('INSPECTION_SPEC_CREATE')">
+                    <i class="bi bi-plus-circle"></i> 등록
+                </button>
+                <button type="button"
+                        id="inspection-spec-delete-button"
+                        class="btn btn-danger btn-sm"
+                        sec:authorize="hasAuthority('INSPECTION_SPEC_DELETE')">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
             </div>
         </div>
     </form>

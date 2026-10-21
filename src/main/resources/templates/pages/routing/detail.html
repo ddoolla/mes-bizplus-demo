@@ -37,32 +37,43 @@
         <table class="app-table-input" th:object="${routing}">
             <colgroup>
                 <col style="width: 150px">
+                <col style="width: 500px">
+                <col style="width: 150px">
                 <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
-                <th>제품</th>
-                <td th:text="*{item.name}"></td>
-            </tr>
-            <tr>
                 <th>제품 공정 코드</th>
                 <td th:text="*{code}"></td>
-            </tr>
-            <tr>
                 <th>제품 공정명</th>
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
                 <th>버전</th>
-                <td th:text="${@format.value(routing.version)}"></td>
+                <td colspan="3"
+                    th:text="${@format.value(routing.version)}"></td>
+            </tr>
+            <tr>
+                <th>제품 코드</th>
+                <td th:text="*{item.code}"></td>
+                <th>제품명</th>
+                <td th:text="*{item.name}"></td>
+            </tr>
+            <tr>
+                <th>유형</th>
+                <td th:text="*{item.type?.description}"></td>
+                <th>규격</th>
+                <td th:text="${@format.value(routing.item.specification)}"></td>
             </tr>
             <tr>
                 <th>기본 공정 여부</th>
-                <td th:text="${routing.isDefault ? '예' : '아니오'}"></td>
+                <td colspan="3"
+                    th:text="${routing.isDefault ? '예' : '아니오'}"></td>
             </tr>
             <tr>
                 <th>설명</th>
-                <td th:text="${@format.value(routing.description)}"></td>
+                <td colspan="3"
+                    th:text="${@format.value(routing.description)}"></td>
             </tr>
             </tbody>
         </table>

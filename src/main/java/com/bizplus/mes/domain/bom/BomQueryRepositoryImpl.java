@@ -29,10 +29,8 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
     public Page<BomDto> findBoms(BomSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(bom.deletedAt))
-                .and(contains(item.code, dto.getItemCode()))
-                .and(contains(item.name, dto.getItemName()))
-                .and(contains(bom.code, dto.getCode()))
-                .and(contains(bom.name, dto.getName()));
+                .and(containsAny(dto.getBom(), bom.code, bom.name))
+                .and(containsAny(dto.getItem(), item.code, item.name));
 
         List<BomDto> content = query
                 .select(new QBomDto(
@@ -44,7 +42,9 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         bom.id.eq(item.defaultBom.id).coalesce(false),
                         item.id,
                         item.code,
-                        item.name
+                        item.name,
+                        item.type,
+                        item.specification
                 ))
                 .from(bom)
                 .innerJoin(item).on(bom.item.id.eq(item.id))
@@ -74,7 +74,9 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                         bom.id.eq(item.defaultBom.id).coalesce(false),
                         item.id,
                         item.code,
-                        item.name
+                        item.name,
+                        item.type,
+                        item.specification
                 ))
                 .from(bom)
                 .innerJoin(item).on(bom.item.id.eq(item.id))
@@ -98,7 +100,9 @@ public class BomQueryRepositoryImpl implements BomQueryRepository {
                                 bom.id.eq(item.defaultBom.id).coalesce(false),
                                 item.id,
                                 item.code,
-                                item.name
+                                item.name,
+                                item.type,
+                                item.specification
                         ))
                         .from(bom)
                         .innerJoin(item).on(bom.item.id.eq(item.id))

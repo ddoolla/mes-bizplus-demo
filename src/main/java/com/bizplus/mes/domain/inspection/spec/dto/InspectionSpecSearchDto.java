@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.inspection.spec.dto;
 
-import com.bizplus.mes.domain.inspection.spec.InspectionType;
+import com.bizplus.mes.domain.inspection.InspectionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,9 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class InspectionSpecSearchDto {
 
-    private String code;
-    private String name;
+    private String spec;
+    private String item;
     private InspectionType type;
-    private String itemCode;
-    private String itemName;
 }

@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.inspection.spec;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
+import com.bizplus.mes.domain.inspection.InspectionType;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.process.Process;
 import jakarta.persistence.*;
@@ -32,13 +33,11 @@ public class InspectionSpec extends SoftDeletableEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private InspectionType type;
 
     private String version;
-
-    @Column(name = "is_primary", nullable = false)
-    private boolean primary;
 
     private String remark;
 
@@ -48,7 +47,6 @@ public class InspectionSpec extends SoftDeletableEntity {
                           String name,
                           InspectionType type,
                           String version,
-                          boolean primary,
                           String remark) {
         this.item = item;
         this.process = process;
@@ -56,19 +54,16 @@ public class InspectionSpec extends SoftDeletableEntity {
         this.name = name;
         this.type = type;
         this.version = version;
-        this.primary = primary;
         this.remark = remark;
     }
 
     public void update(String code,
                        String name,
                        String version,
-                       boolean primary,
                        String remark) {
         this.code = code;
         this.name = name;
         this.version = version;
-        this.primary = primary;
         this.remark = remark;
     }
 }

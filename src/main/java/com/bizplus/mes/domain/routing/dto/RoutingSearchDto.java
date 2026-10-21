@@ -7,8 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RoutingSearchDto {
 
-    private String itemCode;
-    private String itemName;
-    private String code;
-    private String name;
+    private String routing;
+    private String item;
 }

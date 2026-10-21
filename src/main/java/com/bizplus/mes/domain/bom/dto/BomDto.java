@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.bom.dto;
 
+import com.bizplus.mes.domain.item.ItemType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -23,16 +24,28 @@ public class BomDto {
                   Boolean isDefault,
                   Long itemId,
                   String itemCode,
-                  String itemName) {
+                  String itemName,
+                  ItemType itemType,
+                  String itemSpec) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.version = version;
         this.remark = remark;
         this.isDefault = isDefault;
-        this.item = new ItemInfo(itemId, itemCode, itemName);
+        this.item = new ItemInfo(
+                itemId,
+                itemCode,
+                itemName,
+                itemType,
+                itemSpec
+        );
     }
 
-    public record ItemInfo(Long id, String code, String name) {
+    public record ItemInfo(Long id,
+                           String code,
+                           String name,
+                           ItemType type,
+                           String specification) {
     }
 }

@@ -10,31 +10,22 @@
                 <col style="width: auto">
                 <col style="width: 150px">
                 <col style="width: auto">
-                <col style="width: 150px">
-                <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
-                <th>제품 공정 코드</th>
+                <th>제품 공정</th>
                 <td>
                     <input type="text"
-                           name="code"
+                           name="routing"
                            class="app-form-control app-xs"
-                           th:value="${param.code}">
+                           th:value="${param.routing}">
                 </td>
-                <th>제품 공정명</th>
+                <th>제품</th>
                 <td>
                     <input type="text"
-                           name="name"
+                           name="item"
                            class="app-form-control app-xs"
-                           th:value="${param.name}">
-                </td>
-                <th>제품명</th>
-                <td>
-                    <input type="text"
-                           name="itemName"
-                           class="app-form-control app-xs"
-                           th:value="${param.itemName}">
+                           th:value="${param.item}">
                 </td>
             </tr>
             </tbody>

@@ -33,11 +33,9 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
     public Page<InspectionSpecDto> findInspectionSpecs(InspectionSpecSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(inspectionSpec.deletedAt))
-                .and(contains(inspectionSpec.code, dto.getCode()))
-                .and(contains(inspectionSpec.name, dto.getName()))
-                .and(eq(inspectionSpec.type, dto.getType()))
-                .and(contains(item.code, dto.getItemCode()))
-                .and(contains(item.name, dto.getItemName()));
+                .and(containsAny(dto.getSpec(), inspectionSpec.code, inspectionSpec.name))
+                .and(containsAny(dto.getItem(), item.code, item.name))
+                .and(eq(inspectionSpec.type, dto.getType()));
 
         List<InspectionSpecDto> content = query
                 .select(new QInspectionSpecDto(
@@ -46,9 +44,10 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
                         inspectionSpec.name,
                         inspectionSpec.type,
                         inspectionSpec.version,
-                        inspectionSpec.primary,
                         inspectionSpec.remark,
                         item.id,
+                        item.defaultIqcSpec.id,
+                        item.defaultOqcSpec.id,
                         item.code,
                         item.name,
                         itemCategoryCode.name,
@@ -88,9 +87,10 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
                                 inspectionSpec.name,
                                 inspectionSpec.type,
                                 inspectionSpec.version,
-                                inspectionSpec.primary,
                                 inspectionSpec.remark,
                                 item.id,
+                                item.defaultIqcSpec.id,
+                                item.defaultOqcSpec.id,
                                 item.code,
                                 item.name,
                                 itemCategoryCode.name,
@@ -109,20 +109,5 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
                         )
                         .fetchOne()
         );
-    }
-
-    @Transactional
-    @Override
-    public void resetPrimary(Long itemId, Long processId, InspectionType type) {
-        query
-                .update(inspectionSpec)
-                .set(inspectionSpec.primary, false)
-                .where(
-                        inspectionSpec.primary.isTrue(),
-                        eq(inspectionSpec.item.id, itemId),
-                        eq(inspectionSpec.process.id, processId),
-                        eq(inspectionSpec.type, type)
-                )
-                .execute();
     }
 }

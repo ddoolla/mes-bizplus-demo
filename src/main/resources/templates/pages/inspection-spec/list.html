@@ -20,8 +20,7 @@
         <div th:replace="~{pages/inspection-spec/fragments/filter :: filter (
             '/inspection-specs',
             ${inspectionTypes},
-            ${data.pagination.totalElements},
-            true)}">
+            ${data.pagination.totalElements})}">
         </div>
 
         <!--/* 목록 */-->
@@ -31,12 +30,11 @@
                     <col style="width: 50px">
                     <col style="width: 200px">
                     <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
                     <col style="width: auto">
-                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 100px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -47,7 +45,6 @@
                     <th>버전</th>
                     <th>품목</th>
                     <th>공정</th>
-                    <th></th>
                     <th>기본 여부</th>
                 </tr>
                 </thead>
@@ -71,7 +68,6 @@
                     <td th:text="${@format.nameWithCode(inspectionSepc.item.code, inspectionSepc.item.name)}"></td>
                     <td th:text="${@format.nameWithCode(inspectionSepc.process.code, inspectionSepc.process.name)}"></td>
                     <td></td>
-                    <td th:text="${inspectionSepc.primary ? '예' : '아니오'}"></td>
                 </tr>
                 </tbody>
             </table>

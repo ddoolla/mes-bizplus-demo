@@ -27,7 +27,8 @@ public class RoutingDto {
                       String itemCode,
                       String itemName,
                       String itemCategory,
-                      ItemType itemType) {
+                      ItemType itemType,
+                      String itemSpec) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -40,16 +41,17 @@ public class RoutingDto {
                 itemCode,
                 itemName,
                 itemCategory,
-                itemType);
+                itemType,
+                itemSpec
+        );
     }
 
-    public record ItemInfo(
-            Long id,
-            Long defaultBomId,
-            String code,
-            String name,
-            String category,
-            ItemType type
-    ) {
+    public record ItemInfo(Long id,
+                           Long defaultBomId,
+                           String code,
+                           String name,
+                           String category,
+                           ItemType type,
+                           String specification) {
     }
 }

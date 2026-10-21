@@ -5,6 +5,7 @@ import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
+import com.bizplus.mes.domain.inspection.InspectionType;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecCreateDto;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecSearchDto;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecUpdateDto;

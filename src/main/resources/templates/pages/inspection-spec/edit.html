@@ -49,22 +49,6 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>검사 유형</th>
-                    <td th:text="*{type?.description}"></td>
-                </tr>
-                <tr>
-                    <th>품목</th>
-                    <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
-                </tr>
-                <tr>
-                    <th>품목 유형</th>
-                    <td th:text="*{item.type?.description}"></td>
-                </tr>
-                <tr>
-                    <th>공정</th>
-                    <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
-                </tr>
-                <tr>
                     <th>검사기준 코드 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
@@ -85,6 +69,10 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>검사 유형</th>
+                    <td th:text="*{type?.description}"></td>
+                </tr>
+                <tr>
                     <th>버전</th>
                     <td>
                         <input type="text"
@@ -94,13 +82,25 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>품목</th>
+                    <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
+                </tr>
+                <tr>
+                    <th>품목 유형</th>
+                    <td th:text="*{item.type?.description}"></td>
+                </tr>
+                <tr th:if="*{type.name == 'IN_PROCESS'}">
+                    <th>공정</th>
+                    <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
+                </tr>
+                <tr th:unless="*{type.name == 'IN_PROCESS'}">
                     <th>기본 검사기준</th>
                     <td>
                         <label>
                             <input type="checkbox"
-                                   name="primary"
+                                   name="isDefault"
                                    value="true"
-                                   th:checked="*{primary}"
+                                   th:checked="*{isDefault}"
                                    class="app-form-control app-xs"/>
                             기본 검사기준으로 사용
                         </label>

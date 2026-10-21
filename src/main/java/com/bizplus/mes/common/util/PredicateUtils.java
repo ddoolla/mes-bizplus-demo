@@ -28,6 +28,7 @@ public class PredicateUtils {
 
         for (StringPath field : fields) {
             BooleanExpression condition = field.containsIgnoreCase(value);
+
             result = result == null
                     ? condition
                     : result.or(condition);

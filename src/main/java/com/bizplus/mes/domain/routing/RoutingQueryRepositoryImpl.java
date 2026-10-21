@@ -32,10 +32,8 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
     public Page<RoutingDto> findRoutings(RoutingSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(routing.deletedAt))
-                .and(contains(item.code, dto.getItemCode()))
-                .and(contains(item.name, dto.getItemName()))
-                .and(contains(routing.code, dto.getCode()))
-                .and(contains(routing.name, dto.getName()));
+                .and(containsAny(dto.getRouting(), routing.code, routing.name))
+                .and(containsAny(dto.getItem(), item.code, item.name));
 
         List<RoutingDto> content = query
                 .select(new QRoutingDto(
@@ -50,7 +48,8 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
                         item.code,
                         item.name,
                         categoryCode.name,
-                        item.type
+                        item.type,
+                        item.specification
                 ))
                 .from(routing)
                 .innerJoin(item).on(routing.item.id.eq(item.id))
@@ -86,7 +85,8 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
                         item.code,
                         item.name,
                         categoryCode.name,
-                        item.type
+                        item.type,
+                        item.specification
                 ))
                 .from(routing)
                 .innerJoin(item).on(routing.item.id.eq(item.id))
@@ -115,7 +115,8 @@ public class RoutingQueryRepositoryImpl implements RoutingQueryRepository {
                                 item.code,
                                 item.name,
                                 categoryCode.name,
-                                item.type
+                                item.type,
+                                item.specification
                         ))
                         .from(routing)
                         .innerJoin(item).on(routing.item.id.eq(item.id))

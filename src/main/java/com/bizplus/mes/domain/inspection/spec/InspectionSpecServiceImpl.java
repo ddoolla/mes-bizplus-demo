@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.inspection.spec;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
+import com.bizplus.mes.domain.inspection.InspectionType;
 import com.bizplus.mes.domain.inspection.spec.dto.*;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -56,14 +58,8 @@ public class InspectionSpecServiceImpl implements InspectionSpecService {
         Process process = null;
 
         // 공정검사 기준일 경우 공정 정보 추가
-        if (dto.getType() == InspectionType.PROCESS) {
+        if (dto.getType() == InspectionType.IN_PROCESS) {
             process = processReader.getById(dto.getProcessId());
-        }
-
-        // 기본 기준으로 생성할 경우 기존 기본 기준 초기화 (같은 검사유형, 제품, 공정에 속하는)
-        if (dto.isPrimary()) {
-            inspectionSpecRepository.resetPrimary(
-                    dto.getItemId(), dto.getProcessId(), dto.getType());
         }
 
         return inspectionSpecRepository.save(
@@ -76,16 +72,29 @@ public class InspectionSpecServiceImpl implements InspectionSpecService {
     @Override
     public void updateInspectionSpec(Long id, InspectionSpecUpdateDto dto) {
         InspectionSpec inspectionSpec = inspectionSpecReader.getById(id);
+        Item item = inspectionSpec.getItem();
 
-        // 기본 기준으로 생성할 경우 기존 기본 기준 초기화 (같은 검사유형, 제품, 공정에 속하는)
-        if (dto.isPrimary() && !inspectionSpec.isPrimary()) {
-            inspectionSpecRepository.resetPrimary(
-                    inspectionSpec.getItem().getId(),
-                    inspectionSpec.getProcess() != null
-                            ? inspectionSpec.getProcess().getId()
-                            : null,
-                    inspectionSpec.getType()
-            );
+        boolean isDefault = Boolean.TRUE.equals(dto.getIsDefault());
+
+        switch (inspectionSpec.getType()) {
+            case INCOMING -> {
+                if (isDefault) {
+                    item.updateDefaultIqcSpec(inspectionSpec);
+
+                } else if (item.getDefaultIqcSpec() != null
+                        && Objects.equals(item.getDefaultIqcSpec().getId(), id)) {
+                    item.updateDefaultIqcSpec(null);
+                }
+            }
+            case OUTGOING -> {
+                if (isDefault) {
+                    item.updateDefaultOqcSpec(inspectionSpec);
+
+                } else if (item.getDefaultOqcSpec() != null
+                        && Objects.equals(item.getDefaultOqcSpec().getId(), id)) {
+                    item.updateDefaultOqcSpec(null);
+                }
+            }
         }
 
         InspectionSpecMapper.apply(inspectionSpec, dto);

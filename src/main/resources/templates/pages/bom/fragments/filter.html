@@ -10,31 +10,22 @@
                 <col style="width: auto">
                 <col style="width: 150px">
                 <col style="width: auto">
-                <col style="width: 150px">
-                <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
+                <th>BOM</th>
+                <td>
+                    <input type="text"
+                           name="bom"
+                           class="app-form-control app-xs"
+                           th:value="${param.bom}"/>
+                </td>
                 <th>제품</th>
                 <td>
                     <input type="text"
-                           name="itemName"
+                           name="item"
                            class="app-form-control app-xs"
-                           th:value="${param.itemName}"/>
-                </td>
-                <th>BOM 코드</th>
-                <td>
-                    <input type="text"
-                           name="code"
-                           class="app-form-control app-xs"
-                           th:value="${param.code}"/>
-                </td>
-                <th>BOM명</th>
-                <td>
-                    <input type="text"
-                           name="name"
-                           class="app-form-control app-xs"
-                           th:value="${param.name}"/>
+                           th:value="${param.item}"/>
                 </td>
             </tr>
             </tbody>

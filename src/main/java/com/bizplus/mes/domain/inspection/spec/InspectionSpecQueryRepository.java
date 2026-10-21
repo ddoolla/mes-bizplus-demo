@@ -12,6 +12,4 @@ public interface InspectionSpecQueryRepository {
     Page<InspectionSpecDto> findInspectionSpecs(InspectionSpecSearchDto dto, Pageable pageable);
 
     Optional<InspectionSpecDto> findInspectionSpec(Long id);
-
-    void resetPrimary(Long itemId, Long processId, InspectionType type);
 }

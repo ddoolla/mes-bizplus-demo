@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.item;
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.code.common.CommonCode;
+import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.uom.Uom;
 import jakarta.persistence.*;
@@ -37,6 +38,14 @@ public class Item extends SoftDeletableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_routing_id")
     private Routing defaultRouting;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_iqc_spec_id")
+    private InspectionSpec defaultIqcSpec;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_oqc_spec_id")
+    private InspectionSpec defaultOqcSpec;
 
     @Column(unique = true, nullable = false)
     private String code;
@@ -104,5 +113,13 @@ public class Item extends SoftDeletableEntity {
 
     public void updateDefaultRouting(Routing routing) {
         this.defaultRouting = routing;
+    }
+
+    public void updateDefaultIqcSpec(InspectionSpec inspectionSpec) {
+        this.defaultIqcSpec = inspectionSpec;
+    }
+
+    public void updateDefaultOqcSpec(InspectionSpec inspectionSpec) {
+        this.defaultOqcSpec = inspectionSpec;
     }
 }

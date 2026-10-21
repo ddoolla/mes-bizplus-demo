@@ -54,7 +54,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>품목 <span class="app-required">*</span></th>
+                    <th>검사 품목 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="itemName"
@@ -70,19 +70,18 @@
                         <div id="item-error-container"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr class="d-none" data-field="process">
                     <th>공정 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="processName"
                                class="app-form-control app-xs app-readonly-bg w-25"
-                               placeholder="공정검사 선택 시 공정을 선택할 수 있습니다."
+                               placeholder="공정을 선택해 주세요."
                                readonly/>
                         <input type="hidden" name="processId"/>
                         <button type="button"
                                 id="process-list-button"
-                                class="btn btn-secondary app-btn-xs"
-                                disabled>
+                                class="btn btn-secondary app-btn-xs">
                             <i class="bi bi-list"></i> 공정 목록
                         </button>
                         <div id="process-error-container"></div>
@@ -114,12 +113,12 @@
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
-                <tr>
+                <tr class="d-none" data-field="defaultSpec">
                     <th>기본 검사기준</th>
                     <td>
                         <label>
                             <input type="checkbox"
-                                   name="primary"
+                                   name="isDefault"
                                    value="true"
                                    class="app-form-control app-xs"/>
                             기본 검사기준으로 사용

@@ -41,18 +41,6 @@
             </colgroup>
             <tbody>
             <tr>
-                <th>품목</th>
-                <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
-            </tr>
-            <tr>
-                <th>품목 유형</th>
-                <td th:text="*{item.type?.description}"></td>
-            </tr>
-            <tr>
-                <th>공정</th>
-                <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
-            </tr>
-            <tr>
                 <th>검사기준 코드</th>
                 <td th:text="*{code}"></td>
             </tr>
@@ -61,7 +49,7 @@
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
-                <th>검사기준명</th>
+                <th>검사유형</th>
                 <td th:text="*{type?.description}"></td>
             </tr>
             <tr>
@@ -69,8 +57,20 @@
                 <td th:text="${@format.value(inspectionSpec.version)}"></td>
             </tr>
             <tr>
+                <th>품목</th>
+                <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
+            </tr>
+            <tr>
+                <th>품목 유형</th>
+                <td th:text="*{item.type?.description}"></td>
+            </tr>
+            <tr th:if="*{type.name == 'IN_PROCESS'}">
+                <th>공정</th>
+                <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
+            </tr>
+            <tr th:unless="*{type.name == 'IN_PROCESS'}">
                 <th>기본 검사기준</th>
-                <td th:text="${inspectionSpec.primary ? '예' : '아니오'}"></td>
+                <td th:text="${inspectionSpec.isDefault ? '예' : '아니오'}"></td>
             </tr>
             <tr>
                 <th>비고</th>

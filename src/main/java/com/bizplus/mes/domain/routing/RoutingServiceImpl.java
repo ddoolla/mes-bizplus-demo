@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class RoutingServiceImpl implements RoutingService {
         Routing newRouting = routingRepository.save(RoutingMapper.toEntity(item, dto));
 
         // 기본 제품공정 업데이트
-        if (dto.getIsDefault() != null && dto.getIsDefault()) {
+        if (Boolean.TRUE.equals(dto.getIsDefault())) {
             item.updateDefaultRouting(newRouting);
         }
 
@@ -67,14 +68,18 @@ public class RoutingServiceImpl implements RoutingService {
     @Override
     public void updateRouting(Long id, RoutingUpdateDto dto) {
         Routing routing = routingReader.getById(id);
-
-        RoutingMapper.apply(routing, dto);
+        Item item = routing.getItem();
 
         // 기본 제품공정 업데이트
-        if (dto.getIsDefault() != null && dto.getIsDefault()) {
-            Item item = itemReader.getById(routing.getItem().getId());
+        if (Boolean.TRUE.equals(dto.getIsDefault())) {
             item.updateDefaultRouting(routing);
+
+        } else if (item.getDefaultRouting() != null
+                && Objects.equals(item.getDefaultRouting().getId(), id)) {
+            item.updateDefaultRouting(null);
         }
+
+        RoutingMapper.apply(routing, dto);
     }
 
     @Transactional

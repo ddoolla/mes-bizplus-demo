@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/receipt/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/receipt-item/components/form.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -102,6 +103,7 @@
         </div>
 
         <!--/* 입고 자재 목록 */-->
+        <div th:replace="~{pages/receipt-item/fragments/form :: form (${receipt}, ${receiptItemData})}"></div>
     </form>
 
     <!--/* 거래처 선택 모달 */-->

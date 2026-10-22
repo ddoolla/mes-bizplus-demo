@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         partnerSingleListModal.open({
             title: '매출처 목록',
             url: '/partners/modal/list/single',
-            params: {type: 'CUSTOMER'},
+            params: {type: 'SUPPLIER'},
             onSelect: (partner) => {
                 partnerIdInput.value = partner.id;
                 partnerNameInput.value = partner.name;

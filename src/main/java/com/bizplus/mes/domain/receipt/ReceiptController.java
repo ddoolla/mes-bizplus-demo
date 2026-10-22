@@ -10,7 +10,9 @@ import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.receipt.dto.ReceiptCreateDto;
 import com.bizplus.mes.domain.receipt.dto.ReceiptSearchDto;
-import jakarta.servlet.ServletRequest;
+import com.bizplus.mes.domain.receipt.dto.ReceiptUpdateDto;
+import com.bizplus.mes.domain.receipt.facade.ReceiptUpdateService;
+import com.bizplus.mes.domain.receipt.item.ReceiptItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -32,11 +34,14 @@ public class ReceiptController {
     private final MessageService messageService;
     private final CommonCodeService commonCodeService;
     private final ReceiptService receiptService;
+    private final ReceiptItemService receiptItemService;
+
+    private final ReceiptUpdateService receiptUpdateService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('RECEIPT_READ')")
     @UserAction(menu = MenuCode.RECEIPT, type = ActionType.READ)
-    public String viewList(Model model, ReceiptSearchDto dto, @PageableDefault Pageable pageable, ServletRequest servletRequest) {
+    public String viewList(Model model, ReceiptSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("data", receiptService.getAll(dto, pageable));
 
         return "pages/receipt/list";
@@ -46,6 +51,7 @@ public class ReceiptController {
     @PreAuthorize("hasAuthority('RECEIPT_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("receipt", receiptService.getById(id));
+        model.addAttribute("receiptItems", receiptItemService.getAll(id));
 
         return "pages/receipt/detail";
     }
@@ -60,6 +66,7 @@ public class ReceiptController {
     @PreAuthorize("hasAuthority('RECEIPT_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("receipt", receiptService.getById(id));
+        model.addAttribute("receiptItemData", receiptItemService.getAllForEdit(id));
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("materialTypes", ItemGroup.MATERIAL.getTypes());
 
@@ -76,5 +83,17 @@ public class ReceiptController {
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
         return "redirect:/receipts/{id}/edit";
+    }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority('RECEIPT_UPDATE')")
+    @UserAction(menu = MenuCode.RECEIPT, type = ActionType.UPDATE)
+    public String update(@PathVariable Long id, @Valid ReceiptUpdateDto dto, RedirectAttributes reAtt) {
+        receiptUpdateService.update(id, dto);
+
+        reAtt.addAttribute("id", id);
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
+
+        return "redirect:/receipts/{id}";
     }
 }

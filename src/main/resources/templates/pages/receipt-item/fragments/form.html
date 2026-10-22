@@ -1,0 +1,118 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (receipt, receiptItemData)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">입고 자재</p>
+            </div>
+            <div>
+                <button type="button"
+                        id="receipt-item-create-button"
+                        class="btn btn-primary btn-sm me-1"
+                        th:data-receipt-id="${receipt.id}"
+                        th:disabled="${receipt.status?.name != 'DRAFT'}">
+                    <i class="bi bi-plus-circle"></i> 추가
+                </button>
+                <button type="button"
+                        id="receipt-item-delete-button"
+                        class="btn btn-danger btn-sm"
+                        th:disabled="${receipt.status?.name != 'DRAFT'}">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
+            </div>
+        </div>
+
+        <div id="receipt-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox"
+                               class="check-all"
+                               th:disabled="${receipt.status?.name != 'DRAFT'}">
+                    </th>
+                    <th>자재 코드</th>
+                    <th>자재명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>재고 단위</th>
+                    <th>입고 수량</th>
+                    <th>입고 단위</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(receiptItemData)}">
+                    <td colspan="9" class="p-4">등록된 입고 자재 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="data, stat : ${receiptItemData}"
+                    th:with="receiptItem=${data.receiptItem},
+                             convertibleUoms=${data.convertibleUoms},
+                             stockUom=${receiptItem.item.uom}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${receiptItem.id}"
+                               th:disabled="${receipt.status?.name != 'DRAFT'}"/>
+                    </td>
+                    <td th:text="${receiptItem.item.code}"></td>
+                    <td th:text="${receiptItem.item.name}"></td>
+                    <td th:text="${receiptItem.item.type?.description}"></td>
+                    <td th:text="${@format.value(receiptItem.item.specification)}"></td>
+                    <td th:text="${receiptItem.item.uom.code}"></td>
+                    <td>
+                        <input type="number"
+                               th:name="|receiptItems[${stat.index}].quantity|"
+                               class="receipt-item-quantity
+                                      app-form-control app-xs "
+                               th:value="${#numbers.formatDecimal(receiptItem.quantity, 1, receiptItem.uom.scale)}"
+                               th:disabled="${receipt.status?.name != 'DRAFT'}" min="0"/>
+                        <input type="hidden"
+                               th:name="|receiptItems[${stat.index}].id|"
+                               th:value="${receiptItem.id}"/>
+                    </td>
+                    <td>
+                        <select class="receipt-item-uom
+                                       app-form-control app-xs"
+                                th:name="|receiptItems[${stat.index}].uomId|">
+                            <!--/* 현재 재고 단위 */-->
+                            <option th:value="${receiptItem.item.uom.id}"
+                                    th:text="|${receiptItem.item.uom.code}|"
+                                    th:selected="${receiptItem.item.uom.id == receiptItem.uom.id}"
+                                    th:data-scale="${receiptItem.item.uom.scale}">
+                            </option>
+                            <!--/* 변환 가능 단위 */-->
+                            <option th:each="convertibleUom : ${convertibleUoms}"
+                                    th:value="${convertibleUom.id}"
+                                    th:text="${convertibleUom.code}"
+                                    th:selected="${convertibleUom.id == receiptItem.uom.id}"
+                                    th:data-scale="${convertibleUom.scale}">
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text"
+                               th:name="|receiptItems[${stat.index}].remark|"
+                               class="app-form-control app-xs "
+                               th:value="${receiptItem.remark}"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

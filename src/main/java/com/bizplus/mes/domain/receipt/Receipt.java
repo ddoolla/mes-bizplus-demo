@@ -45,4 +45,12 @@ public class Receipt extends SoftDeletableEntity {
         this.status = status;
         this.remark = remark;
     }
+
+    public void update(Partner partner,
+                       LocalDate date,
+                       String remark) {
+        this.partner = partner;
+        this.date = date;
+        this.remark = remark;
+    }
 }

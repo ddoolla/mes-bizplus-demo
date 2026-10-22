@@ -1,0 +1,50 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (receiptItems)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">입고 자재</p>
+            </div>
+        </div>
+
+        <div id="sales-order-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>자재 코드</th>
+                    <th>자재명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>입고 수량</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(receiptItems)}">
+                    <td colspan="6" class="p-4">등록된 입고 자재 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="receiptItem : ${receiptItems}">
+                    <td th:text="${receiptItem.item.code}"></td>
+                    <td th:text="${receiptItem.item.name}"></td>
+                    <td th:text="${receiptItem.item.type?.description}"></td>
+                    <td th:text="${@format.value(receiptItem.item.specification)}"></td>
+                    <td th:text="${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT') + ' ' + receiptItem.uom.code} ?: '-'"></td>
+                    <td th:text="${@format.value(receiptItem.remark)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

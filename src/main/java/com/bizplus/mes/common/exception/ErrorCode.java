@@ -56,7 +56,8 @@ public enum ErrorCode {
     WORK_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "작업지시를 찾을 수 없습니다."),
     WORK_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "작업실적을 찾을 수 없습니다."),
 
-    RECEIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "자재 입고 정보를 찾을 수 없습니다."),
+    RECEIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "자재 입고를 찾을 수 없습니다."),
+    RECEIPT_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "입고 자재를 찾을 수 없습니다."),
     INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "재고를 찾을 수 없습니다."),
 
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),

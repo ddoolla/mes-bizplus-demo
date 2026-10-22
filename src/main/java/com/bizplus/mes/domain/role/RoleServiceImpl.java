@@ -1,7 +1,5 @@
 package com.bizplus.mes.domain.role;
 
-import com.bizplus.mes.common.exception.BusinessException;
-import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.permission.Permission;
 import com.bizplus.mes.domain.permission.PermissionRepository;
@@ -107,7 +105,7 @@ public class RoleServiceImpl implements RoleService {
         List<Permission> permissions = permissionRepository.findAllById(dto.getPermissionIds());
 
         if (permissions.size() != dto.getPermissionIds().size()) {
-            throw new BusinessException(ErrorCode.INVALID_PERMISSION);
+            throw new IllegalArgumentException();
         }
 
         List<RolePermission> rolePermissions = permissions.stream()
@@ -120,11 +118,6 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void deleteRoles(List<Long> ids) {
-
-        // todo role - 논리 삭제, user-role - 물리 삭제
-        // todo 사용자에게 부여 중이면 삭제 제한
-        // todo 또는 삭제하고 기본 권한 부여하는 방식 ? (기본 권한 - 모든 메뉴 읽기 권한)
-
         ids.forEach(id -> {
             roleReader.getById(id).delete();
         });

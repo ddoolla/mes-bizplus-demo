@@ -1,7 +1,6 @@
 package com.bizplus.mes.domain.work.order.facade;
 
 import com.bizplus.mes.common.exception.BusinessException;
-import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.inventory.InventoryService;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
@@ -47,7 +46,7 @@ public class WorkCompleteService {
 
         // 2. 완료 가능 여부 검증
         if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
-            throw new BusinessException(ErrorCode.INVALID_STATE, "작업 진행중 상태에서만 완료 가능합니다.");
+            throw new BusinessException("작업 진행중 상태에서만 완료 가능합니다.");
         }
 
         // 3. 작업실적 업데이트

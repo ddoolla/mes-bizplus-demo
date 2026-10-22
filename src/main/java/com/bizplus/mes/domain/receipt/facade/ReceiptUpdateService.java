@@ -27,7 +27,7 @@ public class ReceiptUpdateService {
 
         if (receipt.getStatus() != ReceiptStatus.DRAFT) {
             throw new IllegalStateException(
-                    String.format("[자재 입고 수정] 작성중 상태의 입고만 수정할 수 있습니다. receiptId: %d", receiptId));
+                    String.format("[입고 수정] 작성중 상태의 입고만 수정할 수 있습니다. (receiptId: %d)", receiptId));
         }
 
         // 1. 입고 정보 수정

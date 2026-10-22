@@ -1,7 +1,6 @@
 package com.bizplus.mes.domain.work.order.facade;
 
 import com.bizplus.mes.common.exception.BusinessException;
-import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.equipment.Equipment;
 import com.bizplus.mes.domain.production.order.ProductionOrderService;
 import com.bizplus.mes.domain.work.order.WorkOrder;
@@ -34,7 +33,7 @@ public class WorkStartService {
 
         // 2. 작업 시작 가능 여부 검증
         if (workOrder.getStatus() != WorkOrderStatus.PENDING) {
-            throw new BusinessException(ErrorCode.INVALID_STATE, "작업 대기 상태에서만 시작 가능합니다.");
+            throw new BusinessException("작업 대기 상태에서만 시작 가능합니다.");
         }
 
         // 3. 작업지시 시작 처리

@@ -145,7 +145,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
         if (assignedUser != null
                 && !assignedUser.getId().equals(currentUser.getId())) {
-            throw new BusinessException(ErrorCode.FORBIDDEN, "다른 작업자에게 지정된 작업지시입니다.");
+            throw new BusinessException("다른 작업자에게 지정된 작업지시입니다.");
         }
 
         // 작업자가 없는 경우 현재 사용자로 할당
@@ -171,7 +171,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         WorkOrder workOrder = workOrderReader.getById(id);
 
         if (workOrder.getStatus() != WorkOrderStatus.PAUSED) {
-            throw new BusinessException(ErrorCode.INVALID_STATE, "작업 중지 상태에서만 재개 가능합니다.");
+            throw new BusinessException("작업 중지 상태에서만 재개 가능합니다.");
         }
 
         workOrder.resumeWork();

@@ -1,7 +1,6 @@
 package com.bizplus.mes.domain.work.order.facade;
 
 import com.bizplus.mes.common.exception.BusinessException;
-import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import com.bizplus.mes.domain.work.order.WorkOrderService;
@@ -26,7 +25,7 @@ public class WorkStopService {
         WorkOrder workOrder = workOrderReader.getForUpdate(workOrderId);
 
         if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
-            throw new BusinessException(ErrorCode.INVALID_STATE, "작업 진행중 상태에서만 중지 가능합니다.");
+            throw new BusinessException("작업 진행중 상태에서만 중지 가능합니다.");
         }
 
         // 작업지시 상태 업데이트

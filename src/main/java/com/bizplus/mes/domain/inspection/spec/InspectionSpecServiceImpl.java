@@ -62,10 +62,22 @@ public class InspectionSpecServiceImpl implements InspectionSpecService {
             process = processReader.getById(dto.getProcessId());
         }
 
-        return inspectionSpecRepository.save(
-                        InspectionSpecMapper.toEntity(item, process, dto)
-                )
-                .getId();
+        // 검사기준 생성
+        InspectionSpec newInspectionSpec = inspectionSpecRepository.save(
+                InspectionSpecMapper.toEntity(item, process, dto)
+        );
+
+        // 기본 검사기준일 경우
+        boolean isDefault = Boolean.TRUE.equals(dto.getIsDefault());
+
+        if (isDefault) {
+            switch (dto.getType()) {
+                case INCOMING -> item.updateDefaultIqcSpec(newInspectionSpec);
+                case OUTGOING -> item.updateDefaultOqcSpec(newInspectionSpec);
+            }
+        }
+
+        return newInspectionSpec.getId();
     }
 
     @Transactional

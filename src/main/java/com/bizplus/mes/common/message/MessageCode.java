@@ -10,7 +10,8 @@ public enum MessageCode {
     CREATED("common.created"),
     UPDATED("common.updated"),
     DELETED("common.deleted"),
-    CONFIRMED("common.confirmed");
+    CONFIRMED("common.confirmed"),
+    COMPLETED("common.completed");
 
     private final String key;
 }

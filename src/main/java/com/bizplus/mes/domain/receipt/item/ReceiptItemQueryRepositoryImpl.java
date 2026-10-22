@@ -57,4 +57,20 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .orderBy(item.code.asc(), item.name.asc())
                 .fetch();
     }
+
+    @Override
+    public List<ReceiptItem> findReceiptItems(Long receiptId) {
+        return query
+                .selectFrom(receiptItem)
+                .innerJoin(receiptItem.item, item).fetchJoin()
+                .innerJoin(item.uom, itemUom).fetchJoin()
+                .innerJoin(receiptItem.uom, receiptUom).fetchJoin()
+                .leftJoin(receiptItem.lot, lot).fetchJoin()
+                .where(
+                        notDeleted(receiptItem.deletedAt),
+                        eq(receiptItem.receipt.id, receiptId)
+                )
+                .fetch();
+
+    }
 }

@@ -53,4 +53,8 @@ public class Receipt extends SoftDeletableEntity {
         this.date = date;
         this.remark = remark;
     }
+
+    public void complete() {
+        this.status = ReceiptStatus.COMPLETED;
+    }
 }

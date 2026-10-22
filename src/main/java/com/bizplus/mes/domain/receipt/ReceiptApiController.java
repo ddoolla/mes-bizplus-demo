@@ -6,12 +6,11 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.receipt.facade.ReceiptCompleteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,16 @@ public class ReceiptApiController {
 
     private final MessageService messageService;
     private final ReceiptService receiptService;
+    private final ReceiptCompleteService receiptCompleteService;
+
+    @PostMapping("/api/receipts/{id}/complete")
+    @PreAuthorize("hasAuthority('RECEIPT_CREATE')")
+    public ResponseEntity<ApiResponse<Void>> complete(@PathVariable Long id) {
+        receiptCompleteService.complete(id);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.COMPLETED)));
+    }
 
     @DeleteMapping("/api/receipts")
     @PreAuthorize("hasAuthority('RECEIPT_DELETE')")

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
@@ -67,5 +68,18 @@ public class InspectionQueryRepositoryImpl implements InspectionQueryRepository 
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public String findMaxInspectionNo(LocalDate date, InspectionType type) {
+        return query
+                .select(inspection.inspectionNo.max())
+                .from(inspection)
+                .where(
+                        eq(inspection.type, type),
+                        startDateGoe(inspection.date, date),
+                        endDateLoe(inspection.date, date)
+                )
+                .fetchFirst();
     }
 }

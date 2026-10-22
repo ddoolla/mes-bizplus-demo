@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.inspection.result;
 
+import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.inspection.Inspection;
 import com.bizplus.mes.domain.inspection.InspectionJudgement;
 import com.bizplus.mes.domain.inspection.InspectionReader;
@@ -35,13 +36,16 @@ public class InspectionResultServiceImpl implements InspectionResultService {
 
         inspectionSpecItems.forEach(inspectionSpecItem -> {
             InspectionItem inspectionItem = inspectionSpecItem.getInspectionItem();
+            CommonCode inspectionItemGroup = inspectionItem.getGroup();
 
             // 결과 합격으로 기본 생성
             inspectionResultRepository.save(new InspectionResult(
                     inspection,
                     inspectionSpecItem,
                     inspectionItem.getId(),
-                    inspectionItem.getGroup().getName(),
+                    inspectionItemGroup != null
+                            ? inspectionItemGroup.getName()
+                            : null,
                     inspectionItem.getCode(),
                     inspectionItem.getName(),
                     inspectionSpecItem.getStandard(),

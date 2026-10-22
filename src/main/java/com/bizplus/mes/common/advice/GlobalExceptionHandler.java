@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         if (isAjax(request)) {
             return ResponseEntity
                     .badRequest()
-                    .body(ApiResponse.fail("오류가 발생했습니다."));
+                    .body(ApiResponse.fail(e.getMessage()));
         }
 
         model.addAttribute("status", e.getErrorCode().getStatus().value());

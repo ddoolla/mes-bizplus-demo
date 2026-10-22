@@ -50,31 +50,40 @@
                 <tr>
                     <th>거래처 <span class="app-required">*</span></th>
                     <td>
-                        <input type="text"
-                               name="partnerName"
-                               class="app-form-control app-xs app-readonly-bg w-25"
-                               th:value="*{partner.name}"
-                               placeholder="거래처를 선택해 주세요."
-                               readonly/>
-                        <input type="hidden"
-                               name="partnerId"
-                               th:value="*{partner.id}"/>
-                        <button type="button"
-                                id="partner-list-button"
-                                class="btn btn-secondary app-btn-xs"
-                                th:disabled="*{status?.name != 'DRAFT'}">
-                            <i class="bi bi-list"></i> 거래처 목록
-                        </button>
-                        <div id="partner-error-container"></div>
+                        <th:block th:if="*{status?.name == 'DRAFT'}">
+                            <input type="text"
+                                   name="partnerName"
+                                   class="app-form-control app-xs app-readonly-bg w-25"
+                                   th:value="*{partner.name}"
+                                   placeholder="거래처를 선택해 주세요."
+                                   readonly/>
+                            <input type="hidden"
+                                   name="partnerId"
+                                   th:value="*{partner.id}"/>
+                            <button type="button"
+                                    id="partner-list-button"
+                                    class="btn btn-secondary app-btn-xs">
+                                <i class="bi bi-list"></i> 거래처 목록
+                            </button>
+                            <div id="partner-error-container"></div>
+                        </th:block>
+                        <th:block th:if="*{status?.name != 'DRAFT'}">
+                            <span th:text="*{partner.name}"></span>
+                        </th:block>
                     </td>
                 </tr>
                 <tr>
                     <th>입고일 <span class="app-required">*</span></th>
                     <td>
-                        <input type="text"
-                               name="date"
-                               th:value="${#temporals.format(receipt.date, 'yyyy-MM-dd')}"
-                               class="app-form-control app-xs"/>
+                        <th:block th:if="*{status?.name == 'DRAFT'}">
+                            <input type="text"
+                                   name="date"
+                                   th:value="${#temporals.format(receipt.date, 'yyyy-MM-dd')}"
+                                   class="app-form-control app-xs"/>
+                        </th:block>
+                        <th:block th:if="*{status?.name != 'DRAFT'}">
+                            <span th:text="${#temporals.format(receipt.date, 'yyyy-MM-dd')}"></span>
+                        </th:block>
                     </td>
                 </tr>
                 <tr>
@@ -97,7 +106,8 @@
                             <span class="badge text-bg-success p-2"
                                   th:text="${receipt.status?.description}"></span>
                         </h6>
-                    </td>                </tr>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

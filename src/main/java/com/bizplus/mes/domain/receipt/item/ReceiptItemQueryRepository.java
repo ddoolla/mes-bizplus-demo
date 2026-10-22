@@ -7,4 +7,6 @@ import java.util.List;
 public interface ReceiptItemQueryRepository {
 
     List<ReceiptItemDto> fetchReceiptItems(Long receiptId);
+
+    List<ReceiptItem> findReceiptItems(Long receiptId);
 }

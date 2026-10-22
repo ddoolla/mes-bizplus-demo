@@ -8,6 +8,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 입고검사 도메인 = 검사 정보 + 입고 정보
+ */
 @Entity
 @Table(name = "incoming_inspections")
 @Getter

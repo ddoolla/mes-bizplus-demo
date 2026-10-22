@@ -67,7 +67,7 @@
                     <td th:text="${@format.value(inspectionSepc.version)}"></td>
                     <td th:text="${@format.nameWithCode(inspectionSepc.item.code, inspectionSepc.item.name)}"></td>
                     <td th:text="${@format.nameWithCode(inspectionSepc.process.code, inspectionSepc.process.name)}"></td>
-                    <td></td>
+                    <td th:text="${inspectionSepc.isDefault ? '예' : '아니오'}"></td>
                 </tr>
                 </tbody>
             </table>

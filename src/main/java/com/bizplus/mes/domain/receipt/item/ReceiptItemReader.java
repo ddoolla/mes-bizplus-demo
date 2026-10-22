@@ -5,11 +5,17 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ReceiptItemReader {
 
     private final ReceiptItemRepository receiptItemRepository;
+
+    public List<ReceiptItem> getAll(Long receiptId) {
+        return receiptItemRepository.findReceiptItems(receiptId);
+    };
 
     public ReceiptItem getById(Long id) {
         return receiptItemRepository.findByIdAndDeletedAtIsNull(id)

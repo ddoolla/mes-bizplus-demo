@@ -61,6 +61,7 @@ public enum ErrorCode {
     INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "재고를 찾을 수 없습니다."),
 
     INSPECTION_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 정보를 찾을 수 없습니다."),
+    INSPECTION_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 결과를 찾을 수 없습니다."),
 
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
     ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),

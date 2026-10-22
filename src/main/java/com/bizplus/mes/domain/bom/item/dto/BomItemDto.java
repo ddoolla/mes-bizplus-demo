@@ -22,6 +22,9 @@ public class BomItemDto {
                       String itemCategory,
                       ItemType itemType,
                       String itemSpec,
+                      Long itemUomId,
+                      String itemUomCode,
+                      Integer itemUomScale,
                       Long uomId,
                       String uomCode,
                       Integer uomScale,
@@ -33,7 +36,8 @@ public class BomItemDto {
                 itemName,
                 itemCategory,
                 itemType,
-                itemSpec
+                itemSpec,
+                new ItemUomInfo(itemUomId, itemUomCode, itemUomScale)
         );
         this.uom = new UomInfo(
                 uomId,
@@ -43,20 +47,22 @@ public class BomItemDto {
         this.quantity = quantity;
     }
 
-    public record UomInfo(
-            Long id,
-            String code,
-            Integer scale
-    ) {
+    public record UomInfo(Long id,
+                          String code,
+                          Integer scale) {
     }
 
-    public record ItemInfo(
-            Long id,
-            String code,
-            String name,
-            String category,
-            ItemType type,
-            String specification
-    ) {
+    public record ItemInfo(Long id,
+                           String code,
+                           String name,
+                           String category,
+                           ItemType type,
+                           String specification,
+                           ItemUomInfo uom) {
+    }
+
+    public record ItemUomInfo(Long id,
+                              String code,
+                              Integer scale) {
     }
 }

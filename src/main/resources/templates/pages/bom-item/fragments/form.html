@@ -1,7 +1,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="form (bom, bomItems, uoms)">
+<th:block th:fragment="form (bom, bomItemData)">
     <div class="app-box app-box-bg mt-2">
         <div class="d-flex justify-content-between">
             <div>
@@ -28,11 +28,10 @@
                     <col style="width: 50px">
                     <col style="width: 200px">
                     <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
+                    <col style="width: 150px">
                     <col style="width: auto">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -43,14 +42,15 @@
                     <th>규격</th>
                     <th>수량</th>
                     <th>단위</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(bomItems)}">
+                <tr th:if="${#lists.isEmpty(bomItemData)}">
                     <td colspan="8" class="p-4">등록된 구성품 정보가 없습니다.</td>
                 </tr>
-                <tr th:each="bomItem, stat : ${bomItems}">
+                <tr th:each="data, stat : ${bomItemData}"
+                    th:with="bomItem=${data.bomItem},
+                             convertibleUoms=${data.convertibleUoms}">
                     <td>
                         <input type="checkbox"
                                class="check-item"
@@ -75,15 +75,21 @@
                         <select th:name="|bomItems[${stat.index}].uomId|"
                                 class="bom-item-uom
                                        app-form-control app-xs">
-                            <option th:each="uom : ${uoms}"
-                                    th:value="${uom.id}"
-                                    th:text="${uom.code}"
-                                    th:selected="${bomItem.uom.id == uom.id}"
-                                    th:data-scale="${uom.scale}">
+                            <!--/* 현재 재고 단위 */-->
+                            <option th:value="${bomItem.item.uom.id}"
+                                    th:text="|${bomItem.item.uom.code}|"
+                                    th:selected="${bomItem.item.uom.id == bomItem.uom.id}"
+                                    th:data-scale="${bomItem.item.uom.scale}">
+                            </option>
+                            <!--/* 변환 가능 단위 */-->
+                            <option th:each="convertibleUom : ${convertibleUoms}"
+                                    th:value="${convertibleUom.id}"
+                                    th:text="${convertibleUom.code}"
+                                    th:selected="${convertibleUom.id == bomItem.uom.id}"
+                                    th:data-scale="${convertibleUom.scale}">
                             </option>
                         </select>
                     </td>
-                    <td></td>
                 </tr>
                 </tbody>
             </table>

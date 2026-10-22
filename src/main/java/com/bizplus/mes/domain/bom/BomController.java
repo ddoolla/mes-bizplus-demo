@@ -76,7 +76,7 @@ public class BomController {
         model.addAttribute("productItemTypes", ItemGroup.PRODUCT.getTypes());
         model.addAttribute("bomItemTypes", ItemGroup.BOM_ITEM.getTypes());
         model.addAttribute("bom", bomService.getBom(id));
-        model.addAttribute("bomItems", bomItemService.getBomItems(id));
+        model.addAttribute("bomItemData", bomItemService.getAllForEdit(id));
         model.addAttribute("uoms", uomService.getUoms());
 
         return "pages/bom/edit";

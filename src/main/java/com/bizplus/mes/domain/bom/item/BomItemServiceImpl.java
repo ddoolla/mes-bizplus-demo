@@ -4,12 +4,15 @@ import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.bom.BomReader;
 import com.bizplus.mes.domain.bom.item.dto.BomItemCreateDto;
 import com.bizplus.mes.domain.bom.item.dto.BomItemDto;
+import com.bizplus.mes.domain.bom.item.dto.BomItemEditDto;
 import com.bizplus.mes.domain.bom.item.dto.BomItemUpdateDto;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
 import com.bizplus.mes.domain.uom.UomValidator;
+import com.bizplus.mes.domain.uom.conversion.UomConversionReader;
+import com.bizplus.mes.domain.uom.conversion.dto.ConvertibleUomDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,16 +25,32 @@ public class BomItemServiceImpl implements BomItemService {
 
     private final BomItemRepository bomItemRepository;
 
+    private final UomReader uomReader;
+    private final UomConversionReader uomConversionReader;
     private final ItemReader itemReader;
     private final BomReader bomReader;
     private final BomItemReader bomItemReader;
-    private final UomReader uomReader;
 
     private final UomValidator uomValidator;
 
     @Override
     public List<BomItemDto> getBomItems(Long bomId) {
         return bomItemRepository.findBomItems(bomId);
+    }
+
+    @Override
+    public List<BomItemEditDto> getAllForEdit(Long bomId) {
+        return bomItemRepository.findBomItems(bomId).stream()
+                .map(bomItemDto -> {
+                    List<ConvertibleUomDto> convertibleUoms = uomConversionReader
+                            .getConvertibleUoms(bomItemDto.getItem().uom().id());
+
+                    return new BomItemEditDto(
+                            bomItemDto,
+                            convertibleUoms
+                    );
+                })
+                .toList();
     }
 
     @Transactional

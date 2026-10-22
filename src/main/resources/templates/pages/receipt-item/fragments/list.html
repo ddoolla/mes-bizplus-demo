@@ -38,7 +38,7 @@
                     <td th:text="${receiptItem.item.name}"></td>
                     <td th:text="${receiptItem.item.type?.description}"></td>
                     <td th:text="${@format.value(receiptItem.item.specification)}"></td>
-                    <td th:text="${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT') + ' ' + receiptItem.uom.code} ?: '-'"></td>
+                    <td th:text="|${@format.value(#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT'))} ${receiptItem.uom.code}|"></td>
                     <td th:text="${@format.value(receiptItem.remark)}"></td>
                 </tr>
                 </tbody>

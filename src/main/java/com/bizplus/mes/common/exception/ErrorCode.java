@@ -45,20 +45,22 @@ public enum ErrorCode {
     INSPECTION_SPEC_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 기준 항목을 찾을 수 없습니다."),
     DEFECT_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "불량 항목을 찾을 수 없습니다."),
 
-    SALES_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "수주를 찾을 수 없습니다."),
+    SALES_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "수주 정보를 찾을 수 없습니다."),
     SALES_ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "수주 항목을 찾을 수 없습니다."),
 
-    PRODUCTION_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "생산지시를 찾을 수 없습니다."),
+    PRODUCTION_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "생산지시 정보를 찾을 수 없습니다."),
     PRODUCTION_ORDER_PROCESS_NOT_FOUND(HttpStatus.NOT_FOUND, "생산지시 공정을 찾을 수 없습니다."),
 
     LOT_NOT_FOUND(HttpStatus.NOT_FOUND, "로트를 찾을 수 없습니다."),
 
-    WORK_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "작업지시를 찾을 수 없습니다."),
-    WORK_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "작업실적을 찾을 수 없습니다."),
+    WORK_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "작업지시 정보를 찾을 수 없습니다."),
+    WORK_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "작업실적 정보를 찾을 수 없습니다."),
 
-    RECEIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "자재 입고를 찾을 수 없습니다."),
+    RECEIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "자재 입고 정보를 찾을 수 없습니다."),
     RECEIPT_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "입고 자재를 찾을 수 없습니다."),
     INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "재고를 찾을 수 없습니다."),
+
+    INSPECTION_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 정보를 찾을 수 없습니다."),
 
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "파일 정보를 찾을 수 없습니다."),
     ITEM_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "품목 파일 정보를 찾을 수 없습니다."),

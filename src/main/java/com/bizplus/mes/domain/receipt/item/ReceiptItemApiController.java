@@ -7,10 +7,10 @@ import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemCreateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,11 +20,21 @@ public class ReceiptItemApiController {
     private final ReceiptItemService receiptItemService;
 
     @PostMapping("/api/receipts/{receiptId}/items")
+    @PreAuthorize("hasAuthority('RECEIPT_CREATE')")
     public ResponseEntity<ApiResponse<Void>> create(@PathVariable Long receiptId,
                                                     @RequestBody @Valid ReceiptItemCreateDto dto) {
         receiptItemService.create(receiptId, dto);
 
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.CREATED)));
+    }
+
+    @DeleteMapping("/api/receipt-items")
+    @PreAuthorize("hasAuthority('RECEIPT_DELETE')")
+    public ResponseEntity<ApiResponse<Void>> delete(@RequestBody List<Long> ids) {
+        receiptItemService.deleteAll(ids);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.DELETED)));
     }
 }

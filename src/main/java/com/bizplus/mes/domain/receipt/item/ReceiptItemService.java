@@ -18,4 +18,6 @@ public interface ReceiptItemService {
     void create(Long receiptId, ReceiptItemCreateDto dto);
 
     void update(List<ReceiptItemUpdateDto> dtoList);
+
+    void deleteAll(List<Long> ids);
 }

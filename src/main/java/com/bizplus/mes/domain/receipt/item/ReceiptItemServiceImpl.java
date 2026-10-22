@@ -66,6 +66,7 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
         });
     }
 
+    @Transactional
     @Override
     public void update(List<ReceiptItemUpdateDto> dtoList) {
         dtoList.forEach(dto -> {
@@ -78,5 +79,11 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
                     dto.getRemark()
             );
         });
+    }
+
+    @Transactional
+    @Override
+    public void deleteAll(List<Long> ids) {
+        ids.forEach(id -> receiptItemReader.getById(id).delete());
     }
 }

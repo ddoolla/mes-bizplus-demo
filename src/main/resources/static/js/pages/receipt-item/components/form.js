@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
             content: '정말 삭제하시겠습니까?',
             onConfirm: async () => {
                 try {
-                    const response = await ajax.delete('/receipt-items', selectedIds);
+                    const response = await ajax.delete('/api/receipt-items', selectedIds);
 
                     toast.afterReload({
                         message: response.message,

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             content: '정말 삭제하시겠습니까?',
             onConfirm: async () => {
                 try {
-                    const response = await ajax.delete('/receipts', selectedIds);
+                    const response = await ajax.delete('/api/receipts', selectedIds);
 
                     toast.afterReload({
                         message: response.message,

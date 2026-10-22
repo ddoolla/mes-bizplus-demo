@@ -11,12 +11,14 @@ import com.bizplus.mes.domain.receipt.dto.ReceiptCreateDto;
 import com.bizplus.mes.domain.receipt.dto.ReceiptDto;
 import com.bizplus.mes.domain.receipt.dto.ReceiptListDto;
 import com.bizplus.mes.domain.receipt.dto.ReceiptSearchDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     private final ReceiptRepository receiptRepository;
 
     private final PartnerReader partnerReader;
+    private final ReceiptReader receiptReader;
 
     @Override
     public ReceiptListDto getAll(ReceiptSearchDto dto, Pageable pageable) {
@@ -60,5 +63,11 @@ public class ReceiptServiceImpl implements ReceiptService {
                         dto.getRemark()
                 ))
                 .getId();
+    }
+
+    @Transactional
+    @Override
+    public void deleteAll(List<Long> ids) {
+        ids.forEach(id -> receiptReader.getById(id).delete());
     }
 }

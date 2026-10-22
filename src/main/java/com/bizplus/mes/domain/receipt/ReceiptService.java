@@ -6,6 +6,8 @@ import com.bizplus.mes.domain.receipt.dto.ReceiptListDto;
 import com.bizplus.mes.domain.receipt.dto.ReceiptSearchDto;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ReceiptService {
 
     ReceiptListDto getAll(ReceiptSearchDto dto, Pageable pageable);
@@ -13,4 +15,6 @@ public interface ReceiptService {
     ReceiptDto getById(Long id);
 
     Long create(ReceiptCreateDto dto);
+
+    void deleteAll(List<Long> ids);
 }

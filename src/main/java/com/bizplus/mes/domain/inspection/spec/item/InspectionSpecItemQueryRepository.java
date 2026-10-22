@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface InspectionSpecItemQueryRepository {
 
-    List<InspectionSpecItemDto> findInspectionSpecItems(Long inspectionSpecId);
+    List<InspectionSpecItemDto> fetchInspectionSpecItems(Long inspectionSpecId);
+
+    List<InspectionSpecItem> findInspectionSpecItems(Long inspectionSpecId);
 
     Integer findNextSortOrder(Long inspectionSpecId);
 }

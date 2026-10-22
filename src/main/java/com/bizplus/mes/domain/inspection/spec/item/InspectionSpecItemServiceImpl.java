@@ -25,7 +25,7 @@ public class InspectionSpecItemServiceImpl implements InspectionSpecItemService 
 
     @Override
     public List<InspectionSpecItemDto> getInspectionSpecItems(Long inspectionSpecId) {
-        return inspectionSpecItemRepository.findInspectionSpecItems(inspectionSpecId);
+        return inspectionSpecItemRepository.fetchInspectionSpecItems(inspectionSpecId);
     }
 
     @Transactional

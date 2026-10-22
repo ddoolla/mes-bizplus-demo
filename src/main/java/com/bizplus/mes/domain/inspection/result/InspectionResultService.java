@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface InspectionResultService {
 
-    List<InspectionResultDto> getAllByInspectionId(Long inspectionId);
+    List<InspectionResultDto> getAll(Long inspectionId);
+
+    void createAll(Long inspectionId, Long inspectionSpecId);
 }

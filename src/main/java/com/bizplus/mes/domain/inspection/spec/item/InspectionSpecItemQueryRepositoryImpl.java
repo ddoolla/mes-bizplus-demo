@@ -23,7 +23,7 @@ public class InspectionSpecItemQueryRepositoryImpl implements InspectionSpecItem
     private static final QCommonCode inspectionGroupCode = new QCommonCode("inspectionGroupCode");
 
     @Override
-    public List<InspectionSpecItemDto> findInspectionSpecItems(Long inspectionSpecId) {
+    public List<InspectionSpecItemDto> fetchInspectionSpecItems(Long inspectionSpecId) {
         return query
                 .select(new QInspectionSpecItemDto(
                         inspectionSpecItem.id,
@@ -45,6 +45,19 @@ public class InspectionSpecItemQueryRepositoryImpl implements InspectionSpecItem
                         eq(inspectionSpecItem.inspectionSpec.id, inspectionSpecId)
                 )
                 .orderBy(inspectionSpecItem.sortOrder.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<InspectionSpecItem> findInspectionSpecItems(Long inspectionSpecId) {
+        return query
+                .selectFrom(inspectionSpecItem)
+                .innerJoin(inspectionSpecItem.inspectionItem, inspectionItem).fetchJoin()
+                .leftJoin(inspectionItem.group, inspectionGroupCode).fetchJoin()
+                .where(
+                        notDeleted(inspectionSpecItem.deletedAt),
+                        eq(inspectionSpecItem.inspectionSpec.id, inspectionSpecId)
+                )
                 .fetch();
     }
 

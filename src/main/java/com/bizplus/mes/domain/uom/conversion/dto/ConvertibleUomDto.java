@@ -9,31 +9,21 @@ import java.math.BigDecimal;
 public class ConvertibleUomDto {
 
     private final Long id;
+    private final String code;
+    private final String name;
+    private final Integer scale;
     private final BigDecimal factor;
-    private final FromUomInfo fromUom;
 
     @QueryProjection
-    public ConvertibleUomDto(Long id,
-                             BigDecimal factor,
-                             Long fromUomId,
+    public ConvertibleUomDto(Long fromUomId,
                              String fromUomCode,
                              String fromUomName,
-                             Integer fromUomScale) {
-        this.id = id;
+                             Integer fromUomScale,
+                             BigDecimal factor) {
+        this.id = fromUomId;
+        this.code = fromUomCode;
+        this.name = fromUomName;
+        this.scale = fromUomScale;
         this.factor = factor;
-        this.fromUom = new FromUomInfo(
-                fromUomId,
-                fromUomCode,
-                fromUomName,
-                fromUomScale
-        );
-    }
-
-    public record FromUomInfo(
-            Long id,
-            String code,
-            String name,
-            Integer scale
-    ) {
     }
 }

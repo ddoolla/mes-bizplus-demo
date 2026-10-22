@@ -2,7 +2,6 @@ package com.bizplus.mes.domain.process.material.dto;
 
 import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.process.material.ConsumptionMethod;
-import com.bizplus.mes.domain.uom.UomType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -15,7 +14,7 @@ public class ProcessMaterialDto {
     private final BigDecimal quantity;
     private final ConsumptionMethod consumptionMethod;
     private final ItemInfo item;
-    private final UomInfo consumptionUom;
+    private final UomInfo uom;
 
     @QueryProjection
     public ProcessMaterialDto(Long id,
@@ -27,16 +26,12 @@ public class ProcessMaterialDto {
                               String itemCategory,
                               ItemType itemType,
                               String itemSpec,
-                              Long stockUomId,
-                              String stockUomCode,
-                              String stockUomName,
-                              UomType stockUomType,
-                              Integer stockUomScale,
-                              Long consumptionUomId,
-                              String consumptionUomCode,
-                              String consumptionUomName,
-                              UomType consumptionUomType,
-                              Integer consumptionUomScale) {
+                              Long itemUomId,
+                              String itemUomCode,
+                              Integer itemUomScale,
+                              Long uomId,
+                              String uomCode,
+                              Integer uomScale) {
         this.id = id;
         this.quantity = quantity;
         this.consumptionMethod = consumptionMethod;
@@ -47,40 +42,23 @@ public class ProcessMaterialDto {
                 itemCategory,
                 itemType,
                 itemSpec,
-                new UomInfo(
-                        stockUomId,
-                        stockUomCode,
-                        stockUomName,
-                        stockUomType,
-                        stockUomScale
-                )
+                new ItemUomInfo(itemUomId, itemUomCode, itemUomScale)
         );
-        this.consumptionUom = new UomInfo(
-                consumptionUomId,
-                consumptionUomCode,
-                consumptionUomName,
-                consumptionUomType,
-                consumptionUomScale
-        );
+        this.uom = new UomInfo(uomId, uomCode, uomScale);
     }
 
-    public record ItemInfo(
-            Long id,
-            String code,
-            String name,
-            String category,
-            ItemType type,
-            String specification,
-            UomInfo stockUom
-    ) {
+    public record ItemInfo(Long id,
+                           String code,
+                           String name,
+                           String category,
+                           ItemType type,
+                           String specification,
+                           ItemUomInfo uom) {
     }
 
-    public record UomInfo(
-            Long id,
-            String code,
-            String name,
-            UomType type,
-            Integer scale
-    ) {
+    public record ItemUomInfo(Long id, String code, Integer scale) {
+    }
+
+    public record UomInfo(Long id, String code, Integer scale) {
     }
 }

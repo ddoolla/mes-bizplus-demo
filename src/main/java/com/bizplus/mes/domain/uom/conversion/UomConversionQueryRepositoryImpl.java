@@ -87,12 +87,11 @@ public class UomConversionQueryRepositoryImpl implements UomConversionQueryRepos
     public List<ConvertibleUomDto> findConvertibleUoms(Long toUomId) {
         return query
                 .select(new QConvertibleUomDto(
-                        uomConversion.id,
-                        uomConversion.factor,
                         fromUom.id,
                         fromUom.code,
                         fromUom.name,
-                        fromUom.scale
+                        fromUom.scale,
+                        uomConversion.factor
                 ))
                 .from(uomConversion)
                 .innerJoin(fromUom).on(uomConversion.fromUom.id.eq(fromUom.id))

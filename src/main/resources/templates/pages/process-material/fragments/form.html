@@ -66,44 +66,45 @@
                 <tbody>
                 <tr th:each="data, stat : ${processMaterialData}"
                     th:with="processMaterial=${data.processMaterial},
-                             convertibleUoms=${data.convertibleUoms},
-                             stockUom=${processMaterial.item.stockUom},
-                             consumptionUom=${data.processMaterial.consumptionUom}">
+                             convertibleUoms=${data.convertibleUoms}">
                     <td>
                         <input type="checkbox"
                                class="check-item"
-                               th:value="${data.processMaterial.id}"/>
+                               th:value="${processMaterial.id}"/>
                     </td>
                     <td th:text="${processMaterial.item.code}"></td>
                     <td th:text="${processMaterial.item.name}"></td>
                     <td th:text="${processMaterial.item.type?.description}"></td>
                     <td th:text="${@format.value(processMaterial.item.category)}"></td>
                     <td th:text="${@format.value(processMaterial.item.specification)}"></td>
-                    <td th:text="|${stockUom.code} (${stockUom.name})|"></td>
+                    <td th:text="${processMaterial.item.uom.code}"></td>
                     <td>
                         <input type="number"
-                               class="process-material-quantity app-form-control app-xs"
+                               class="process-material-quantity
+                                      app-form-control app-xs"
                                th:name="|processMaterials[${stat.index}].quantity|"
-                               th:value="${#numbers.formatDecimal(processMaterial.quantity, 1, consumptionUom.scale)}"
+                               th:value="${#numbers.formatDecimal(processMaterial.quantity, 1, processMaterial.uom.scale)}"
                                min="0"/>
                         <input type="hidden"
                                th:name="|processMaterials[${stat.index}].id|"
                                th:value="${processMaterial.id}"/>
                     </td>
                     <td>
-                        <select class="process-material-uom app-form-control app-xs"
-                                th:name="|processMaterials[${stat.index}].consumptionUomId|">
-                            <option th:value="${stockUom.id}"
-                                    th:text="|${stockUom.code} (${stockUom.name})|"
-                                    th:selected="${stockUom.id == consumptionUom.id}"
-                                    th:data-scale="${stockUom.scale}">
+                        <select class="process-material-uom
+                                       app-form-control app-xs"
+                                th:name="|processMaterials[${stat.index}].uomId|">
+                            <!--/* 현재 재고 단위 */-->
+                            <option th:value="${processMaterial.item.uom.id}"
+                                    th:text="${processMaterial.item.uom.code}"
+                                    th:selected="${processMaterial.item.uom.id == processMaterial.uom.id}"
+                                    th:data-scale="${processMaterial.item.uom.scale}">
                             </option>
+                            <!--/* 변환 가능 단위 */-->
                             <option th:each="convertibleUom : ${convertibleUoms}"
-                                    th:with="uom=${convertibleUom.fromUom}"
-                                    th:value="${uom.id}"
-                                    th:text="|${uom.code} (${uom.name})|"
-                                    th:selected="${uom.id == consumptionUom.id}"
-                                    th:data-scale="${uom.scale}">
+                                    th:value="${convertibleUom.id}"
+                                    th:text="${convertibleUom.code}"
+                                    th:selected="${convertibleUom.id == processMaterial.uom.id}"
+                                    th:data-scale="${convertibleUom.scale}" >
                             </option>
                         </select>
                     </td>
@@ -116,7 +117,6 @@
                                     th:selected="${consumptionMethod == processMaterial.consumptionMethod}">
                             </option>
                         </select>
-
                     </td>
                 </tr>
                 </tbody>

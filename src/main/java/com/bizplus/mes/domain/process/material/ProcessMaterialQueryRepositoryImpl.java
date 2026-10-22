@@ -21,7 +21,7 @@ public class ProcessMaterialQueryRepositoryImpl implements ProcessMaterialQueryR
     private final JPAQueryFactory query;
 
     private static final QCommonCode categoryCode = new QCommonCode("categoryCode");
-    private static final QUom stockUom = new QUom("stockUom");
+    private static final QUom itemUom = new QUom("itemUom");
     private static final QUom consumptionUom = new QUom("consumptionUom");
 
     @Override
@@ -37,20 +37,16 @@ public class ProcessMaterialQueryRepositoryImpl implements ProcessMaterialQueryR
                         categoryCode.name,
                         item.type,
                         item.specification,
-                        stockUom.id,
-                        stockUom.code,
-                        stockUom.name,
-                        stockUom.type,
-                        stockUom.scale,
+                        itemUom.id,
+                        itemUom.code,
+                        itemUom.scale,
                         consumptionUom.id,
                         consumptionUom.code,
-                        consumptionUom.name,
-                        consumptionUom.type,
                         consumptionUom.scale
                 ))
                 .from(processMaterial)
                 .innerJoin(item).on(processMaterial.item.id.eq(item.id))
-                .innerJoin(stockUom).on(item.uom.id.eq(stockUom.id))
+                .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(consumptionUom).on(processMaterial.uom.id.eq(consumptionUom.id))
                 .where(

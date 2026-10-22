@@ -46,7 +46,7 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
         return processMaterials.stream()
                 .map(processMaterial -> {
                     List<ConvertibleUomDto> convertibleUoms = uomConversionReader
-                            .getConvertibleUoms(processMaterial.getItem().stockUom().id());
+                            .getConvertibleUoms(processMaterial.getItem().uom().id());
 
                     return new ProcessMaterialEditDto(
                             processMaterial,
@@ -108,7 +108,7 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
     public void updateProcessMaterials(ProcessMaterialUpdateDto dto) {
         dto.getProcessMaterials().forEach(params -> {
             ProcessMaterial processMaterial = processMaterialReader.getById(params.id());
-            Uom uom = uomReader.getById(params.consumptionUomId());
+            Uom uom = uomReader.getById(params.uomId());
 
             uomValidator.validateQuantity(params.quantity(), uom);
 

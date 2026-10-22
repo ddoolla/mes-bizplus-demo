@@ -1,7 +1,9 @@
 package com.bizplus.mes.domain.process.material.dto;
 
 import com.bizplus.mes.domain.process.material.ConsumptionMethod;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,13 +15,13 @@ import java.util.List;
 public class ProcessMaterialUpdateDto {
 
     @NotEmpty
-    private List<EditParams> processMaterials;
+    private List<@Valid EditParams> processMaterials;
 
     public record EditParams(
-            Long id,
-            Long consumptionUomId,
-            BigDecimal quantity,
-            ConsumptionMethod consumptionMethod
+            @NotNull Long id,
+            @NotNull Long uomId,
+            @NotNull BigDecimal quantity,
+            @NotNull ConsumptionMethod consumptionMethod
     ) {
     }
 }

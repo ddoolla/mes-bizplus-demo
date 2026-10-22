@@ -43,15 +43,56 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
-    $(editForm).find('.sales-order-item-quantity').each(function () {
+    $.validator.addMethod('quantityScale', function (value, element) {
+        if (this.optional(element)) {
+            return true;
+        }
+
+        const scale = parseInt(
+            $(element)
+                .closest('tr')
+                .find('.receipt-item-uom option:selected')
+                .data('scale'),
+            10
+        );
+
+        if (isNaN(scale)) {
+            return false;
+        }
+
+        const decimalPart = value.split('.')[1];
+
+        return !decimalPart || decimalPart.length <= scale;
+
+    }, function (params, element) {
+        const scale = parseInt(
+            $(element)
+                .closest('tr')
+                .find('.receipt-item-uom option:selected')
+                .data('scale'),
+            10
+        );
+
+        return `해당 단위는 소수점 ${scale}자리까지 입력할 수 있습니다.`;
+    });
+
+    $(editForm).find('.receipt-item-quantity').each(function () {
         $(this).rules('add', {
             required: true,
             positive: true,
+            quantityScale: true,
             messages: {
                 required: '수량을 입력해 주세요.',
                 number: '수량은 숫자로 입력해 주세요.',
                 positive: '0보다 큰 값을 입력해 주세요.'
             }
         });
+    });
+
+    $('.receipt-item-uom').on('change', function () {
+        $(this)
+            .closest('tr')
+            .find('.receipt-item-quantity')
+            .valid();
     });
 });

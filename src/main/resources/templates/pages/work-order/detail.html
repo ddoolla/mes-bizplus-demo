@@ -137,7 +137,7 @@
             </div>
 
             <!--/* 작업 정보 */-->
-            <div class="col-6">
+            <div class="col-8">
                 <!--/* 버튼 영역 */-->
                 <div class="row g-2" th:unless="${workOrder.status?.name == 'COMPLETED'}">
                     <div class="col">
@@ -291,6 +291,78 @@
                         </div>
                     </div>
                 </div>
+
+                <!--/* 자재 투입 내역 / 불량 내역 */-->
+                <div class="row g-2 mt-2">
+                    <div class="col-9">
+                        <div class="card p-2 app-h-300 overflow-y-auto">
+                            <div>
+                                <h6 class="fw-bold">자재 투입 내역</h6>
+                            </div>
+                            <div>
+                                <table class="table table-hover">
+                                    <colgroup>
+                                        <col style="width: 100px">
+                                        <col style="width: 200px">
+                                        <col style="width: 100px">
+                                        <col style="width: auto">
+                                        <col style="width: 200px">
+                                        <col style="width: 100px">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>투입 시간</th>
+                                        <th>자재</th>
+                                        <th>유형</th>
+                                        <th>규격</th>
+                                        <th>로트</th>
+                                        <th>투입 수량</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${#lists.isEmpty(materialInputs)}">
+                                        <td colspan="6" class="text-center py-4">등록된 투입 자재 정보가 없습니다.</td>
+                                    </tr>
+                                    <tr th:each="input : ${materialInputs}">
+                                        <td th:text="${#temporals.format(input.inputAt, 'HH:mm')}"></td>
+                                        <td th:text="${input.item.name}"></td>
+                                        <td th:text="${input.item.type?.description}"></td>
+                                        <td th:text="${@format.value(input.item.specification)}"></td>
+                                        <td th:text="${input.lot?.no ?: '-'}"></td>
+                                        <td th:text="|${#numbers.formatDecimal(input.quantity, 1, 'COMMA', input.uom.scale, 'POINT')} ${input.uom.code}|"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card p-2 app-h-300 overflow-y-auto">
+                            <div>
+                                <h6 class="fw-bold">불량 내역</h6>
+                            </div>
+                            <div>
+                                <table class="table table-hover">
+                                    <colgroup>
+                                        <col style="width: auto">
+                                        <col style="width: 100px">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>불량 코드</th>
+                                        <th>불량 수량</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-center py-4">등록된 불량 정보가 없습니다.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -305,7 +377,7 @@
     <div th:replace="~{pages/work-order/modal/complete :: modal (${workOrder})}"></div>
 
     <!--/* 자재 투입 모달 */-->
-    <div th:replace="~{pages/material-input/modal/input/material-selection :: modal (${workOrder}, ${consumptionMaterials})}"></div>
+    <div th:replace="~{pages/material-input/modal/input/material-selection :: modal (${workOrder}, ${availableMaterials})}"></div>
     <div th:replace="~{pages/material-input/modal/input/material-input :: modal}"></div>
 </div>
 </body>

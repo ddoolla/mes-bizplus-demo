@@ -26,7 +26,7 @@ const createMaterialInputModal = () => {
     let scannedLot = null;
 
     const openMaterialSelectionModal = () => {
-        modal.setTitle('material-selection-modal', '투입 자재 목록');
+        modal.setTitle('material-selection-modal', '투입 대상 자재 목록');
         modal.open('material-selection-modal');
     }
 

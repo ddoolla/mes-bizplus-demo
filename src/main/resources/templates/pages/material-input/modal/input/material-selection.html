@@ -1,10 +1,10 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<!--/* 투입 자재 목록 모달 */-->
-<th:block th:fragment="modal (workOrder, consumptionMaterials)">
+<!--/* 투입 대상 자재 목록 모달 */-->
+<th:block th:fragment="modal (workOrder, availableMaterials)">
     <div th:replace="~{fragments/modal/default :: default (
         'material-selection-modal',
-        '투입 자재 목록',
+        '투입 대상 자재 목록',
          ~{::content},
          1200
     )}">
@@ -15,7 +15,7 @@
             <div class="modal-body pt-0">
                 <div class="d-flex justify-content-start">
                     <div class="fw-bold"
-                         th:text="|Total : ${consumptionMaterials.size()} 건|">
+                         th:text="|Total : ${availableMaterials.size()} 건|">
                     </div>
                 </div>
                 <div>
@@ -43,32 +43,32 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:if="${#lists.isEmpty(consumptionMaterials)}">
+                        <tr th:if="${#lists.isEmpty(availableMaterials)}">
                             <td colspan="8" class="p-4">등록된 소모 자재 정보가 없습니다.</td>
                         </tr>
-                        <tr th:each="cm : ${consumptionMaterials}">
-                            <td th:text="${cm.item.code}"></td>
-                            <td th:text="${cm.item.name}"></td>
-                            <td th:text="${@format.value(cm.item.specification)}"></td>
-                            <td th:text="|${#numbers.formatDecimal(cm.requiredQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
-                            <td th:text="|${#numbers.formatDecimal(cm.inputQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
-                            <td th:text="|${#numbers.formatDecimal(cm.remainingQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
-                            <td th:text="|${#numbers.formatDecimal(cm.excessQuantity, 1, 'COMMA', cm.uom.scale, 'POINT')} ${cm.uom.code}|"></td>
+                        <tr th:each="am : ${availableMaterials}">
+                            <td th:text="${am.item.code}"></td>
+                            <td th:text="${am.item.name}"></td>
+                            <td th:text="${@format.value(am.item.specification)}"></td>
+                            <td th:text="|${#numbers.formatDecimal(am.requiredQuantity, 1, 'COMMA', am.uom.scale, 'POINT')} ${am.uom.code}|"></td>
+                            <td th:text="|${#numbers.formatDecimal(am.inputQuantity, 1, 'COMMA', am.uom.scale, 'POINT')} ${am.uom.code}|"></td>
+                            <td th:text="|${#numbers.formatDecimal(am.remainingQuantity, 1, 'COMMA', am.uom.scale, 'POINT')} ${am.uom.code}|"></td>
+                            <td th:text="|${#numbers.formatDecimal(am.excessQuantity, 1, 'COMMA', am.uom.scale, 'POINT')} ${am.uom.code}|"></td>
                             <td>
                                 <button type="button"
                                         class="material-select-button
                                    btn btn-primary btn-sm"
-                                        th:data-item-id="${cm.item.id}"
-                                        th:data-item-code="${cm.item.code}"
-                                        th:data-item-name="${cm.item.name}"
-                                        th:data-item-spec="${cm.item.specification}"
-                                        th:data-lot-managed="${cm.item.lotManaged}"
-                                        th:data-uom-id="${cm.uom.id}"
-                                        th:data-uom-code="${cm.uom.code}"
-                                        th:data-required-quantity="${cm.requiredQuantity.intValue()}"
-                                        th:data-input-quantity="${cm.inputQuantity.intValue()}"
-                                        th:data-remaining-quantity="${cm.remainingQuantity.intValue()}"
-                                        th:data-excess-quantity="${cm.excessQuantity.intValue()}">
+                                        th:data-item-id="${am.item.id}"
+                                        th:data-item-code="${am.item.code}"
+                                        th:data-item-name="${am.item.name}"
+                                        th:data-item-spec="${am.item.specification}"
+                                        th:data-lot-managed="${am.item.lotManaged}"
+                                        th:data-uom-id="${am.uom.id}"
+                                        th:data-uom-code="${am.uom.code}"
+                                        th:data-required-quantity="${am.requiredQuantity.intValue()}"
+                                        th:data-input-quantity="${am.inputQuantity.intValue()}"
+                                        th:data-remaining-quantity="${am.remainingQuantity.intValue()}"
+                                        th:data-excess-quantity="${am.excessQuantity.intValue()}">
                                     선택
                                 </button>
                             </td>

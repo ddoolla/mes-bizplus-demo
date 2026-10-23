@@ -2,6 +2,7 @@ package com.bizplus.mes.domain.material.input;
 
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.material.input.dto.MaterialConsumptionDto;
+import com.bizplus.mes.domain.material.input.dto.MaterialInputDto;
 import com.bizplus.mes.domain.material.input.dto.MaterialInputSummaryDto;
 import com.bizplus.mes.domain.process.material.ProcessMaterial;
 import com.bizplus.mes.domain.process.material.ProcessMaterialReader;
@@ -25,9 +26,19 @@ public class MaterialInputServiceImpl implements MaterialInputService {
     private final WorkOrderReader workOrderReader;
     private final ProcessMaterialReader processMaterialReader;
 
+    @Override
+    public List<MaterialInputSummaryDto> getSummaries(Long workOrderId) {
+        return materialInputRepository.fetchMaterialInputSummaries(workOrderId);
+    }
+
+    @Override
+    public List<MaterialInputDto> getAll(Long workOrderId) {
+        return materialInputRepository.fetchMaterialInput(workOrderId);
+    }
+
     @Transactional
     @Override
-    public List<MaterialConsumptionDto> getConsumptionMaterials(Long workOrderId, Long routingProcessId) {
+    public List<MaterialConsumptionDto> getAvailableMaterials(Long workOrderId, Long routingProcessId) {
         WorkOrder workOrder = workOrderReader.getById(workOrderId);
         List<ProcessMaterial> processMaterials = processMaterialReader.getByRoutingProcessId(routingProcessId);
         List<MaterialInputSummaryDto> materialInputs = materialInputRepository.fetchMaterialInputSummaries(workOrderId);
@@ -43,11 +54,8 @@ public class MaterialInputServiceImpl implements MaterialInputService {
                             .multiply(workOrder.getQuantity());
 
                     BigDecimal inputQuantity = inputQuantities.getOrDefault(item.getId(), BigDecimal.ZERO);
-
                     BigDecimal difference = requiredQuantity.subtract(inputQuantity);
-
                     BigDecimal remainingQuantity = difference.max(BigDecimal.ZERO);
-
                     BigDecimal excessQuantity = difference.negate().max(BigDecimal.ZERO);
 
                     return new MaterialConsumptionDto(

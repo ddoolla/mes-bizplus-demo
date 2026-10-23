@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.material.input.dto;
 
+import com.bizplus.mes.domain.item.ItemType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -16,6 +17,7 @@ public class MaterialInputSummaryDto {
     public MaterialInputSummaryDto(Long itemId,
                                    String itemCode,
                                    String itemName,
+                                   ItemType itemType,
                                    String itemSpec,
                                    boolean lotManaged,
                                    String uomCode,
@@ -25,6 +27,7 @@ public class MaterialInputSummaryDto {
                 itemId,
                 itemCode,
                 itemName,
+                itemType,
                 itemSpec,
                 lotManaged
         );
@@ -38,11 +41,11 @@ public class MaterialInputSummaryDto {
     public record ItemInfo(Long id,
                            String code,
                            String name,
+                           ItemType type,
                            String specification,
                            boolean lotManaged) {
     }
 
-    public record UomInfo(String code,
-                          Integer scale) {
+    public record UomInfo(String code, Integer scale) {
     }
 }

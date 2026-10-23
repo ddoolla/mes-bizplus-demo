@@ -69,7 +69,8 @@ public class WorkOrderController {
         model.addAttribute("workOrder", workOrder);
         model.addAttribute("progressRate", workOrderService.getWorkOrder(id).getProgressRate());
         model.addAttribute("equipmentTypes", commonCodeService.getCommonCodes(CodeGroupKey.EQUIPMENT_TYPE));
-        model.addAttribute("consumptionMaterials", materialInputService.getConsumptionMaterials(id, workOrder.getProcess().routingProcessId()));
+        model.addAttribute("availableMaterials", materialInputService.getAvailableMaterials(id, workOrder.getProcess().routingProcessId()));
+        model.addAttribute("materialInputs", materialInputService.getAll(id));
 
         return "pages/work-order/detail";
     }

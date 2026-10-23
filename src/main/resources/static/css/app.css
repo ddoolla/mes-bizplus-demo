@@ -143,52 +143,6 @@ body {
     min-height: calc(100% - 121px);
 }
 
-#app-content .app-title {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.app-content-header {
-    position: relative;
-    padding: 0 5px;
-}
-
-.app-content-header .app-title {
-    padding-bottom: 2px;
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-
-.app-content-header .app-sub-title {
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.app-content-header .app-breadcrumb {
-    position: absolute;
-    top: 5px;
-    right: 0px;
-}
-
-.app-content-header .app-breadcrumb li {
-    display: inline;
-    color: #b3b3b3;
-    padding: 0 10px 0 10px;
-}
-
-.app-content-header .app-breadcrumb li:after {
-    font: normal normal normal 14px/1 FontAwesome;
-    position: absolute;
-    content: "\f105";
-    top: -1.5px;
-    padding-left: 10px;
-}
-
-.app-content-header .app-breadcrumb li:last-child:after {
-    content: "";
-}
-
 /* ================================ Box ================================ */
 
 .app-box {

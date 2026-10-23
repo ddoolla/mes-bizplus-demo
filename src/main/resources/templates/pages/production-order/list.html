@@ -30,6 +30,7 @@
                     <col style="width: 150px">
                     <col style="width: 200px">
                     <col style="width: 200px">
+                    <col style="width: 150px">
                     <col style="width: 200px">
                     <col style="width: 150px">
                     <col style="width: 100px">
@@ -42,6 +43,7 @@
                     <th>생산지시 번호</th>
                     <th>제품 코드</th>
                     <th>제품명</th>
+                    <th>유형</th>
                     <th>규격</th>
                     <th>생산 수량</th>
                     <th>생산 예정일</th>
@@ -51,7 +53,7 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(data.productionOrders)}">
-                    <td colspan="9" class="p-4">등록된 생산지시 정보가 없습니다.</td>
+                    <td colspan="10" class="p-4">등록된 생산지시 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="productionOrder : ${data.productionOrders}">
                     <td>
@@ -65,6 +67,7 @@
                     </td>
                     <td th:text="${productionOrder.item.code}"></td>
                     <td th:text="${productionOrder.item.name}"></td>
+                    <td th:text="${productionOrder.item.type?.description}"></td>
                     <td th:text="${@format.value(productionOrder.item.specification)}"></td>
                     <td th:text="|${#numbers.formatDecimal(
                         productionOrder.quantity,1, productionOrder.item.uom.scale)} ${productionOrder.item.uom.code}|">

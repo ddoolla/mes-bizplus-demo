@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.production.order.dto;
 
+import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.production.order.ProductionOrderStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class ProductionOrderDto {
                               Long itemId,
                               String itemCode,
                               String itemName,
+                              ItemType itemType,
                               String itemSpec,
                               boolean lotManaged,
                               String itemUomCode,
@@ -53,6 +55,7 @@ public class ProductionOrderDto {
                 itemId,
                 itemCode,
                 itemName,
+                itemType,
                 itemSpec,
                 lotManaged,
                 new ItemUomInfo(itemUomCode, itemUomScale)
@@ -73,39 +76,24 @@ public class ProductionOrderDto {
         );
     }
 
-    public record ItemInfo(
-            Long id,
-            String code,
-            String name,
-            String specification,
-            boolean lotManaged,
-            ItemUomInfo uom
-    ) {
+    public record ItemInfo(Long id,
+                           String code,
+                           String name,
+                           ItemType type,
+                           String specification,
+                           boolean lotManaged,
+                           ItemUomInfo uom) {
     }
 
-    public record ItemUomInfo(
-            String code,
-            Integer scale
-    ) {
+    public record ItemUomInfo(String code, Integer scale) {
     }
 
-    public record BomInfo(
-            Long id,
-            String code,
-            String name
-    ) {
+    public record BomInfo(Long id, String code, String name) {
     }
 
-    public record RoutingInfo(
-            Long id,
-            String code,
-            String name
-    ) {
+    public record RoutingInfo(Long id, String code, String name) {
     }
 
-    public record LotInfo(
-            Long id,
-            String no
-    ) {
+    public record LotInfo(Long id, String no) {
     }
 }

@@ -1,13 +1,20 @@
 <!-- 콘텐츠 헤더 -->
 <!-- navigation 파라미터 전달 시 쉼표를 구분자로 전달 -->
-<div class="app-content-header" th:fragment="header (title, navigation)">
+<div th:fragment="header (title, navigation)"
+     class="d-flex justify-content-between px-1" >
     <div>
-        <p class="app-title" th:text="${title}"></p>
+        <h5 class="fw-bold" th:text="${title}"></h5>
     </div>
     <div>
-        <ol class="app-breadcrumb">
-            <li><i class="bi bi-house-fill"></i></li>
-            <li th:each="menu : ${#strings.arraySplit(navigation, ',')}" th:text="${menu}"></li>
-        </ol>
+        <nav class="mt-1" aria-label="breadcrumb">
+            <ol class="breadcrumb text-secondary">
+                <li class="breadcrumb-item">
+                    <i class="bi bi-house-fill"></i>
+                </li>
+                <li class="breadcrumb-item"
+                    th:each="menu : ${#strings.arraySplit(navigation, ',')}"
+                    th:text="${menu}"></li>
+            </ol>
+        </nav>
     </div>
 </div>

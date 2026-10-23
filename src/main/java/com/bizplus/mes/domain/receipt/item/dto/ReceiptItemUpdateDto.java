@@ -13,11 +13,8 @@ public class ReceiptItemUpdateDto {
 
     @NotNull
     private Long id;
-
-    @NotNull
     private Long uomId;
 
-    @NotNull
     @Positive
     private BigDecimal quantity;
     private String remark;

@@ -7,7 +7,10 @@ import com.bizplus.mes.common.util.CodeGenerator;
 import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.partner.Partner;
 import com.bizplus.mes.domain.partner.PartnerReader;
-import com.bizplus.mes.domain.sales.order.dto.*;
+import com.bizplus.mes.domain.sales.order.dto.SalesOrderCreateDto;
+import com.bizplus.mes.domain.sales.order.dto.SalesOrderDto;
+import com.bizplus.mes.domain.sales.order.dto.SalesOrderListDto;
+import com.bizplus.mes.domain.sales.order.dto.SalesOrderSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,19 +61,6 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                         dto
                 )
         ).getId();
-    }
-
-    @Transactional
-    @Override
-    public void updateSalesOrder(Long id, SalesOrderUpdateDto dto) {
-        SalesOrder salesOrder = salesOrderReader.getById(id);
-
-        if (salesOrder.getStatus() == SalesOrderStatus.DRAFT) {
-            Partner partner = partnerReader.getById(dto.getPartnerId());
-            salesOrder.updatePartner(partner);
-        }
-
-        SalesOrderMapper.apply(salesOrder, dto);
     }
 
     @Transactional

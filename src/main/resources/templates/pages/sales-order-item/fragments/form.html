@@ -7,18 +7,18 @@
                 <p class="h5 fw-bold">수주 품목</p>
             </div>
             <div>
-                <button type="button"
-                        id="sales-order-item-create-button"
-                        class="btn btn-primary btn-sm me-1"
-                        th:disabled="${salesOrder.status?.name != 'DRAFT'}">
-                    <i class="bi bi-plus-circle"></i> 추가
-                </button>
-                <button type="button"
-                        id="sales-order-item-delete-button"
-                        class="btn btn-danger btn-sm"
-                        th:disabled="${salesOrder.status?.name != 'DRAFT'}">
-                    <i class="bi bi-trash"></i> 삭제
-                </button>
+                <th:block th:if="${salesOrder.status.name == 'DRAFT'}">
+                    <button type="button"
+                            id="sales-order-item-create-button"
+                            class="btn btn-primary btn-sm me-1">
+                        <i class="bi bi-plus-circle"></i> 추가
+                    </button>
+                    <button type="button"
+                            id="sales-order-item-delete-button"
+                            class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> 삭제
+                    </button>
+                </th:block>
             </div>
         </div>
 
@@ -63,6 +63,11 @@
                     <td colspan="11" class="p-4">등록된 수주 품목 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="salesOrderItem, stat : ${salesOrderItems}">
+
+                    <input type="hidden"
+                           th:name="|salesOrderItems[${stat.index}].id|"
+                           th:value="${salesOrderItem.id}"/>
+
                     <td>
                         <input type="checkbox"
                                class="check-item"
@@ -79,9 +84,6 @@
                                       app-form-control app-xs "
                                th:value="${#numbers.formatDecimal(salesOrderItem.quantity, 1, salesOrderItem.uom.scale)}"
                                th:disabled="${salesOrder.status?.name != 'DRAFT'}" min="0"/>
-                        <input type="hidden"
-                               th:name="|salesOrderItems[${stat.index}].id|"
-                               th:value="${salesOrderItem.id}"/>
                     </td>
                     <td th:text="${salesOrderItem.uom.code}"></td>
                     <td>

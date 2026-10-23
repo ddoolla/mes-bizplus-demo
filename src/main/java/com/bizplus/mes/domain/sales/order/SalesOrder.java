@@ -65,4 +65,8 @@ public class SalesOrder extends SoftDeletableEntity {
     public void updateStatus(SalesOrderStatus status) {
         this.status = status;
     }
+
+    public void updateRemark(String remark) {
+        this.remark = remark;
+    }
 }

@@ -68,4 +68,8 @@ public class ReceiptItem extends SoftDeletableEntity {
     public void updateLot(Lot lot) {
         this.lot = lot;
     }
+
+    public void updateRemark(String remark) {
+        this.remark = remark;
+    }
 }

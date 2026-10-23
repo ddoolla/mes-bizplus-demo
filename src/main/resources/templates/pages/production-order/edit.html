@@ -36,6 +36,7 @@
           method="post"
           th:action="@{/production-orders/{id}(id=${productionOrder.id})}"
           th:object="${productionOrder}">
+
         <!--/* 생산지시 수정 폼 */-->
         <div class="app-box app-box-bg">
             <table class="app-table-input">
@@ -53,23 +54,25 @@
                 <tr>
                     <th>제품 코드</th>
                     <td th:text="*{item.code}"></td>
+                    <th>유형</th>
+                    <td th:text="*{item.type?.description}"></td>
+                </tr>
+                <tr>
                     <th>제품명</th>
                     <td th:text="*{item.name}"></td>
-                </tr>
-                <tr>
                     <th>규격</th>
                     <td th:text="${@format.value(productionOrder.item.specification)}"></td>
-                    <th>단위</th>
-                    <td>
-                        <span th:text="${productionOrder.item.uom.code}"></span>
-                        <input type="hidden"
-                               name="uomScale"
-                               th:value="*{item.uom.scale}"/>
-                    </td>
                 </tr>
                 <tr>
-                    <th>제품 BOM</th>
-                    <td th:text="*{bom.name}"></td>
+                    <th>생산 예정일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="dueDate"
+                               class="app-form-control app-xs"
+                               th:value="${#temporals.format(productionOrder.dueDate, 'yyyy-MM-dd')}"
+                               th:disabled="*{status.name != 'DRAFT'}"
+                               readonly/>
+                    </td>
                     <th>제품 공정</th>
                     <td th:text="*{routing.name}"></td>
                 </tr>
@@ -79,28 +82,15 @@
                         <input type="number"
                                name="quantity"
                                th:value="${@format.decimalValue(productionOrder.quantity)}"
-                               class="app-form-control app-xs"
-                               th:disabled="*{status.name != 'DRAFT'}"/>
-
-                        <input type="hidden"
-                               th:if="*{status.name != 'DRAFT'}"
-                               name="quantity"
-                               th:value="*{quantity}"/>
-                    </td>
-                    <th>생산 예정일 <span class="app-required">*</span></th>
-                    <td>
-                        <input type="text"
-                               name="dueDate"
-                               class="app-form-control app-xs"
-                               th:value="*{dueDate}"
                                th:disabled="*{status.name != 'DRAFT'}"
-                               readonly/>
+                               class="app-form-control app-xs"/>
 
                         <input type="hidden"
-                               th:if="*{status.name != 'DRAFT'}"
-                               name="dueDate"
-                               th:value="*{dueDate}"/>
+                               name="uomScale"
+                               th:value="*{item.uom.scale}"/>
                     </td>
+                    <th>제품 BOM</th>
+                    <td th:text="*{bom.name}"></td>
                 </tr>
                 <tr>
                     <th>생산 로트</th>
@@ -146,7 +136,7 @@
         </div>
 
         <!--/* 작업지시 수정 폼 */-->
-        <div th:replace="~{pages/work-order/fragments/form :: form (${workOrders})}"></div>
+        <div th:replace="~{pages/work-order/fragments/form :: form (${productionOrder}, ${workOrders})}"></div>
     </form>
 
     <!--/* 설비 선택 모달 */-->

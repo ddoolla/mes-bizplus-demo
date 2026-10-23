@@ -69,8 +69,7 @@
                     <td th:text="${productionOrder.item.name}"></td>
                     <td th:text="${productionOrder.item.type?.description}"></td>
                     <td th:text="${@format.value(productionOrder.item.specification)}"></td>
-                    <td th:text="|${#numbers.formatDecimal(
-                        productionOrder.quantity,1, productionOrder.item.uom.scale)} ${productionOrder.item.uom.code}|">
+                    <td th:text="|${#numbers.formatDecimal(productionOrder.quantity, 1, 'COMMA', productionOrder.item.uom.scale, 'POINT')} ${productionOrder.item.uom.code}|">
                     </td>
                     <td th:text="${#temporals.format(productionOrder.dueDate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${@format.value(productionOrder.remark)}"></td>

@@ -57,11 +57,11 @@
                 <td th:text="*{partner.name}"></td>
             </tr>
             <tr>
-                <th>등록일</th>
+                <th>수주일자</th>
                 <td th:text="${#temporals.format(salesOrder.date, 'yyyy-MM-dd')}"></td>
             </tr>
             <tr>
-                <th>납기일</th>
+                <th>납기일자</th>
                 <td th:text="${#temporals.format(salesOrder.dueDate, 'yyyy-MM-dd')}"></td>
             </tr>
             <tr>
@@ -76,7 +76,7 @@
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'CONFIRMED'" class="mb-0">
-                            <span class="badge text-bg-primary p-2"
+                            <span class="badge text-bg-info p-2"
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">

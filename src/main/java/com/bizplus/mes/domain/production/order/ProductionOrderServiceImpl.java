@@ -11,10 +11,12 @@ import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.lot.Lot;
 import com.bizplus.mes.domain.lot.LotReader;
-import com.bizplus.mes.domain.production.order.dto.*;
+import com.bizplus.mes.domain.production.order.dto.ProductionOrderCreateDto;
+import com.bizplus.mes.domain.production.order.dto.ProductionOrderDto;
+import com.bizplus.mes.domain.production.order.dto.ProductionOrderListDto;
+import com.bizplus.mes.domain.production.order.dto.ProductionOrderSearchDto;
 import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.routing.RoutingReader;
-import com.bizplus.mes.domain.work.order.WorkOrderReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +37,6 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
     private final LotReader lotReader;
     private final RoutingReader routingReader;
     private final ProductionOrderReader productionOrderReader;
-    private final WorkOrderReader workOrderReader;
 
     @Override
     public ProductionOrderListDto getProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
@@ -77,18 +78,6 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
                         dto.getRemark()
                 ))
                 .getId();
-    }
-
-    @Transactional
-    @Override
-    public void updateProductionOrder(Long id, ProductionOrderUpdateDto dto) {
-        ProductionOrder productionOrder = productionOrderReader.getById(id);
-
-        productionOrder.update(
-                dto.getQuantity(),
-                dto.getDueDate(),
-                dto.getRemark()
-        );
     }
 
     @Transactional

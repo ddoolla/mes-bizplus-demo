@@ -41,8 +41,8 @@
                     <th><input type="checkbox" class="check-all"/></th>
                     <th>수주 번호</th>
                     <th>거래처</th>
-                    <th>등록일</th>
-                    <th>납기일</th>
+                    <th>수주일자</th>
+                    <th>납기일자</th>
                     <th>비고</th>
                     <th>상태</th>
                 </tr>
@@ -71,7 +71,7 @@
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'CONFIRMED'" class="mb-0">
-                            <span class="badge text-bg-primary p-2"
+                            <span class="badge text-bg-info p-2"
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">

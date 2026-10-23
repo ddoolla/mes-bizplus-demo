@@ -1,23 +1,25 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="form (workOrders)">
+<th:block th:fragment="form (productionOrder, workOrders)">
     <div class="app-box app-box-bg mt-2">
         <div class="d-flex justify-content-between">
             <div>
                 <p class="h5 fw-bold">작업지시 목록</p>
             </div>
             <div>
-                <button type="button"
-                        id="work-order-create-button"
-                        class="btn btn-primary btn-sm me-1">
-                    <i class="bi bi-plus-circle"></i> 추가
-                </button>
-                <button type="button"
-                        id="work-order-delete-button"
-                        class="btn btn-danger btn-sm">
-                    <i class="bi bi-trash"></i> 삭제
-                </button>
+                <th:block th:unless="${productionOrder.status.name == 'COMPLETED'}">
+                    <button type="button"
+                            id="work-order-create-button"
+                            class="btn btn-primary btn-sm me-1">
+                        <i class="bi bi-plus-circle"></i> 추가
+                    </button>
+                    <button type="button"
+                            id="work-order-delete-button"
+                            class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> 삭제
+                    </button>
+                </th:block>
             </div>
         </div>
 
@@ -36,7 +38,11 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>
+                        <input type="checkbox"
+                               class="check-all"
+                               th:disabled="${productionOrder.status.name == 'COMPLETED'}"/>
+                    </th>
                     <th>작업지시 번호</th>
                     <th>작업 공정</th>
                     <th>작업 일자</th>
@@ -58,7 +64,8 @@
                     <td>
                         <input type="checkbox"
                                class="check-item"
-                               th:value="${workOrder.id}"/>
+                               th:value="${workOrder.id}"
+                               th:disabled="${workOrder.status.name == 'COMPLETED'}"/>
                     </td>
                     <td th:text="${workOrder.orderNo}"></td>
                     <td th:text="${workOrder.process.name}"></td>
@@ -68,6 +75,7 @@
                                class="work-order-date
                                       app-form-control app-xs "
                                th:value="${#temporals.format(workOrder.date, 'yyyy-MM-dd')}"
+                               th:disabled="${workOrder.status.name == 'COMPLETED'}"
                                readonly/>
                     </td>
                     <td>
@@ -75,7 +83,8 @@
                                th:name="|workOrders[${stat.index}].quantity|"
                                class="work-order-quantity
                                       app-form-control app-xs "
-                               th:value="${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.item.uom.scale)}"/>
+                               th:value="${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.item.uom.scale)}"
+                               th:disabled="${workOrder.status.name == 'COMPLETED'}"/>
                     </td>
                     <td>
                         <div class="d-flex gap-1">
@@ -91,6 +100,7 @@
                             <button type="button"
                                     class="equipment-list-button
                                            btn btn-secondary app-btn-xs"
+                                    th:disabled="${workOrder.status.name == 'COMPLETED'}"
                                     th:data-index="${stat.index}">
                                 <i class="bi bi-list"></i>
                             </button>
@@ -110,6 +120,7 @@
                             <button type="button"
                                     class="user-list-button
                                            btn btn-secondary app-btn-xs"
+                                    th:disabled="${workOrder.status.name == 'COMPLETED'}"
                                     th:data-index="${stat.index}">
                                 <i class="bi bi-list"></i>
                             </button>
@@ -119,7 +130,8 @@
                         <input type="text"
                                th:name="|workOrders[${stat.index}].remark|"
                                class="app-form-control app-xs "
-                               th:value="${workOrder.remark}"/>
+                               th:value="${workOrder.remark}"
+                               th:disabled="${workOrder.status.name == 'COMPLETED'}"/>
                     </td>
                     <td th:switch="${workOrder.status?.name}">
                         <h6 th:case="'PENDING'" class="mb-0">

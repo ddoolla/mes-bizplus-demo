@@ -41,7 +41,7 @@
                     <td th:text="${workOrder.orderNo}"></td>
                     <td th:text="${workOrder.process.name}"></td>
                     <td th:text="${#temporals.format(workOrder.date, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${#numbers.formatDecimal(workOrder.quantity, 1, workOrder.item.uom.scale)}"></td>
+                    <td th:text="|${#numbers.formatDecimal(workOrder.quantity, 1, 'COMMA', workOrder.item.uom.scale, 'POINT')} ${workOrder.item.uom.code}|"></td>
                     <td th:text="${@format.value(workOrder.equipment.name)}"></td>
                     <td th:text="${@format.value(workOrder.user.name)}"></td>
                     <td th:text="${@format.value(workOrder.remark)}"></td>

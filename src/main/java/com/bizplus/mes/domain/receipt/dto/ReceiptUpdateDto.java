@@ -1,9 +1,6 @@
 package com.bizplus.mes.domain.receipt.dto;
 
 import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemUpdateDto;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,18 +8,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 public class ReceiptUpdateDto {
 
-    @NotNull
-    private Long partnerId;
+    private final Long partnerId;
 
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
-    private String remark;
+    private final LocalDate date;
+    private final String remark;
+    private final List<ReceiptItemUpdateDto> receiptItems;
 
-    @NotNull
-    @NotEmpty
-    private List<ReceiptItemUpdateDto> receiptItems;
+    public ReceiptUpdateDto(Long partnerId,
+                            LocalDate date,
+                            String remark,
+                            List<ReceiptItemUpdateDto> receiptItems) {
+        this.partnerId = partnerId;
+        this.date = date;
+        this.remark = remark;
+        this.receiptItems = receiptItems == null ? List.of() : receiptItems;
+    }
 }

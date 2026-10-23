@@ -1,7 +1,6 @@
 package com.bizplus.mes.domain.production.order.dto;
 
 import com.bizplus.mes.domain.work.order.dto.WorkOrderUpdateDto;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +12,6 @@ import java.util.List;
 @Getter
 public class ProductionOrderUpdateDto {
 
-    @NotNull
     @Positive
     private final BigDecimal quantity;
 

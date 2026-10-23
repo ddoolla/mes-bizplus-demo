@@ -61,6 +61,11 @@
                     th:with="receiptItem=${data.receiptItem},
                              convertibleUoms=${data.convertibleUoms},
                              stockUom=${receiptItem.item.uom}">
+
+                    <input type="hidden"
+                           th:name="|receiptItems[${stat.index}].id|"
+                           th:value="${receiptItem.id}"/>
+
                     <td>
                         <input type="checkbox"
                                class="check-item"
@@ -73,44 +78,33 @@
                     <td th:text="${@format.value(receiptItem.item.specification)}"></td>
                     <td th:text="${receiptItem.item.uom.code}"></td>
                     <td>
-                        <th:block th:if="${receipt.status?.name == 'DRAFT'}">
-                            <input type="number"
-                                   th:name="|receiptItems[${stat.index}].quantity|"
-                                   class="receipt-item-quantity
+                        <input type="number"
+                               th:name="|receiptItems[${stat.index}].quantity|"
+                               class="receipt-item-quantity
                                       app-form-control app-xs "
-                                   th:value="${#numbers.formatDecimal(receiptItem.quantity, 1, receiptItem.uom.scale)}"
-                                   th:disabled="${receipt.status?.name != 'DRAFT'}" min="0"/>
-                            <input type="hidden"
-                                   th:name="|receiptItems[${stat.index}].id|"
-                                   th:value="${receiptItem.id}"/>
-                        </th:block>
-                        <th:block th:if="${receipt.status?.name != 'DRAFT'}">
-                            <span th:text="${@format.value(#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT'))}"></span>
-                        </th:block>
+                               th:value="${#numbers.formatDecimal(receiptItem.quantity, 1, receiptItem.uom.scale)}"
+                               th:disabled="${receipt.status?.name != 'DRAFT'}"
+                               min="0"/>
                     </td>
                     <td>
-                        <th:block th:if="${receipt.status?.name == 'DRAFT'}">
-                            <select class="receipt-item-uom
+                        <select class="receipt-item-uom
                                            app-form-control app-xs"
-                                    th:name="|receiptItems[${stat.index}].uomId|">
-                                <!--/* 현재 재고 단위 */-->
-                                <option th:value="${receiptItem.item.uom.id}"
-                                        th:text="|${receiptItem.item.uom.code}|"
-                                        th:selected="${receiptItem.item.uom.id == receiptItem.uom.id}"
-                                        th:data-scale="${receiptItem.item.uom.scale}">
-                                </option>
-                                <!--/* 변환 가능 단위 */-->
-                                <option th:each="convertibleUom : ${convertibleUoms}"
-                                        th:value="${convertibleUom.id}"
-                                        th:text="${convertibleUom.code}"
-                                        th:selected="${convertibleUom.id == receiptItem.uom.id}"
-                                        th:data-scale="${convertibleUom.scale}">
-                                </option>
-                            </select>
-                        </th:block>
-                        <th:block th:if="${receipt.status?.name != 'DRAFT'}">
-                            <span th:text="${receiptItem.uom.code}"></span>
-                        </th:block>
+                                th:name="|receiptItems[${stat.index}].uomId|"
+                                th:disabled="${receipt.status?.name != 'DRAFT'}">
+                            <!--/* 현재 재고 단위 */-->
+                            <option th:value="${receiptItem.item.uom.id}"
+                                    th:text="|${receiptItem.item.uom.code}|"
+                                    th:selected="${receiptItem.item.uom.id == receiptItem.uom.id}"
+                                    th:data-scale="${receiptItem.item.uom.scale}">
+                            </option>
+                            <!--/* 변환 가능 단위 */-->
+                            <option th:each="convertibleUom : ${convertibleUoms}"
+                                    th:value="${convertibleUom.id}"
+                                    th:text="${convertibleUom.code}"
+                                    th:selected="${convertibleUom.id == receiptItem.uom.id}"
+                                    th:data-scale="${convertibleUom.scale}">
+                            </option>
+                        </select>
                     </td>
                     <td>
                         <input type="text"

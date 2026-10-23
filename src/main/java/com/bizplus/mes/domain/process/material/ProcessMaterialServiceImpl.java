@@ -74,7 +74,7 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
                     item,
                     item.getUom(),
                     BigDecimal.ZERO,
-                    ConsumptionMethod.BACKFLUSH
+                    ConsumptionMethod.AUTO
             ));
         }
     }
@@ -98,7 +98,7 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
                     item,
                     bomItem.getUom(),
                     bomItem.getQuantity(),
-                    ConsumptionMethod.BACKFLUSH
+                    ConsumptionMethod.AUTO
             ));
         }
     }

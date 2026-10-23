@@ -22,6 +22,7 @@ import java.util.Optional;
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.inventory.QInventory.inventory;
 import static com.bizplus.mes.domain.item.QItem.item;
+import static com.bizplus.mes.domain.lot.QLot.lot;
 import static com.bizplus.mes.domain.uom.QUom.uom;
 
 @Transactional(readOnly = true)
@@ -126,14 +127,15 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
     }
 
     @Override
-    public Optional<Inventory> findByItemIdAndLotIsNull(Long itemId) {
-        return Optional.ofNullable(
-                query.selectFrom(inventory)
-                        .where(
-                                inventory.item.id.eq(itemId),
-                                inventory.lot.isNull()
-                        )
-                        .fetchOne()
-        );
+    public List<Inventory> findAvailableInventories(Long itemId) {
+        return query
+                .selectFrom(inventory)
+                .innerJoin(inventory.item, item).fetchJoin()
+                .leftJoin(inventory.lot, lot).fetchJoin()
+                .where(
+                        eq(inventory.item.id, itemId)
+                )
+                .orderBy(inventory.createdAt.asc())
+                .fetch();
     }
 }

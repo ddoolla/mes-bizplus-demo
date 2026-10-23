@@ -55,6 +55,8 @@ public class WorkCompleteService {
         // 4. 작업지시 상태 업데이트
         workOrderService.completeWork(workOrderId);
 
+        // todo 자재 자동투입 처리
+
         // 마지막 공정일 경우
         Long processId = workOrder.getProductionOrderProcess().getId();
         boolean isLastProcess = productionOrderProcessService.isLastProcess(processId);

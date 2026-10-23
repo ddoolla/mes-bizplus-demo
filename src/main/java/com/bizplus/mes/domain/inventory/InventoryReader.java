@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class InventoryReader {
@@ -24,6 +26,10 @@ public class InventoryReader {
                         ErrorCode.INVENTORY_NOT_FOUND,
                         String.format("itemId: %d, lotId: %d", itemId, lotId)));
 
+    }
+
+    public List<Inventory> getAllAvailable(Long itemId) {
+        return inventoryRepository.findAvailableInventories(itemId);
     }
 
     public boolean hasStock(Long itemId) {

@@ -39,6 +39,7 @@ public class ProcessMaterial extends AuditableEntity {
     @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private ConsumptionMethod consumptionMethod;
 

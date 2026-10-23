@@ -1,0 +1,68 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, count)">
+    <form id="production-result-search-form" method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: 500px">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>생산지시 번호</th>
+                <td>
+                    <input type="text"
+                           name="productionOrderNo"
+                           class="app-form-control app-xs"
+                           th:value="${param.productionOrderNo}">
+                </td>
+                <th>제품</th>
+                <td>
+                    <input type="text"
+                           name="item"
+                           class="app-form-control app-xs"
+                           th:value="${param.item}">
+                </td>
+                <th>생산 기간</th>
+                <td>
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="text"
+                               name="startDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.startDate}"
+                               readonly autocomplete="off"/>
+                        <span>-</span>
+                        <input type="text"
+                               name="endDate"
+                               class="app-form-control app-xs"
+                               th:value="${param.endDate}"
+                               readonly autocomplete="off"/>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

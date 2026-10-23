@@ -100,6 +100,8 @@ public enum PermissionCode {
     WORK_ORDER_UPDATE(MenuCode.WORK_ORDER, "작업지시 수정", PermissionAction.UPDATE),
     WORK_ORDER_DELETE(MenuCode.WORK_ORDER, "작업지시 삭제", PermissionAction.DELETE),
 
+    PRODUCTION_RESULT_READ(MenuCode.PRODUCTION_RESULT, "생산실적 조회", PermissionAction.READ),
+
     RECEIPT_READ(MenuCode.RECEIPT, "자재입고 조회", PermissionAction.READ),
     RECEIPT_CREATE(MenuCode.RECEIPT, "자재입고 등록", PermissionAction.CREATE),
     RECEIPT_UPDATE(MenuCode.RECEIPT, "자재입고 수정", PermissionAction.UPDATE),

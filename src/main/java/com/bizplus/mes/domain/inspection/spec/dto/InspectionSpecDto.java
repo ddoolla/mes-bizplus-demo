@@ -34,6 +34,7 @@ public class InspectionSpecDto {
                              String itemName,
                              String itemCategory,
                              ItemType itemType,
+                             String itemSpec,
                              Long processId,
                              String processCode,
                              String processName) {
@@ -53,7 +54,8 @@ public class InspectionSpecDto {
                 itemCode,
                 itemName,
                 itemCategory,
-                itemType
+                itemType,
+                itemSpec
         );
         this.process = new ProcessInfo(
                 processId,
@@ -66,7 +68,8 @@ public class InspectionSpecDto {
                            String code,
                            String name,
                            String category,
-                           ItemType type) {
+                           ItemType type,
+                           String specification) {
     }
 
     public record ProcessInfo(Long id,

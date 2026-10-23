@@ -45,6 +45,8 @@
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
+                    <col style="width: 500px">
+                    <col style="width: 150px">
                     <col style="width: auto">
                 </colgroup>
                 <tbody>
@@ -57,6 +59,8 @@
                                th:value="*{code}"
                                placeholder="검사기준 코드를 입력해 주세요."/>
                     </td>
+                    <th>품목 코드</th>
+                    <td th:text="*{item.code}"></td>
                 </tr>
                 <tr>
                     <th>검사기준명 <span class="app-required">*</span></th>
@@ -67,10 +71,14 @@
                                th:value="*{name}"
                                placeholder="검사기준명을 입력해 주세요."/>
                     </td>
+                    <th>품목명</th>
+                    <td th:text="*{item.name}"></td>
                 </tr>
                 <tr>
                     <th>검사 유형</th>
                     <td th:text="*{type?.description}"></td>
+                    <th>유형</th>
+                    <td th:text="*{item.type?.description}"></td>
                 </tr>
                 <tr>
                     <th>버전</th>
@@ -80,22 +88,17 @@
                                th:value="*{version}"
                                class="app-form-control app-xs"/>
                     </td>
-                </tr>
-                <tr>
-                    <th>품목</th>
-                    <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
-                </tr>
-                <tr>
-                    <th>품목 유형</th>
-                    <td th:text="*{item.type?.description}"></td>
+                    <th>규격</th>
+                    <td th:text="${@format.value(inspectionSpec.item.specification)}"></td>
                 </tr>
                 <tr th:if="*{type.name == 'IN_PROCESS'}">
                     <th>공정</th>
-                    <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
+                    <td colspan="3"
+                        th:text="${@format.nameWithCode(process.code, process.name)}"></td>
                 </tr>
                 <tr th:unless="*{type.name == 'IN_PROCESS'}">
                     <th>기본 검사기준</th>
-                    <td>
+                    <td colspan="3">
                         <label>
                             <input type="checkbox"
                                    name="isDefault"
@@ -108,7 +111,7 @@
                 </tr>
                 <tr>
                     <th>비고</th>
-                    <td>
+                    <td colspan="3">
                         <input type="text"
                                name="remark"
                                th:value="*{remark}"

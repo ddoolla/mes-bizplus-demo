@@ -29,9 +29,10 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 150px">
+                    <col style="width: 300px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
                     <col style="width: auto">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -42,6 +43,7 @@
                     <th>규격</th>
                     <th>수량</th>
                     <th>단위</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -65,7 +67,7 @@
                                th:name="|bomItems[${stat.index}].quantity|"
                                class="bom-item-quantity
                                       app-form-control app-xs "
-                               th:value="${#numbers.formatDecimal(bomItem.quantity, 0, bomItem.uom.scale)}"
+                               th:value="${#numbers.formatDecimal(bomItem.quantity, 1, bomItem.uom.scale)}"
                                min="0"/>
                         <input type="hidden"
                                th:name="|bomItems[${stat.index}].id|"
@@ -90,6 +92,7 @@
                             </option>
                         </select>
                     </td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>

@@ -37,44 +37,49 @@
                th:with="item=${inspectionSpec.item}, process=${inspectionSpec.process}">
             <colgroup>
                 <col style="width: 150px">
+                <col style="width: 500px">
+                <col style="width: 150px">
                 <col style="width: auto">
             </colgroup>
             <tbody>
             <tr>
                 <th>검사기준 코드</th>
                 <td th:text="*{code}"></td>
+                <th>품목 코드</th>
+                <td th:text="*{item.code}"></td>
             </tr>
             <tr>
                 <th>검사기준명</th>
                 <td th:text="*{name}"></td>
+                <th>품목명</th>
+                <td th:text="*{item.name}"></td>
             </tr>
             <tr>
-                <th>검사유형</th>
+                <th>검사 유형</th>
                 <td th:text="*{type?.description}"></td>
+                <th>유형</th>
+                <td th:text="*{item.type?.description}"></td>
             </tr>
             <tr>
                 <th>버전</th>
                 <td th:text="${@format.value(inspectionSpec.version)}"></td>
-            </tr>
-            <tr>
-                <th>품목</th>
-                <td th:text="${@format.nameWithCode(item.code, item.name)}"></td>
-            </tr>
-            <tr>
-                <th>품목 유형</th>
-                <td th:text="*{item.type?.description}"></td>
+                <th>규격</th>
+                <td th:text="${@format.value(inspectionSpec.item.specification)}"></td>
             </tr>
             <tr th:if="*{type.name == 'IN_PROCESS'}">
                 <th>공정</th>
-                <td th:text="${@format.nameWithCode(process.code, process.name)}"></td>
+                <td colspan="3"
+                    th:text="${@format.nameWithCode(process.code, process.name)}"></td>
             </tr>
             <tr th:unless="*{type.name == 'IN_PROCESS'}">
                 <th>기본 검사기준</th>
-                <td th:text="${inspectionSpec.isDefault ? '예' : '아니오'}"></td>
+                <td colspan="3"
+                    th:text="${inspectionSpec.isDefault ? '예' : '아니오'}"></td>
             </tr>
             <tr>
                 <th>비고</th>
-                <td th:text="${@format.value(inspectionSpec.remark)}"></td>
+                <td colspan="3"
+                    th:text="${@format.value(inspectionSpec.remark)}"></td>
             </tr>
             </tbody>
         </table>

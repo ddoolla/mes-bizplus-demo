@@ -52,6 +52,7 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
                         item.name,
                         itemCategoryCode.name,
                         item.type,
+                        item.specification,
                         process.id,
                         process.code,
                         process.name
@@ -95,6 +96,7 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
                                 item.name,
                                 itemCategoryCode.name,
                                 item.type,
+                                item.specification,
                                 process.id,
                                 process.code,
                                 process.name

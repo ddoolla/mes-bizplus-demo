@@ -4,6 +4,7 @@ import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.domain.inspection.incoming.IncomingInspectionService;
 import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
+import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.InventoryService;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
@@ -36,6 +37,7 @@ public class ReceiptCompleteService {
     private final LotNoGenerator lotNoGenerator;
     private final ReceiptReader receiptReader;
     private final ReceiptItemReader receiptItemReader;
+    private final InventoryManager inventoryManager;
 
     private final UomConversionService uomConversionService;
     private final InventoryService inventoryService;
@@ -59,7 +61,7 @@ public class ReceiptCompleteService {
 
         receiptItems.forEach(receiptItem -> {
             if (receiptItem.getQuantity() == null
-                    ||receiptItem.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
+                    || receiptItem.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
                 throw new BusinessException("입고 수량을 확인해 주세요.");
             }
 
@@ -105,7 +107,7 @@ public class ReceiptCompleteService {
             );
 
             // 재고 처리
-            inventoryService.changeStock(new InventoryChangeDto(
+            inventoryManager.changeStock(new InventoryChangeDto(
                     item.getId(),
                     lot != null ? lot.getId() : null,
                     TransactionType.RECEIPT,

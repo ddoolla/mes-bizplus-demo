@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.work.order.facade;
 
 import com.bizplus.mes.common.exception.BusinessException;
-import com.bizplus.mes.domain.inventory.InventoryService;
+import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
@@ -28,13 +28,13 @@ public class WorkCompleteService {
 
     private final ProductionOrderReader productionOrderReader;
     private final WorkOrderReader workOrderReader;
+    private final InventoryManager inventoryManager;
 
     private final ProductionOrderService productionOrderService;
     private final ProductionOrderProcessService productionOrderProcessService;
     private final ProductionResultService productionResultService;
     private final WorkOrderService workOrderService;
     private final WorkResultService workResultService;
-    private final InventoryService inventoryService;
 
     @Transactional
     public void complete(Long workOrderId, WorkCompleteDto dto) {
@@ -65,7 +65,7 @@ public class WorkCompleteService {
             LocalDateTime now = LocalDateTime.now();
 
             // 5. 재고 증가
-            inventoryService.changeStock(new InventoryChangeDto(
+            inventoryManager.changeStock(new InventoryChangeDto(
                     productionOrder.getItem().getId(),
                     productionOrder.getLot() != null
                             ? productionOrder.getLot().getId()

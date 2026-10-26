@@ -23,6 +23,7 @@ public class InventorySummaryDto {
                                String itemCategory,
                                ItemType itemType,
                                String itemSpec,
+                               boolean lotManaged,
                                Long uomId,
                                String uomCode,
                                String uomName,
@@ -38,6 +39,7 @@ public class InventorySummaryDto {
                 itemCategory,
                 itemType,
                 itemSpec,
+                lotManaged,
                 new UomDto(uomId, uomCode, uomName, uomType, scale)
         );
         this.totalQuantity = totalQuantity;
@@ -54,6 +56,7 @@ public class InventorySummaryDto {
         private String category;
         private ItemType type;
         private String specification;
+        private boolean lotManaged;
         private UomDto uom;
     }
 }

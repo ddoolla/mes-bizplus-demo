@@ -1,9 +1,7 @@
 package com.bizplus.mes.domain.inventory;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
-import com.bizplus.mes.domain.inventory.dto.InventorySearchDto;
-import com.bizplus.mes.domain.inventory.dto.InventorySummaryDto;
-import com.bizplus.mes.domain.inventory.dto.QInventorySummaryDto;
+import com.bizplus.mes.domain.inventory.dto.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -34,7 +32,7 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
     private static final QCommonCode categoryCode = new QCommonCode("categoryCode");
 
     @Override
-    public Page<InventorySummaryDto> findInventorySummaries(InventorySearchDto dto, Pageable pageable) {
+    public Page<InventorySummaryDto> fetchInventorySummaries(InventorySearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(inventory.deletedAt))
                 .and(contains(item.code, dto.getItemCode()))
@@ -50,6 +48,7 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                         categoryCode.name,
                         item.type,
                         item.specification,
+                        item.lotManaged,
                         uom.id,
                         uom.code,
                         uom.name,
@@ -78,6 +77,35 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public List<InventoryDto> fetchInventories(Long itemId) {
+        return query
+                .select(new QInventoryDto(
+                        inventory.id,
+                        inventory.quantity,
+                        item.id,
+                        item.code,
+                        item.name,
+                        item.type,
+                        item.specification,
+                        uom.id,
+                        uom.code,
+                        uom.scale,
+                        lot.id,
+                        lot.no
+                ))
+                .from(inventory)
+                .innerJoin(item).on(inventory.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(lot).on(inventory.lot.id.eq(lot.id))
+                .where(
+                        inventory.quantity.gt(BigDecimal.ZERO),
+                        inventory.item.id.eq(itemId)
+                )
+                .orderBy(inventory.createdAt.desc())
+                .fetch();
     }
 
     @Override

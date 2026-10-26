@@ -1,0 +1,53 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 품목 목록 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'inventory-lot-list-modal',
+        '로트별 재고 목록',
+         ~{::.app-modal-content},
+         null
+    )}">
+        <div class="app-modal-content p-2">
+
+        </div>
+    </div>
+</th:block>
+
+<!--/* 품목 목록 모달 콘텐츠 */-->
+<th:block th:fragment="content">
+    <div class="modal-body pt-0">
+        <div>
+            <div class="fw-bold"
+                 th:text="|Total : ${inventories.size()} 건|">
+            </div>
+        </div>
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="2"
+                        class="bg-secondary-subtle text-center"
+                        th:text="${@format.nameWithCode(item.code, item.name)}"></th>
+                </tr>
+                <tr>
+                    <th>로트 번호</th>
+                    <th>재고 수량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="inventory : ${inventories}">
+                    <td th:text="${inventory.lot.no}"></td>
+                    <td th:text="|${#numbers.formatDecimal(inventory.quantity, 1, 'COMMA', inventory.item.uom.scale, 'POINT')} ${inventory.item.uom.code}|"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

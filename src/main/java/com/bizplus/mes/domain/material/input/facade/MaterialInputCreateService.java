@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.material.input.facade;
 
+import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.domain.inventory.Inventory;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.InventoryReader;
@@ -11,7 +12,6 @@ import com.bizplus.mes.domain.lot.Lot;
 import com.bizplus.mes.domain.lot.LotReader;
 import com.bizplus.mes.domain.material.input.MaterialInput;
 import com.bizplus.mes.domain.material.input.MaterialInputRepository;
-import com.bizplus.mes.domain.material.input.MaterialInputStatus;
 import com.bizplus.mes.domain.material.input.dto.MaterialInputCreateDto;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
@@ -58,7 +58,7 @@ public class MaterialInputCreateService {
             throw new IllegalArgumentException("투입 수량은 0보다 커야합니다.");
         }
 
-        // 품목 기준 단위로 환산
+        // 재고 단위로 환산
         BigDecimal inventoryQuantity = uomConversionService.convert(
                 dto.getQuantity(),
                 inputUom.getId(),
@@ -67,36 +67,29 @@ public class MaterialInputCreateService {
 
         Inventory inventory = inventoryReader.getForUpdate(item.getId(), dto.getLotId());
 
-        boolean hasEnoughStock = inventory != null
-                && inventory.getQuantity().compareTo(inventoryQuantity) >= 0;
-
-        MaterialInputStatus status;
-        LocalDateTime inputAt = null;
-
-        if (hasEnoughStock) {
-            inputAt = LocalDateTime.now();
-
-            inventoryManager.changeStock(new InventoryChangeDto(
-                    dto.getItemId(),
-                    dto.getLotId(),
-                    TransactionType.PRODUCTION_OUT,
-                    inventoryQuantity,
-                    inputAt
-            ));
-
-            status = MaterialInputStatus.COMPLETED;
-
-        } else {
-            status = MaterialInputStatus.PENDING;
+        if (inventory == null
+                || inventory.getQuantity().compareTo(inventoryQuantity) < 0) {
+            throw new BusinessException("투입 가능한 재고가 부족합니다.");
         }
 
+        LocalDateTime inputAt = LocalDateTime.now();
+
+        // 재고 차감
+        inventoryManager.changeStock(new InventoryChangeDto(
+                dto.getItemId(),
+                dto.getLotId(),
+                TransactionType.PRODUCTION_OUT,
+                inventoryQuantity,
+                inputAt
+        ));
+
+        // 투입 내역 생성
         materialInputRepository.save(new MaterialInput(
                 workOrder,
                 item,
                 inputUom,
                 lot,
                 dto.getType(),
-                status,
                 dto.getQuantity(),
                 inputAt
         ));

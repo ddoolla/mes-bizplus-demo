@@ -301,14 +301,6 @@
                             </div>
                             <div>
                                 <table class="table table-hover">
-                                    <colgroup>
-                                        <col style="width: 100px">
-                                        <col style="width: 200px">
-                                        <col style="width: 100px">
-                                        <col style="width: auto">
-                                        <col style="width: 200px">
-                                        <col style="width: 100px">
-                                    </colgroup>
                                     <thead class="table-light">
                                     <tr>
                                         <th>투입 시간</th>
@@ -317,6 +309,7 @@
                                         <th>규격</th>
                                         <th>로트</th>
                                         <th>투입 수량</th>
+                                        <th>투입 유형</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -330,6 +323,7 @@
                                         <td th:text="${@format.value(input.item.specification)}"></td>
                                         <td th:text="${input.lot?.no ?: '-'}"></td>
                                         <td th:text="|${#numbers.formatDecimal(input.quantity, 1, 'COMMA', input.uom.scale, 'POINT')} ${input.uom.code}|"></td>
+                                        <td th:text="${input.type?.description}"></td>
                                     </tr>
                                     </tbody>
                                 </table>

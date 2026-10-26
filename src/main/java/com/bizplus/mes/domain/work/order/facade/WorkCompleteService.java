@@ -4,6 +4,7 @@ import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
+import com.bizplus.mes.domain.material.input.facade.MaterialInputAutoCreateService;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.production.order.ProductionOrderReader;
 import com.bizplus.mes.domain.production.order.ProductionOrderService;
@@ -35,6 +36,7 @@ public class WorkCompleteService {
     private final ProductionResultService productionResultService;
     private final WorkOrderService workOrderService;
     private final WorkResultService workResultService;
+    private final MaterialInputAutoCreateService materialInputAutoCreateService;
 
     @Transactional
     public void complete(Long workOrderId, WorkCompleteDto dto) {
@@ -55,7 +57,8 @@ public class WorkCompleteService {
         // 4. 작업지시 상태 업데이트
         workOrderService.completeWork(workOrderId);
 
-        // todo 자재 자동투입 처리
+        // 소모자재 자동 투입
+        materialInputAutoCreateService.create(workOrderId, productionOrder.getQuantity());
 
         // 마지막 공정일 경우
         Long processId = workOrder.getProductionOrderProcess().getId();

@@ -56,7 +56,6 @@ public class MaterialInputQueryRepositoryImpl implements MaterialInputQueryRepos
                         materialInput.id,
                         materialInput.type,
                         materialInput.quantity,
-                        materialInput.status,
                         materialInput.inputAt,
                         item.id,
                         item.code,

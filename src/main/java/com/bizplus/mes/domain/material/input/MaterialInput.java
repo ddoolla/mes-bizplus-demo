@@ -43,10 +43,6 @@ public class MaterialInput extends SoftDeletableEntity {
     @Enumerated(EnumType.STRING)
     private MaterialInputType type;
 
-    @Column(columnDefinition = "varchar(255)", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private MaterialInputStatus status;
-
     @Column(nullable = false, precision = 38, scale = 10)
     private BigDecimal quantity;
 
@@ -57,7 +53,6 @@ public class MaterialInput extends SoftDeletableEntity {
                          Uom uom,
                          Lot lot,
                          MaterialInputType type,
-                         MaterialInputStatus status,
                          BigDecimal quantity,
                          LocalDateTime inputAt) {
         this.workOrder = workOrder;
@@ -65,7 +60,6 @@ public class MaterialInput extends SoftDeletableEntity {
         this.uom = uom;
         this.lot = lot;
         this.type = type;
-        this.status = status;
         this.quantity = quantity;
         this.inputAt = inputAt;
     }

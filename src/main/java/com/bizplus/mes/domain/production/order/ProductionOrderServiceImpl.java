@@ -46,13 +46,6 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
     }
 
     @Override
-    public ProductionOrderListDto getAllCompleted(ProductionOrderSearchDto dto, Pageable pageable) {
-        Page<ProductionOrderDto> page = productionOrderRepository.fetchCompletedProductionOrders(dto, pageable);
-
-        return new ProductionOrderListDto(page.getContent(), Pagination.of(page));
-    }
-
-    @Override
     public ProductionOrderDto getProductionOrder(Long id) {
         return productionOrderRepository.findProductionOrder(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCTION_ORDER_NOT_FOUND, "id:" + id));

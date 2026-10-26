@@ -50,18 +50,10 @@ public class ProductionOrderController {
     @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_READ')")
     @UserAction(menu = MenuCode.PRODUCTION_ORDER, type = ActionType.READ)
     public String viewList(Model model, ProductionOrderSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("productionOrderStatus", ProductionOrderStatus.getNotCompletedStatuses());
+        model.addAttribute("productionOrderStatus", ProductionOrderStatus.values());
         model.addAttribute("data", productionOrderService.getAll(dto, pageable));
 
         return "pages/production-order/list";
-    }
-
-    @GetMapping("/completed")
-    @PreAuthorize("hasAnyAuthority('PRODUCTION_ORDER_READ')")
-    public String viewCompletedList(Model model, ProductionOrderSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", productionOrderService.getAllCompleted(dto, pageable));
-
-        return "pages/production-order/completed-list";
     }
 
     @GetMapping("/{id}")

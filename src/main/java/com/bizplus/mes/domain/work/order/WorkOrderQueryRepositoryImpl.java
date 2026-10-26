@@ -36,22 +36,19 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public Page<WorkOrderDto> fetchWorkOrders(WorkOrderListType listType,
-                                              WorkOrderSearchDto dto,
+    public Page<WorkOrderDto> fetchWorkOrders(WorkOrderSearchDto dto,
                                               Pageable pageable) {
-        return findWorkOrders(listType, null, dto, pageable);
+        return findWorkOrders(null, dto, pageable);
     }
 
     @Override
-    public Page<WorkOrderDto> fetchWorkOrdersByUserId(WorkOrderListType listType,
-                                                      Long userId,
+    public Page<WorkOrderDto> fetchWorkOrdersByUserId(Long userId,
                                                       WorkOrderSearchDto dto,
                                                       Pageable pageable) {
-        return findWorkOrders(listType, userId, dto, pageable);
+        return findWorkOrders(userId, dto, pageable);
     }
 
-    private Page<WorkOrderDto> findWorkOrders(WorkOrderListType listType,
-                                              Long userId,
+    private Page<WorkOrderDto> findWorkOrders(Long userId,
                                               WorkOrderSearchDto dto,
                                               Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
@@ -63,7 +60,6 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                         productionOrderProcess.processCode,
                         productionOrderProcess.processName
                 ))
-                .and(eq(workOrder.status, dto.getStatus()))
                 .and(startDateGoe(workOrder.date, dto.getStartDate()))
                 .and(endDateLoe(workOrder.date, dto.getEndDate()));
 
@@ -74,8 +70,13 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
             );
         }
 
-        if (listType != null) {
-            searchCondition.and(in(workOrder.status, listType.getStatuses()));
+        String status = dto.getStatus();
+
+        if (status == null || status.isBlank() || "NOT_COMPLETED".equals(status)) {
+            searchCondition.and(workOrder.status.ne(WorkOrderStatus.COMPLETED));
+
+        } else if (!"ALL".equals(status)) {
+            searchCondition.and(workOrder.status.eq(WorkOrderStatus.valueOf(status)));
         }
 
         List<WorkOrderDto> content = query

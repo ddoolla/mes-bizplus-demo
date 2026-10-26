@@ -45,20 +45,10 @@ public class WorkOrderController {
     public String viewList(Model model,
                            WorkOrderSearchDto dto,
                            @PageableDefault Pageable pageable) {
-        model.addAttribute("workOrderStatuses", WorkOrderListType.ACTIVE.getStatuses());
-        model.addAttribute("data", workOrderService.getWorkOrders(WorkOrderListType.ACTIVE, dto, pageable));
+        model.addAttribute("workOrderStatuses", WorkOrderStatus.values());
+        model.addAttribute("data", workOrderService.getWorkOrders(dto, pageable));
 
         return "pages/work-order/list";
-    }
-
-    @GetMapping("/completed")
-    @PreAuthorize("hasAuthority('WORK_ORDER_READ')")
-    public String viewCompletedList(Model model,
-                                    WorkOrderSearchDto dto,
-                                    @PageableDefault Pageable pageable) {
-        model.addAttribute("data", workOrderService.getWorkOrders(WorkOrderListType.COMPLETED, dto, pageable));
-
-        return "pages/work-order/completed-list";
     }
 
     @GetMapping("/{id}")

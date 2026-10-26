@@ -3,8 +3,6 @@ package com.bizplus.mes.domain.production.order;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @RequiredArgsConstructor
 public enum ProductionOrderStatus {
@@ -15,12 +13,4 @@ public enum ProductionOrderStatus {
     COMPLETED("완료");
 
     private final String description;
-
-    public static List<ProductionOrderStatus> getNotCompletedStatuses() {
-        return List.of(
-                ProductionOrderStatus.DRAFT,
-                ProductionOrderStatus.CONFIRMED,
-                ProductionOrderStatus.IN_PROGRESS
-        );
-    }
 }

@@ -12,8 +12,6 @@ public interface ProductionOrderQueryRepository {
 
     Page<ProductionOrderDto> fetchProductionOrders(ProductionOrderSearchDto dto, Pageable pageable);
 
-    Page<ProductionOrderDto> fetchCompletedProductionOrders(ProductionOrderSearchDto dto, Pageable pageable);
-
     Optional<ProductionOrderDto> findProductionOrder(Long id);
 
     Optional<ProductionOrder> findProductionOrderForUpdate(Long id);

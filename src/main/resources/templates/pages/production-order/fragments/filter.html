@@ -35,12 +35,14 @@
                 <td>
                     <select name="status"
                             class="app-form-control app-xs">
-                        <option value="">전체</option>
+                        <option value="ALL">전체</option>
                         <option th:each="status : ${productionOrderStatus}"
                                 th:value="${status}"
                                 th:text="${status?.description}"
                                 th:selected="${#strings.equals(param.status, status.name)}">
                         </option>
+                        <option value="NOT_COMPLETED"
+                                th:selected="${#strings.equals(param.status, 'NOT_COMPLETED')}">완료 제외</option>
                     </select>
                 </td>
                 <th>기간</th>
@@ -74,11 +76,6 @@
                  th:text="|Total : ${count} 건|">
             </div>
             <div>
-                <button type="button"
-                        class="btn btn-secondary btn-sm"
-                        th:onclick="|location.href='@{/production-orders/completed}'|">
-                    <i class="bi bi-list"></i> 완료 목록
-                </button>
                 <button type="button"
                         class="btn btn-primary btn-sm"
                         th:onclick="|location.href='@{/production-orders/new}'|"

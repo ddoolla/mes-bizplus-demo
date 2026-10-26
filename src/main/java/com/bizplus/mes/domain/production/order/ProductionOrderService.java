@@ -12,8 +12,6 @@ public interface ProductionOrderService {
 
     ProductionOrderListDto getAll(ProductionOrderSearchDto dto, Pageable pageable);
 
-    ProductionOrderListDto getAllCompleted(ProductionOrderSearchDto dto, Pageable pageable);
-
     ProductionOrderDto getProductionOrder(Long id);
 
     Long createProductionOrder(ProductionOrderCreateDto dto);

@@ -33,17 +33,6 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
 
     @Override
     public Page<ProductionOrderDto> fetchProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
-        return fetchProductionOrders(dto, false, pageable);
-    }
-
-    @Override
-    public Page<ProductionOrderDto> fetchCompletedProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
-        return fetchProductionOrders(dto, true, pageable);
-    }
-
-    public Page<ProductionOrderDto> fetchProductionOrders(ProductionOrderSearchDto dto,
-                                                          boolean completed,
-                                                          Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(productionOrder.deletedAt))
                 .and(contains(productionOrder.orderNo, dto.getOrderNo()))
@@ -51,14 +40,13 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
                 .and(startDateGoe(productionOrder.dueDate, dto.getStartDate()))
                 .and(endDateLoe(productionOrder.dueDate, dto.getEndDate()));
 
-        if (completed) {
-            searchCondition.and(eq(productionOrder.status, ProductionOrderStatus.COMPLETED));
+        String status = dto.getStatus();
 
-        } else {
-            searchCondition.and(
-                    productionOrder.status.ne(ProductionOrderStatus.COMPLETED)
-                            .and(eq(productionOrder.status, dto.getStatus()))
-            );
+        if (status == null || status.isBlank() || "NOT_COMPLETED".equals(status)) {
+            searchCondition.and(productionOrder.status.ne(ProductionOrderStatus.COMPLETED));
+
+        } else if (!"ALL".equals(status)) {
+            searchCondition.and(productionOrder.status.eq(ProductionOrderStatus.valueOf(status)));
         }
 
         List<ProductionOrderDto> content = query

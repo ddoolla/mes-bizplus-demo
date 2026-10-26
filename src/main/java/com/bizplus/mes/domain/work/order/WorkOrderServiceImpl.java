@@ -43,16 +43,16 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public WorkOrderListDto getWorkOrders(WorkOrderListType listType, WorkOrderSearchDto dto, Pageable pageable) {
+    public WorkOrderListDto getWorkOrders(WorkOrderSearchDto dto, Pageable pageable) {
         User user = SecurityUtils.getCurrentUser().getUser();
 
         Page<WorkOrderDto> workOrderPage;
 
         if ("admin".equals(user.getLoginId())) {
-            workOrderPage = workOrderRepository.fetchWorkOrders(listType, dto, pageable);
+            workOrderPage = workOrderRepository.fetchWorkOrders(dto, pageable);
 
         } else {
-            workOrderPage = workOrderRepository.fetchWorkOrdersByUserId(listType, user.getId(), dto, pageable);
+            workOrderPage = workOrderRepository.fetchWorkOrdersByUserId(user.getId(), dto, pageable);
         }
 
         return new WorkOrderListDto(workOrderPage.getContent(), Pagination.of(workOrderPage));

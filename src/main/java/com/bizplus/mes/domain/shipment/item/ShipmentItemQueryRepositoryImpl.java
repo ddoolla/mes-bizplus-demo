@@ -1,0 +1,52 @@
+package com.bizplus.mes.domain.shipment.item;
+
+import com.bizplus.mes.domain.shipment.item.dto.QShipmentItemDto;
+import com.bizplus.mes.domain.shipment.item.dto.ShipmentItemDto;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static com.bizplus.mes.common.util.PredicateUtils.eq;
+import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
+import static com.bizplus.mes.domain.item.QItem.item;
+import static com.bizplus.mes.domain.lot.QLot.lot;
+import static com.bizplus.mes.domain.shipment.item.QShipmentItem.shipmentItem;
+import static com.bizplus.mes.domain.uom.QUom.uom;
+
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class ShipmentItemQueryRepositoryImpl implements ShipmentItemQueryRepository {
+
+    private final JPAQueryFactory query;
+
+    @Override
+    public List<ShipmentItemDto> fetchShipmentItems(Long shipmentId) {
+        return query
+                .select(new QShipmentItemDto(
+                        shipmentItem.id,
+                        shipmentItem.quantity,
+                        item.id,
+                        item.code,
+                        item.name,
+                        item.type,
+                        item.specification,
+                        uom.id,
+                        uom.code,
+                        uom.scale,
+                        lot.id,
+                        lot.no
+                ))
+                .from(shipmentItem)
+                .innerJoin(item).on(shipmentItem.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(lot).on(shipmentItem.lot.id.eq(lot.id))
+                .where(
+                        notDeleted(shipmentItem.deletedAt),
+                        eq(shipmentItem.shipment.id, shipmentId)
+                )
+                .orderBy(shipmentItem.createdAt.desc())
+                .fetch();
+    }
+}

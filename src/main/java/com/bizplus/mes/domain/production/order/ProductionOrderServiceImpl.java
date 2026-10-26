@@ -39,13 +39,17 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
     private final ProductionOrderReader productionOrderReader;
 
     @Override
-    public ProductionOrderListDto getProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
-        Page<ProductionOrderDto> productionOrderPage = productionOrderRepository.findProductionOrders(dto, pageable);
+    public ProductionOrderListDto getAll(ProductionOrderSearchDto dto, Pageable pageable) {
+        Page<ProductionOrderDto> page = productionOrderRepository.fetchProductionOrders(dto, pageable);
 
-        return new ProductionOrderListDto(
-                productionOrderPage.getContent(),
-                Pagination.of(productionOrderPage)
-        );
+        return new ProductionOrderListDto(page.getContent(), Pagination.of(page));
+    }
+
+    @Override
+    public ProductionOrderListDto getAllCompleted(ProductionOrderSearchDto dto, Pageable pageable) {
+        Page<ProductionOrderDto> page = productionOrderRepository.fetchCompletedProductionOrders(dto, pageable);
+
+        return new ProductionOrderListDto(page.getContent(), Pagination.of(page));
     }
 
     @Override

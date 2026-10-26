@@ -19,7 +19,8 @@
         <!--/* 필터 */-->
         <div th:replace="~{pages/production-order/fragments/filter :: filter (
             '/production-orders',
-            ${data.pagination.totalElements})}">
+            ${data.pagination.totalElements},
+            ${productionOrderStatus})}">
         </div>
 
         <!--/* 목록 */-->

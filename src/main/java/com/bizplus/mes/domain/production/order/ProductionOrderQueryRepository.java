@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface ProductionOrderQueryRepository {
 
-    Page<ProductionOrderDto> findProductionOrders(ProductionOrderSearchDto dto, Pageable pageable);
+    Page<ProductionOrderDto> fetchProductionOrders(ProductionOrderSearchDto dto, Pageable pageable);
+
+    Page<ProductionOrderDto> fetchCompletedProductionOrders(ProductionOrderSearchDto dto, Pageable pageable);
 
     Optional<ProductionOrderDto> findProductionOrder(Long id);
 

@@ -2,15 +2,17 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
-<div th:fragment="filter (url, count)">
+<div th:fragment="filter (url, count, productionOrderStatus)">
     <form id="production-order-search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
-                <col style="width: 150px">
+                <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 120px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 120px">
+                <col style="width: auto">
+                <col style="width: 120px">
                 <col style="width: 500px">
             </colgroup>
             <tbody>
@@ -28,6 +30,18 @@
                            name="itemName"
                            class="app-form-control app-xs"
                            th:value="${param.itemName}">
+                </td>
+                <th>상태</th>
+                <td>
+                    <select name="status"
+                            class="app-form-control app-xs">
+                        <option value="">전체</option>
+                        <option th:each="status : ${productionOrderStatus}"
+                                th:value="${status}"
+                                th:text="${status?.description}"
+                                th:selected="${#strings.equals(param.status, status.name)}">
+                        </option>
+                    </select>
                 </td>
                 <th>기간</th>
                 <td>
@@ -60,6 +74,11 @@
                  th:text="|Total : ${count} 건|">
             </div>
             <div>
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/production-orders/completed}'|">
+                    <i class="bi bi-list"></i> 완료 목록
+                </button>
                 <button type="button"
                         class="btn btn-primary btn-sm"
                         th:onclick="|location.href='@{/production-orders/new}'|"

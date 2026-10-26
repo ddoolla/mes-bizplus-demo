@@ -32,13 +32,34 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
     private final JPAQueryFactory query;
 
     @Override
-    public Page<ProductionOrderDto> findProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
+    public Page<ProductionOrderDto> fetchProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
+        return fetchProductionOrders(dto, false, pageable);
+    }
+
+    @Override
+    public Page<ProductionOrderDto> fetchCompletedProductionOrders(ProductionOrderSearchDto dto, Pageable pageable) {
+        return fetchProductionOrders(dto, true, pageable);
+    }
+
+    public Page<ProductionOrderDto> fetchProductionOrders(ProductionOrderSearchDto dto,
+                                                          boolean completed,
+                                                          Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(productionOrder.deletedAt))
                 .and(contains(productionOrder.orderNo, dto.getOrderNo()))
                 .and(containsAny(dto.getItemName(), item.code, item.name))
                 .and(startDateGoe(productionOrder.dueDate, dto.getStartDate()))
                 .and(endDateLoe(productionOrder.dueDate, dto.getEndDate()));
+
+        if (completed) {
+            searchCondition.and(eq(productionOrder.status, ProductionOrderStatus.COMPLETED));
+
+        } else {
+            searchCondition.and(
+                    productionOrder.status.ne(ProductionOrderStatus.COMPLETED)
+                            .and(eq(productionOrder.status, dto.getStatus()))
+            );
+        }
 
         List<ProductionOrderDto> content = query
                 .select(new QProductionOrderDto(

@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.production.order.dto;
 
+import com.bizplus.mes.domain.production.order.ProductionOrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +13,7 @@ public class ProductionOrderSearchDto {
 
     private String orderNo;
     private String itemName;
+    private ProductionOrderStatus status;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;

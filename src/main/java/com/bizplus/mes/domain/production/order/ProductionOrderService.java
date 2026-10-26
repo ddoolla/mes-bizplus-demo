@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface ProductionOrderService {
 
-    ProductionOrderListDto getProductionOrders(ProductionOrderSearchDto dto, Pageable pageable);
+    ProductionOrderListDto getAll(ProductionOrderSearchDto dto, Pageable pageable);
+
+    ProductionOrderListDto getAllCompleted(ProductionOrderSearchDto dto, Pageable pageable);
 
     ProductionOrderDto getProductionOrder(Long id);
 

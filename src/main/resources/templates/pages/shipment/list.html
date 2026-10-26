@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('제품 출고 목록', ~{}, ~{::script}, 'SHIPMENT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/shipment/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('제품 출고 목록', '재고관리, 제품출고')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/shipment/fragments/filter :: filter ('/shipments', ${data.pagination.totalElements})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="shipment-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: auto">
+                    <col style="width: 150px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>출고 번호</th>
+                    <th>출고일</th>
+                    <th>거래처</th>
+                    <th>수주 번호</th>
+                    <th>비고</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(data.shipments)}">
+                    <td colspan="7" class="p-4">등록된 제품 출고 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="shipment : ${data.shipments}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${shipment.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/shipments/{id}(id=${shipment.id})}"
+                           th:text="${shipment.shipmentNo}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(shipment.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${shipment.partner.name}"></td>
+                    <td th:text="${@format.value(shipment.salesOrder?.orderNo)}"></td>
+                    <td th:text="${@format.value(shipment.remark)}"></td>
+                    <td th:switch="${shipment.status.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="${shipment.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="${shipment.status?.description}"></span>
+                        </h6>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

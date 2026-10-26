@@ -107,6 +107,11 @@ public enum PermissionCode {
     RECEIPT_UPDATE(MenuCode.RECEIPT, "자재입고 수정", PermissionAction.UPDATE),
     RECEIPT_DELETE(MenuCode.RECEIPT, "자재입고 삭제", PermissionAction.DELETE),
 
+    SHIPMENT_READ(MenuCode.SHIPMENT, "제품출고 조회", PermissionAction.READ),
+    SHIPMENT_CREATE(MenuCode.SHIPMENT, "제품출고 등록", PermissionAction.CREATE),
+    SHIPMENT_UPDATE(MenuCode.SHIPMENT, "제품출고 수정", PermissionAction.UPDATE),
+    SHIPMENT_DELETE(MenuCode.SHIPMENT, "제품출고 삭제", PermissionAction.DELETE),
+
     ITEM_INVENTORY_READ(MenuCode.ITEM_INVENTORY, "품목 재고 조회", PermissionAction.READ);
 
     private final MenuCode menu;

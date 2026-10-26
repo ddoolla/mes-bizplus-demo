@@ -52,6 +52,7 @@ public enum ErrorCode {
 
     RECEIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "자재 입고 정보를 찾을 수 없습니다."),
     RECEIPT_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "입고 자재를 찾을 수 없습니다."),
+    SHIPMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "출고 정보를 찾을 수 없습니다."),
     INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "재고를 찾을 수 없습니다."),
 
     INSPECTION_NOT_FOUND(HttpStatus.NOT_FOUND, "검사 정보를 찾을 수 없습니다."),

@@ -37,7 +37,8 @@ public enum MenuCode {
 
     INVENTORY(null, "재고 관리", MenuType.GROUP, null, 250),
     RECEIPT(INVENTORY, "자재 입고", MenuType.MENU, "/receipts", 260),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 270);
+    SHIPMENT(INVENTORY, "제품 출고", MenuType.MENU, "/shipments", 270),
+    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 280);
 
     private final MenuCode parent;
     private final String name;

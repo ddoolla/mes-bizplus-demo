@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,5 +91,16 @@ public class ShipmentQueryRepositoryImpl implements ShipmentQueryRepository {
                         )
                         .fetchOne()
         );
+    }
+
+    @Override
+    public String findMaxShipmentNo(LocalDate date) {
+        return query.select(shipment.shipmentNo.max())
+                .from(shipment)
+                .where(
+                        startDateGoe(shipment.date, date),
+                        endDateLoe(shipment.date, date)
+                )
+                .fetchFirst();
     }
 }

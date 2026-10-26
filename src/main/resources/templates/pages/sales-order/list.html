@@ -33,6 +33,7 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
+                    <col style="width: 200px">
                     <col style="width: auto">
                     <col style="width: 200px">
                 </colgroup>
@@ -40,6 +41,7 @@
                 <tr>
                     <th><input type="checkbox" class="check-all"/></th>
                     <th>수주 번호</th>
+                    <th>제목</th>
                     <th>거래처</th>
                     <th>수주일자</th>
                     <th>납기일자</th>
@@ -61,6 +63,7 @@
                         <a th:href="@{/sales-orders/{id}(id=${salesOrder.id})}"
                            th:text="${salesOrder.orderNo}"></a>
                     </td>
+                    <td th:text="${@format.value(salesOrder.name)}"></td>
                     <td th:text="${salesOrder.partner.name}"></td>
                     <td th:text="${#temporals.format(salesOrder.date, 'yyyy-MM-dd')}"></td>
                     <td th:text="${#temporals.format(salesOrder.dueDate, 'yyyy-MM-dd')}"></td>

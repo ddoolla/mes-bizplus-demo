@@ -74,6 +74,14 @@ public class SalesOrderController {
         return "pages/sales-order/edit";
     }
 
+    @GetMapping("/modal/select")
+    @PreAuthorize("hasAuthority('SALES_ORDER_READ')")
+    public String viewSelectModalContent(Model model, @RequestParam Long partnerId) {
+        model.addAttribute("salesOrders", salesOrderService.getAllByPartnerId(partnerId));
+
+        return "pages/sales-order/modal/select :: content";
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('SALES_ORDER_CREATE')")
     @UserAction(menu = MenuCode.SALES_ORDER, type = ActionType.CREATE)

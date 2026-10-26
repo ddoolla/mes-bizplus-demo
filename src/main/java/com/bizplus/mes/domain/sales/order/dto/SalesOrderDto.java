@@ -11,6 +11,7 @@ public class SalesOrderDto {
 
     private final Long id;
     private final String orderNo;
+    private final String name;
     private final LocalDate date;
     private final LocalDate dueDate;
     private final String remark;
@@ -20,6 +21,7 @@ public class SalesOrderDto {
     @QueryProjection
     public SalesOrderDto(Long id,
                          String orderNo,
+                         String name,
                          LocalDate date,
                          LocalDate dueDate,
                          String remark,
@@ -28,6 +30,7 @@ public class SalesOrderDto {
                          String partnerName) {
         this.id = id;
         this.orderNo = orderNo;
+        this.name = name;
         this.date = date;
         this.dueDate = dueDate;
         this.remark = remark;

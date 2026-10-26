@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -49,16 +48,14 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Long create(ReceiptCreateDto dto) {
         Partner partner = partnerReader.getById(dto.getPartnerId());
 
-        LocalDate today = LocalDate.now();
-
         return receiptRepository.save(new Receipt(
                         partner,
                         CodeGenerator.generate(
                                 CodePrefix.RECEIPT,
-                                today,
-                                receiptRepository.findMaxReceiptNo(today)
+                                dto.getDate(),
+                                receiptRepository.findMaxReceiptNo(dto.getDate())
                         ),
-                        today,
+                        dto.getDate(),
                         ReceiptStatus.DRAFT,
                         dto.getRemark()
                 ))

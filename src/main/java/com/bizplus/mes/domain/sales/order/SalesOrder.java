@@ -26,6 +26,8 @@ public class SalesOrder extends SoftDeletableEntity {
     @Column(unique = true, nullable = false)
     private String orderNo;
 
+    private String name;
+
     private LocalDate date;
 
     private LocalDate dueDate;
@@ -38,21 +40,25 @@ public class SalesOrder extends SoftDeletableEntity {
 
     public SalesOrder(Partner partner,
                       String orderNo,
+                      String name,
                       LocalDate date,
                       LocalDate dueDate,
                       String remark,
                       SalesOrderStatus status) {
         this.partner = partner;
         this.orderNo = orderNo;
+        this.name = name;
         this.date = date;
         this.dueDate = dueDate;
         this.remark = remark;
         this.status = status;
     }
 
-    public void update(LocalDate date,
+    public void update(String name,
+                       LocalDate date,
                        LocalDate dueDate,
                        String remark) {
+        this.name = name;
         this.date = date;
         this.dueDate = dueDate;
         this.remark = remark;

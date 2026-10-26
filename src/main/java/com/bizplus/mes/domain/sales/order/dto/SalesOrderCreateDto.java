@@ -14,6 +14,8 @@ public class SalesOrderCreateDto {
     @NotNull
     private Long partnerId;
 
+    private String name;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 

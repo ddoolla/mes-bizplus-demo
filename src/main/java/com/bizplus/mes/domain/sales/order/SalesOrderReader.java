@@ -15,4 +15,11 @@ public class SalesOrderReader {
         return salesOrderRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.SALES_ORDER_NOT_FOUND, "id: " + id));
     }
+
+    public SalesOrder getByIdOrNull(Long id) {
+        return id == null
+                ? null
+                : salesOrderRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.SALES_ORDER_NOT_FOUND, "id: " + id));
+    }
 }

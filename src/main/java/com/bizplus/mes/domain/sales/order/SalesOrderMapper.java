@@ -13,6 +13,7 @@ public class SalesOrderMapper {
         return new SalesOrder(
                 partner,
                 nextCode,
+                dto.getName(),
                 dto.getDate(),
                 dto.getDueDate(),
                 dto.getRemark(),
@@ -22,6 +23,7 @@ public class SalesOrderMapper {
 
     public static void apply(SalesOrder salesOrder, SalesOrderUpdateDto dto) {
         salesOrder.update(
+                dto.getName(),
                 dto.getDate(),
                 dto.getDueDate(),
                 dto.getRemark()

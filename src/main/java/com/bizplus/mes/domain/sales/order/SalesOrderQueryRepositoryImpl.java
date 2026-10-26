@@ -39,6 +39,7 @@ public class SalesOrderQueryRepositoryImpl implements SalesOrderQueryRepository 
                 .select(new QSalesOrderDto(
                         salesOrder.id,
                         salesOrder.orderNo,
+                        salesOrder.name,
                         salesOrder.date,
                         salesOrder.dueDate,
                         salesOrder.remark,
@@ -64,12 +65,41 @@ public class SalesOrderQueryRepositoryImpl implements SalesOrderQueryRepository 
     }
 
     @Override
+    public List<SalesOrderDto> fetchSalesOrders(Long partnerId) {
+        return query
+                .select(new QSalesOrderDto(
+                        salesOrder.id,
+                        salesOrder.orderNo,
+                        salesOrder.name,
+                        salesOrder.date,
+                        salesOrder.dueDate,
+                        salesOrder.remark,
+                        salesOrder.status,
+                        partner.id,
+                        partner.name
+                ))
+                .from(salesOrder)
+                .innerJoin(partner).on(salesOrder.partner.id.eq(partner.id))
+                .where(
+                        notDeleted(salesOrder.deletedAt),
+                        eq(salesOrder.partner.id, partnerId),
+                        salesOrder.status.notIn(
+                                SalesOrderStatus.DRAFT,
+                                SalesOrderStatus.COMPLETED
+                        )
+                )
+                .orderBy(salesOrder.createdAt.desc())
+                .fetch();
+    }
+
+    @Override
     public Optional<SalesOrderDto> findSalesOrder(Long id) {
         return Optional.ofNullable(
                 query
                         .select(new QSalesOrderDto(
                                 salesOrder.id,
                                 salesOrder.orderNo,
+                                salesOrder.name,
                                 salesOrder.date,
                                 salesOrder.dueDate,
                                 salesOrder.remark,

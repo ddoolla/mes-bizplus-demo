@@ -37,6 +37,11 @@ public class SalesOrderServiceImpl implements SalesOrderService {
     }
 
     @Override
+    public List<SalesOrderDto> getAllByPartnerId(Long partnerId) {
+        return salesOrderRepository.fetchSalesOrders(partnerId);
+    }
+
+    @Override
     public SalesOrderDto getSalesOrder(Long id) {
         return salesOrderRepository.findSalesOrder(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.SALES_ORDER_NOT_FOUND, "id: " + id));

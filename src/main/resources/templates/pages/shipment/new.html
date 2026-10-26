@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('제품 출고 등록', ~{}, ~{::script}, 'SHIPMENT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/shipment/new.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('제품 출고 등록', '재고관리, 제품출고, 등록')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/shipments}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="shipment-new-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('SHIPMENT_CREATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 등록 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="shipment-new-form" method="post" th:action="@{/shipments}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>거래처 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="partnerName"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               placeholder="거래처를 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="partnerId"/>
+                        <button type="button"
+                                id="partner-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 거래처 목록
+                        </button>
+                        <div id="partner-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>수주</th>
+                    <td>
+                        <input type="text"
+                               name="salesOrderNo"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               placeholder="수주를 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="salesOrderId"/>
+                        <button type="button"
+                                id="sales-order-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 수주 목록
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>출고일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="date"
+                               class="app-form-control app-xs"
+                               th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"
+                               readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               class="app-form-control app-xs"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!--/* 거래처 선택 모달 */-->
+    <div th:replace="~{pages/partner/modal/list/container :: container (
+        @{/partners/modal/list/single},
+        'SUPPLIER')}">
+    </div>
+
+    <!--/* 수주 선택 모달 */-->
+    <div th:replace="~{pages/sales-order/modal/select :: modal}"></div>
+</div>
+</body>
+</html>

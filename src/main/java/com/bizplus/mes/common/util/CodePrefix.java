@@ -11,7 +11,8 @@ public enum CodePrefix {
     PRODUCTION_ORDER("PO"),
     WORK_ORDER("WO"),
     RECEIPT("MR"),
-    INCOMING_INSPECTION("IQC");
+    INCOMING_INSPECTION("IQC"),
+    Shipment("S");
 
     private final String value;
 }

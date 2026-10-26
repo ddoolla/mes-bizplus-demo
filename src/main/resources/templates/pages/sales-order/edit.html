@@ -48,6 +48,19 @@
                 </colgroup>
                 <tbody>
                 <tr>
+                    <th>수주 번호</th>
+                    <td th:text="*{orderNo}"></td>
+                </tr>
+                <tr>
+                    <th>수주 제목</th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:text="*{name}"/>
+                    </td>
+                </tr>
+                <tr>
                     <th>거래처 <span class="app-required">*</span></th>
                     <td th:text="*{partner.name}"></td>
                 </tr>

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* 거래처 선택 모달 */
     partnerListButton.addEventListener('click', function () {
         partnerSingleListModal.open({
-            title: '매출처 목록',
+            title: '매입처 목록',
             url: '/partners/modal/list/single',
             params: {type: 'SUPPLIER'},
             onSelect: (partner) => {

@@ -12,6 +12,8 @@ public interface SalesOrderService {
 
     SalesOrderListDto getSalesOrders(SalesOrderSearchDto dto, Pageable pageable);
 
+    List<SalesOrderDto> getAllByPartnerId(Long partnerId);
+
     SalesOrderDto getSalesOrder(Long id);
 
     Long createSalesOrder(SalesOrderCreateDto dto);

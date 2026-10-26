@@ -10,6 +10,8 @@ import java.util.List;
 @Getter
 public class SalesOrderUpdateDto {
 
+    private final String name;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final LocalDate date;
 
@@ -19,10 +21,12 @@ public class SalesOrderUpdateDto {
 
     private final List<SalesOrderItemUpdateDto> salesOrderItems;
 
-    public SalesOrderUpdateDto(LocalDate date,
+    public SalesOrderUpdateDto(String name,
+                               LocalDate date,
                                LocalDate dueDate,
                                String remark,
                                List<SalesOrderItemUpdateDto> salesOrderItems) {
+        this.name = name;
         this.date = date;
         this.dueDate = dueDate;
         this.remark = remark;

@@ -38,6 +38,7 @@ public class SalesOrderUpdateService {
 
         // 수주 정보 업데이트
         salesOrder.update(
+                dto.getName(),
                 dto.getDate(),
                 dto.getDueDate(),
                 dto.getRemark()

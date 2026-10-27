@@ -7,6 +7,8 @@ import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.shipment.dto.ShipmentCreateDto;
 import com.bizplus.mes.domain.shipment.dto.ShipmentSearchDto;
+import com.bizplus.mes.domain.shipment.dto.ShipmentUpdateDto;
+import com.bizplus.mes.domain.shipment.facade.ShipmentUpdateService;
 import com.bizplus.mes.domain.shipment.item.ShipmentItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class ShipmentController {
     private final MessageService messageService;
     private final ShipmentService shipmentService;
     private final ShipmentItemService shipmentItemService;
+
+    private final ShipmentUpdateService shipmentUpdateService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('SHIPMENT_READ')")
@@ -54,6 +58,15 @@ public class ShipmentController {
         return "pages/shipment/new";
     }
 
+    @GetMapping("/{id}/edit")
+    @PreAuthorize("hasAuthority('SHIPMENT_UPDATE')")
+    public String viewEdit(Model model, @PathVariable Long id) {
+        model.addAttribute("shipment", shipmentService.getById(id));
+        model.addAttribute("shipmentItems", shipmentItemService.getAll(id));
+
+        return "pages/shipment/edit";
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('SHIPMENT_CREATE')")
     @UserAction(menu = MenuCode.SHIPMENT, type = ActionType.CREATE)
@@ -62,6 +75,18 @@ public class ShipmentController {
 
         reAtt.addAttribute("id", createdId);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
+
+        return "redirect:/shipments/{id}";
+    }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority('SHIPMENT_UPDATE')")
+    @UserAction(menu = MenuCode.SHIPMENT, type = ActionType.UPDATE)
+    public String update(@PathVariable Long id, @Valid ShipmentUpdateDto dto, RedirectAttributes reAtt) {
+        shipmentUpdateService.update(id, dto);
+
+        reAtt.addAttribute("id", id);
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
 
         return "redirect:/shipments/{id}";
     }

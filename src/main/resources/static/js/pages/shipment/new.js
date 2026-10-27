@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
             url: '/partners/modal/list/single',
             params: {type: 'CUSTOMER'},
             onSelect: (partner) => {
+                // 수주 정보 초기화
+                salesOrderIdInput.value = '';
+                salesOrderNoInput.value = '';
+
+                // 거래처 정보 입력
                 partnerIdInput.value = partner.id;
                 partnerNameInput.value = partner.name;
 

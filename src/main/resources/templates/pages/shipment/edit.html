@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('제품 출고 수정', ~{}, ~{::script}, 'SHIPMENT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/shipment/edit.js}"></script>
+    <script type="module" th:src="@{/js/pages/shipment-item/components/form.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('제품 출고 수정', '재고관리, 제품출고, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/shipments/{id}(id=${shipment.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="shipment-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('SHIPMENT_UPDATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <form id="shipment-edit-form"
+          method="post"
+          th:action="@{/shipments/{id}(id=${shipment.id})}"
+          th:object="${shipment}">
+
+        <input type="hidden" name="id" th:value="${shipment.id}"/>
+
+        <!--/* 수정 양식 */-->
+        <div class="app-box app-box-bg">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>출고 번호</th>
+                    <td th:text="*{shipmentNo}"></td>
+                </tr>
+                <tr>
+                    <th>거래처 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="partnerName"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               th:value="*{partner.name}"
+                               placeholder="거래처를 선택해 주세요."
+                               readonly/>
+                        <input type="hidden"
+                               name="partnerId"
+                               th:value="*{partner.id}"/>
+                        <button type="button"
+                                id="partner-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 거래처 목록
+                        </button>
+                        <div id="partner-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>수주</th>
+                    <td>
+                        <input type="text"
+                               name="salesOrderNo"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               placeholder="수주를 선택해 주세요."
+                               th:value="*{salesOrder.orderNo}"
+                               readonly/>
+                        <input type="hidden"
+                               name="salesOrderId"
+                               th:value="*{salesOrder.id}"/>
+                        <button type="button"
+                                id="sales-order-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 수주 목록
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>출고일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="date"
+                               class="app-form-control app-xs"
+                               th:value="${#temporals.format(shipment.date, 'yyyy-MM-dd')}"
+                               readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text"
+                               name="remark"
+                               class="app-form-control app-xs"
+                               th:value="*{remark}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상태</th>
+                    <td th:switch="*{status?.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2"
+                                  th:text="*{status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2"
+                                  th:text="*{status?.description}"></span>
+                        </h6>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 출고 제품 폼 */-->
+        <div th:replace="~{pages/shipment-item/fragments/form :: form (
+            ${shipment},
+            ${shipmentItems})}">
+        </div>
+    </form>
+
+    <!--/* 거래처 선택 모달 */-->
+    <div th:replace="~{pages/partner/modal/list/container :: container (
+        @{/partners/modal/list/single},
+        'CUSTOMER')}">
+    </div>
+
+    <!--/* 수주 선택 모달 */-->
+    <div th:replace="~{pages/sales-order/modal/select :: modal}"></div>
+</div>
+</body>
+</html>

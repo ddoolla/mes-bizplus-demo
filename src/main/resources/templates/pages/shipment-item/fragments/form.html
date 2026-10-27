@@ -1,0 +1,104 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (shipment, shipmentItems)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">출고 제품</p>
+            </div>
+            <div>
+                <th:block th:if="${shipment.status.name == 'DRAFT'}">
+                    <button type="button"
+                            id="shipment-item-create-button"
+                            class="btn btn-primary btn-sm me-1">
+                        <i class="bi bi-plus-circle"></i> 추가
+                    </button>
+                    <button type="button"
+                            id="shipment-item-delete-button"
+                            class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> 삭제
+                    </button>
+                </th:block>
+            </div>
+        </div>
+
+        <div id="shipment-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 200px"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: auto"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox"
+                               class="check-all"
+                               th:disabled="${shipment.status?.name != 'DRAFT'}">
+                    </th>
+                    <th>제품 코드</th>
+                    <th>제품명</th>
+                    <th>유형</th>
+                    <th>LOT</th>
+                    <th>출고 수량</th>
+                    <th>단위</th>
+                    <th>단가</th>
+                    <th>금액</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(shipmentItems)}">
+                    <td colspan="10" class="p-4">등록된 출고 제품 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="shipmentItem, stat : ${shipmentItems}">
+
+                    <input type="hidden"
+                           th:name="|shipmentItems[${stat.index}].id|"
+                           th:value="${shipmentItem.id}"/>
+
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${shipmentItem.id}"
+                               th:disabled="${shipment.status?.name != 'DRAFT'}"/>
+                    </td>
+                    <td th:text="${shipmentItem.item.code}"></td>
+                    <td th:text="${shipmentItem.item.name}"></td>
+                    <td th:text="${shipmentItem.item.type?.description}"></td>
+                    <td th:text="${shipmentItem.lot?.no ?: '-'}"></td>
+                    <td>
+                        <input type="number"
+                               th:name="|shipmentItems[${stat.index}].quantity|"
+                               class="shipment-item-quantity
+                                      app-form-control app-xs "
+                               th:value="${shipmentItem.quantity}"
+                               th:disabled="${shipment.status?.name != 'DRAFT'}" min="0"/>
+                    </td>
+                    <td th:text="${shipmentItem.item.uom.code}"></td>
+                    <td>
+                        <input type="number"
+                               th:name="|shipmentItems[${stat.index}].unitPrice|"
+                               class="shipment-item-unit-price
+                                      app-form-control app-xs "
+                               th:value="${salesOrderItem.unitPrice}"
+                               th:disabled="${shipment.status?.name != 'DRAFT'}" min="0"/>
+                    </td>
+                    <td>
+                        <span class="shipment-item-amount"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

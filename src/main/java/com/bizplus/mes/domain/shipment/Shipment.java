@@ -53,4 +53,18 @@ public class Shipment extends SoftDeletableEntity {
         this.status = status;
         this.remark = remark;
     }
+
+    public void update(Partner partner,
+                       SalesOrder salesOrder,
+                       LocalDate date,
+                       String remark) {
+        this.salesOrder = salesOrder;
+        this.partner = partner;
+        this.date = date;
+        this.remark = remark;
+    }
+
+    public void updateRemark(String remark) {
+        this.remark = remark;
+    }
 }

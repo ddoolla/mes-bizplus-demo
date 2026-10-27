@@ -55,4 +55,12 @@ public class ShipmentItem extends SoftDeletableEntity {
         this.unitPrice = unitPrice;
         this.amount = amount;
     }
+
+    public void update(BigDecimal quantity,
+                       BigDecimal unitPrice,
+                       BigDecimal amount) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
+    }
 }

@@ -1,6 +1,5 @@
 package com.bizplus.mes.domain.item.dto;
 
-import com.bizplus.mes.common.dto.IdNameDto;
 import com.bizplus.mes.domain.item.ItemType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -11,8 +10,6 @@ import java.math.BigDecimal;
 public class ItemDto {
 
     private final Long id;
-    private final IdNameDto category;
-    private final IdNameDto uom;
     private final String code;
     private final String name;
     private final ItemType type;
@@ -20,15 +17,14 @@ public class ItemDto {
     private final BigDecimal unitPrice;
     private final String remark;
     private final boolean lotManaged;
+    private final BigDecimal stock;
+    private final CategoryInfo category;
+    private final UomInfo uom;
     private final DefaultBomInfo defaultBom;
     private final DefaultRoutingInfo defaultRouting;
 
     @QueryProjection
     public ItemDto(Long id,
-                   Long categoryId,
-                   String categoryName,
-                   Long uomId,
-                   String uomCode,
                    String code,
                    String name,
                    ItemType type,
@@ -36,6 +32,12 @@ public class ItemDto {
                    BigDecimal unitPrice,
                    String remark,
                    boolean lotManaged,
+                   BigDecimal stock,
+                   Long categoryId,
+                   String categoryName,
+                   Long uomId,
+                   String uomCode,
+                   Integer uomScale,
                    Long defaultBomId,
                    String defaultBomCode,
                    String defaultBomName,
@@ -43,8 +45,6 @@ public class ItemDto {
                    String defaultRoutingCode,
                    String defaultRoutingName) {
         this.id = id;
-        this.category = new IdNameDto(categoryId, categoryName);
-        this.uom = new IdNameDto(uomId, uomCode);
         this.code = code;
         this.name = name;
         this.type = type;
@@ -52,6 +52,16 @@ public class ItemDto {
         this.unitPrice = unitPrice;
         this.remark = remark;
         this.lotManaged = lotManaged;
+        this.stock = stock;
+        this.category = new CategoryInfo(
+                categoryId,
+                categoryName
+        );
+        this.uom = new UomInfo(
+                uomId,
+                uomCode,
+                uomScale
+        );
         this.defaultBom = new DefaultBomInfo(
                 defaultBomId,
                 defaultBomCode,
@@ -64,17 +74,15 @@ public class ItemDto {
         );
     }
 
-    public record DefaultBomInfo(
-            Long id,
-            String code,
-            String name
-    ) {
+    public record CategoryInfo(Long id, String name) {
     }
 
-    public record DefaultRoutingInfo(
-            Long id,
-            String code,
-            String name
-    ) {
+    public record UomInfo(Long id, String code, Integer scale) {
+    }
+
+    public record DefaultBomInfo(Long id, String code, String name) {
+    }
+
+    public record DefaultRoutingInfo(Long id, String code, String name) {
     }
 }

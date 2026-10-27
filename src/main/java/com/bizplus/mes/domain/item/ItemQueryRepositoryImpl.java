@@ -5,6 +5,7 @@ import com.bizplus.mes.domain.item.dto.ItemDto;
 import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.item.dto.QItemDto;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.LockModeType;
@@ -14,11 +15,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.bom.QBom.bom;
+import static com.bizplus.mes.domain.inventory.QInventory.inventory;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.routing.QRouting.routing;
 import static com.bizplus.mes.domain.uom.QUom.uom;
@@ -46,10 +49,6 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
         List<ItemDto> content = query
                 .select(new QItemDto(
                         item.id,
-                        categoryCode.id,
-                        categoryCode.name,
-                        uom.id,
-                        uom.code,
                         item.code,
                         item.name,
                         item.type,
@@ -57,6 +56,15 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                         item.unitPrice,
                         item.remark,
                         item.lotManaged,
+                        JPAExpressions
+                                .select(inventory.quantity.sum().coalesce(BigDecimal.ZERO))
+                                .from(inventory)
+                                .where(inventory.item.id.eq(item.id)),
+                        categoryCode.id,
+                        categoryCode.name,
+                        uom.id,
+                        uom.code,
+                        uom.scale,
                         bom.id,
                         bom.code,
                         bom.name,
@@ -79,6 +87,8 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                 .from(item)
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(bom).on(item.defaultBom.id.eq(bom.id))
+                .leftJoin(routing).on(item.defaultRouting.id.eq(routing.id))
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
@@ -110,10 +120,6 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                 query
                         .select(new QItemDto(
                                 item.id,
-                                categoryCode.id,
-                                categoryCode.name,
-                                uom.id,
-                                uom.code,
                                 item.code,
                                 item.name,
                                 item.type,
@@ -121,6 +127,15 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 item.unitPrice,
                                 item.remark,
                                 item.lotManaged,
+                                JPAExpressions
+                                        .select(inventory.quantity.sum().coalesce(BigDecimal.ZERO))
+                                        .from(inventory)
+                                        .where(inventory.item.id.eq(item.id)),
+                                categoryCode.id,
+                                categoryCode.name,
+                                uom.id,
+                                uom.code,
+                                uom.scale,
                                 bom.id,
                                 bom.code,
                                 bom.name,

@@ -141,6 +141,14 @@
 
     <!--/* 수주 선택 모달 */-->
     <div th:replace="~{pages/sales-order/modal/select :: modal}"></div>
+
+    <!--/* 출하 제품 선택 모달 */-->
+    <div th:replace="~{pages/item/modal/select-with-stock :: modal (
+        @{/items/modal/select-with-stock},
+        'PRODUCT',
+        ${itemCategories},
+        ${itemTypes})}">
+    </div>
 </div>
 </body>
 </html>

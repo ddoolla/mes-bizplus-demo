@@ -2,6 +2,9 @@ package com.bizplus.mes.domain.shipment;
 
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
+import com.bizplus.mes.domain.code.common.CommonCodeService;
+import com.bizplus.mes.domain.code.group.CodeGroupKey;
+import com.bizplus.mes.domain.item.ItemGroup;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ShipmentController {
 
     private final MessageService messageService;
+    private final CommonCodeService commonCodeService;
     private final ShipmentService shipmentService;
     private final ShipmentItemService shipmentItemService;
 
@@ -63,6 +67,8 @@ public class ShipmentController {
     public String viewEdit(Model model, @PathVariable Long id) {
         model.addAttribute("shipment", shipmentService.getById(id));
         model.addAttribute("shipmentItems", shipmentItemService.getAll(id));
+        model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
+        model.addAttribute("itemTypes", ItemGroup.PRODUCT.getTypes());
 
         return "pages/shipment/edit";
     }

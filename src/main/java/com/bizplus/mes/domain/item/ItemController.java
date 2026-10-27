@@ -134,6 +134,15 @@ public class ItemController {
         return "pages/item/modal/list/multiple :: list";
     }
 
+    @GetMapping("/modal/select-with-stock")
+    public String viewSelectWithStockModal(Model model,
+                                           ItemSearchDto dto,
+                                           @PageableDefault Pageable pageable) {
+        model.addAttribute("data", getItemsByGroup(dto, pageable));
+
+        return "pages/item/modal/select-with-stock :: list";
+    }
+
     private ItemListDto getItemsByGroup(ItemSearchDto dto, Pageable pageable) {
         ItemGroup group = dto.getGroup();
 

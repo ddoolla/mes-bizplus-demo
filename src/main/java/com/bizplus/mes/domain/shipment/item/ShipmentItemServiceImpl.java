@@ -112,4 +112,10 @@ public class ShipmentItemServiceImpl implements ShipmentItemService {
             );
         });
     }
+
+    @Transactional
+    @Override
+    public void deleteAll(List<Long> ids) {
+        ids.forEach(id -> shipmentItemReader.getById(id).delete());
+    }
 }

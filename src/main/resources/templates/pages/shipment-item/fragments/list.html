@@ -43,10 +43,10 @@
                     <td th:text="${shipmentItem.item.type?.description}"></td>
                     <td th:text="${@format.value(shipmentItem.item.specification)}"></td>
                     <td th:text="${shipmentItem.lot?.no ?: '로트 미관리 제품'}"></td>
-                    <td th:text="|${#numbers.formatDecimal(shipmentItem.quantity, 1, 'COMMA', shipmentItem.item.uom.scale, 'POINT')} ${shipmentItem.item.uom.code}|">
+                    <td th:text="|${#numbers.formatDecimal(shipmentItem.quantity, 1, 'COMMA', shipmentItem.item.uom.scale, 'POINT') ?: '-'} ${shipmentItem.item.uom.code}|">
                     </td>
-                    <td th:text="${#numbers.formatDecimal(shipmentItem.unitPrice, 1, 'COMMA', 0, 'POINT')}"></td>
-                    <td th:text="${#numbers.formatDecimal(shipmentItem.amount, 1, 'COMMA', 0, 'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(shipmentItem.unitPrice, 1, 'COMMA', 0, 'POINT')} ?: '-'"></td>
+                    <td th:text="${#numbers.formatDecimal(shipmentItem.amount, 1, 'COMMA', 0, 'POINT')} ?: '-'"></td>
                 </tr>
                 <tr th:unless="${#lists.isEmpty(shipmentItems)}">
                     <td colspan="6"></td>

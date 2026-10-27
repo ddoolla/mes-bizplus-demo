@@ -13,4 +13,6 @@ public interface ShipmentItemService {
     void createAll(Long shipmentId, ShipmentItemCreateDto dto);
 
     void updateAll(List<ShipmentItemUpdateDto> dtoList);
+
+    void deleteAll(List<Long> ids);
 }

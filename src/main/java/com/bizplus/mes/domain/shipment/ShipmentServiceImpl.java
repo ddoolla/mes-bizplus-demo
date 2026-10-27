@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     private final PartnerReader partnerReader;
     private final SalesOrderReader salesOrderReader;
+    private final ShipmentReader shipmentReader;
 
     @Override
     public ShipmentListDto getAll(ShipmentSearchDto dto, Pageable pageable) {
@@ -63,5 +67,11 @@ public class ShipmentServiceImpl implements ShipmentService {
                         dto.getRemark()
                 ))
                 .getId();
+    }
+
+    @Transactional
+    @Override
+    public void deleteAll(List<Long> ids) {
+        ids.forEach(id -> shipmentReader.getById(id).delete());
     }
 }

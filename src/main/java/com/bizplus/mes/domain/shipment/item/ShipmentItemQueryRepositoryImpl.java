@@ -51,4 +51,18 @@ public class ShipmentItemQueryRepositoryImpl implements ShipmentItemQueryReposit
                 .orderBy(shipmentItem.createdAt.desc())
                 .fetch();
     }
+
+    @Override
+    public boolean existsShipmentItem(Long shipmentId, Long itemId, Long lotId) {
+        return query
+                .selectOne()
+                .from(shipmentItem)
+                .where(
+                        notDeleted(shipmentItem.deletedAt),
+                        eq(shipmentItem.shipment.id, shipmentId),
+                        eq(shipmentItem.item.id, itemId),
+                        eq(shipmentItem.lot.id, lotId)
+                )
+                .fetchFirst() != null;
+    }
 }

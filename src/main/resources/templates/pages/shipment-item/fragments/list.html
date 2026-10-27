@@ -1,7 +1,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="list (shipmentItems)">
+<th:block th:fragment="list (shipmentItems, totalAmount)">
     <div class="app-box app-box-bg mt-2">
         <div>
             <div>
@@ -15,38 +15,43 @@
                     <col style="width: 200px"/>
                     <col style="width: 200px"/>
                     <col style="width: 150px"/>
-                    <col style="width: 200px"/>
-                    <col style="width: 150px"/>
-                    <col style="width: 150px"/>
-                    <col style="width: 150px"/>
                     <col style="width: auto"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 200px"/>
                 </colgroup>
                 <thead>
                 <tr>
                     <th>제품 코드</th>
                     <th>제품명</th>
                     <th>유형</th>
+                    <th>규격</th>
                     <th>LOT</th>
                     <th>출고 수량</th>
                     <th>단가</th>
                     <th>금액</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(salesOrderItems)}">
+                <tr th:if="${#lists.isEmpty(shipmentItems)}">
                     <td colspan="8" class="p-4">등록된 출고 제품 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="shipmentItem : ${shipmentItems}">
                     <td th:text="${shipmentItem.item.code}"></td>
                     <td th:text="${shipmentItem.item.name}"></td>
                     <td th:text="${shipmentItem.item.type?.description}"></td>
-                    <td th:text="${shipmentItem.lot?.no ?: '-'}"></td>
-                    <td th:text="${#numbers.formatDecimal(shipmentItem.quantity, 1, 'COMMA', shipmentItem.item.uom.scale, 'POINT')} ?: '-'">
+                    <td th:text="${@format.value(shipmentItem.item.specification)}"></td>
+                    <td th:text="${shipmentItem.lot?.no ?: '로트 미관리 제품'}"></td>
+                    <td th:text="|${#numbers.formatDecimal(shipmentItem.quantity, 1, 'COMMA', shipmentItem.item.uom.scale, 'POINT')} ${shipmentItem.item.uom.code}|">
                     </td>
-                    <td th:text="${#numbers.formatDecimal(shipmentItem.unitPrice, 1, 'COMMA', 2, 'POINT')}"></td>
-                    <td th:text="${#numbers.formatDecimal(shipmentItem.amount, 1, 'COMMA', 2, 'POINT')}"></td>
-                    <td></td>
+                    <td th:text="${#numbers.formatDecimal(shipmentItem.unitPrice, 1, 'COMMA', 0, 'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(shipmentItem.amount, 1, 'COMMA', 0, 'POINT')}"></td>
+                </tr>
+                <tr th:unless="${#lists.isEmpty(shipmentItems)}">
+                    <td colspan="6"></td>
+                    <td class="pt-3 fw-bold">합계</td>
+                    <td class="pt-3 fw-bold" th:text="${#numbers.formatDecimal(totalAmount, 1, 'COMMA', 0, 'POINT')}"></td>
                 </tr>
                 </tbody>
             </table>

@@ -137,9 +137,10 @@
                 <td>
                     <button type="button"
                             class="item-select-button
-                                   btn btn-primary btn-sm"
+                                   btn btn-primary btn-sm app-w-100"
                             th:data-id="${item.id}"
                             th:data-name="${item.name}"
+                            th:data-lot-managed="${item.lotManaged}"
                             th:text="${item.lotManaged ? 'LOT 선택' : '추가'}">
                     </button>
                 </td>

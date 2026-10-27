@@ -13,6 +13,14 @@ public class InventoryReader {
 
     private final InventoryRepository inventoryRepository;
 
+    public Inventory getById(Long id) {
+        return inventoryRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.INVENTORY_NOT_FOUND,
+                        "id: %d".formatted(id)
+                ));
+    }
+
     public Inventory get(Long itemId, Long lotId) {
         return inventoryRepository.findInventory(itemId, lotId)
                 .orElseThrow(() -> new BusinessException(

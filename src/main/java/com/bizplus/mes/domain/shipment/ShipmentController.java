@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
+
 @Controller
 @RequestMapping("/shipments")
 @RequiredArgsConstructor
@@ -52,6 +54,16 @@ public class ShipmentController {
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("shipment", shipmentService.getById(id));
         model.addAttribute("shipmentItems", shipmentItemService.getAll(id));
+        model.addAttribute(
+                "totalAmount",
+                shipmentItemService.getAll(id).stream().map(item -> {
+                            BigDecimal quantity = item.getQuantity() != null ? item.getQuantity() : BigDecimal.ZERO;
+                            BigDecimal unitPrice = item.getUnitPrice() != null ? item.getUnitPrice() : BigDecimal.ZERO;
+
+                            return quantity.multiply(unitPrice);
+                        })
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
 
         return "pages/shipment/detail";
     }

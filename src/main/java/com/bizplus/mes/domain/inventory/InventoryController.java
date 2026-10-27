@@ -51,4 +51,13 @@ public class InventoryController {
 
         return "pages/inventory/modal/detail :: content";
     }
+
+    @GetMapping("/modal/lot-multi-select")
+    @PreAuthorize("hasAuthority('ITEM_INVENTORY_READ')")
+    public String viewLotMultiSelectModal(Model model, @RequestParam Long itemId) {
+        model.addAttribute("inventories", inventoryService.getAllByItemId(itemId));
+        model.addAttribute("item", itemService.getItem(itemId));
+
+        return "pages/inventory/modal/lot-multi-select :: content";
+    }
 }

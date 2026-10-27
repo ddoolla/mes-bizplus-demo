@@ -10,7 +10,8 @@
                 <th:block th:if="${shipment.status.name == 'DRAFT'}">
                     <button type="button"
                             id="shipment-item-create-button"
-                            class="btn btn-primary btn-sm me-1">
+                            class="btn btn-primary btn-sm me-1"
+                            th:data-shipment-id="${shipment.id}">
                         <i class="bi bi-plus-circle"></i> 추가
                     </button>
                     <button type="button"
@@ -29,12 +30,12 @@
                     <col style="width: 200px"/>
                     <col style="width: 200px"/>
                     <col style="width: 150px"/>
-                    <col style="width: 200px"/>
-                    <col style="width: 150px"/>
-                    <col style="width: 150px"/>
-                    <col style="width: 150px"/>
-                    <col style="width: 150px"/>
                     <col style="width: auto"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 100px"/>
+                    <col style="width: 200px"/>
+                    <col style="width: 200px"/>
                 </colgroup>
                 <thead>
                 <tr>
@@ -46,12 +47,12 @@
                     <th>제품 코드</th>
                     <th>제품명</th>
                     <th>유형</th>
+                    <th>규격</th>
                     <th>LOT</th>
                     <th>출고 수량</th>
                     <th>단위</th>
                     <th>단가</th>
                     <th>금액</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,18 +69,20 @@
                         <input type="checkbox"
                                class="check-item"
                                th:value="${shipmentItem.id}"
-                               th:disabled="${shipment.status?.name != 'DRAFT'}"/>
+                               th:disabled="${shipment.status?.name != 'DRAFT'}"
+                               tabindex="-1"/>
                     </td>
                     <td th:text="${shipmentItem.item.code}"></td>
                     <td th:text="${shipmentItem.item.name}"></td>
                     <td th:text="${shipmentItem.item.type?.description}"></td>
-                    <td th:text="${shipmentItem.lot?.no ?: '-'}"></td>
+                    <td th:text="${@format.value(shipmentItem.item.specification)}"></td>
+                    <td th:text="${shipmentItem.lot?.no ?: '로트 미관리 제품'}"></td>
                     <td>
                         <input type="number"
                                th:name="|shipmentItems[${stat.index}].quantity|"
                                class="shipment-item-quantity
                                       app-form-control app-xs "
-                               th:value="${shipmentItem.quantity}"
+                               th:value="${#numbers.formatDecimal(shipmentItem.quantity, 1, shipmentItem.item.uom.scale)}"
                                th:disabled="${shipment.status?.name != 'DRAFT'}" min="0"/>
                     </td>
                     <td th:text="${shipmentItem.item.uom.code}"></td>
@@ -88,12 +91,18 @@
                                th:name="|shipmentItems[${stat.index}].unitPrice|"
                                class="shipment-item-unit-price
                                       app-form-control app-xs "
-                               th:value="${salesOrderItem.unitPrice}"
+                               th:value="${#numbers.formatDecimal(shipmentItem.unitPrice, 1, 0)}"
                                th:disabled="${shipment.status?.name != 'DRAFT'}" min="0"/>
                     </td>
                     <td>
-                        <span class="shipment-item-amount"></span>
+                        <span class="shipment-item-amount"
+                              th:text="${#numbers.formatDecimal(shipmentItem.amount, 1, 'COMMA', 0, 'POINT')} ?: '-'"></span>
                     </td>
+                </tr>
+                <tr th:unless="${#lists.isEmpty(shipmentItems)}">
+                    <td colspan="8"></td>
+                    <td class="pt-3 fw-bold">합계</td>
+                    <td class="pt-3 fw-bold total-amount"></td>
                 </tr>
                 </tbody>
             </table>

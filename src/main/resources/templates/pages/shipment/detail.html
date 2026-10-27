@@ -85,7 +85,7 @@
     </div>
 
     <!--/* 출고 제품 목록 */-->
-    <div th:replace="~{pages/shipment-item/fragments/list :: list (${shipmentItems})}"></div>
+    <div th:replace="~{pages/shipment-item/fragments/list :: list (${shipmentItems}, ${totalAmount})}"></div>
 </div>
 </body>
 </html>

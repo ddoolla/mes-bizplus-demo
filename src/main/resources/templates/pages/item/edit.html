@@ -129,7 +129,7 @@
                             </option>
                             <option th:each="uom : ${uoms}"
                                     th:value="${uom.id}"
-                                    th:text="${uom.name}"
+                                    th:text="${uom.code}"
                                     th:selected="${uom.id == item.uom.id}">
                             </option>
                         </select>

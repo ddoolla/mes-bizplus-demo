@@ -57,11 +57,11 @@
                 <th>규격</th>
                 <td th:text="${@format.value(item.specification)}"></td>
                 <th>단위 (재고)</th>
-                <td th:text="*{uom.name}"></td>
+                <td th:text="*{uom.code}"></td>
             </tr>
             <tr>
                 <th>단가</th>
-                <td colspan="3" th:text="${#numbers.formatDecimal(item.unitPrice, 1, 2)} ?: '-'"></td>
+                <td colspan="3" th:text="${#numbers.formatDecimal(item.unitPrice, 1, 'COMMA', 0, 'POINT')} ?: '-'"></td>
             </tr>
             <tr>
                 <th>로트 관리 여부</th>

@@ -63,6 +63,7 @@ const createItemSelectWithStockModal = () => {
         const item = {
             id: button.dataset.id,
             name: button.dataset.name,
+            lotManaged: button.dataset.lotManaged,
         };
 
         selectCallback?.(item);

@@ -10,10 +10,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShipmentItemServiceImpl implements ShipmentItemService {
 
-    private final ShipmentItemQueryRepository shipmentItemQueryRepository;
+    private final ShipmentItemRepository shipmentItemRepository;
 
     @Override
     public List<ShipmentItemDto> getAll(Long shipmentId) {
-        return shipmentItemQueryRepository.fetchShipmentItems(shipmentId);
+        return shipmentItemRepository.fetchShipmentItems(shipmentId);
     }
 }

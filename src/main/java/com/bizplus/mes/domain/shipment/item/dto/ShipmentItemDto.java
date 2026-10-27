@@ -11,12 +11,16 @@ public class ShipmentItemDto {
 
     private final Long id;
     private final BigDecimal quantity;
+    private final BigDecimal unitPrice;
+    private final BigDecimal amount;
     private final ItemInfo item;
     private final LotInfo lot;
 
     @QueryProjection
     public ShipmentItemDto(Long id,
                            BigDecimal quantity,
+                           BigDecimal unitPrice,
+                           BigDecimal amount,
                            Long itemId,
                            String itemCode,
                            String itemName,
@@ -29,6 +33,8 @@ public class ShipmentItemDto {
                            String lotNo) {
         this.id = id;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
         this.item = new ItemInfo(
                 itemId,
                 itemCode,

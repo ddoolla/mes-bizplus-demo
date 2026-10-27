@@ -27,6 +27,8 @@ public class ShipmentItemQueryRepositoryImpl implements ShipmentItemQueryReposit
                 .select(new QShipmentItemDto(
                         shipmentItem.id,
                         shipmentItem.quantity,
+                        shipmentItem.unitPrice,
+                        shipmentItem.amount,
                         item.id,
                         item.code,
                         item.name,

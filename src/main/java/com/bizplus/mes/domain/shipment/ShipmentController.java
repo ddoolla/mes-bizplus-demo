@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.shipment.dto.ShipmentCreateDto;
 import com.bizplus.mes.domain.shipment.dto.ShipmentSearchDto;
+import com.bizplus.mes.domain.shipment.item.ShipmentItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class ShipmentController {
 
     private final MessageService messageService;
     private final ShipmentService shipmentService;
+    private final ShipmentItemService shipmentItemService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('SHIPMENT_READ')")
@@ -41,6 +43,7 @@ public class ShipmentController {
     @PreAuthorize("hasAuthority('SHIPMENT_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("shipment", shipmentService.getById(id));
+        model.addAttribute("shipmentItems", shipmentItemService.getAll(id));
 
         return "pages/shipment/detail";
     }

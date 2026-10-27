@@ -36,13 +36,23 @@ public class ShipmentItem extends SoftDeletableEntity {
     @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
 
+    @Column(precision = 19, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal amount;
+
     public ShipmentItem(Shipment shipment,
                         Item item,
                         Lot lot,
-                        BigDecimal quantity) {
+                        BigDecimal quantity,
+                        BigDecimal unitPrice,
+                        BigDecimal amount) {
         this.shipment = shipment;
         this.item = item;
         this.lot = lot;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
     }
 }

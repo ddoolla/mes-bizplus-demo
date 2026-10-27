@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const partnerSingleListModal = createPartnerSingleListModal();
     const salesOrderSelectModal = createSalesOrderSelectModal();
 
-    let partnerId = null;
-    let partnerName = null;
+    let partnerId = partnerIdInput.value ?? null;
+    let partnerName = partnerNameInput.value ?? null;
 
     datepicker.init('[name="date"]');
 
@@ -80,5 +80,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 error.insertAfter(element);
             }
         },
+    });
+
+    $.validator.addMethod('quantityScale', function (value, element) {
+        if (this.optional(element)) {
+            return true;
+        }
+
+        const scale = Number(element.dataset.uomScale);
+
+        if (isNaN(scale)) {
+            return false;
+        }
+
+        const decimalPart = value.split('.')[1];
+
+        return !decimalPart || decimalPart.length <= scale;
+
+    }, function (params, element) {
+        const scale = Number(element.dataset.uomScale);
+
+        return `해당 단위는 소수점 ${scale}자리까지 입력할 수 있습니다.`;
+    });
+
+    $(editForm).find('.shipment-item-quantity').each(function () {
+        $(this).rules('add', {
+            required: true,
+            positive: true,
+            quantityScale: true,
+            max: function (element) {
+                return Number(element.dataset.stock);
+            },
+            messages: {
+                required: '수량을 입력해 주세요.',
+                number: '수량은 숫자로 입력해 주세요.',
+                positive: '0보다 큰 값을 입력해 주세요.',
+                max: '재고 수량을 초과할 수 없습니다.'
+            }
+        });
     });
 });

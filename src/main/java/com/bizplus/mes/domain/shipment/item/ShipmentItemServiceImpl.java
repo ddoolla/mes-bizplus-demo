@@ -100,8 +100,10 @@ public class ShipmentItemServiceImpl implements ShipmentItemService {
         dtoList.forEach(dto -> {
             ShipmentItem shipmentItem = shipmentItemReader.getById(dto.getId());
 
-            BigDecimal amount = dto.getQuantity()
-                    .multiply(dto.getUnitPrice());
+            BigDecimal quantity = dto.getQuantity() != null ? dto.getQuantity() : BigDecimal.ZERO;
+            BigDecimal unitPrice = dto.getUnitPrice() != null ? dto.getUnitPrice() : BigDecimal.ZERO;
+
+            BigDecimal amount = quantity.multiply(unitPrice);
 
             shipmentItem.update(
                     dto.getQuantity(),

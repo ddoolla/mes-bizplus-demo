@@ -2,14 +2,17 @@ package com.bizplus.mes.domain.shipment.item;
 
 import com.bizplus.mes.domain.shipment.item.dto.QShipmentItemDto;
 import com.bizplus.mes.domain.shipment.item.dto.ShipmentItemDto;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
 import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
+import static com.bizplus.mes.domain.inventory.QInventory.inventory;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.lot.QLot.lot;
 import static com.bizplus.mes.domain.shipment.item.QShipmentItem.shipmentItem;
@@ -29,6 +32,10 @@ public class ShipmentItemQueryRepositoryImpl implements ShipmentItemQueryReposit
                         shipmentItem.quantity,
                         shipmentItem.unitPrice,
                         shipmentItem.amount,
+                        JPAExpressions
+                                .select(inventory.quantity.sum().coalesce(BigDecimal.ZERO))
+                                .from(inventory)
+                                .where(inventory.item.id.eq(item.id)),
                         item.id,
                         item.code,
                         item.name,

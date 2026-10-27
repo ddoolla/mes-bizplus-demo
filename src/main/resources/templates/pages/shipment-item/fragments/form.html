@@ -32,10 +32,11 @@
                     <col style="width: 150px"/>
                     <col style="width: auto"/>
                     <col style="width: 200px"/>
-                    <col style="width: 200px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: 150px"/>
                     <col style="width: 100px"/>
-                    <col style="width: 200px"/>
-                    <col style="width: 200px"/>
+                    <col style="width: 150px"/>
+                    <col style="width: 150px"/>
                 </colgroup>
                 <thead>
                 <tr>
@@ -49,6 +50,7 @@
                     <th>유형</th>
                     <th>규격</th>
                     <th>LOT</th>
+                    <th>재고 수량</th>
                     <th>출고 수량</th>
                     <th>단위</th>
                     <th>단가</th>
@@ -57,7 +59,7 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(shipmentItems)}">
-                    <td colspan="10" class="p-4">등록된 출고 제품 정보가 없습니다.</td>
+                    <td colspan="11" class="p-4">등록된 출고 제품 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="shipmentItem, stat : ${shipmentItems}">
 
@@ -77,13 +79,17 @@
                     <td th:text="${shipmentItem.item.type?.description}"></td>
                     <td th:text="${@format.value(shipmentItem.item.specification)}"></td>
                     <td th:text="${shipmentItem.lot?.no ?: '로트 미관리 제품'}"></td>
+                    <td th:text="|${#numbers.formatDecimal(shipmentItem.stock, 1, 'COMMA', shipmentItem.item.uom.scale, 'POINT')} ${shipmentItem.item.uom.code}|"></td>
                     <td>
                         <input type="number"
                                th:name="|shipmentItems[${stat.index}].quantity|"
                                class="shipment-item-quantity
                                       app-form-control app-xs "
                                th:value="${#numbers.formatDecimal(shipmentItem.quantity, 1, shipmentItem.item.uom.scale)}"
-                               th:disabled="${shipment.status?.name != 'DRAFT'}" min="0"/>
+                               th:data-stock="${shipmentItem.stock}"
+                               th:data-uom-scale="${shipmentItem.item.uom.scale}"
+                               th:disabled="${shipment.status?.name != 'DRAFT'}"
+                               min="0"/>
                     </td>
                     <td th:text="${shipmentItem.item.uom.code}"></td>
                     <td>
@@ -100,7 +106,7 @@
                     </td>
                 </tr>
                 <tr th:unless="${#lists.isEmpty(shipmentItems)}">
-                    <td colspan="8"></td>
+                    <td colspan="9"></td>
                     <td class="pt-3 fw-bold">합계</td>
                     <td class="pt-3 fw-bold total-amount"></td>
                 </tr>

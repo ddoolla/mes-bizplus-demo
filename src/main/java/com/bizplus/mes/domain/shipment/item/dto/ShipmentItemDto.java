@@ -13,6 +13,7 @@ public class ShipmentItemDto {
     private final BigDecimal quantity;
     private final BigDecimal unitPrice;
     private final BigDecimal amount;
+    private final BigDecimal stock;
     private final ItemInfo item;
     private final LotInfo lot;
 
@@ -21,6 +22,7 @@ public class ShipmentItemDto {
                            BigDecimal quantity,
                            BigDecimal unitPrice,
                            BigDecimal amount,
+                           BigDecimal stock,
                            Long itemId,
                            String itemCode,
                            String itemName,
@@ -35,6 +37,7 @@ public class ShipmentItemDto {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.amount = amount;
+        this.stock = stock;
         this.item = new ItemInfo(
                 itemId,
                 itemCode,

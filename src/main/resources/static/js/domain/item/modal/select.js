@@ -3,9 +3,9 @@ import toast from "../../../common/toast.js";
 import modal from "../../../common/modal/modal.js";
 import pagination from "../../../common/pagination.js";
 
-const MODAL_ID = 'item-select-with-stock-modal';
+const MODAL_ID = 'item-select-modal';
 
-const createItemSelectWithStockModal = () => {
+const createItemSelectModal = () => {
     const modalEl = document.querySelector(`#${MODAL_ID}`);
     const searchForm = modalEl.querySelector('.item-search-form');
     const listContent = modalEl.querySelector('.list-content');
@@ -52,7 +52,7 @@ const createItemSelectWithStockModal = () => {
         modal.close(MODAL_ID);
     };
 
-    // 모달 선택 버튼 클릭
+    // 품목 선택 이벤트
     listContent.addEventListener('click', function (e) {
         const button = e.target.closest('.item-select-button');
 
@@ -64,6 +64,14 @@ const createItemSelectWithStockModal = () => {
             id: button.dataset.id,
             name: button.dataset.name,
             lotManaged: button.dataset.lotManaged,
+            defaultBom: {
+                id: button.dataset.defaultBomId,
+                name: button.dataset.defaultBomName
+            },
+            defaultRouting: {
+                id: button.dataset.defaultRoutingId,
+                name: button.dataset.defaultRoutingName
+            }
         };
 
         selectCallback?.(item);
@@ -94,4 +102,4 @@ const createItemSelectWithStockModal = () => {
         close,
     };
 }
-export default createItemSelectWithStockModal;
+export default createItemSelectModal;

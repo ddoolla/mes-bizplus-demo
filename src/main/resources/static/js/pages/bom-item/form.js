@@ -1,8 +1,8 @@
 import ajax from "../../common/ajax.js";
 import checkbox from "../../common/checkbox.js";
-import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
 import toast from "../../common/toast.js";
 import createConfirmModal from "../../common/modal/confirm.js";
+import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const itemMultiSelectModalButton = document.querySelector('#bom-item-create-button');
 
     const confirmModal = createConfirmModal();
-    const itemMultipleListModal = createItemMultipleListModal();
+    const itemMultiSelectModal = createItemMultiSelectModal();
 
     checkbox.init(checkboxGroup);
 
     // BOM 구성 품목 등록
     itemMultiSelectModalButton.addEventListener('click', function () {
-        itemMultipleListModal.open({
+        itemMultiSelectModal.open({
             title: 'BOM 구성품 목록',
-            url: `/items/modal/list/multiple`,
+            url: `/items/modal/multi-select/list`,
             params: {group: 'BOM_ITEM'},
             onRegister: async (selectedIds) => {
                 const bomId = bomEditForm.querySelector('[name="id"]').value;
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         {itemIds: selectedIds}
                     );
 
-                    itemMultipleListModal.close();
+                    itemMultiSelectModal.close();
 
                     toast.afterReload({
                         message: response.message,

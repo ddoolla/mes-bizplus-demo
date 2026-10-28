@@ -114,25 +114,18 @@ public class ItemController {
         return "pages/item/edit";
     }
 
-    @GetMapping("/modal/list/single")
-    public String viewSingleListModal(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
+    @GetMapping("/modal/select/list")
+    public String viewSelectModalList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("data", getItemsByGroup(dto, pageable));
 
-        return "pages/item/modal/list/single :: list";
+        return "pages/item/modal/select :: list";
     }
 
-    @GetMapping("/modal/list/multiple")
-    public String viewMultipleListModal(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
+    @GetMapping("/modal/select/stock-list")
+    public String viewSelectModalStockList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("data", getItemsByGroup(dto, pageable));
 
-        return "pages/item/modal/list/multiple :: list";
-    }
-
-    @GetMapping("/modal/select-with-stock")
-    public String viewSelectWithStockModal(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(dto, pageable));
-
-        return "pages/item/modal/select-with-stock :: list";
+        return "pages/item/modal/select :: stock-list";
     }
 
     @GetMapping("/modal/multi-select/list")

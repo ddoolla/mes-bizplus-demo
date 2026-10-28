@@ -78,8 +78,8 @@
     </form>
 
     <!--/* 자재에서 추가 모달 */-->
-    <div th:replace="~{pages/item/modal/list/container :: container (
-        @{/items/modal/list/multiple},
+    <div th:replace="~{pages/item/modal/multi-select :: modal (
+        @{/items/modal/multi-select/list},
         'BOM_ITEM',
         ${itemCategories},
         ${itemType})}">

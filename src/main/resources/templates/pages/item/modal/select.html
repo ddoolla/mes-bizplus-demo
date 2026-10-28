@@ -1,9 +1,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<!--/* 출고 제품 선택 모달 */-->
+<!--/* 제품 다중 선택 모달 */-->
 <th:block th:fragment="modal (url, itemGroup, itemCategories, itemTypes)">
     <div th:replace="~{fragments/modal/default :: default (
-        'item-select-with-stock-modal',
+        'item-select-modal',
         '품목 선택',
          ~{::.app-modal-content},
          1200
@@ -83,22 +83,84 @@
                 </div>
 
                 <!--/* 목록 */-->
-                <div class="list-content">
-
-                </div>
+                <div class="list-content"></div>
             </div>
         </div>
     </div>
 </th:block>
 
-<!--/* 모달 목록 콘텐츠 */-->
+<!--/* 모달 목록 콘텐츠 (재고 미포함) */-->
 <th:block th:fragment="list">
     <div class="d-flex justify-content-start">
         <div class="fw-bold"
              th:text="|Total : ${data.pagination.totalElements} 건|">
         </div>
     </div>
-    <div id="item-table">
+    <div>
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 150px">
+                <col style="width: 200px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: 150px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>품목 코드</th>
+                <th>품목명</th>
+                <th>유형</th>
+                <th>카테고리</th>
+                <th>규격</th>
+                <th>단위</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(data.items)}">
+                <td colspan="8" class="p-4">등록된 품목 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="item : ${data.items}"
+                th:with="bom=${item.defaultBom}, routing=${item.defaultRouting}">
+                <td th:text="${item.code}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.type?.description}"></td>
+                <td th:text="${@format.value(item.category.name)}"></td>
+                <td th:text="${@format.value(item.specification)}"></td>
+                <td th:text="${@format.value(item.uom.code)}"></td>
+                <td>
+                    <button type="button"
+                            class="item-select-button
+                                   btn btn-primary btn-sm"
+                            th:data-id="${item.id}"
+                            th:data-name="${item.name}"
+                            th:data-lot-managed="${item.lotManaged}"
+                            th:data-default-bom-id="${bom.id}"
+                            th:data-default-bom-name="${bom.name}"
+                            th:data-default-routing-id="${routing.id}"
+                            th:data-default-routing-name="${routing.name}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+
+<!--/* 모달 목록 콘텐츠 (재고 포함) */-->
+<th:block th:fragment="stock-list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div>
         <table class="app-table-list text-center">
             <colgroup>
                 <col style="width: 200px">
@@ -126,22 +188,29 @@
             <tr th:if="${#lists.isEmpty(data.items)}">
                 <td colspan="8" class="p-4">등록된 품목 정보가 없습니다.</td>
             </tr>
-            <tr th:each="item : ${data.items}">
+            <tr th:each="item : ${data.items}"
+                th:with="bom=${item.defaultBom}, routing=${item.defaultRouting}">
                 <td th:text="${item.code}"></td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.type?.description}"></td>
                 <td th:text="${@format.value(item.category.name)}"></td>
                 <td th:text="${@format.value(item.specification)}"></td>
-                <td th:text="|${#numbers.formatDecimal(item.stock, 1, 'COMMA', item.uom.scale, 'POINT')} ${item.uom.code}|"></td>
+                <td th:text="|${#numbers.formatDecimal(item.stock, 1, 'COMMA', item.uom.scale, 'POINT')} ${item.uom.code}|"
+                    th:classappend="${item.stock.signum() <= 0} ? 'text-danger'"></td>
                 <td th:text="${item.lotManaged ? '예' : '아니오'}"></td>
                 <td>
                     <button type="button"
                             class="item-select-button
-                                   btn btn-primary btn-sm app-w-100"
+                                   btn btn-primary btn-sm app-w-80"
                             th:data-id="${item.id}"
                             th:data-name="${item.name}"
+                            th:data-default-bom-id="${bom.id}"
+                            th:data-default-bom-name="${bom.name}"
+                            th:data-default-routing-id="${routing.id}"
+                            th:data-default-routing-name="${routing.name}"
                             th:data-lot-managed="${item.lotManaged}"
-                            th:text="${item.lotManaged ? 'LOT 선택' : '추가'}">
+                            th:text="${item.lotManaged ? 'LOT 선택' : '추가'}"
+                            th:disabled="${item.stock.signum() <= 0}">
                     </button>
                 </td>
             </tr>

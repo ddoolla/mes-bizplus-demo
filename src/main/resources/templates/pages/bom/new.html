@@ -108,8 +108,8 @@
     </div>
 
     <!--/* 제품 목록 모달 */-->
-    <div th:replace="~{pages/item/modal/list/container :: container (
-        @{/items/modal/list/single},
+    <div th:replace="~{pages/item/modal/select :: modal (
+        @{/items/modal/select/list},
         'PRODUCT',
         ${itemCategories},
         ${itemTypes})}">

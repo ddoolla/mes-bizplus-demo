@@ -1,7 +1,7 @@
-import createItemSingleListModal from "../../domain/item/modal/list/single.js";
 import datepicker from "../../common/datepicker.js";
 import createBomSingleListModal from "../../domain/bom/modal/list/single.js";
 import createRoutingSingleListModal from "../../domain/routing/modal/list/single.js";
+import createItemSelectModal from "../../domain/item/modal/select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const routingIdInput = createForm.querySelector('[name="routingId"]');
     const routingNameInput = createForm.querySelector('[name="routingName"]');
 
-    const itemSingleListModal = createItemSingleListModal();
+    const itemSelectModal = createItemSelectModal();
     const bomSingleListModal = createBomSingleListModal();
     const routingSingleListModal = createRoutingSingleListModal();
 
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 품목 선택 모달 열기 */
     itemListButton.addEventListener('click', function () {
-        itemSingleListModal.open({
+        itemSelectModal.open({
             title: '제품 목록 (완제품/반제품)',
             url: '/items/modal/list/single',
             params: {group: 'PRODUCT'},
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 bomListButton.disabled = false;
                 routingListButton.disabled = false;
 
-                itemSingleListModal.close();
+                itemSelectModal.close();
             }
         });
     });

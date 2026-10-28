@@ -1,5 +1,5 @@
-import createItemSingleListModal from "../../domain/item/modal/list/single.js";
 import createProcessSingleListModal from "../../domain/process/modal/list/single.js";
+import createItemSelectModal from "../../domain/item/modal/select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const processField = document.querySelector('[data-field="process"]');
     const defaultSpecField = document.querySelector('[data-field="defaultSpec"]');
 
-    const itemSingleListModal = createItemSingleListModal();
+    const itemSelectModal = createItemSelectModal();
     const processSingleListModal = createProcessSingleListModal();
 
     /* 검사 유형 선택 */
@@ -31,13 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 제품 선택 */
     itemListButton.addEventListener('click', function () {
-        itemSingleListModal.open({
+        itemSelectModal.open({
             title: '제품 목록',
-            url: '/items/modal/list/single',
+            url: '/items/modal/select/list',
             onSelect: (item) => {
                 itemIdInput.value = item.id;
                 itemNameInput.value = item.name;
-                itemSingleListModal.close();
+                itemSelectModal.close();
             }
         });
     });

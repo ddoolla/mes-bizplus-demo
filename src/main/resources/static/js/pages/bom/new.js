@@ -1,22 +1,22 @@
-import createItemSingleListModal from "../../domain/item/modal/list/single.js";
+import createItemSelectModal from "../../domain/item/modal/select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
     const bomCreateForm = document.querySelector('#bom-new-form');
     const modalOpenButton = document.querySelector('#item-list-button');
 
-    const itemSingleListModal = createItemSingleListModal();
+    const itemSelectModal = createItemSelectModal();
 
     // 품목 선택 모달 열기
     modalOpenButton.addEventListener('click', function () {
-        itemSingleListModal.open({
+        itemSelectModal.open({
             title: '제품 목록 (완제품/반제품)',
-            url: '/items/modal/list/single',
+            url: '/items/modal/select/list',
             params: {group: 'PRODUCT'},
             onSelect: (item) => {
                 bomCreateForm.querySelector('[name="itemId"]').value = item.id;
                 bomCreateForm.querySelector('[name="itemName"]').value = item.name;
-                itemSingleListModal.close();
+                itemSelectModal.close();
             }
         });
     });

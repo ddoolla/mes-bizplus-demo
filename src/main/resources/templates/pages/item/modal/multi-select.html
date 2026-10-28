@@ -203,7 +203,8 @@
                 <td th:text="${item.type?.description}"></td>
                 <td th:text="${@format.value(item.category.name)}"></td>
                 <td th:text="${@format.value(item.specification)}"></td>
-                <td th:text="|${#numbers.formatDecimal(item.stock, 1, 'COMMA', item.uom.scale, 'POINT')} ${item.uom.code}|"></td>
+                <td th:text="|${#numbers.formatDecimal(item.stock, 1, 'COMMA', item.uom.scale, 'POINT')} ${item.uom.code}|"
+                    th:classappend="${item.stock.signum() <= 0} ? 'text-danger'"></td>
             </tr>
             </tbody>
         </table>

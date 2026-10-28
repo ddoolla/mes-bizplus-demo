@@ -1,10 +1,10 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
 import createBomItemMultipleListModal from "../../domain/bom-item/modal/list/multiple.js";
-import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
 import tooltip from "../../common/tooltip.js";
 import toast from "../../common/toast.js";
 import createConfirmModal from "../../common/modal/confirm.js";
+import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const bomItemListButton = document.querySelector('#btn-add-from-bom');
 
     const confirmModal = createConfirmModal();
-    const itemMultipleListModal = createItemMultipleListModal();
+    const itemMultiSelectModal = createItemMultiSelectModal();
     const bomItemMultipleListModal = createBomItemMultipleListModal();
 
     /* 툴팁 */
@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 자재 목록 모달 */
     materialListButton.addEventListener('click', function () {
-        itemMultipleListModal.open({
+        itemMultiSelectModal.open({
             title: '자재 목록',
-            url: '/items/modal/list/multiple',
+            url: '/items/modal/multi-select/list',
             params: {group: 'BOM_ITEM'},
             onRegister: async (selectedIds) => {
                 const {routingProcessId} = materialListButton.dataset;
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         {itemIds: selectedIds},
                     );
 
-                    itemMultipleListModal.close();
+                    itemMultiSelectModal.close();
 
                     toast.afterReload({
                         message: response.message,

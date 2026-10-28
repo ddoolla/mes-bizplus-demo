@@ -1,9 +1,9 @@
 import tooltip from "../../../common/tooltip.js";
 import createConfirmModal from "../../../common/modal/confirm.js";
-import createItemMultipleListModal from "../../../domain/item/modal/list/multiple.js";
 import ajax from "../../../common/ajax.js";
 import checkbox from "../../../common/checkbox.js";
 import toast from "../../../common/toast.js";
+import createItemMultiSelectModal from "../../../domain/item/modal/multi-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const createButton = document.querySelector('#receipt-item-create-button');
 
     const confirmModal = createConfirmModal();
-    const itemMultipleListModal = createItemMultipleListModal();
+    const itemMultiSelectModal = createItemMultiSelectModal();
 
     /* 툴팁 */
     tooltip.init();
@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 자재 목록 모달 */
     createButton.addEventListener('click', function () {
-        itemMultipleListModal.open({
+        itemMultiSelectModal.open({
             title: '자재 목록',
-            url: '/items/modal/list/multiple',
+            url: '/items/modal/multi-select/stock-list',
             params: {group: 'MATERIAL'},
             onRegister: async (selectedIds) => {
                 const {receiptId} = createButton.dataset;
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         {itemIds: selectedIds},
                     );
 
-                    itemMultipleListModal.close();
+                    itemMultiSelectModal.close();
 
                     toast.afterReload({
                         message: response.message,

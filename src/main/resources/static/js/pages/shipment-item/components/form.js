@@ -4,7 +4,7 @@ import ajax from "../../../common/ajax.js";
 import checkbox from "../../../common/checkbox.js";
 import toast from "../../../common/toast.js";
 import createInventoryLotMultiSelectModal from "../../../domain/inventory/modal/lot-multi-select.js";
-import createItemSelectWithStockModal from "../../../domain/item/modal/select-with-stock.js";
+import createItemSelectModal from "../../../domain/item/modal/select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -13,18 +13,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteButton = document.querySelector('#shipment-item-delete-button');
 
     const confirmModal = createConfirmModal();
-    const itemSelectWithStockModal = createItemSelectWithStockModal();
+    const itemSelectModal = createItemSelectModal();
     const lotMultiSelectModal = createInventoryLotMultiSelectModal();
 
     const registerModalOpen = (shipmentId) => {
-        itemSelectWithStockModal.open({
+        itemSelectModal.open({
             title: '출고 제품 선택',
-            url: '/items/modal/select-with-stock',
+            url: '/items/modal/select/stock-list',
             params: {group: 'PRODUCT'},
             onSelect: async (item) => {
                 // 로트 관리 -> LOT 선택 목록
                 if (item.lotManaged === 'true') {
-                    itemSelectWithStockModal.close();
+                    itemSelectModal.close();
 
                     lotMultiSelectModal.open({
                         title: '로트 선택',
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         message: response.message
                     });
 
-                    itemSelectWithStockModal.close();
+                    itemSelectModal.close();
                     location.reload();
 
                 } catch (xhr) {

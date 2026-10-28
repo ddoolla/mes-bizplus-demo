@@ -123,8 +123,8 @@
     </div>
 
     <!--/* 품목 모달 */-->
-    <div th:replace="~{pages/item/modal/list/container :: container (
-        @{/items/modal/list/multiple},
+    <div th:replace="~{pages/item/modal/multi-select :: modal (
+        @{/items/modal/multi-select/stock-list},
         'MATERIAL',
         ${itemCategories},
         ${materialTypes})}">

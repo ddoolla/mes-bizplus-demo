@@ -54,27 +54,20 @@ public class SalesOrderItemServiceImpl implements SalesOrderItemService {
         dtoList.forEach(dto -> {
             SalesOrderItem orderItem = salesOrderItemReader.getById(dto.getId());
 
-            // todo 단가관련 관리 정책이 확실해지면 리펙토링 진행
-            BigDecimal taxRate = BigDecimal.valueOf(0.1);
+            BigDecimal quantity = dto.getQuantity() != null
+                    ? dto.getQuantity()
+                    : BigDecimal.ZERO;
 
-            BigDecimal supplyAmount = dto.getUnitPrice() != null
-                    ? dto.getUnitPrice().multiply(dto.getQuantity())
-                    : null;
+            BigDecimal unitPrice = dto.getUnitPrice() != null
+                    ? dto.getUnitPrice()
+                    : BigDecimal.ZERO;
 
-            BigDecimal taxAmount = supplyAmount != null
-                    ? supplyAmount.multiply(taxRate)
-                    : null;
-
-            BigDecimal totalAmount = supplyAmount != null
-                    ? supplyAmount.add(taxAmount)
-                    : null;
+            BigDecimal amount = quantity.multiply(unitPrice);
 
             orderItem.update(
                     dto.getUnitPrice(),
                     dto.getQuantity(),
-                    supplyAmount,
-                    taxAmount,
-                    totalAmount,
+                    amount,
                     dto.getRemark()
             );
         });

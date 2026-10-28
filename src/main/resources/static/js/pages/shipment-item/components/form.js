@@ -3,8 +3,8 @@ import createConfirmModal from "../../../common/modal/confirm.js";
 import ajax from "../../../common/ajax.js";
 import checkbox from "../../../common/checkbox.js";
 import toast from "../../../common/toast.js";
-import createItemSelectWithStockModal from "../../../domain/item/modal/item-select.js";
 import createInventoryLotMultiSelectModal from "../../../domain/inventory/modal/lot-multi-select.js";
+import createItemSelectWithStockModal from "../../../domain/item/modal/select-with-stock.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 

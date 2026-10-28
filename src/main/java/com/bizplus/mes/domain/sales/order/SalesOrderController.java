@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -53,6 +54,16 @@ public class SalesOrderController {
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("salesOrder", salesOrderService.getSalesOrder(id));
         model.addAttribute("salesOrderItems", salesOrderItemService.getSalesOrderItems(id));
+        model.addAttribute(
+                "totalAmount",
+                salesOrderItemService.getSalesOrderItems(id).stream()
+                        .map(dto ->
+                                dto.getAmount() != null
+                                        ? dto.getAmount()
+                                        : BigDecimal.ZERO
+                        )
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
 
         return "pages/sales-order/detail";
     }

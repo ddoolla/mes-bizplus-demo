@@ -20,8 +20,6 @@ public class SalesOrderItemMapper {
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
-                BigDecimal.ZERO,
-                BigDecimal.ZERO,
                 status,
                 ""
         );

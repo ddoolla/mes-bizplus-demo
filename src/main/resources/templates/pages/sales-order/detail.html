@@ -98,7 +98,7 @@
     </div>
 
     <!--/* 수주 품목 정보 */-->
-    <div th:replace="~{pages/sales-order-item/fragments/list :: list (${salesOrderItems})}"></div>
+    <div th:replace="~{pages/sales-order-item/fragments/list :: list (${salesOrderItems}, ${totalAmount})}"></div>
 </div>
 </body>
 </html>

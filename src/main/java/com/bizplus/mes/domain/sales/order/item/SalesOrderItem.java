@@ -41,9 +41,8 @@ public class SalesOrderItem extends SoftDeletableEntity {
     @Column(precision = 38, scale = 10)
     private BigDecimal shippedQuantity;
 
-    private BigDecimal supplyAmount;
-    private BigDecimal taxAmount;
-    private BigDecimal totalAmount;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal amount;
 
     @Column(columnDefinition = "varchar(255)")
     @Enumerated(EnumType.STRING)
@@ -57,9 +56,7 @@ public class SalesOrderItem extends SoftDeletableEntity {
                           BigDecimal unitPrice,
                           BigDecimal quantity,
                           BigDecimal shippedQuantity,
-                          BigDecimal supplyAmount,
-                          BigDecimal taxAmount,
-                          BigDecimal totalAmount,
+                          BigDecimal amount,
                           SalesOrderItemStatus status,
                           String remark) {
         this.salesOrder = salesOrder;
@@ -68,24 +65,18 @@ public class SalesOrderItem extends SoftDeletableEntity {
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.shippedQuantity = shippedQuantity;
-        this.supplyAmount = supplyAmount;
-        this.taxAmount = taxAmount;
-        this.totalAmount = totalAmount;
+        this.amount = amount;
         this.status = status;
         this.remark = remark;
     }
 
     public void update(BigDecimal unitPrice,
                        BigDecimal quantity,
-                       BigDecimal supplyAmount,
-                       BigDecimal taxAmount,
-                       BigDecimal totalAmount,
+                       BigDecimal amount,
                        String remark) {
         this.unitPrice = unitPrice;
         this.quantity = quantity;
-        this.supplyAmount = supplyAmount;
-        this.taxAmount = taxAmount;
-        this.totalAmount = totalAmount;
+        this.amount = amount;
         this.remark = remark;
     }
 

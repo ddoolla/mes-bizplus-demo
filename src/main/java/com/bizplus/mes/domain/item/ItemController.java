@@ -47,9 +47,7 @@ public class ItemController {
     @GetMapping
     @PreAuthorize("hasAuthority('ITEM_READ')")
     @UserAction(menu = MenuCode.ITEM, type = ActionType.READ)
-    public String viewList(Model model,
-                           ItemSearchDto dto,
-                           @PageableDefault Pageable pageable) {
+    public String viewList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("selectedCategory", dto.getCategoryId());
@@ -117,30 +115,38 @@ public class ItemController {
     }
 
     @GetMapping("/modal/list/single")
-    public String viewSingleListModal(Model model,
-                                      ItemSearchDto dto,
-                                      @PageableDefault Pageable pageable) {
+    public String viewSingleListModal(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("data", getItemsByGroup(dto, pageable));
 
         return "pages/item/modal/list/single :: list";
     }
 
     @GetMapping("/modal/list/multiple")
-    public String viewMultipleListModal(Model model,
-                                        ItemSearchDto dto,
-                                        @PageableDefault Pageable pageable) {
+    public String viewMultipleListModal(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("data", getItemsByGroup(dto, pageable));
 
         return "pages/item/modal/list/multiple :: list";
     }
 
     @GetMapping("/modal/select-with-stock")
-    public String viewSelectWithStockModal(Model model,
-                                           ItemSearchDto dto,
-                                           @PageableDefault Pageable pageable) {
+    public String viewSelectWithStockModal(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
         model.addAttribute("data", getItemsByGroup(dto, pageable));
 
         return "pages/item/modal/select-with-stock :: list";
+    }
+
+    @GetMapping("/modal/multi-select/list")
+    public String viewMultiSelectModalList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
+        model.addAttribute("data", getItemsByGroup(dto, pageable));
+
+        return "pages/item/modal/multi-select :: list";
+    }
+
+    @GetMapping("/modal/multi-select/stock-list")
+    public String viewMultiSelectModalStockList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
+        model.addAttribute("data", getItemsByGroup(dto, pageable));
+
+        return "pages/item/modal/multi-select :: stock-list";
     }
 
     private ItemListDto getItemsByGroup(ItemSearchDto dto, Pageable pageable) {

@@ -1,8 +1,8 @@
 import ajax from "../../common/ajax.js";
 import checkbox from "../../common/checkbox.js";
-import createItemMultipleListModal from "../../domain/item/modal/list/multiple.js";
 import toast from "../../common/toast.js";
 import createConfirmModal from "../../common/modal/confirm.js";
+import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const createButton = document.querySelector('#sales-order-item-create-button');
 
     const confirmModal = createConfirmModal();
-    const itemMultipleListModal = createItemMultipleListModal();
+    const itemMultiSelectModal = createItemMultiSelectModal();
 
     checkbox.init(checkboxGroup);
 
     /* 수주 품목 등록 */
     createButton.addEventListener('click', function () {
-        itemMultipleListModal.open({
+        itemMultiSelectModal.open({
             title: '제품 목록',
-            url: `/items/modal/list/multiple`,
+            url: `/items/modal/multi-select/stock-list`,
             params: {group: 'PRODUCT'},
             onRegister: async (selectedIds) => {
                 const salesOrderId = salesOrderEditForm.querySelector('[name="id"]').value;
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         {itemIds: selectedIds}
                     );
 
-                    itemMultipleListModal.close();
+                    itemMultiSelectModal.close();
 
                     toast.afterReload({
                         message: response.message,
@@ -81,4 +81,42 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    /* 금액 계산 */
+    const calculateAmount = (row) => {
+        const quantity = Number(row.querySelector('.sales-order-item-quantity').value);
+        const unitPrice = Number(row.querySelector('.sales-order-item-unit-price').value);
+        const amountEl = row.querySelector('.sales-order-item-amount');
+
+        const amount = quantity * unitPrice;
+
+        amountEl.textContent = Math.round(amount).toLocaleString('ko-KR');
+
+        calculateTotal();
+    }
+
+    /* 총 합계 계산 */
+    const calculateTotal = () => {
+        let totalAmount = 0;
+
+        document.querySelectorAll('.sales-order-item-quantity').forEach(el => {
+            const row = el.closest('tr');
+            const quantity = Number(el.value) || 0;
+            const unitPrice = Number(row.querySelector('.sales-order-item-unit-price').value) || 0;
+
+            totalAmount += quantity * unitPrice;
+        });
+
+        document.querySelector('.total-amount').textContent =
+            Math.round(totalAmount).toLocaleString('ko-KR');
+    }
+
+    document.querySelectorAll('.sales-order-item-quantity, .sales-order-item-unit-price')
+        .forEach(el => {
+            el.addEventListener('input', (e) => {
+                calculateAmount(e.target.closest('tr'));
+            });
+        });
+
+    calculateTotal();
 });

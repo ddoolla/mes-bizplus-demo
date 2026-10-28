@@ -13,9 +13,7 @@ public class SalesOrderItemDto {
     private final BigDecimal unitPrice;
     private final BigDecimal quantity;
     private final BigDecimal shippedQuantity;
-    private final BigDecimal supplyAmount;
-    private final BigDecimal taxAmount;
-    private final BigDecimal totalAmount;
+    private final BigDecimal amount;
     private final SalesOrderItemStatus status;
     private final String remark;
     private final ItemInfo item;
@@ -26,9 +24,7 @@ public class SalesOrderItemDto {
                              BigDecimal unitPrice,
                              BigDecimal quantity,
                              BigDecimal shippedQuantity,
-                             BigDecimal supplyAmount,
-                             BigDecimal taxAmount,
-                             BigDecimal totalAmount,
+                             BigDecimal amount,
                              SalesOrderItemStatus status,
                              String remark,
                              Long itemId,
@@ -42,9 +38,7 @@ public class SalesOrderItemDto {
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.shippedQuantity = shippedQuantity;
-        this.supplyAmount = supplyAmount;
-        this.taxAmount = taxAmount;
-        this.totalAmount = totalAmount;
+        this.amount = amount;
         this.status = status;
         this.remark = remark;
         this.item = new ItemInfo(itemId, itemCode, itemName, itemSpec);

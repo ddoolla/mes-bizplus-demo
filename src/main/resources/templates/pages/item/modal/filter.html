@@ -1,0 +1,76 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 품목 모달 필터 */-->
+<th:block th:fragment="filter (url, itemGroup, itemCategories, itemTypes)">
+    <div>
+        <form class="item-search-form" method="GET" th:action="${url}">
+
+            <input type="hidden" name="group" th:value="${itemGroup}">
+
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 80px">
+                    <col style="width: 160px">
+                    <col style="width: 80px">
+                    <col style="width: 160px">
+                    <col style="width: 80px">
+                    <col style="width: 160px">
+                    <col style="width: 80px">
+                    <col style="width: 160px">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>품목 코드</th>
+                    <td>
+                        <input type="text"
+                               name="code"
+                               class="app-form-control app-xs"
+                               th:value="${param.code}">
+                    </td>
+                    <th>품목명</th>
+                    <td>
+                        <input type="text"
+                               name="name"
+                               class="app-form-control app-xs"
+                               th:value="${param.name}">
+                    </td>
+                    <th>유형</th>
+                    <td>
+                        <select name="type"
+                                class="app-form-control app-xs">
+                            <option value="">전체</option>
+                            <option th:each="type : ${itemTypes}"
+                                    th:value="${type?.name()}"
+                                    th:text="${type?.getDescription()}">
+                            </option>
+                        </select>
+                    </td>
+                    <th>카테고리</th>
+                    <td>
+                        <select name="categoryId"
+                                class="app-form-control app-xs">
+                            <option value="">
+                                전체
+                            </option>
+                            <option th:if="${#lists.isEmpty(itemCategories)}" value="" disabled>
+                                등록된 카테고리가 없습니다.
+                            </option>
+                            <option th:each="category : ${itemCategories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.name}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="mt-2 text-end">
+                <button type="submit" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-search"></i> 조회
+                </button>
+            </div>
+        </form>
+    </div>
+</th:block>
+</html>

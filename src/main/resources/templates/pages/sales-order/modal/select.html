@@ -28,8 +28,8 @@
                     <col style="width: 150px">
                     <col style="width: 150px">
                     <col style="width: auto">
-                    <col style="width: 100px">
-                    <col style="width: 100px">
+                    <col style="width: 120px">
+                    <col style="width: 120px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -54,26 +54,26 @@
                     <td th:text="${@format.value(salesOrder.remark)}"></td>
                     <td th:switch="${salesOrder.status?.name}">
                         <h6 th:case="'DRAFT'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2 app-w-100"
+                            <span class="badge text-bg-secondary p-2 app-w-80"
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'CONFIRMED'" class="mb-0">
-                            <span class="badge text-bg-info p-2 app-w-100"
+                            <span class="badge text-bg-info p-2 app-w-80"
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'PARTIALLY_SHIPPED'" class="mb-0">
-                            <span class="badge text-bg-primary p-2 app-w-100"
+                            <span class="badge text-bg-primary p-2 app-w-80"
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">
-                            <span class="badge text-bg-success p-2 app-w-100"
+                            <span class="badge text-bg-success p-2 app-w-80"
                                   th:text="${salesOrder.status?.description}"></span>
                         </h6>
                     </td>
                     <td>
                         <button type="button"
                                 class="sales-order-select-button
-                                       btn btn-primary btn-sm"
+                                       btn btn-primary btn-sm app-w-80"
                                 th:data-id="${salesOrder.id}"
                                 th:data-order-no="${salesOrder.orderNo}">
                             선택

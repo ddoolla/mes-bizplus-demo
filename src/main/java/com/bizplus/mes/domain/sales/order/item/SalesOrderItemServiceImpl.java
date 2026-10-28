@@ -27,7 +27,7 @@ public class SalesOrderItemServiceImpl implements SalesOrderItemService {
 
     @Override
     public List<SalesOrderItemDto> getSalesOrderItems(Long salesOrderId) {
-        return salesOrderItemRepository.findSalesOrderItems(salesOrderId);
+        return salesOrderItemRepository.fetchSalesOrderItems(salesOrderId);
     }
 
     @Transactional

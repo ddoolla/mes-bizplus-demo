@@ -67,4 +67,8 @@ public class Shipment extends SoftDeletableEntity {
     public void updateRemark(String remark) {
         this.remark = remark;
     }
+
+    public void complete() {
+        this.status = ShipmentStatus.COMPLETED;
+    }
 }

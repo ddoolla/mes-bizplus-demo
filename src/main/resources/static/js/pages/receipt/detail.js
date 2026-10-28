@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         confirmModal.open({
             title: '입고 완료 확인',
-            content: '입고를 완료하시겠습니까?\n확정 이후 입고 자재 정보를 변경할 수 없습니다.',
+            content: '입고를 완료하시겠습니까?\n완료 후 수정할 수 없습니다.',
             onConfirm: async () => {
                 try {
                     const response = await ajax.post(`/api/receipts/${id}/complete`);

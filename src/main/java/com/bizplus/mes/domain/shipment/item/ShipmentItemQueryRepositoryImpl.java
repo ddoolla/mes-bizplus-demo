@@ -2,7 +2,6 @@ package com.bizplus.mes.domain.shipment.item;
 
 import com.bizplus.mes.domain.shipment.item.dto.QShipmentItemDto;
 import com.bizplus.mes.domain.shipment.item.dto.ShipmentItemDto;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +31,7 @@ public class ShipmentItemQueryRepositoryImpl implements ShipmentItemQueryReposit
                         shipmentItem.quantity,
                         shipmentItem.unitPrice,
                         shipmentItem.amount,
-                        JPAExpressions
-                                .select(inventory.quantity.sum().coalesce(BigDecimal.ZERO))
-                                .from(inventory)
-                                .where(inventory.item.id.eq(item.id)),
+                        inventory.quantity.coalesce(BigDecimal.ZERO),
                         item.id,
                         item.code,
                         item.name,
@@ -51,6 +47,11 @@ public class ShipmentItemQueryRepositoryImpl implements ShipmentItemQueryReposit
                 .innerJoin(item).on(shipmentItem.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .leftJoin(lot).on(shipmentItem.lot.id.eq(lot.id))
+                .leftJoin(inventory).on(
+                        inventory.item.id.eq(item.id),
+                        inventory.lot.id.eq(lot.id)
+                                .or(inventory.lot.isNull().and(lot.isNull()))
+                )
                 .where(
                         notDeleted(shipmentItem.deletedAt),
                         eq(shipmentItem.shipment.id, shipmentId)

@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface SalesOrderItemQueryRepository {
 
-    List<SalesOrderItemDto> findSalesOrderItems(Long salesOrderId);
+    List<SalesOrderItemDto> fetchSalesOrderItems(Long salesOrderId);
+
+    List<SalesOrderItem> findSalesOrderItems(Long salesOrderId);
 }

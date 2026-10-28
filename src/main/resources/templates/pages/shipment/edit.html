@@ -65,7 +65,8 @@
                                th:value="*{partner.id}"/>
                         <button type="button"
                                 id="partner-list-button"
-                                class="btn btn-secondary app-btn-xs">
+                                class="btn btn-secondary app-btn-xs"
+                                th:disabled="*{status?.name != 'DRAFT'}">
                             <i class="bi bi-list"></i> 거래처 목록
                         </button>
                         <div id="partner-error-container"></div>
@@ -85,7 +86,8 @@
                                th:value="*{salesOrder.id}"/>
                         <button type="button"
                                 id="sales-order-list-button"
-                                class="btn btn-secondary app-btn-xs">
+                                class="btn btn-secondary app-btn-xs"
+                                th:disabled="*{status?.name != 'DRAFT'}">
                             <i class="bi bi-list"></i> 수주 목록
                         </button>
                     </td>
@@ -97,6 +99,7 @@
                                name="date"
                                class="app-form-control app-xs"
                                th:value="${#temporals.format(shipment.date, 'yyyy-MM-dd')}"
+                               th:disabled="*{status?.name != 'DRAFT'}"
                                readonly/>
                     </td>
                 </tr>
@@ -113,11 +116,11 @@
                     <th>상태</th>
                     <td th:switch="*{status?.name}">
                         <h6 th:case="'DRAFT'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2"
+                            <span class="badge text-bg-secondary p-2 app-w-80"
                                   th:text="*{status?.description}"></span>
                         </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">
-                            <span class="badge text-bg-success p-2"
+                            <span class="badge text-bg-success p-2 app-w-80"
                                   th:text="*{status?.description}"></span>
                         </h6>
                     </td>

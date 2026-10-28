@@ -6,13 +6,11 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.shipment.facade.ShipmentCompleteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,8 @@ public class ShipmentApiController {
     private final MessageService messageService;
     private final ShipmentService shipmentService;
 
+    private final ShipmentCompleteService shipmentCompleteService;
+
     @DeleteMapping
     @PreAuthorize("hasAuthority('SHIPMENT_DELETE')")
     @UserAction(menu = MenuCode.SHIPMENT, type = ActionType.DELETE)
@@ -32,5 +32,14 @@ public class ShipmentApiController {
 
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.DELETED)));
+    }
+
+    @PatchMapping("/{id}/complete")
+    @PreAuthorize("hasAuthority('SHIPMENT_UPDATE')")
+    public ResponseEntity<ApiResponse<Void>> complete(@PathVariable Long id) {
+        shipmentCompleteService.complete(id);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(messageService.get(MessageCode.COMPLETED)));
     }
 }

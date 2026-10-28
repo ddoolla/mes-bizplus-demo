@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SalesOrderItemStatus {
 
-    NOT_SHIPPED("미출하"),
-    PARTIALLY_SHIPPED("부분 출하"),
-    SHIPPED("출하 완료");
+    NOT_SHIPPED("미출고"),
+    PARTIALLY_SHIPPED("부분 출고"),
+    SHIPPED("출고 완료");
 
     private final String description;
 }

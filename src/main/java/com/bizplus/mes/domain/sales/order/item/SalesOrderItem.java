@@ -34,7 +34,13 @@ public class SalesOrderItem extends SoftDeletableEntity {
     private Uom uom;
 
     private BigDecimal unitPrice;
+
+    @Column(precision = 38, scale = 10)
     private BigDecimal quantity;
+
+    @Column(precision = 38, scale = 10)
+    private BigDecimal shippedQuantity;
+
     private BigDecimal supplyAmount;
     private BigDecimal taxAmount;
     private BigDecimal totalAmount;
@@ -50,6 +56,7 @@ public class SalesOrderItem extends SoftDeletableEntity {
                           Uom uom,
                           BigDecimal unitPrice,
                           BigDecimal quantity,
+                          BigDecimal shippedQuantity,
                           BigDecimal supplyAmount,
                           BigDecimal taxAmount,
                           BigDecimal totalAmount,
@@ -60,6 +67,7 @@ public class SalesOrderItem extends SoftDeletableEntity {
         this.uom = uom;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
+        this.shippedQuantity = shippedQuantity;
         this.supplyAmount = supplyAmount;
         this.taxAmount = taxAmount;
         this.totalAmount = totalAmount;
@@ -87,5 +95,9 @@ public class SalesOrderItem extends SoftDeletableEntity {
 
     public void updateRemark(String remark) {
         this.remark = remark;
+    }
+
+    public void updateShippedQuantity(BigDecimal quantity) {
+        this.shippedQuantity = quantity;
     }
 }

@@ -94,7 +94,7 @@ public class ShipmentController {
         reAtt.addAttribute("id", createdId);
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
-        return "redirect:/shipments/{id}";
+        return "redirect:/shipments/{id}/edit";
     }
 
     @PostMapping("/{id}")

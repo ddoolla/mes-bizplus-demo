@@ -4,6 +4,8 @@ import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.sales.order.SalesOrder;
 import com.bizplus.mes.domain.uom.Uom;
 
+import java.math.BigDecimal;
+
 public class SalesOrderItemMapper {
 
     public static SalesOrderItem toEntity(SalesOrder salesOrder,
@@ -15,10 +17,11 @@ public class SalesOrderItemMapper {
                 item,
                 uom,
                 item.getUnitPrice(),
-                null,
-                null,
-                null,
-                null,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
                 status,
                 ""
         );

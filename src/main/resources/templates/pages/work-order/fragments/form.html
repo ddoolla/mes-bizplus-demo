@@ -135,19 +135,19 @@
                     </td>
                     <td th:switch="${workOrder.status?.name}">
                         <h6 th:case="'PENDING'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2"
+                            <span class="badge text-bg-secondary p-2 app-w-80"
                                   th:text="${workOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'IN_PROGRESS'" class="mb-0">
-                            <span class="badge text-bg-primary p-2"
+                            <span class="badge text-bg-primary p-2 app-w-80"
                                   th:text="${workOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'PAUSED'" class="mb-0">
-                            <span class="badge text-bg-warning p-2"
+                            <span class="badge text-bg-warning p-2 app-w-80"
                                   th:text="${workOrder.status?.description}"></span>
                         </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">
-                            <span class="badge text-bg-success p-2"
+                            <span class="badge text-bg-success p-2 app-w-80"
                                   th:text="${workOrder.status?.description}"></span>
                         </h6>
                     </td>

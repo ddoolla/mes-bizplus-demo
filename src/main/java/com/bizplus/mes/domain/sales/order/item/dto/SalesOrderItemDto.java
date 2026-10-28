@@ -12,6 +12,7 @@ public class SalesOrderItemDto {
     private final Long id;
     private final BigDecimal unitPrice;
     private final BigDecimal quantity;
+    private final BigDecimal shippedQuantity;
     private final BigDecimal supplyAmount;
     private final BigDecimal taxAmount;
     private final BigDecimal totalAmount;
@@ -24,6 +25,7 @@ public class SalesOrderItemDto {
     public SalesOrderItemDto(Long id,
                              BigDecimal unitPrice,
                              BigDecimal quantity,
+                             BigDecimal shippedQuantity,
                              BigDecimal supplyAmount,
                              BigDecimal taxAmount,
                              BigDecimal totalAmount,
@@ -39,6 +41,7 @@ public class SalesOrderItemDto {
         this.id = id;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
+        this.shippedQuantity = shippedQuantity;
         this.supplyAmount = supplyAmount;
         this.taxAmount = taxAmount;
         this.totalAmount = totalAmount;

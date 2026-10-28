@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class SalesOrderItemReader {
@@ -14,5 +16,9 @@ public class SalesOrderItemReader {
     public SalesOrderItem getById(Long id) {
         return salesOrderItemRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.SALES_ORDER_ITEM_NOT_FOUND, "id: " + id));
+    }
+
+    public List<SalesOrderItem> getAll(Long salesOrderId) {
+        return salesOrderItemRepository.findSalesOrderItems(salesOrderId);
     }
 }

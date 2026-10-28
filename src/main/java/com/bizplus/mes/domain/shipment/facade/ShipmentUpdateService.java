@@ -29,8 +29,11 @@ public class ShipmentUpdateService {
     public void update(Long id, ShipmentUpdateDto dto) {
         Shipment shipment = shipmentReader.getById(id);
 
-        if (shipment.getStatus() != ShipmentStatus.DRAFT) {
-            throw new IllegalStateException("[출고 수정] 작성중 상태에서만 수정 가능합니다. (id: %d)".formatted(id));
+        // 완료 시 비고만 수정 가능
+        if (shipment.getStatus() == ShipmentStatus.COMPLETED) {
+            shipment.updateRemark(dto.getRemark());
+
+            return;
         }
 
         Partner partner = partnerReader.getById(dto.getPartnerId());

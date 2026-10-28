@@ -21,12 +21,13 @@ public class SalesOrderItemQueryRepositoryImpl implements SalesOrderItemQueryRep
     private final JPAQueryFactory query;
 
     @Override
-    public List<SalesOrderItemDto> findSalesOrderItems(Long salesOrderId) {
+    public List<SalesOrderItemDto> fetchSalesOrderItems(Long salesOrderId) {
         return query.
                 select(new QSalesOrderItemDto(
                         salesOrderItem.id,
                         salesOrderItem.unitPrice,
                         salesOrderItem.quantity,
+                        salesOrderItem.shippedQuantity,
                         salesOrderItem.supplyAmount,
                         salesOrderItem.taxAmount,
                         salesOrderItem.totalAmount,
@@ -48,6 +49,17 @@ public class SalesOrderItemQueryRepositoryImpl implements SalesOrderItemQueryRep
                         eq(salesOrderItem.salesOrder.id, salesOrderId)
                 )
                 .orderBy(salesOrderItem.createdAt.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<SalesOrderItem> findSalesOrderItems(Long salesOrderId) {
+        return query
+                .selectFrom(salesOrderItem)
+                .where(
+                        notDeleted(salesOrderItem.deletedAt),
+                        eq(salesOrderItem.salesOrder.id, salesOrderId)
+                )
                 .fetch();
     }
 }

@@ -31,7 +31,7 @@
         </button>
         <button th:if="${shipment.status?.name == 'DRAFT'}"
                 type="button"
-                id="receipt-complete-button"
+                id="shipment-complete-button"
                 class="btn btn-success btn-sm"
                 th:data-id="${shipment.id}"
                 sec:authorize="hasAuthority('SHIPMENT_UPDATE')">
@@ -57,7 +57,16 @@
             </tr>
             <tr>
                 <th>수주 번호</th>
-                <td th:text="${@format.value(shipment.salesOrder?.orderNo)}"></td>
+                <td>
+                    <th:block th:if="*{salesOrder.id}">
+                        <a class="fw-bold"
+                           th:href="@{/sales-orders/{id}(id=*{salesOrder.id})}"
+                           th:text="*{salesOrder.orderNo}"></a>
+                    </th:block>
+                    <th:block th:unless="*{salesOrder.id}">
+                        <span>-</span>
+                    </th:block>
+                </td>
             </tr>
             <tr>
                 <th>출고일</th>
@@ -71,11 +80,11 @@
                 <th>상태</th>
                 <td th:switch="${shipment.status.name}">
                         <h6 th:case="'DRAFT'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2"
+                            <span class="badge text-bg-secondary p-2 app-w-80"
                                   th:text="${shipment.status?.description}"></span>
                         </h6>
                         <h6 th:case="'COMPLETED'" class="mb-0">
-                            <span class="badge text-bg-success p-2"
+                            <span class="badge text-bg-success p-2 app-w-80"
                                   th:text="${shipment.status?.description}"></span>
                         </h6>
                 </td>

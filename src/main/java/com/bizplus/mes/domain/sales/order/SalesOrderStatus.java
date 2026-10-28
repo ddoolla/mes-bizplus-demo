@@ -9,7 +9,8 @@ public enum SalesOrderStatus {
 
     DRAFT("작성중"),
     CONFIRMED("확정"),
-    COMPLETED("완료");
+    PARTIALLY_SHIPPED("부분 출고"),
+    COMPLETED("출고 완료");
 
     private final String description;
 }

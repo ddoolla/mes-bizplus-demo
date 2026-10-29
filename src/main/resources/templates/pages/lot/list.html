@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('LOT 목록', ~{}, ~{::script}, 'LOT', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('LOT 목록', ~{::link}, ~{::script}, 'LOT', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="module" th:src="@{/js/pages/lot/list.js}"></script>
+    <link rel="stylesheet" th:href="@{css/pages/lot/list.css}"/>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -68,7 +69,14 @@
                         <span th:text="${#temporals.format(lot.expirationDate, 'yyyy-MM-dd')} ?: '-'">
                         </span>
                     </td>
-                    <td></td>
+                    <td>
+                        <button type="button"
+                                class="lot-label-button
+                                       btn btn-primary btn-sm"
+                                th:data-lot-no="${lot.no}">
+                            <i class="bi bi-printer"></i> 라벨 출력
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -76,6 +84,9 @@
 
         <!--/* 페이지네이션 */-->
         <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+
+        <!--/* LOT 바코드 라벨 */-->
+        <div th:replace="~{pages/lot/modal/lot-label :: modal}"></div>
     </div>
 </div>
 </body>

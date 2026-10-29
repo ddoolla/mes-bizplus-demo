@@ -1,0 +1,36 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 라벨 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'lot-label-modal',
+        'LOT 바코트 라벨 출력',
+         ~{::.app-modal-content},
+         null
+    )}">
+        <div class="app-modal-content p-2">
+            <div class="modal-body pt-1">
+                <!--/* 인쇄 버튼 */-->
+                <div class="text-end">
+                    <button type="button"
+                            id="label-print-button"
+                            class="btn btn-primary btn-sm">
+                        <i class="bi bi-printer"></i> 인쇄
+                    </button>
+                </div>
+                <!--/* 라벨 */-->
+                <div class="row mt-2">
+                    <div class="col">
+                        <div id="lot-label-template"
+                             class="card app-h-200
+                                    d-flex justify-content-center align-items-center">
+                            <svg id="lot-barcode"></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

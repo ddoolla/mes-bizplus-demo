@@ -1,12 +1,17 @@
 package com.bizplus.mes.domain.lot;
 
-import com.bizplus.mes.domain.inventory.Inventory;
-import com.bizplus.mes.domain.inventory.InventoryReader;
+import com.bizplus.mes.common.exception.BusinessException;
+import com.bizplus.mes.common.exception.ErrorCode;
+import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.lot.dto.LotCreateDto;
 import com.bizplus.mes.domain.lot.dto.LotDto;
+import com.bizplus.mes.domain.lot.dto.LotListDto;
+import com.bizplus.mes.domain.lot.dto.LotSearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +22,32 @@ public class LotServiceImpl implements LotService {
     private final LotRepository lotRepository;
 
     private final ItemReader itemReader;
-    private final LotReader lotReader;
-    private final InventoryReader inventoryReader;
+
+    @Override
+    public LotListDto getAll(LotSearchDto dto, Pageable pageable) {
+        Page<LotDto> page = lotRepository.fetchAll(dto, pageable);
+
+        return new LotListDto(page.getContent(), Pagination.of(page));
+    }
+
+    @Override
+    public LotDto getById(Long id) {
+        return lotRepository.fetchById(id)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.LOT_NOT_FOUND,
+                        "lot id: %s".formatted(id)
+                ));
+    }
+
+    @Transactional
+    @Override
+    public LotDto getByLotNo(String lotNo) {
+        return lotRepository.fetchByLotNo(lotNo)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.LOT_NOT_FOUND,
+                        "lot number: %s".formatted(lotNo)
+                ));
+    }
 
     @Override
     public Long create(LotCreateDto dto) {
@@ -35,26 +64,5 @@ public class LotServiceImpl implements LotService {
                         dto.getExpirationDate()
                 ))
                 .getId();
-    }
-
-    @Transactional
-    @Override
-    public LotDto getByLotNo(String lotNo) {
-        Lot lot = lotReader.getByLotNo(lotNo);
-        Item item = lot.getItem();
-
-        Inventory inventory = inventoryReader.get(item.getId(), lot.getId());
-
-        return new LotDto(
-                lot.getId(),
-                lot.getNo(),
-                item.getId(),
-                item.getCode(),
-                item.getName(),
-                item.getType(),
-                item.getSpecification(),
-                inventory.getId(),
-                inventory.getQuantity()
-        );
     }
 }

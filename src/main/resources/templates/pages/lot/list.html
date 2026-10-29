@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('LOT 목록', ~{}, ~{::script}, 'LOT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/lot/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('LOT 목록', '재고관리, LOT 관리')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/lot/fragments/filter :: filter ('/lots', ${data.pagination.totalElements})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="lot-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>LOT 번호</th>
+                    <th>품목 코드</th>
+                    <th>품목명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>제조 일자</th>
+                    <th>유효 기간</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(data.lots)}">
+                    <td colspan="8" class="p-4">등록된 LOT 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="lot : ${data.lots}">
+                    <td class="fw-bold">
+                        <a th:href="@{/lots/{id}(id=${lot.id})}"
+                           th:text="${lot.no}"></a>
+                    </td>
+                    <td th:text="${lot.item.code}"></td>
+                    <td th:text="${lot.item.name}"></td>
+                    <td th:text="${lot.item.type?.description}"></td>
+                    <td th:text="${@format.value(lot.item.specification)}"></td>
+                    <td th:text="${#temporals.format(lot.manufactureDate, 'yyyy-MM-dd') ?: '-'}"></td>
+                    <td>
+                        <span th:if=${lot.expirationDate}
+                              th:class="${lot.expirationStatus.cssClass}">
+                            <i class="bi bi-circle-fill"></i>
+                        </span>
+                        &nbsp;
+                        <span th:text="${#temporals.format(lot.expirationDate, 'yyyy-MM-dd')} ?: '-'">
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

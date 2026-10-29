@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main :: layout ('품목 재고 목록', ~{}, ~{::script}, 'ITEM_INVENTORY', ~{::#app-content})}">
+      th:replace="~{layouts/main :: layout ('재고 현황', ~{}, ~{::script}, 'ITEM_INVENTORY', ~{::#app-content})}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,7 +11,7 @@
 <!--/* 콘텐츠 */-->
 <div id="app-content">
     <!--/* 헤더 */-->
-    <div th:replace="~{fragments/content :: header ('품목 재고 목록', '재고관리, 품목재고조회')}">
+    <div th:replace="~{fragments/content :: header ('재고 현황', '재고관리, 재고현황')}">
     </div>
 
     <!--/* 바디 */-->

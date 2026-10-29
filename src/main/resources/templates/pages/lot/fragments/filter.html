@@ -1,0 +1,50 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div th:fragment="filter (url, count)">
+    <form id="item-search-form" method="GET" th:action="${url}">
+        <table class="app-table-input">
+            <colgroup>
+                <col style="width: 120px">
+                <col style="width: auto">
+                <col style="width: 120px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>품목</th>
+                <td>
+                    <input type="text"
+                           name="item"
+                           class="app-form-control app-xs"
+                           th:value="${param.item}">
+                </td>
+                <th>LOT</th>
+                <td>
+                    <input type="text"
+                           name="lotNo"
+                           class="app-form-control app-xs"
+                           th:value="${param.lotNo}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-2 mb-2 text-end">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="bi bi-search"></i> 조회
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="fw-bold"
+                 th:text="|Total : ${count} 건|">
+            </div>
+            <div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>

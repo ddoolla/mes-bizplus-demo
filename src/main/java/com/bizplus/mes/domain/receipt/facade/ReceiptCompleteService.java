@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
+import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.Lot;
@@ -113,7 +114,9 @@ public class ReceiptCompleteService {
                     lot != null ? lot.getId() : null,
                     TransactionType.RECEIPT,
                     convertedQuantity,
-                    receipt.getDate().atTime(LocalTime.now())
+                    receipt.getDate().atTime(LocalTime.now()),
+                    InventoryReferenceType.RECEIPT,
+                    receiptId
             ));
         });
 

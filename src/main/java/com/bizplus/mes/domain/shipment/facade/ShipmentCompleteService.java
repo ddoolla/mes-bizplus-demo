@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.shipment.facade;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
+import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.sales.order.SalesOrder;
 import com.bizplus.mes.domain.sales.order.SalesOrderStatus;
@@ -36,14 +37,14 @@ public class ShipmentCompleteService {
     private final ShipmentItemService shipmentItemService;
 
     @Transactional
-    public void complete(Long id) {
-        Shipment shipment = shipmentReader.getById(id);
+    public void complete(Long shipmentId) {
+        Shipment shipment = shipmentReader.getById(shipmentId);
 
         if (shipment.getStatus() == ShipmentStatus.COMPLETED) {
             throw new BusinessException("이미 완료된 출고입니다.");
         }
 
-        List<ShipmentItemDto> shipmentItems = shipmentItemService.getAll(id);
+        List<ShipmentItemDto> shipmentItems = shipmentItemService.getAll(shipmentId);
 
         Map<Long, BigDecimal> shipmentQuantityMap = new HashMap<>();
 
@@ -56,7 +57,9 @@ public class ShipmentCompleteService {
                             : null,
                     TransactionType.SHIPMENT,
                     shipmentItem.getQuantity(),
-                    shipment.getDate().atTime(LocalTime.now())
+                    shipment.getDate().atTime(LocalTime.now()),
+                    InventoryReferenceType.SHIPMENT,
+                    shipmentId
             ));
 
             // 제품별 출고 수량 집계

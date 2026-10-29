@@ -29,6 +29,7 @@ public class InventoryTransaction extends SoftDeletableEntity {
     @JoinColumn(name = "lot_id")
     private Lot lot;
 
+    @Column(columnDefinition = "varchar(255)", nullable = false)
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
@@ -37,15 +38,24 @@ public class InventoryTransaction extends SoftDeletableEntity {
 
     private LocalDateTime transactionAt;
 
+    @Column(columnDefinition = "varchar(255)")
+    @Enumerated(EnumType.STRING)
+    private InventoryReferenceType referenceType;
+    private Long referenceId;
+
     public InventoryTransaction(Item item,
                                 Lot lot,
                                 TransactionType type,
                                 BigDecimal quantity,
-                                LocalDateTime transactionAt) {
+                                LocalDateTime transactionAt,
+                                InventoryReferenceType referenceType,
+                                Long referenceId) {
         this.item = item;
         this.lot = lot;
         this.type = type;
         this.quantity = quantity;
         this.transactionAt = transactionAt;
+        this.referenceType = referenceType;
+        this.referenceId = referenceId;
     }
 }

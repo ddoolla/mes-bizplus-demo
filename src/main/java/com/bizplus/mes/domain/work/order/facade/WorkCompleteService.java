@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.work.order.facade;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
+import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.Lot;
@@ -87,7 +88,9 @@ public class WorkCompleteService {
                             : null,
                     TransactionType.PRODUCTION_IN,
                     dto.getGoodQuantity(),
-                    manufacturedDateTime
+                    manufacturedDateTime,
+                    InventoryReferenceType.WORK_ORDER,
+                    workOrderId
             ));
 
             // 6. 생산실적 생성

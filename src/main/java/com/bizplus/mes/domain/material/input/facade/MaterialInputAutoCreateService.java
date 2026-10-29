@@ -4,6 +4,7 @@ import com.bizplus.mes.domain.inventory.Inventory;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.InventoryReader;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
+import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.Lot;
@@ -117,7 +118,9 @@ public class MaterialInputAutoCreateService {
                                 : null,
                         TransactionType.PRODUCTION_OUT,
                         deductQty,
-                        inputAt
+                        inputAt,
+                        InventoryReferenceType.WORK_ORDER,
+                        workOrderId
                 ));
 
                 remainingQty = remainingQty.subtract(deductQty);

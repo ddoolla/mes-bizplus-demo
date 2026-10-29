@@ -63,7 +63,9 @@ public class InventoryManager {
                 lot,
                 dto.getType(),
                 dto.getQuantity(),
-                transactionAt
+                transactionAt,
+                dto.getReferenceType(),
+                dto.getReferenceId()
         ));
     }
 

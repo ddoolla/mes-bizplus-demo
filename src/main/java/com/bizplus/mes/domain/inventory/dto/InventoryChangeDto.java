@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.inventory.dto;
 
+import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -24,4 +25,6 @@ public class InventoryChangeDto {
     @Positive
     private BigDecimal quantity;
     private LocalDateTime transactionAt;
+    private InventoryReferenceType referenceType;
+    private Long referenceId;
 }

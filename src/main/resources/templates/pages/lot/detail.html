@@ -75,6 +75,9 @@
             </tbody>
         </table>
     </div>
+
+    <!--/* 재고 변동 내역 */-->
+    <div th:replace="~{pages/lot/fragments/inspection-transaction-list :: list (${inventoryTransactions})}"></div>
 </div>
 </body>
 </html>

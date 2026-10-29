@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InventoryTransactionServiceImpl implements InventoryTransactionService {
@@ -20,5 +22,10 @@ public class InventoryTransactionServiceImpl implements InventoryTransactionServ
         Page<InventoryTransactionDto> page = inventoryTransactionRepository.fetchAll(dto, pageable);
 
         return new InventoryTransactionListDto(page.getContent(), Pagination.of(page));
+    }
+
+    @Override
+    public List<InventoryTransactionDto> getAllByLotId(Long lotId) {
+        return inventoryTransactionRepository.fetchAllByLotId(lotId);
     }
 }

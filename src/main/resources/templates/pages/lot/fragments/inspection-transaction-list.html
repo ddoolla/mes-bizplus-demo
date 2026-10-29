@@ -1,0 +1,62 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (inventoryTransactions)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">재고 변동 내역</p>
+            </div>
+        </div>
+
+        <div id="bom-item-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 180px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>처리 일시</th>
+                    <th>변동 유형</th>
+                    <th>품목 코드</th>
+                    <th>품목명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>LOT 번호</th>
+                    <th>변동 수량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(inventoryTransactions)}">
+                    <td colspan="8" class="p-4">등록된 재고 내역 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="transaction : ${inventoryTransactions}">
+                    <td th:text="${#temporals.format(transaction.transactionAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class="fw-bold"
+                        th:classappend="${transaction.type.direction.sign > 0 ? 'text-success' : 'text-danger'}"
+                        th:text="${transaction.type?.description}"></td>
+                    <td th:text="${transaction.item.code}"></td>
+                    <td th:text="${transaction.item.name}"></td>
+                    <td th:text="${transaction.item.type?.description}"></td>
+                    <td th:text="${@format.value(transaction.item.specification)}"></td>
+                    <td th:text="${@format.value(transaction.lot.no)}"></td>
+                    <td class="fw-bold"
+                        th:classappend="${transaction.type.direction.sign > 0 ? 'text-success' : 'text-danger'}"
+                        th:text="|${transaction.type.direction.sign > 0 ? '+' : '-'}
+                                  ${#numbers.formatDecimal(transaction.quantity, 1, 'COMMA', transaction.item.uom.scale, 'POINT')}
+                                  ${transaction.item.uom.code}|"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

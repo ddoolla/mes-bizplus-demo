@@ -72,4 +72,34 @@ public class InventoryTransactionQueryRepositoryImpl implements InventoryTransac
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
+
+    @Override
+    public List<InventoryTransactionDto> fetchAllByLotId(Long lotId) {
+        return query
+                .select(new QInventoryTransactionDto(
+                        inventoryTransaction.id,
+                        inventoryTransaction.type,
+                        inventoryTransaction.quantity,
+                        inventoryTransaction.transactionAt,
+                        item.id,
+                        item.code,
+                        item.name,
+                        item.type,
+                        item.specification,
+                        uom.id,
+                        uom.code,
+                        uom.scale,
+                        lot.id,
+                        lot.no
+                ))
+                .from(inventoryTransaction)
+                .innerJoin(item).on(inventoryTransaction.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(lot).on(inventoryTransaction.lot.id.eq(lot.id))
+                .where(
+                        eq(inventoryTransaction.lot.id, lotId)
+                )
+                .orderBy(inventoryTransaction.transactionAt.desc())
+                .fetch();
+    }
 }

@@ -2,6 +2,7 @@ package com.bizplus.mes.domain.lot;
 
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
+import com.bizplus.mes.domain.inventory.transaction.InventoryTransactionService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.lot.dto.LotSearchDto;
@@ -27,6 +28,7 @@ public class LotController {
 
     private final MessageService messageService;
     private final LotService lotService;
+    private final InventoryTransactionService inventoryTransactionService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('LOT_READ')")
@@ -41,6 +43,7 @@ public class LotController {
     @PreAuthorize("hasAuthority('LOT_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
         model.addAttribute("lot", lotService.getById(id));
+        model.addAttribute("inventoryTransactions", inventoryTransactionService.getAllByLotId(id));
 
         return "pages/lot/detail";
     }

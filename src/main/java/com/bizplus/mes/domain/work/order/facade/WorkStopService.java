@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.work.order.WorkOrderService;
 import com.bizplus.mes.domain.work.order.WorkOrderStatus;
 import com.bizplus.mes.domain.work.order.dto.WorkStopDto;
 import com.bizplus.mes.domain.work.result.WorkResultService;
+import com.bizplus.mes.domain.work.result.dto.WorkResultUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,14 @@ public class WorkStopService {
         workOrderService.stopWork(workOrderId);
 
         // 작업 실적 업데이트
-        workResultService.stopWork(workOrderId, dto);
+        workResultService.update(
+                workOrderId,
+                new WorkResultUpdateDto(
+                        dto.getProductionQuantity(),
+                        dto.getGoodQuantity(),
+                        dto.getDefectQuantity(),
+                        null,
+                        null
+                ));
     }
 }

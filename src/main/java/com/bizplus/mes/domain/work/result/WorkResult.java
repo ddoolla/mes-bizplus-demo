@@ -54,6 +54,18 @@ public class WorkResult extends SoftDeletableEntity {
         this.remark = remark;
     }
 
+    public void update(BigDecimal productionQuantity,
+                       BigDecimal goodQuantity,
+                       BigDecimal defectQuantity,
+                       LocalDateTime completedAt,
+                       String remark) {
+        this.productionQuantity = productionQuantity;
+        this.goodQuantity = goodQuantity;
+        this.defectQuantity = defectQuantity;
+        this.completedAt = completedAt;
+        this.remark = remark;
+    }
+
     public void stopWork(BigDecimal productionQuantity,
                          BigDecimal goodQuantity,
                          BigDecimal defectQuantity) {

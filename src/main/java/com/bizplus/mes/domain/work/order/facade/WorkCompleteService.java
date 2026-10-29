@@ -4,6 +4,8 @@ import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
+import com.bizplus.mes.domain.item.Item;
+import com.bizplus.mes.domain.lot.Lot;
 import com.bizplus.mes.domain.material.input.facade.MaterialInputAutoCreateService;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.production.order.ProductionOrderReader;
@@ -17,10 +19,12 @@ import com.bizplus.mes.domain.work.order.WorkOrderService;
 import com.bizplus.mes.domain.work.order.WorkOrderStatus;
 import com.bizplus.mes.domain.work.order.dto.WorkCompleteDto;
 import com.bizplus.mes.domain.work.result.WorkResultService;
+import com.bizplus.mes.domain.work.result.dto.WorkResultUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -51,8 +55,18 @@ public class WorkCompleteService {
             throw new BusinessException("작업 진행중 상태에서만 완료 가능합니다.");
         }
 
+        LocalDateTime manufacturedDateTime = LocalDateTime.now();
+
         // 3. 작업실적 업데이트
-        workResultService.completeWork(workOrderId, dto);
+        workResultService.update(
+                workOrderId,
+                new WorkResultUpdateDto(
+                        dto.getProductionQuantity(),
+                        dto.getGoodQuantity(),
+                        dto.getDefectQuantity(),
+                        manufacturedDateTime,
+                        dto.getRemark()
+                ));
 
         // 4. 작업지시 상태 업데이트
         workOrderService.completeWork(workOrderId);
@@ -65,8 +79,6 @@ public class WorkCompleteService {
         boolean isLastProcess = productionOrderProcessService.isLastProcess(processId);
 
         if (isLastProcess) {
-            LocalDateTime now = LocalDateTime.now();
-
             // 5. 재고 증가
             inventoryManager.changeStock(new InventoryChangeDto(
                     productionOrder.getItem().getId(),
@@ -75,7 +87,7 @@ public class WorkCompleteService {
                             : null,
                     TransactionType.PRODUCTION_IN,
                     dto.getGoodQuantity(),
-                    now
+                    manufacturedDateTime
             ));
 
             // 6. 생산실적 생성
@@ -85,8 +97,24 @@ public class WorkCompleteService {
                     dto.getProductionQuantity(),
                     dto.getGoodQuantity(),
                     dto.getDefectQuantity(),
-                    now
+                    manufacturedDateTime
             ));
+
+            // 로트 있을 경우 제조일, 유효기간 업데이트
+            Item item = productionOrder.getItem();
+            Lot lot = productionOrder.getLot();
+
+            if (lot != null) {
+                LocalDate manufacturedDate = manufacturedDateTime.toLocalDate();
+                LocalDate expirationDate = null;
+
+                if (item.getShelfLife() != null && item.getShelfLifeUnit() != null) {
+                    expirationDate = item.getShelfLifeUnit()
+                            .calculateExpirationDate(manufacturedDate, item.getShelfLife());
+                }
+
+                lot.updateDates(manufacturedDate, expirationDate);
+            }
         }
 
         // 모든 공정 작업 완료 시

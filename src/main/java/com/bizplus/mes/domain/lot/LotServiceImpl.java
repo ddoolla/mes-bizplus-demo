@@ -4,6 +4,7 @@ import com.bizplus.mes.domain.inventory.Inventory;
 import com.bizplus.mes.domain.inventory.InventoryReader;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
+import com.bizplus.mes.domain.lot.dto.LotCreateDto;
 import com.bizplus.mes.domain.lot.dto.LotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,20 @@ public class LotServiceImpl implements LotService {
     private final InventoryReader inventoryReader;
 
     @Override
-    public Long createLot(Long itemId, String lotNo) {
-        Item item = itemReader.getById(itemId);
+    public Long create(LotCreateDto dto) {
+        Item item = itemReader.getById(dto.getItemId());
 
         if (!item.isLotManaged()) {
             throw new IllegalStateException("LOT 관리 품목이 아닙니다. itemId: " + item);
         }
 
-        return lotRepository.save(new Lot(item, lotNo)).getId();
+        return lotRepository.save(new Lot(
+                        item,
+                        dto.getNo(),
+                        dto.getManufactureDate(),
+                        dto.getExpirationDate()
+                ))
+                .getId();
     }
 
     @Transactional

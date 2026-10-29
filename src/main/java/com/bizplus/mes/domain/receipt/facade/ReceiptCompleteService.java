@@ -5,7 +5,6 @@ import com.bizplus.mes.domain.inspection.incoming.IncomingInspectionService;
 import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inventory.InventoryManager;
-import com.bizplus.mes.domain.inventory.InventoryService;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.item.Item;
@@ -40,7 +39,6 @@ public class ReceiptCompleteService {
     private final InventoryManager inventoryManager;
 
     private final UomConversionService uomConversionService;
-    private final InventoryService inventoryService;
     private final IncomingInspectionService incomingInspectionService;
     private final InspectionResultService inspectionResultService;
 
@@ -77,7 +75,9 @@ public class ReceiptCompleteService {
                         lotNoGenerator.generate(
                                 "LOT",
                                 receiptDate
-                        )
+                        ),
+                        null,
+                        null
                 ));
 
                 receiptItem.updateLot(lot);

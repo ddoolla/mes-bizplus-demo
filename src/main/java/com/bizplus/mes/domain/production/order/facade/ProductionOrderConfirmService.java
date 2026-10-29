@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.production.order.facade;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.lot.LotNoGenerator;
 import com.bizplus.mes.domain.lot.LotService;
+import com.bizplus.mes.domain.lot.dto.LotCreateDto;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.production.order.ProductionOrderReader;
 import com.bizplus.mes.domain.production.order.ProductionOrderService;
@@ -38,9 +39,13 @@ public class ProductionOrderConfirmService {
         Long lotId = null;
 
         if (item.isLotManaged()) {
-            lotId = lotService.createLot(
-                    dto.getItemId(),
-                    lotNoGenerator.generate("LOT", LocalDate.now())
+            lotId = lotService.create(
+                    new LotCreateDto(
+                        dto.getItemId(),
+                        lotNoGenerator.generate("LOT", LocalDate.now()),
+                            null,
+                            null
+                    )
             );
         }
 

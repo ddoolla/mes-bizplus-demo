@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     itemListButton.addEventListener('click', function () {
         itemSelectModal.open({
             title: '제품 목록 (완제품/반제품)',
-            url: '/items/modal/list/single',
+            url: '/items/modal/select/list',
             params: {group: 'PRODUCT'},
             onSelect: (item) => {
                 // BOM, 제품공정 정보 초기화

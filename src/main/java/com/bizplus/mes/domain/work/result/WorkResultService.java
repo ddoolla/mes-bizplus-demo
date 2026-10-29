@@ -1,13 +1,10 @@
 package com.bizplus.mes.domain.work.result;
 
-import com.bizplus.mes.domain.work.order.dto.WorkCompleteDto;
-import com.bizplus.mes.domain.work.order.dto.WorkStopDto;
+import com.bizplus.mes.domain.work.result.dto.WorkResultUpdateDto;
 
 public interface WorkResultService {
 
-    void createWorkResult(Long workOrderId);
+    void create(Long workOrderId);
 
-    void stopWork(Long workOrderId, WorkStopDto dto);
-
-    void completeWork(Long workOrderId, WorkCompleteDto dto);
+    void update(Long workOrderId, WorkResultUpdateDto dto);
 }

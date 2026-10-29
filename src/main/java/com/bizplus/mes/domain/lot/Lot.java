@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "lots")
 @Getter
@@ -24,8 +26,21 @@ public class Lot extends SoftDeletableEntity {
     @Column(unique = true, nullable = false)
     private String no;
 
-    public Lot(Item item, String no) {
+    private LocalDate manufactureDate; // 제조일
+    private LocalDate expirationDate; // 유효기간
+
+    public Lot(Item item,
+               String no,
+               LocalDate manufactureDate,
+               LocalDate expirationDate) {
         this.item = item;
         this.no = no;
+        this.manufactureDate = manufactureDate;
+        this.expirationDate = expirationDate;
+    }
+
+    public void updateDates(LocalDate manufactureDate, LocalDate expirationDate) {
+        this.manufactureDate = manufactureDate;
+        this.expirationDate = expirationDate;
     }
 }

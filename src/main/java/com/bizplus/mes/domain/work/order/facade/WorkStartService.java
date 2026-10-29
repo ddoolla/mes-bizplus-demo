@@ -40,7 +40,7 @@ public class WorkStartService {
         Equipment equipment = workOrderService.startWork(workOrderId);
 
         // 4. 작업실적 생성
-        workResultService.createWorkResult(workOrderId);
+        workResultService.create(workOrderId);
 
         // 5. 생산지시 상태 변경 - 생산중
         productionOrderService.startProduction(

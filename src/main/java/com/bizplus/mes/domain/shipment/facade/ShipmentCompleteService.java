@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class ShipmentCompleteService {
                             : null,
                     TransactionType.SHIPMENT,
                     shipmentItem.getQuantity(),
-                    shipment.getDate().atTime(LocalTime.now()),
+                    LocalDateTime.now(), // 재고 처리 시각 (출고일 X)
                     InventoryReferenceType.SHIPMENT,
                     shipmentId
             ));

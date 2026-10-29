@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('LOT 상세', ~{}, ~{}, 'LOT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('LOT 상세', '재고관리, LOT관리, 상세')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/lots}'|">
+            <i class="bi bi-list"></i> 목록
+        </button>
+
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('LOT_UPDATE')"
+                th:onclick="|location.href='@{/lots/{id}/edit(id=${lot.id})}'|">
+            <i class="bi bi-pencil-square"></i> 수정
+        </button>
+    </div>
+
+    <!--/* LOT 상세 */-->
+    <div class="app-box app-box-bg">
+        <table class="app-table-input" th:object="${lot}">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: 500px">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>LOT 번호</th>
+                <td colspan="3" th:text="*{no}"></td>
+            </tr>
+            <tr>
+                <th>품목 코드</th>
+                <td th:text="*{item.code}"></td>
+                <th>유형</th>
+                <td th:text="*{item.type?.description}"></td>
+            </tr>
+            <tr>
+                <th>품목명</th>
+                <td th:text="*{item.name}"></td>
+                <th>규격</th>
+                <td th:text="${@format.value(lot.item.specification)}"></td>
+            </tr>
+            <tr>
+                <th>제조 일자</th>
+                <td th:text="${#temporals.format(lot.manufactureDate, 'yyyy-MM-dd')} ?: '-'"></td>
+                <th>유효 기간</th>
+                <td>
+                    <span th:if="${lot.expirationDate}"
+                          th:class="${lot.expirationStatus.cssClass}">
+                        <i class="bi bi-circle-fill"></i>
+                    </span>
+                    <span th:text="${#temporals.format(lot.expirationDate, 'yyyy-MM-dd')} ?: '-'"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>비고</th>
+                <td colspan="3" th:text="*{remark} ?: '-'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

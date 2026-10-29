@@ -1,9 +1,6 @@
 package com.bizplus.mes.domain.lot;
 
-import com.bizplus.mes.domain.lot.dto.LotCreateDto;
-import com.bizplus.mes.domain.lot.dto.LotDto;
-import com.bizplus.mes.domain.lot.dto.LotListDto;
-import com.bizplus.mes.domain.lot.dto.LotSearchDto;
+import com.bizplus.mes.domain.lot.dto.*;
 import org.springframework.data.domain.Pageable;
 
 public interface LotService {
@@ -15,4 +12,6 @@ public interface LotService {
     LotDto getByLotNo(String lotNo);
 
     Long create(LotCreateDto dto);
+
+    void update(Long id, LotUpdateDto dto);
 }

@@ -60,7 +60,7 @@
                     <td th:text="${@format.value(lot.item.specification)}"></td>
                     <td th:text="${#temporals.format(lot.manufactureDate, 'yyyy-MM-dd') ?: '-'}"></td>
                     <td>
-                        <span th:if=${lot.expirationDate}
+                        <span th:if="${lot.expirationDate}"
                               th:class="${lot.expirationStatus.cssClass}">
                             <i class="bi bi-circle-fill"></i>
                         </span>

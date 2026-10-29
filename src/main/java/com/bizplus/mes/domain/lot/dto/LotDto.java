@@ -15,6 +15,7 @@ public class LotDto {
     private final String no;
     private final LocalDate manufactureDate;
     private final LocalDate expirationDate;
+    private final String remark;
     private final ItemInfo item;
     private final InventoryInfo inventory;
     private final ExpirationStatus expirationStatus;
@@ -24,6 +25,7 @@ public class LotDto {
                   String no,
                   LocalDate manufactureDate,
                   LocalDate expirationDate,
+                  String remark,
                   Long itemId,
                   String itemCode,
                   String itemName,
@@ -36,6 +38,7 @@ public class LotDto {
         this.manufactureDate = manufactureDate;
         this.expirationDate = expirationDate;
         this.expirationStatus = ExpirationStatus.from(expirationDate);
+        this.remark = remark;
         this.item = new ItemInfo(
                 itemId,
                 itemCode,

@@ -79,6 +79,7 @@ public class ReceiptCompleteService {
                                 receiptDate
                         ),
                         null,
+                        null,
                         null
                 ));
 

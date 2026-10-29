@@ -5,10 +5,7 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
-import com.bizplus.mes.domain.lot.dto.LotCreateDto;
-import com.bizplus.mes.domain.lot.dto.LotDto;
-import com.bizplus.mes.domain.lot.dto.LotListDto;
-import com.bizplus.mes.domain.lot.dto.LotSearchDto;
+import com.bizplus.mes.domain.lot.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +19,7 @@ public class LotServiceImpl implements LotService {
     private final LotRepository lotRepository;
 
     private final ItemReader itemReader;
+    private final LotReader lotReader;
 
     @Override
     public LotListDto getAll(LotSearchDto dto, Pageable pageable) {
@@ -61,8 +59,17 @@ public class LotServiceImpl implements LotService {
                         item,
                         dto.getNo(),
                         dto.getManufactureDate(),
-                        dto.getExpirationDate()
+                        dto.getExpirationDate(),
+                        null
                 ))
                 .getId();
+    }
+
+    @Transactional
+    @Override
+    public void update(Long id, LotUpdateDto dto) {
+        Lot lot = lotReader.getById(id);
+
+        lot.update(dto.getExpirationDate(), dto.getRemark());
     }
 }

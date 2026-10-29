@@ -29,18 +29,28 @@ public class Lot extends SoftDeletableEntity {
     private LocalDate manufactureDate; // 제조일
     private LocalDate expirationDate; // 유효기간
 
+    private String remark;
+
     public Lot(Item item,
                String no,
                LocalDate manufactureDate,
-               LocalDate expirationDate) {
+               LocalDate expirationDate,
+               String remark) {
         this.item = item;
         this.no = no;
         this.manufactureDate = manufactureDate;
         this.expirationDate = expirationDate;
+        this.remark = remark;
+    }
+
+    public void update(LocalDate expirationDate, String remark) {
+        this.expirationDate = expirationDate;
+        this.remark = remark;
     }
 
     public void updateDates(LocalDate manufactureDate, LocalDate expirationDate) {
         this.manufactureDate = manufactureDate;
         this.expirationDate = expirationDate;
     }
+
 }

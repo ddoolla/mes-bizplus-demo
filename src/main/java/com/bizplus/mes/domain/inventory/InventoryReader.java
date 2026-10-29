@@ -39,8 +39,4 @@ public class InventoryReader {
     public List<Inventory> getAllAvailable(Long itemId) {
         return inventoryRepository.findAvailableInventories(itemId);
     }
-
-    public boolean hasStock(Long itemId) {
-        return inventoryRepository.existsStockByItemId(itemId);
-    }
 }

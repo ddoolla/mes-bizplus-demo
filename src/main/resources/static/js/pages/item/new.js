@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    const lotManagedRadios = document.querySelectorAll('[name="lotManaged"]');
+    const shelfLifeInput = document.querySelector('[name="shelfLife"]');
+    const shelfLifeUnitInput = document.querySelector('[name="shelfLifeUnit"]');
+
+    /* 유효기간 활성/비활성 */
+    lotManagedRadios.forEach(el => {
+        el.addEventListener('click', function (e) {
+            if (e.target.value === 'true') {
+                shelfLifeInput.disabled = false;
+                shelfLifeUnitInput.disabled = false;
+
+            } else {
+                shelfLifeInput.disabled = true;
+                shelfLifeUnitInput.disabled = true;
+            }
+        });
+    });
+
+    /* 등록 폼 유효성 검사 */
     $('#item-new-form').validate({
         rules: {
             code: {

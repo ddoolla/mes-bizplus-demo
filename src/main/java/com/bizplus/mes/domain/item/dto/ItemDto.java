@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.item.dto;
 
 import com.bizplus.mes.domain.item.ItemType;
+import com.bizplus.mes.domain.item.ShelfLifeUnit;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -15,8 +16,10 @@ public class ItemDto {
     private final ItemType type;
     private final String specification;
     private final BigDecimal unitPrice;
-    private final String remark;
     private final boolean lotManaged;
+    private final Integer shelfLife;
+    private final ShelfLifeUnit shelfLifeUnit;
+    private final String remark;
     private final BigDecimal stock;
     private final CategoryInfo category;
     private final UomInfo uom;
@@ -30,8 +33,10 @@ public class ItemDto {
                    ItemType type,
                    String specification,
                    BigDecimal unitPrice,
-                   String remark,
                    boolean lotManaged,
+                   Integer shelfLife,
+                   ShelfLifeUnit shelfLifeUnit,
+                   String remark,
                    BigDecimal stock,
                    Long categoryId,
                    String categoryName,
@@ -50,8 +55,10 @@ public class ItemDto {
         this.type = type;
         this.specification = specification;
         this.unitPrice = unitPrice;
-        this.remark = remark;
+        this.shelfLife = shelfLife;
+        this.shelfLifeUnit = shelfLifeUnit;
         this.lotManaged = lotManaged;
+        this.remark = remark;
         this.stock = stock;
         this.category = new CategoryInfo(
                 categoryId,

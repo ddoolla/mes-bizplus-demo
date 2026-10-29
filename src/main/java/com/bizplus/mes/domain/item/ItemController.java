@@ -85,6 +85,7 @@ public class ItemController {
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
+        model.addAttribute("shelfLifeUnits", ShelfLifeUnit.values());
 
         return "pages/item/new";
     }
@@ -107,6 +108,7 @@ public class ItemController {
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("itemTypes", ItemType.values());
         model.addAttribute("uoms", uomService.getUoms());
+        model.addAttribute("shelfLifeUnits", ShelfLifeUnit.values());
         model.addAttribute("item", itemService.getItem(id));
         model.addAttribute("image1", image1);
         model.addAttribute("image2", image2);
@@ -164,13 +166,6 @@ public class ItemController {
     public boolean checkCode(@RequestParam(required = false) Long id,
                              @RequestParam String code) {
         return itemService.checkCode(id, code);
-    }
-
-    @GetMapping("/check-lot-managed")
-    @ResponseBody
-    public boolean checkLotManaged(@RequestParam(required = false) Long id,
-                                   @RequestParam boolean lotManaged) {
-        return itemService.checkLotManage(id, lotManaged);
     }
 
     @PostMapping

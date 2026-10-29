@@ -143,18 +143,6 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
     }
 
     @Override
-    public boolean existsStockByItemId(Long itemId) {
-        return query
-                .selectOne()
-                .from(inventory)
-                .where(
-                        eq(inventory.item.id, itemId),
-                        inventory.quantity.gt(BigDecimal.ZERO)
-                )
-                .fetchFirst() != null;
-    }
-
-    @Override
     public List<Inventory> findAvailableInventories(Long itemId) {
         return query
                 .selectFrom(inventory)

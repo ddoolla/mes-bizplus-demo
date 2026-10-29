@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.item.dto;
 
 import com.bizplus.mes.domain.item.ItemType;
+import com.bizplus.mes.domain.item.ShelfLifeUnit;
 import com.bizplus.mes.domain.item.file.dto.ItemFileCreateDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,8 +30,10 @@ public class ItemCreateDto {
 
     @PositiveOrZero
     private BigDecimal unitPrice;
-    private String remark;
     private boolean lotManaged;
+    private Integer shelfLife;
+    private ShelfLifeUnit shelfLifeUnit;
+    private String remark;
 
     private List<ItemFileCreateDto> itemFiles;
 }

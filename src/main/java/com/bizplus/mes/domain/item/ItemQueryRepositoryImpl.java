@@ -54,8 +54,10 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                         item.type,
                         item.specification,
                         item.unitPrice,
-                        item.remark,
                         item.lotManaged,
+                        item.shelfLife,
+                        item.shelfLifeUnit,
+                        item.remark,
                         JPAExpressions
                                 .select(inventory.quantity.sum().coalesce(BigDecimal.ZERO))
                                 .from(inventory)
@@ -125,8 +127,10 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                                 item.type,
                                 item.specification,
                                 item.unitPrice,
-                                item.remark,
                                 item.lotManaged,
+                                item.shelfLife,
+                                item.shelfLifeUnit,
+                                item.remark,
                                 JPAExpressions
                                         .select(inventory.quantity.sum().coalesce(BigDecimal.ZERO))
                                         .from(inventory)

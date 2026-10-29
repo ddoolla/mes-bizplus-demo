@@ -58,17 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 number: true,
                 min: 0,
             },
-            lotManaged: {
-                remote: {
-                    url: '/items/check-lot-managed',
-                    type: 'get',
-                    data: {
-                        id: function () {
-                            return $('[name="id"]').val();
-                        },
-                    },
-                },
-            },
         }, messages: {
             code: {
                 required: '품목 코드를 입력해 주세요.',
@@ -81,20 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 number: '숫자만 입력해 주세요.',
                 min: '0 이상 입력해 주세요.',
             },
-            lotManaged: {
-                remote: '재고가 있는 품목은 LOT 관리 여부를 변경할 수 없습니다.'
-            }
         },
-        errorPlacement: function (error, element) {
-            if (element.attr('name') === 'lotManaged') {
-                error.appendTo('#lotManaged-error-container');
-            } else {
-                error.insertAfter(element);
-            }
-        },
-    });
-
-    $('input[name="lotManaged"]').on('change', function () {
-        $('input[name="lotManaged"]').first().valid();
     });
 });

@@ -48,9 +48,7 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>
-                        품목 코드 <span class="app-required">*</span>
-                    </th>
+                    <th>품목 코드 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="code"
@@ -60,9 +58,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        품목명 <span class="app-required">*</span>
-                    </th>
+                    <th>품목명 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
                                name="name"
@@ -72,9 +68,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        품목 유형 <span class="app-required">*</span>
-                    </th>
+                    <th>품목 유형 <span class="app-required">*</span></th>
                     <td>
                         <select name="type" class="app-form-control app-xs">
                             <option th:each="type : ${itemTypes}"
@@ -105,9 +99,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        규격
-                    </th>
+                    <th>규격</th>
                     <td>
                         <input type="text"
                                name="specification"
@@ -116,9 +108,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        단위 (재고) <span class="app-required">*</span>
-                    </th>
+                    <th>재고 단위 <span class="app-required">*</span></th>
                     <td>
                         <select name="uomId" class="app-form-control app-xs">
                             <option value="">
@@ -141,29 +131,35 @@
                         <input type="number"
                                name="unitPrice"
                                class="app-form-control app-xs"
-                               th:value="*{unitPrice}"
+                               th:value="${#numbers.formatDecimal(item.unitPrice, 1, 0)}"
                                min="0"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        로트 관리 여부
-                    </th>
+                    <th>로트 관리 여부</th>
+                    <td th:text="*{lotManaged} ? '예' : '아니오'"></td>
+                </tr>
+                <tr>
+                    <th>유효기간</th>
                     <td>
-                        <label>
-                            <input type="radio"
-                                   name="lotManaged"
-                                   value="true"
-                                   th:checked="*{lotManaged == true}"/> 관리
-                        </label>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <label>
-                            <input type="radio"
-                                   name="lotManaged"
-                                   value="false"
-                                   th:checked="*{lotManaged == false}"/> 미관리
-                        </label>
-                        <div id="lotManaged-error-container"></div>
+                        <div class="d-flex gap-1">
+                            <input type="number"
+                                   name="shelfLife"
+                                   class="app-form-control app-xs app-w-200"
+                                   th:value="*{shelfLife}"
+                                   th:disabled="*{!lotManaged}"
+                                   min="0"/>
+                            <select name="shelfLifeUnit"
+                                    class="app-form-control app-xs app-w-100"
+                                    th:disabled="*{!lotManaged}">
+                                <option value="">선택</option>
+                                <option th:each="unit : ${shelfLifeUnits}"
+                                        th:value="${unit}"
+                                        th:text="${unit?.description}"
+                                        th:selected="${unit == item.shelfLifeUnit}">
+                                </option>
+                            </select>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -220,9 +216,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        비고
-                    </th>
+                    <th>비고</th>
                     <td>
                         <input type="text"
                                name="remark"

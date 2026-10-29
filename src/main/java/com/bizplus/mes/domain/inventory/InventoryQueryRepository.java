@@ -19,7 +19,5 @@ public interface InventoryQueryRepository {
 
     Optional<Inventory> findInventoryForUpdate(Long itemId, Long lotId);
 
-    boolean existsStockByItemId(Long itemId);
-
     List<Inventory> findAvailableInventories(Long itemId);
 }

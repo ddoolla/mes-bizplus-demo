@@ -61,9 +61,14 @@ public class Item extends SoftDeletableEntity {
 
     private BigDecimal unitPrice;
 
-    private String remark;
-
     private boolean lotManaged;
+
+    private Integer shelfLife;
+
+    @Enumerated(EnumType.STRING)
+    private ShelfLifeUnit shelfLifeUnit;
+
+    private String remark;
 
     public Item(CommonCode category,
                 Uom uom,
@@ -72,8 +77,10 @@ public class Item extends SoftDeletableEntity {
                 ItemType type,
                 String specification,
                 BigDecimal unitPrice,
-                String remark,
-                boolean lotManaged) {
+                boolean lotManaged,
+                Integer shelfLife,
+                ShelfLifeUnit shelfLifeUnit,
+                String remark) {
         this.category = category;
         this.uom = uom;
         this.code = code;
@@ -81,8 +88,10 @@ public class Item extends SoftDeletableEntity {
         this.type = type;
         this.specification = specification;
         this.unitPrice = unitPrice;
-        this.remark = remark;
         this.lotManaged = lotManaged;
+        this.shelfLife = shelfLife;
+        this.shelfLifeUnit = shelfLifeUnit;
+        this.remark = remark;
     }
 
     public void update(CommonCode category,
@@ -92,6 +101,8 @@ public class Item extends SoftDeletableEntity {
                        ItemType type,
                        String specification,
                        BigDecimal unitPrice,
+                       Integer shelfLife,
+                       ShelfLifeUnit shelfLifeUnit,
                        String remark) {
         this.category = category;
         this.uom = uom;
@@ -100,11 +111,18 @@ public class Item extends SoftDeletableEntity {
         this.type = type;
         this.specification = specification;
         this.unitPrice = unitPrice;
+        this.shelfLife = shelfLife;
+        this.shelfLifeUnit = shelfLifeUnit;
         this.remark = remark;
     }
 
     public void updateLotManaged(boolean lotManaged) {
         this.lotManaged = lotManaged;
+    }
+
+    public void updateLifeShelf(Integer shelfLife, ShelfLifeUnit shelfLifeUnit) {
+        this.shelfLife = shelfLife;
+        this.shelfLifeUnit = shelfLifeUnit;
     }
 
     public void updateDefaultBom(Bom bom) {

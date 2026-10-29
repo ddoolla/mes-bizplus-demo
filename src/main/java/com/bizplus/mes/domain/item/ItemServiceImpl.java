@@ -5,9 +5,10 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.code.common.CommonCode;
 import com.bizplus.mes.domain.code.common.CommonCodeReader;
-import com.bizplus.mes.domain.inventory.InventoryReader;
-import com.bizplus.mes.domain.inventory.InventoryValidator;
-import com.bizplus.mes.domain.item.dto.*;
+import com.bizplus.mes.domain.item.dto.ItemCreateDto;
+import com.bizplus.mes.domain.item.dto.ItemDto;
+import com.bizplus.mes.domain.item.dto.ItemListDto;
+import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +28,6 @@ public class ItemServiceImpl implements ItemService {
     private final CommonCodeReader commonCodeReader;
     private final UomReader uomReader;
     private final ItemReader itemReader;
-    private final InventoryReader inventoryReader;
-
-    private final InventoryValidator inventoryValidator;
 
     /*
      * 모든 품목 조회
@@ -84,17 +82,6 @@ public class ItemServiceImpl implements ItemService {
         return !exists;
     }
 
-    @Override
-    public boolean checkLotManage(Long id, boolean lotManaged) {
-        Item item = itemReader.getById(id);
-
-        if (item.isLotManaged() == lotManaged) {
-            return true;
-        }
-
-        return !inventoryReader.hasStock(id);
-    }
-
     @Transactional
     @Override
     public Long createItem(ItemCreateDto dto) {
@@ -102,22 +89,6 @@ public class ItemServiceImpl implements ItemService {
         Uom uom = uomReader.getById(dto.getUomId());
 
         return itemRepository.save(ItemMapper.toEntity(itemCategory, uom, dto)).getId();
-    }
-
-    @Transactional
-    @Override
-    public void updateItem(Long id, ItemUpdateDto dto) {
-        Item item = itemReader.getById(id);
-        CommonCode itemCategory = commonCodeReader.getByIdOrNull(dto.getCategoryId());
-        Uom uom = uomReader.getById(dto.getUomId());
-
-        // 재고가 없는 경우에만 LOT 관리 여부 변경 가능
-        if (item.isLotManaged() != dto.isLotManaged()) {
-            inventoryValidator.validateNoStock(id);
-            item.updateLotManaged(dto.isLotManaged());
-        }
-
-        ItemMapper.apply(item, itemCategory, uom, dto);
     }
 
     @Transactional

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ShipmentStatus {
 
     DRAFT("작성중"),
-    COMPLETED("완료");
+    COMPLETED("출고 완료");
 
     private final String description;
 }

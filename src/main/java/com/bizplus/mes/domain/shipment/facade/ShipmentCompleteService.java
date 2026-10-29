@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ShipmentCompleteService {
                             : null,
                     TransactionType.SHIPMENT,
                     shipmentItem.getQuantity(),
-                    shipment.getDate().atStartOfDay()
+                    shipment.getDate().atTime(LocalTime.now())
             ));
 
             // 제품별 출고 수량 집계

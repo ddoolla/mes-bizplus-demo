@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('재고 내역', ~{}, ~{::script}, 'INVENTORY_TRANSACTION', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/inventory-transaction/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('재고 내역', '재고관리, 재고내역')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/inventory-transaction/fragments/filter :: filter (
+            '/inventory-transactions',
+            ${data.pagination.totalElements},
+            ${transactionTypes})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 180px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>처리 일시</th>
+                    <th>변동 유형</th>
+                    <th>품목 코드</th>
+                    <th>품목명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>LOT 번호</th>
+                    <th>변동 수량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(data.inventoryTransactions)}">
+                    <td colspan="8" class="p-4">등록된 재고 내역 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="transaction : ${data.inventoryTransactions}">
+                    <td th:text="${#temporals.format(transaction.transactionAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class="fw-bold"
+                        th:classappend="${transaction.type.direction.sign > 0 ? 'text-success' : 'text-danger'}"
+                        th:text="${transaction.type?.description}"></td>
+                    <td th:text="${transaction.item.code}"></td>
+                    <td th:text="${transaction.item.name}"></td>
+                    <td th:text="${transaction.item.type?.description}"></td>
+                    <td th:text="${@format.value(transaction.item.specification)}"></td>
+                    <td th:text="${@format.value(transaction.lot.no)}"></td>
+                    <td class="fw-bold"
+                        th:classappend="${transaction.type.direction.sign > 0 ? 'text-success' : 'text-danger'}"
+                        th:text="|${transaction.type.direction.sign > 0 ? '+' : '-'}
+                                  ${#numbers.formatDecimal(transaction.quantity, 1, 'COMMA', transaction.item.uom.scale, 'POINT')}
+                                  ${transaction.item.uom.code}|"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

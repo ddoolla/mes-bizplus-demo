@@ -35,10 +35,14 @@ public enum MenuCode {
     WORK_ORDER(PRODUCTION, "작업지시", MenuType.MENU, "/work-orders", 230),
     PRODUCTION_RESULT(PRODUCTION, "생산실적", MenuType.MENU, "/production-results", 240),
 
-    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 250),
-    RECEIPT(INVENTORY, "자재 입고", MenuType.MENU, "/receipts", 260),
-    SHIPMENT(INVENTORY, "제품 출고", MenuType.MENU, "/shipments", 270),
-    ITEM_INVENTORY(INVENTORY, "재고 조회", MenuType.MENU, "/inventories", 280);
+    RECEIPT_SHIPMENT(null, "입출고 관리", MenuType.GROUP, null, 250),
+    RECEIPT(RECEIPT_SHIPMENT, "자재 입고", MenuType.MENU, "/receipts", 260),
+    SHIPMENT(RECEIPT_SHIPMENT, "제품 출고", MenuType.MENU, "/shipments", 270),
+
+    INVENTORY(null, "재고 관리", MenuType.GROUP, null, 280),
+    ITEM_INVENTORY(INVENTORY, "재고 현황", MenuType.MENU, "/inventories", 290),
+    INVENTORY_TRANSACTION(INVENTORY, "재고 내역", MenuType.MENU, "/inventory-transactions", 300),
+    LOT(INVENTORY, "LOT 관리", MenuType.MENU, "/lots", 310);
 
     private final MenuCode parent;
     private final String name;

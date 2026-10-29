@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Slf4j
@@ -112,7 +113,7 @@ public class ReceiptCompleteService {
                     lot != null ? lot.getId() : null,
                     TransactionType.RECEIPT,
                     convertedQuantity,
-                    receipt.getDate().atStartOfDay()
+                    receipt.getDate().atTime(LocalTime.now())
             ));
         });
 

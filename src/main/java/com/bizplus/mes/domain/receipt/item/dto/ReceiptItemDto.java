@@ -11,6 +11,8 @@ public class ReceiptItemDto {
 
     private final Long id;
     private final BigDecimal quantity;
+    private final BigDecimal unitPrice;
+    private final BigDecimal amount;
     private final String remark;
     private final ItemInfo item;
     private final UomInfo uom;
@@ -19,6 +21,8 @@ public class ReceiptItemDto {
     @QueryProjection
     public ReceiptItemDto(Long id,
                           BigDecimal quantity,
+                          BigDecimal unitPrice,
+                          BigDecimal amount,
                           String remark,
                           Long itemId,
                           String itemCode,
@@ -35,6 +39,8 @@ public class ReceiptItemDto {
                           String lotNo) {
         this.id = id;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
         this.remark = remark;
         this.item = new ItemInfo(
                 itemId,

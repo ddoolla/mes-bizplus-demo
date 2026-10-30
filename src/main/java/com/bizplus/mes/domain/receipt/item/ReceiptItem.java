@@ -38,8 +38,14 @@ public class ReceiptItem extends SoftDeletableEntity {
     @JoinColumn(name = "lot_id")
     private Lot lot;
 
-    @Column(precision = 38, scale = 10)
+    @Column(precision = 38, scale = 10, nullable = false)
     private BigDecimal quantity;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal amount;
 
     private String remark;
 
@@ -48,20 +54,28 @@ public class ReceiptItem extends SoftDeletableEntity {
                        Uom uom,
                        Lot lot,
                        BigDecimal quantity,
+                       BigDecimal unitPrice,
+                       BigDecimal amount,
                        String remark) {
         this.receipt = receipt;
         this.item = item;
         this.uom = uom;
         this.lot = lot;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
         this.remark = remark;
     }
 
     public void update(Uom uom,
                        BigDecimal quantity,
+                       BigDecimal unitPrice,
+                       BigDecimal amount,
                        String remark) {
         this.uom = uom;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
         this.remark = remark;
     }
 

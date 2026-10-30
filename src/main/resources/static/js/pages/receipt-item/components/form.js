@@ -83,4 +83,42 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    /* 금액 계산 */
+    const calculateAmount = (row) => {
+        const quantity = Number(row.querySelector('.receipt-item-quantity').value);
+        const unitPrice = Number(row.querySelector('.receipt-item-unit-price').value);
+        const amountEl = row.querySelector('.receipt-item-amount');
+
+        const amount = quantity * unitPrice;
+
+        amountEl.textContent = Math.round(amount).toLocaleString('ko-KR');
+
+        calculateTotal();
+    }
+
+    /* 총 합계 계산 */
+    const calculateTotal = () => {
+        let totalAmount = 0;
+
+        document.querySelectorAll('.receipt-item-quantity').forEach(el => {
+            const row = el.closest('tr');
+            const quantity = Number(el.value) || 0;
+            const unitPrice = Number(row.querySelector('.receipt-item-unit-price').value) || 0;
+
+            totalAmount += quantity * unitPrice;
+        });
+
+        document.querySelector('.total-amount').textContent =
+            Math.round(totalAmount).toLocaleString('ko-KR');
+    }
+
+    document.querySelectorAll('.receipt-item-quantity, .receipt-item-unit-price')
+        .forEach(el => {
+            el.addEventListener('input', (e) => {
+                calculateAmount(e.target.closest('tr'));
+            });
+        });
+
+    calculateTotal();
 });

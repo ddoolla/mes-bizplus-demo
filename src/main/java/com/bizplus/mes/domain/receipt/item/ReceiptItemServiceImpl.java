@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -55,12 +56,17 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
         dto.getItemIds().forEach(id -> {
             Item item = itemReader.getById(id);
 
+            BigDecimal unitPrice = item.getUnitPrice();
+            BigDecimal amount = unitPrice != null ? BigDecimal.ZERO : null;
+
             receiptItemRepository.save(new ReceiptItem(
                     receipt,
                     item,
                     item.getUom(),
                     null,
-                    null,
+                    BigDecimal.ZERO,
+                    unitPrice,
+                    amount,
                     null
             ));
         });
@@ -73,9 +79,17 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
             ReceiptItem receiptItem = receiptItemReader.getById(dto.getId());
             Uom uom = uomReader.getById(dto.getUomId());
 
+            BigDecimal amount = null;
+
+            if (dto.getQuantity() != null && dto.getUnitPrice() != null) {
+                amount = dto.getQuantity().multiply(dto.getUnitPrice());
+            }
+
             receiptItem.update(
                     uom,
                     dto.getQuantity(),
+                    dto.getUnitPrice(),
+                    amount,
                     dto.getRemark()
             );
         });

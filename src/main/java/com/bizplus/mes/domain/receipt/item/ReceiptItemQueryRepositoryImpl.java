@@ -30,6 +30,8 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .select(new QReceiptItemDto(
                         receiptItem.id,
                         receiptItem.quantity,
+                        receiptItem.unitPrice,
+                        receiptItem.amount,
                         receiptItem.remark,
                         item.id,
                         item.code,

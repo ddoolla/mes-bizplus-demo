@@ -17,5 +17,6 @@ public class ReceiptItemUpdateDto {
 
     @Positive
     private BigDecimal quantity;
+    private BigDecimal unitPrice;
     private String remark;
 }

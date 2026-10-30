@@ -13,6 +13,7 @@ import com.bizplus.mes.domain.receipt.dto.ReceiptSearchDto;
 import com.bizplus.mes.domain.receipt.dto.ReceiptUpdateDto;
 import com.bizplus.mes.domain.receipt.facade.ReceiptUpdateService;
 import com.bizplus.mes.domain.receipt.item.ReceiptItemService;
+import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/receipts")
@@ -50,8 +54,16 @@ public class ReceiptController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('RECEIPT_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
+        List<ReceiptItemDto> receiptItems = receiptItemService.getAll(id);
+
         model.addAttribute("receipt", receiptService.getById(id));
-        model.addAttribute("receiptItems", receiptItemService.getAll(id));
+        model.addAttribute("receiptItems", receiptItems);
+        model.addAttribute(
+                "totalAmount",
+                receiptItems.stream()
+                        .map(ri -> ri.getAmount() != null ? ri.getAmount() : BigDecimal.ZERO)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
 
         return "pages/receipt/detail";
     }

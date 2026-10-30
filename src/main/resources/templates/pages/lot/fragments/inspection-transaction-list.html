@@ -1,7 +1,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="list (inventoryTransactions)">
+<th:block th:fragment="list (lot, inventoryTransactions, totalInventoryQuantity)">
     <div class="app-box app-box-bg mt-2">
         <div>
             <div>
@@ -16,21 +16,15 @@
                     <col style="width: 150px">
                     <col style="width: 200px">
                     <col style="width: 200px">
-                    <col style="width: 150px">
                     <col style="width: auto">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>처리 일시</th>
                     <th>변동 유형</th>
-                    <th>품목 코드</th>
-                    <th>품목명</th>
-                    <th>유형</th>
-                    <th>규격</th>
-                    <th>LOT 번호</th>
                     <th>변동 수량</th>
+                    <th>참조</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,16 +36,28 @@
                     <td class="fw-bold"
                         th:classappend="${transaction.type.direction.sign > 0 ? 'text-success' : 'text-danger'}"
                         th:text="${transaction.type?.description}"></td>
-                    <td th:text="${transaction.item.code}"></td>
-                    <td th:text="${transaction.item.name}"></td>
-                    <td th:text="${transaction.item.type?.description}"></td>
-                    <td th:text="${@format.value(transaction.item.specification)}"></td>
-                    <td th:text="${@format.value(transaction.lot.no)}"></td>
                     <td class="fw-bold"
                         th:classappend="${transaction.type.direction.sign > 0 ? 'text-success' : 'text-danger'}"
                         th:text="|${transaction.type.direction.sign > 0 ? '+' : '-'}
                                   ${#numbers.formatDecimal(transaction.quantity, 1, 'COMMA', transaction.item.uom.scale, 'POINT')}
                                   ${transaction.item.uom.code}|"></td>
+                    <td>
+                        <a th:if="${transaction.referenceType != null && transaction.referenceId != null}"
+                           th:href="${transaction.referenceType.getDetailUrl(transaction.referenceId)}"
+                           class="btn btn-secondary btn-sm">
+                            상세보기
+                        </a>
+                        <span th:unless="${transaction.referenceType != null && transaction.referenceId != null}">-</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="fw-bold pt-3">합계</td>
+                    <td class="fw-bold pt-3"
+                        th:text="|${#numbers.formatDecimal(totalInventoryQuantity, 1, 'COMMA', lot.item.uom.scale, 'POINT')} ${lot.item.uom.code}|"></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>

@@ -31,6 +31,9 @@ public class LotDto {
                   String itemName,
                   ItemType itemType,
                   String itemSpec,
+                  Long itemUomId,
+                  String itemUomCode,
+                  Integer ItemUomScale,
                   Long inventoryId,
                   BigDecimal quantity) {
         this.id = id;
@@ -44,7 +47,8 @@ public class LotDto {
                 itemCode,
                 itemName,
                 itemType,
-                itemSpec
+                itemSpec,
+                new ItemUomInfo(itemUomId, itemUomCode, ItemUomScale)
         );
         this.inventory = new InventoryInfo(
                 inventoryId,
@@ -56,7 +60,11 @@ public class LotDto {
                            String code,
                            String name,
                            ItemType type,
-                           String specification) {
+                           String specification,
+                           ItemUomInfo uom) {
+    }
+
+    public record ItemUomInfo(Long id, String code, Integer scale) {
     }
 
     public record InventoryInfo(Long id,

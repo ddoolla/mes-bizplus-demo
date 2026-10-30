@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.inventory.transaction.dto;
 
+import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
 import com.bizplus.mes.domain.inventory.transaction.TransactionType;
 import com.bizplus.mes.domain.item.ItemType;
 import com.querydsl.core.annotations.QueryProjection;
@@ -15,6 +16,8 @@ public class InventoryTransactionDto {
     private final TransactionType type;
     private final BigDecimal quantity;
     private final LocalDateTime transactionAt;
+    private final InventoryReferenceType referenceType;
+    private final Long referenceId;
     private final ItemInfo item;
     private final LotInfo lot;
 
@@ -23,6 +26,8 @@ public class InventoryTransactionDto {
                                    TransactionType type,
                                    BigDecimal quantity,
                                    LocalDateTime transactionAt,
+                                   InventoryReferenceType referenceType,
+                                   Long referenceId,
                                    Long itemId,
                                    String itemCode,
                                    String itemName,
@@ -37,6 +42,8 @@ public class InventoryTransactionDto {
         this.type = type;
         this.quantity = quantity;
         this.transactionAt = transactionAt;
+        this.referenceType = referenceType;
+        this.referenceId = referenceId;
         this.item = new ItemInfo(
                 itemId,
                 itemCode,

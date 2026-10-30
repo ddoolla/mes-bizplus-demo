@@ -20,6 +20,7 @@ import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.inventory.QInventory.inventory;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.lot.QLot.lot;
+import static com.bizplus.mes.domain.uom.QUom.uom;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -46,14 +47,18 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                         item.name,
                         item.type,
                         item.specification,
+                        uom.id,
+                        uom.code,
+                        uom.scale,
                         inventory.id,
                         inventory.quantity
                 ))
                 .from(lot)
                 .innerJoin(item).on(lot.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
                 .where(searchCondition)
-                .orderBy(lot.no.asc())
+                .orderBy(lot.no.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
@@ -62,6 +67,7 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                 .select(lot.count())
                 .from(lot)
                 .innerJoin(item).on(lot.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
                 .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
                 .where(searchCondition);
 
@@ -83,11 +89,15 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                                 item.name,
                                 item.type,
                                 item.specification,
+                                uom.id,
+                                uom.code,
+                                uom.scale,
                                 inventory.id,
                                 inventory.quantity
                         ))
                         .from(lot)
                         .innerJoin(item).on(lot.item.id.eq(item.id))
+                        .innerJoin(uom).on(item.uom.id.eq(uom.id))
                         .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
                         .where(
                                 notDeleted(lot.deletedAt),
@@ -112,11 +122,15 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                                 item.name,
                                 item.type,
                                 item.specification,
+                                uom.id,
+                                uom.code,
+                                uom.scale,
                                 inventory.id,
                                 inventory.quantity
                         ))
                         .from(lot)
                         .innerJoin(item).on(lot.item.id.eq(item.id))
+                        .innerJoin(uom).on(item.uom.id.eq(uom.id))
                         .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
                         .where(
                                 notDeleted(lot.deletedAt),

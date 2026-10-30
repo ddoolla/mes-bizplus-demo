@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.lot;
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.domain.inventory.transaction.InventoryTransactionService;
+import com.bizplus.mes.domain.inventory.transaction.dto.InventoryTransactionDto;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.lot.dto.LotSearchDto;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/lots")
@@ -42,8 +46,16 @@ public class LotController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('LOT_READ')")
     public String viewDetail(Model model, @PathVariable Long id) {
+        List<InventoryTransactionDto> inventoryTransactions = inventoryTransactionService.getAllByLotId(id);
+
         model.addAttribute("lot", lotService.getById(id));
-        model.addAttribute("inventoryTransactions", inventoryTransactionService.getAllByLotId(id));
+        model.addAttribute("inventoryTransactions", inventoryTransactions);
+        model.addAttribute(
+                "totalInventoryQuantity",
+                inventoryTransactions.stream()
+                        .map(it -> it.getType().getSignedQuantity(it.getQuantity()))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
 
         return "pages/lot/detail";
     }

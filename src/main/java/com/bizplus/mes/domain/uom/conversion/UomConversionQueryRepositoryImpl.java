@@ -3,6 +3,7 @@ package com.bizplus.mes.domain.uom.conversion;
 import com.bizplus.mes.domain.uom.QUom;
 import com.bizplus.mes.domain.uom.conversion.dto.*;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
+import static com.bizplus.mes.domain.uom.QUom.uom;
 import static com.bizplus.mes.domain.uom.conversion.QUomConversion.uomConversion;
 
 @Transactional(readOnly = true)
@@ -85,7 +88,8 @@ public class UomConversionQueryRepositoryImpl implements UomConversionQueryRepos
 
     @Override
     public List<ConvertibleUomDto> findConvertibleUoms(Long toUomId) {
-        return query
+        // 변환 가능한 단위들
+        List<ConvertibleUomDto> result = query
                 .select(new QConvertibleUomDto(
                         fromUom.id,
                         fromUom.code,
@@ -97,5 +101,24 @@ public class UomConversionQueryRepositoryImpl implements UomConversionQueryRepos
                 .innerJoin(fromUom).on(uomConversion.fromUom.id.eq(fromUom.id))
                 .where(eq(uomConversion.toUom.id, toUomId))
                 .fetch();
+
+        // 자기 자신 단위
+        ConvertibleUomDto self = query
+                .select(new QConvertibleUomDto(
+                        uom.id,
+                        uom.code,
+                        uom.name,
+                        uom.scale,
+                        Expressions.constant(BigDecimal.ONE) // 자기 자신의 변환 계수: 1
+                ))
+                .from(uom)
+                .where(uom.id.eq(toUomId))
+                .fetchOne();
+
+        if (self != null) {
+            result.addFirst(self);
+        }
+
+        return result;
     }
 }

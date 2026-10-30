@@ -93,12 +93,6 @@
                         <select class="process-material-uom
                                        app-form-control app-xs"
                                 th:name="|processMaterials[${stat.index}].uomId|">
-                            <!--/* 현재 재고 단위 */-->
-                            <option th:value="${processMaterial.item.uom.id}"
-                                    th:text="${processMaterial.item.uom.code}"
-                                    th:selected="${processMaterial.item.uom.id == processMaterial.uom.id}"
-                                    th:data-scale="${processMaterial.item.uom.scale}">
-                            </option>
                             <!--/* 변환 가능 단위 */-->
                             <option th:each="convertibleUom : ${convertibleUoms}"
                                     th:value="${convertibleUom.id}"

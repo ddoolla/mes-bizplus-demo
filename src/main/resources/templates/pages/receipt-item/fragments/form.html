@@ -91,12 +91,6 @@
                                            app-form-control app-xs"
                                 th:name="|receiptItems[${stat.index}].uomId|"
                                 th:disabled="${receipt.status?.name != 'DRAFT'}">
-                            <!--/* 현재 재고 단위 */-->
-                            <option th:value="${receiptItem.item.uom.id}"
-                                    th:text="|${receiptItem.item.uom.code}|"
-                                    th:selected="${receiptItem.item.uom.id == receiptItem.uom.id}"
-                                    th:data-scale="${receiptItem.item.uom.scale}">
-                            </option>
                             <!--/* 변환 가능 단위 */-->
                             <option th:each="convertibleUom : ${convertibleUoms}"
                                     th:value="${convertibleUom.id}"

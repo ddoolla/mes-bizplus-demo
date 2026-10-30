@@ -77,12 +77,6 @@
                         <select th:name="|bomItems[${stat.index}].uomId|"
                                 class="bom-item-uom
                                        app-form-control app-xs">
-                            <!--/* 현재 재고 단위 */-->
-                            <option th:value="${bomItem.item.uom.id}"
-                                    th:text="|${bomItem.item.uom.code}|"
-                                    th:selected="${bomItem.item.uom.id == bomItem.uom.id}"
-                                    th:data-scale="${bomItem.item.uom.scale}">
-                            </option>
                             <!--/* 변환 가능 단위 */-->
                             <option th:each="convertibleUom : ${convertibleUoms}"
                                     th:value="${convertibleUom.id}"

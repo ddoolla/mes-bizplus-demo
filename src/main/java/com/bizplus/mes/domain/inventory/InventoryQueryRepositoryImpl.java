@@ -94,7 +94,9 @@ public class InventoryQueryRepositoryImpl implements InventoryQueryRepository {
                         uom.code,
                         uom.scale,
                         lot.id,
-                        lot.no
+                        lot.no,
+                        lot.manufactureDate,
+                        lot.expirationDate
                 ))
                 .from(inventory)
                 .innerJoin(item).on(inventory.item.id.eq(item.id))

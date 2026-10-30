@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.bom.BomService;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.item.ItemGroup;
+import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.process.material.ConsumptionMethod;
 import com.bizplus.mes.domain.process.material.ProcessMaterialService;
 import com.bizplus.mes.domain.routing.RoutingService;
@@ -37,10 +38,18 @@ public class RoutingProcessController {
                              @PathVariable Long routingId,
                              @PathVariable Long id) {
         RoutingDto routing = routingService.getRouting(routingId);
+        ItemType itemType = routing.getItem().type();
+
+        ItemGroup itemGroup = switch (itemType) {
+            case FINISHED_GOODS -> ItemGroup.FINISHED_GOODS_BOM_ITEM;
+            case SEMI_FINISHED_GOODS -> ItemGroup.SEMI_FINISHED_GOODS_BOM_ITEM;
+            default -> throw new IllegalStateException("BOM을 구성할 수 없는 품목 유형입니다.");
+        };
 
         // 소모자재 등록 모달
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
-        model.addAttribute("itemType", ItemGroup.BOM_ITEM.getTypes());
+        model.addAttribute("itemGroup", itemGroup);
+        model.addAttribute("itemTypes", itemGroup.getTypes());
         model.addAttribute("boms", bomService.getBoms(routing.getItem().id()));
 
         // 공정 단계 정보

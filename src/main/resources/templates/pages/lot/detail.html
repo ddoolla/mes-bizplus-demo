@@ -65,6 +65,7 @@
                           th:class="${lot.expirationStatus.cssClass}">
                         <i class="bi bi-circle-fill"></i>
                     </span>
+                    &nbsp;
                     <span th:text="${#temporals.format(lot.expirationDate, 'yyyy-MM-dd')} ?: '-'"></span>
                 </td>
             </tr>

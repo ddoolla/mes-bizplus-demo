@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
+import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
+import static com.bizplus.mes.domain.bom.QBom.bom;
 import static com.bizplus.mes.domain.bom.item.QBomItem.bomItem;
 import static com.bizplus.mes.domain.item.QItem.item;
 
@@ -49,10 +52,39 @@ public class BomItemQueryRepositoryImpl implements BomItemQueryRepository {
                 .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
                 .innerJoin(bomUom).on(bomItem.uom.id.eq(bomUom.id))
                 .where(
+                        notDeleted(bomItem.deletedAt),
                         eq(bomItem.bom.id, bomId)
                 )
                 .orderBy(item.code.asc(), item.name.asc())
                 .fetch();
 
+    }
+
+    @Override
+    public Optional<BomItem> findIncludingDeleted(Long bomId, Long itemId) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(bomItem)
+                        .where(
+                                eq(bomItem.bom.id, bomId),
+                                eq(bomItem.item.id, itemId)
+                        )
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public List<Long> findComponentItemIds(Long parentItemId) {
+        return query
+                .select(bomItem.item.id)
+                .from(bomItem)
+                .innerJoin(bom).on(bomItem.bom.id.eq(bom.id))
+                .where(
+                        eq(bom.item.id, parentItemId),
+                        bom.deletedAt.isNull(),
+                        bomItem.deletedAt.isNull()
+                )
+                .distinct()
+                .fetch();
     }
 }

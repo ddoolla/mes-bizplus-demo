@@ -7,7 +7,6 @@ import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.file.FileType;
 import com.bizplus.mes.domain.item.dto.ItemCreateDto;
-import com.bizplus.mes.domain.item.dto.ItemListDto;
 import com.bizplus.mes.domain.item.dto.ItemSearchDto;
 import com.bizplus.mes.domain.item.dto.ItemUpdateDto;
 import com.bizplus.mes.domain.item.facade.ItemCreateService;
@@ -118,44 +117,30 @@ public class ItemController {
 
     @GetMapping("/modal/select/list")
     public String viewSelectModalList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(dto, pageable));
+        model.addAttribute("data", itemService.getItems(dto, pageable));
 
         return "pages/item/modal/select :: list";
     }
 
     @GetMapping("/modal/select/stock-list")
     public String viewSelectModalStockList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(dto, pageable));
+        model.addAttribute("data", itemService.getItems(dto, pageable));
 
         return "pages/item/modal/select :: stock-list";
     }
 
     @GetMapping("/modal/multi-select/list")
     public String viewMultiSelectModalList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(dto, pageable));
+        model.addAttribute("data", itemService.getItems(dto, pageable));
 
         return "pages/item/modal/multi-select :: list";
     }
 
     @GetMapping("/modal/multi-select/stock-list")
     public String viewMultiSelectModalStockList(Model model, ItemSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", getItemsByGroup(dto, pageable));
+        model.addAttribute("data", itemService.getItems(dto, pageable));
 
         return "pages/item/modal/multi-select :: stock-list";
-    }
-
-    private ItemListDto getItemsByGroup(ItemSearchDto dto, Pageable pageable) {
-        ItemGroup group = dto.getGroup();
-
-        if (group == null) {
-            return itemService.getItems(dto, pageable);
-        }
-
-        return switch (group) {
-            case PRODUCT -> itemService.getProducts(dto, pageable);
-            case MATERIAL -> itemService.getMaterials(dto, pageable);
-            case BOM_ITEM -> itemService.getBomItems(dto, pageable);
-        };
     }
 
     /*

@@ -4,12 +4,14 @@ import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.bom.dto.BomCreateDto;
+import com.bizplus.mes.domain.bom.dto.BomDto;
 import com.bizplus.mes.domain.bom.dto.BomSearchDto;
 import com.bizplus.mes.domain.bom.dto.BomUpdateDto;
 import com.bizplus.mes.domain.bom.item.BomItemService;
 import com.bizplus.mes.domain.code.common.CommonCodeService;
 import com.bizplus.mes.domain.code.group.CodeGroupKey;
 import com.bizplus.mes.domain.item.ItemGroup;
+import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
@@ -72,9 +74,19 @@ public class BomController {
     @GetMapping("/{id}/edit")
     @PreAuthorize("hasAuthority('BOM_READ')")
     public String viewEdit(Model model, @PathVariable Long id) {
+        BomDto bom = bomService.getBom(id);
+        ItemType itemType = bom.getItem().type();
+
+        ItemGroup bomItemGroup = switch (itemType) {
+            case FINISHED_GOODS -> ItemGroup.FINISHED_GOODS_BOM_ITEM;
+            case SEMI_FINISHED_GOODS -> ItemGroup.SEMI_FINISHED_GOODS_BOM_ITEM;
+            default -> throw new IllegalStateException("BOM을 구성할 수 없는 품목 유형입니다.");
+        };
+
         model.addAttribute("itemCategories", commonCodeService.getCommonCodes(CodeGroupKey.ITEM_CATEGORY));
         model.addAttribute("productItemTypes", ItemGroup.PRODUCT.getTypes());
-        model.addAttribute("bomItemTypes", ItemGroup.BOM_ITEM.getTypes());
+        model.addAttribute("bomItemGroup", bomItemGroup);
+        model.addAttribute("bomItemTypes", bomItemGroup.getTypes());
         model.addAttribute("bom", bomService.getBom(id));
         model.addAttribute("bomItemData", bomItemService.getAllForEdit(id));
         model.addAttribute("uoms", uomService.getUoms());

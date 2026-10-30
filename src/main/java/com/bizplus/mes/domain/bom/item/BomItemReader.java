@@ -14,7 +14,7 @@ public class BomItemReader {
     private final BomItemRepository bomItemRepository;
 
     public BomItem getById(Long id) {
-        return bomItemRepository.findById(id)
+        return bomItemRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOM_ITEM_NOT_FOUND, "id: " + id));
     }
 

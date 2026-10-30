@@ -26,18 +26,7 @@ public class ProductionOrderProcessServiceImpl implements ProductionOrderProcess
 
     @Override
     public List<ProductionOrderProcessDto> getProductionOrderProcesses(Long productionOrderId) {
-        return productionOrderProcessRepository.findByProductionOrderIdAndDeletedAtIsNull(productionOrderId)
-                .stream()
-                .map(pop ->
-                        new ProductionOrderProcessDto(
-                                pop.getId(),
-                                pop.getProcessId(),
-                                pop.getProcessCode(),
-                                pop.getProcessName(),
-                                pop.getProcessStepNo()
-                        )
-                )
-                .toList();
+        return productionOrderProcessRepository.fetchAll(productionOrderId);
     }
 
     @Override

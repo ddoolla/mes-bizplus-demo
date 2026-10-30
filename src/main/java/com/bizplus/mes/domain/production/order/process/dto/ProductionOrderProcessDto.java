@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.production.order.process.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
@@ -8,6 +9,7 @@ public class ProductionOrderProcessDto {
     private final Long id;
     private final ProcessInfo process;
 
+    @QueryProjection
     public ProductionOrderProcessDto(Long id,
                                      Long processId,
                                      String processCode,

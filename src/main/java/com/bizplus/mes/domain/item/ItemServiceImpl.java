@@ -29,49 +29,16 @@ public class ItemServiceImpl implements ItemService {
     private final UomReader uomReader;
     private final ItemReader itemReader;
 
-    /*
-     * 모든 품목 조회
-     * */
     @Override
     public ItemListDto getItems(ItemSearchDto dto, Pageable pageable) {
-        Page<ItemDto> itemPage = itemRepository.findItems(dto, pageable);
-
-        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
-    }
-
-    /*
-     * 제품만 조회 (완제품, 반제품)
-     * */
-    @Override
-    public ItemListDto getProducts(ItemSearchDto dto, Pageable pageable) {
-        Page<ItemDto> itemPage = itemRepository.findProducts(dto, pageable);
-
-        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
-    }
-
-    /*
-     * 자재만 조회 (원자재, 부자재)
-     * */
-    @Override
-    public ItemListDto getMaterials(ItemSearchDto dto, Pageable pageable) {
-        Page<ItemDto> itemPage = itemRepository.findMaterials(dto, pageable);
-
-        return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
-    }
-
-    /*
-     * BOM 구성 품목 조회 (반제품, 원자재, 부자재)
-     * */
-    @Override
-    public ItemListDto getBomItems(ItemSearchDto dto, Pageable pageable) {
-        Page<ItemDto> itemPage = itemRepository.findBomItems(dto, pageable);
+        Page<ItemDto> itemPage = itemRepository.fetchItems(dto, pageable);
 
         return new ItemListDto(itemPage.getContent(), Pagination.of(itemPage));
     }
 
     @Override
     public ItemDto getItem(Long id) {
-        return itemRepository.findItem(id)
+        return itemRepository.fetchItem(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ITEM_NOT_FOUND, "id: " + id));
     }
 

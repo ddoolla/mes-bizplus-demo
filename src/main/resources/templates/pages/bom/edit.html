@@ -40,6 +40,7 @@
         <div class="app-box app-box-bg">
 
             <input type="hidden" name="id" th:value="*{id}"/>
+            <input type="hidden" name="itemGroup" th:value="${bomItemGroup}"/>
 
             <table class="app-table-input">
                 <colgroup>
@@ -79,12 +80,12 @@
                 <tr>
                     <th>제품 코드</th>
                     <td th:text="*{item.code}"></td>
-                    <th>제품명</th>
-                    <td th:text="*{item.name}"></td>
-                </tr>
-                <tr>
                     <th>유형</th>
                     <td th:text="*{item.type?.description}"></td>
+                </tr>
+                <tr>
+                    <th>제품명</th>
+                    <td th:text="*{item.name}"></td>
                     <th>규격</th>
                     <td th:text="${@format.value(bom.item.specification)}"></td>
                 </tr>
@@ -119,7 +120,7 @@
     <!--/* BOM 구성품 등록용 모달 */-->
     <div th:replace="~{pages/item/modal/multi-select :: modal (
         @{/items/modal/multi-select/list},
-        'BOM_ITEM',
+        ${bomItemGroup.name},
         ${itemCategories},
         ${bomItemTypes})}">
     </div>

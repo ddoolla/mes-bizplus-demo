@@ -314,7 +314,7 @@
                                     </thead>
                                     <tbody>
                                     <tr th:if="${#lists.isEmpty(materialInputs)}">
-                                        <td colspan="6" class="text-center py-4">등록된 투입 자재 정보가 없습니다.</td>
+                                        <td colspan="7" class="text-center py-4">등록된 투입 자재 정보가 없습니다.</td>
                                     </tr>
                                     <tr th:each="input : ${materialInputs}">
                                         <td th:text="${#temporals.format(input.inputAt, 'HH:mm')}"></td>

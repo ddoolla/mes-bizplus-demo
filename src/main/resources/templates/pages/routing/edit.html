@@ -79,12 +79,12 @@
                 <tr>
                     <th>제품 코드</th>
                     <td th:text="*{item.code}"></td>
-                    <th>제품명</th>
-                    <td th:text="*{item.name}"></td>
-                </tr>
-                <tr>
                     <th>유형</th>
                     <td th:text="*{item.type?.description}"></td>
+                </tr>
+                <tr>
+                    <th>제품명</th>
+                    <td th:text="*{item.name}"></td>
                     <th>규격</th>
                     <td th:text="${@format.value(routing.item.specification)}"></td>
                 </tr>

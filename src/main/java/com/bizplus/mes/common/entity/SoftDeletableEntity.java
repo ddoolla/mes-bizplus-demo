@@ -11,6 +11,10 @@ public class SoftDeletableEntity extends AuditableEntity {
 
     private LocalDateTime deletedAt;
 
+    public void restore() {
+        this.deletedAt = null;
+    }
+
     public void delete() {
         this.deletedAt = LocalDateTime.now();
     }

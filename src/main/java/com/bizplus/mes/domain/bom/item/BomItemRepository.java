@@ -3,10 +3,11 @@ package com.bizplus.mes.domain.bom.item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BomItemRepository extends JpaRepository<BomItem, Long>, BomItemQueryRepository {
 
-    List<BomItem> findByBomId(Long bomId);
+    Optional<BomItem> findByIdAndDeletedAtIsNull(Long id);
 
-    boolean existsByBomIdAndItemId(Long bomId, Long itemId);
+    List<BomItem> findByBomId(Long bomId);
 }

@@ -9,15 +9,9 @@ import java.util.Optional;
 
 public interface ItemQueryRepository {
 
-    Page<ItemDto> findItems(ItemSearchDto dto, Pageable pageable);
+    Page<ItemDto> fetchItems(ItemSearchDto dto, Pageable pageable);
 
-    Page<ItemDto> findProducts(ItemSearchDto dto, Pageable pageable);
-
-    Page<ItemDto> findMaterials(ItemSearchDto dto, Pageable pageable);
-
-    Page<ItemDto> findBomItems(ItemSearchDto dto, Pageable pageable);
-
-    Optional<ItemDto> findItem(Long id);
+    Optional<ItemDto> fetchItem(Long id);
 
     Optional<Item> findItemForUpdate(Long id);
 }

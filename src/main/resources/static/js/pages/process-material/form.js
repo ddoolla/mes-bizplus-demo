@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const checkboxGroup = document.querySelector('#process-material-table');
     const deleteButton = document.querySelector('#process-material-delete-button');
-
     const materialListButton = document.querySelector('#btn-add-from-item');
     const bomItemListButton = document.querySelector('#btn-add-from-bom');
+
+    const itemGroup = document.querySelector('[name="itemGroup"]').value;
 
     const confirmModal = createConfirmModal();
     const itemMultiSelectModal = createItemMultiSelectModal();
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         itemMultiSelectModal.open({
             title: '자재 목록',
             url: '/items/modal/multi-select/list',
-            params: {group: 'BOM_ITEM'},
+            params: {group: itemGroup},
             onRegister: async (selectedIds) => {
                 const {routingProcessId} = materialListButton.dataset;
 

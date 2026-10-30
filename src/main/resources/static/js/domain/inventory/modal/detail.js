@@ -12,21 +12,26 @@ const createInventoryDetailModal = () => {
         try {
             contentEl.innerHTML = await ajax.get(url, params);
 
+            return true;
+
         } catch (xhr) {
             toast.error({
                 message: xhr.responseJSON.message,
             });
+
+            return false;
         }
     };
 
     // 모달 열기
-    const open = ({
-                      title = 'LOT별 재고 목록',
-                      url,
-                      params = {},
-                  }) => {
+    const open = async ({title, url, params}) => {
+        const success = await load({url, params});
+
+        if (!success) {
+            return;
+        }
+
         modal.setTitle(MODAL_ID, title);
-        load({url, params});
         modal.open(MODAL_ID);
     };
 

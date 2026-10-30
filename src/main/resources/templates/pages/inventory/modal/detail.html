@@ -6,7 +6,7 @@
         'inventory-lot-list-modal',
         '로트별 재고 목록',
          ~{::.app-modal-content},
-         null
+         800
     )}">
         <div class="app-modal-content p-2">
 
@@ -27,21 +27,34 @@
                 <colgroup>
                     <col style="width: 200px">
                     <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
                 </colgroup>
                 <thead>
                 <tr>
-                    <th colspan="2"
+                    <th colspan="4"
                         class="bg-secondary-subtle text-center"
                         th:text="${@format.nameWithCode(item.code, item.name)}"></th>
                 </tr>
                 <tr>
                     <th>로트 번호</th>
+                    <th>제조 일자</th>
+                    <th>유효 기간</th>
                     <th>재고 수량</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="inventory : ${inventories}">
                     <td th:text="${inventory.lot.no}"></td>
+                    <td th:text="${#temporals.format(inventory.lot.manufactureDate, 'yyyy-MM-dd')} ?: '-'"></td>
+                    <td>
+                        <span th:if="${inventory.lot.expirationDate}"
+                              th:class="${inventory.lot.expirationStatus.cssClass}">
+                            <i class="bi bi-circle-fill"></i>
+                        </span>
+                        &nbsp;
+                        <span th:text="${#temporals.format(inventory.lot.expirationDate, 'yyyy-MM-dd')} ?: '-'"></span>
+                    </td>
                     <td th:text="|${#numbers.formatDecimal(inventory.quantity, 1, 'COMMA', inventory.item.uom.scale, 'POINT')} ${inventory.item.uom.code}|"></td>
                 </tr>
                 </tbody>

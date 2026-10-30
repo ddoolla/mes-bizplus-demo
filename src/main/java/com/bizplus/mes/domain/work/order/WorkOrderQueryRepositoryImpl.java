@@ -52,6 +52,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
                                               WorkOrderSearchDto dto,
                                               Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
+                .and(notDeleted(productionOrder.deletedAt))
                 .and(notDeleted(workOrder.deletedAt))
                 .and(productionOrder.status.ne(ProductionOrderStatus.DRAFT))
                 .and(containsAny(dto.getItem(), item.code, item.name))

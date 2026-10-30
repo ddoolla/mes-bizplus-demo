@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const bomEditForm = document.querySelector('#bom-edit-form');
     const itemMultiSelectModalButton = document.querySelector('#bom-item-create-button');
 
+    const itemGroup = document.querySelector('[name="itemGroup"]').value;
+
     const confirmModal = createConfirmModal();
     const itemMultiSelectModal = createItemMultiSelectModal();
 
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         itemMultiSelectModal.open({
             title: 'BOM 구성품 목록',
             url: `/items/modal/multi-select/list`,
-            params: {group: 'BOM_ITEM'},
+            params: {group: itemGroup},
             onRegister: async (selectedIds) => {
                 const bomId = bomEditForm.querySelector('[name="id"]').value;
 

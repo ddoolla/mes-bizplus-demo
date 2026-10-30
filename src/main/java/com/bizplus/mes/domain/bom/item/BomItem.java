@@ -1,6 +1,6 @@
 package com.bizplus.mes.domain.bom.item;
 
-import com.bizplus.mes.common.entity.AuditableEntity;
+import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.uom.Uom;
@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-/*
- * 물리 삭제 데이터
- * */
 @Entity
 @Table(
         name = "bom_items",
@@ -23,7 +20,7 @@ import java.math.BigDecimal;
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BomItem extends AuditableEntity {
+public class BomItem extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

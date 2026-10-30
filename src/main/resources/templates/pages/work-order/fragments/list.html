@@ -1,7 +1,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="list (workOrders)">
+<th:block th:fragment="list (productionOrder, workOrders)">
     <div class="app-box app-box-bg mt-2">
         <div>
             <div>
@@ -38,7 +38,13 @@
                     <td colspan="7" class="p-4">등록된 작업지시 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="workOrder : ${workOrders}">
-                    <td th:text="${workOrder.orderNo}"></td>
+                    <td>
+                        <span th:if="${productionOrder.status?.name == 'DRAFT'}"
+                              th:text="${workOrder.orderNo}"></span>
+                        <a th:if="${productionOrder.status?.name != 'DRAFT'}"
+                           th:href="@{/work-orders/{id}(id=${workOrder.id})}"
+                           th:text="${workOrder.orderNo}"></a>
+                    </td>
                     <td th:text="${workOrder.process.name}"></td>
                     <td th:text="${#temporals.format(workOrder.date, 'yyyy-MM-dd')}"></td>
                     <td th:text="|${#numbers.formatDecimal(workOrder.quantity, 1, 'COMMA', workOrder.item.uom.scale, 'POINT')} ${workOrder.item.uom.code}|"></td>

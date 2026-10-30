@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
             goodCountSpan.textContent = goodCount.toLocaleString();
 
             // 진행률 업데이트
-            if (targetCount !== 0) {
+            if (Number(targetCount) !== 0) {
                 const progressRate = ((productionCount / targetCount) * 100).toFixed() + '%';
                 progressbar.style.width = progressRate;
                 progressRateSpan.textContent = progressRate;
@@ -162,9 +162,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 onConfirm: async () => {
                     try {
                         const data = {
-                            productionQuantity: productionCountSpan.textContent,
-                            goodQuantity: goodCountSpan.textContent,
-                            defectQuantity: defectCountSpan.textContent
+                            productionQuantity: Number(productionCountSpan.textContent.replaceAll(/[,.]/g, '')),
+                            goodQuantity: Number(goodCountSpan.textContent.replaceAll(/[,.]/g, '')),
+                            defectQuantity: Number(defectCountSpan.textContent.replaceAll(/[,.]/g, ''))
                         };
 
                         const response = await ajax.patch(`/work-orders/${workOrderId}/stop`, data)
@@ -221,9 +221,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 작업 완료 */
     completeBtn.addEventListener('click', function () {
-        if (workStatus !== 'IN_PROGRESS') {
+        if (workStatus !== 'IN_PROGRESS' && workStatus !== 'PAUSED') {
             toast.warning({
-                message: '현재 작업이 진행 중인 상태가 아닙니다.',
+                message: '작업 진행중 또는 정지 상태에서만 완료할 수 있습니다.',
             });
 
             return;
@@ -234,9 +234,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const goodQtyInput = form.querySelector('[name="goodQuantity"]');
         const defectQtyInput = form.querySelector('[name="defectQuantity"]');
 
-        prodQtyInput.value = productionCountSpan.textContent;
-        goodQtyInput.value = goodCountSpan.textContent;
-        defectQtyInput.value = defectCountSpan.textContent;
+        prodQtyInput.value = Number(productionCountSpan.textContent.replaceAll(/[,.]/g, ''));
+        goodQtyInput.value = Number(goodCountSpan.textContent.replaceAll(/[,.]/g, ''));
+        defectQtyInput.value = Number(defectCountSpan.textContent.replaceAll(/[,.]/g, ''));
 
         workCompleteModal.open();
     });

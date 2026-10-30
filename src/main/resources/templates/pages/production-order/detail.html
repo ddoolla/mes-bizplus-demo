@@ -118,7 +118,7 @@
     </div>
 
     <!--/* 작업지시 목록 */-->
-    <div th:replace="~{pages/work-order/fragments/list :: list (${workOrders})}"></div>
+    <div th:replace="~{pages/work-order/fragments/list :: list (${productionOrder}, ${workOrders})}"></div>
 </div>
 </body>
 </html>

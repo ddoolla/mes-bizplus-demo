@@ -52,8 +52,9 @@ public class WorkCompleteService {
         WorkOrder workOrder = workOrderReader.getById(workOrderId);
 
         // 2. 완료 가능 여부 검증
-        if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS) {
-            throw new BusinessException("작업 진행중 상태에서만 완료 가능합니다.");
+        if (workOrder.getStatus() != WorkOrderStatus.IN_PROGRESS
+                && workOrder.getStatus() != WorkOrderStatus.PAUSED) {
+            throw new BusinessException("작업 진행중 또는 중지 상태에서만 완료 가능합니다.");
         }
 
         LocalDateTime manufacturedDateTime = LocalDateTime.now();

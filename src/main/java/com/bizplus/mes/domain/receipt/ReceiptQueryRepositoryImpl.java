@@ -48,7 +48,7 @@ public class ReceiptQueryRepositoryImpl implements ReceiptQueryRepository {
                 .from(receipt)
                 .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
                 .where(searchCondition)
-                .orderBy(receipt.date.desc())
+                .orderBy(receipt.receiptNo.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

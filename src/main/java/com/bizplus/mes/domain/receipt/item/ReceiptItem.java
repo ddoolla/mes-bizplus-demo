@@ -47,6 +47,13 @@ public class ReceiptItem extends SoftDeletableEntity {
     @Column(precision = 19, scale = 2)
     private BigDecimal amount;
 
+    private boolean inspectionRequired;
+    private boolean inspectionAutoCreate;
+
+    @Column(columnDefinition = "varchar(255)")
+    @Enumerated(EnumType.STRING)
+    private ReceiptItemStatus status;
+
     private String remark;
 
     public ReceiptItem(Receipt receipt,
@@ -56,6 +63,9 @@ public class ReceiptItem extends SoftDeletableEntity {
                        BigDecimal quantity,
                        BigDecimal unitPrice,
                        BigDecimal amount,
+                       boolean inspectionRequired,
+                       boolean inspectionAutoCreate,
+                       ReceiptItemStatus status,
                        String remark) {
         this.receipt = receipt;
         this.item = item;
@@ -64,6 +74,9 @@ public class ReceiptItem extends SoftDeletableEntity {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.amount = amount;
+        this.inspectionRequired = inspectionRequired;
+        this.inspectionAutoCreate = inspectionAutoCreate;
+        this.status = status;
         this.remark = remark;
     }
 
@@ -71,16 +84,22 @@ public class ReceiptItem extends SoftDeletableEntity {
                        BigDecimal quantity,
                        BigDecimal unitPrice,
                        BigDecimal amount,
+                       boolean inspectionAutoCreate,
                        String remark) {
         this.uom = uom;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.amount = amount;
+        this.inspectionAutoCreate = inspectionAutoCreate;
         this.remark = remark;
     }
 
     public void updateLot(Lot lot) {
         this.lot = lot;
+    }
+
+    public void updateStatus(ReceiptItemStatus status) {
+        this.status = status;
     }
 
     public void updateRemark(String remark) {

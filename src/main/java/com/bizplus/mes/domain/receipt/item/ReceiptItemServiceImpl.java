@@ -78,6 +78,9 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
                     BigDecimal.ZERO,
                     unitPrice,
                     amount,
+                    item.isIncomingInspectionRequired(),
+                    true,
+                    ReceiptItemStatus.PENDING,
                     null
             ));
         });
@@ -101,6 +104,7 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
                     dto.getQuantity(),
                     dto.getUnitPrice(),
                     amount,
+                    dto.getInspectionAutoCreate(),
                     dto.getRemark()
             );
         });

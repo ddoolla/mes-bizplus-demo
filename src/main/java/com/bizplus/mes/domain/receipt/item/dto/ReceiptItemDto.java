@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.receipt.item.dto;
 
 import com.bizplus.mes.domain.item.ItemType;
+import com.bizplus.mes.domain.receipt.item.ReceiptItemStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -13,6 +14,9 @@ public class ReceiptItemDto {
     private final BigDecimal quantity;
     private final BigDecimal unitPrice;
     private final BigDecimal amount;
+    private final boolean inspectionRequired;
+    private final boolean inspectionAutoCreate;
+    private final ReceiptItemStatus status;
     private final String remark;
     private final ReceiptInfo receipt;
     private final ItemInfo item;
@@ -24,6 +28,9 @@ public class ReceiptItemDto {
                           BigDecimal quantity,
                           BigDecimal unitPrice,
                           BigDecimal amount,
+                          boolean inspectionRequired,
+                          boolean inspectionAutoCreate,
+                          ReceiptItemStatus status,
                           String remark,
                           Long receiptId,
                           String receiptNo,
@@ -44,6 +51,9 @@ public class ReceiptItemDto {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.amount = amount;
+        this.inspectionRequired = inspectionRequired;
+        this.inspectionAutoCreate = inspectionAutoCreate;
+        this.status = status;
         this.remark = remark;
         this.receipt = new ReceiptInfo(
                 receiptId,

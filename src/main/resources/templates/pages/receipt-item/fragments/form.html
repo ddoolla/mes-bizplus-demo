@@ -27,16 +27,18 @@
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 100px">
-                    <col style="width: 200px">
-                    <col style="width: 100px">
-                    <col style="width: 150px">
-                    <col style="width: 100px">
                     <col style="width: 150px">
                     <col style="width: 150px">
+                    <col style="width: 80px">
+                    <col style="width: 150px">
+                    <col style="width: 80px">
+                    <col style="width: 120px">
+                    <col style="width: 80px">
+                    <col style="width: 120px">
+                    <col style="width: 120px">
                     <col style="width: auto">
+                    <col style="width: 80px">
+                    <col style="width: 80px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -55,11 +57,13 @@
                     <th>단가</th>
                     <th>금액</th>
                     <th>비고</th>
+                    <th>검사 대상</th>
+                    <th>자동 생성</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(receiptItemData)}">
-                    <td colspan="11" class="p-4">등록된 입고 자재 정보가 없습니다.</td>
+                    <td colspan="13" class="p-4">등록된 입고 자재 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="data, stat : ${receiptItemData}"
                     th:with="receiptItem=${data.receiptItem},
@@ -123,12 +127,20 @@
                                class="app-form-control app-xs "
                                th:value="${receiptItem.remark}"/>
                     </td>
+                    <td th:text="${receiptItem.inspectionRequired ? '예' : '아니오'}"></td>
+                    <td>
+                        <input type="checkbox"
+                               th:name="|receiptItems[${stat.index}].inspectionAutoCreate|"
+                               value="true"
+                               th:checked="${receiptItem.inspectionAutoCreate}"
+                               th:disabled="${receipt.status?.name != 'DRAFT' || !receiptItem.inspectionRequired}"/>
+                    </td>
                 </tr>
                 <tr th:unless="${#lists.isEmpty(receiptItemData)}">
                     <td colspan="8"></td>
                     <td class="pt-3 fw-bold">합계</td>
                     <td class="pt-3 fw-bold total-amount"></td>
-                    <td></td>
+                    <td colspan="3"></td>
                 </tr>
                 </tbody>
             </table>

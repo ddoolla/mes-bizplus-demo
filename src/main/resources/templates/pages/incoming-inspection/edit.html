@@ -128,6 +128,9 @@
                             <span class="badge text-bg-danger p-2 app-w-80"
                                   th:text="*{inspection.judgement?.description}"></span>
                         </h6>
+                        <h6 th:case="*" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80">미판정</span>
+                        </h6>
                     </td>
                 </tr>
                 </tbody>

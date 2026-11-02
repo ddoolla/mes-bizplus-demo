@@ -58,6 +58,10 @@ public class Receipt extends SoftDeletableEntity {
         this.remark = remark;
     }
 
+    public void confirm() {
+        this.status = ReceiptStatus.CONFIRMED;
+    }
+
     public void complete() {
         this.status = ReceiptStatus.COMPLETED;
     }

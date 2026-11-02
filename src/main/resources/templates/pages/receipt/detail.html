@@ -31,11 +31,11 @@
         </button>
         <button th:if="${receipt.status?.name == 'DRAFT'}"
                 type="button"
-                id="receipt-complete-button"
+                id="receipt-confirm-button"
                 class="btn btn-success btn-sm"
                 th:data-id="${receipt.id}"
                 sec:authorize="hasAuthority('RECEIPT_UPDATE')">
-            <i class="bi bi-check-circle"></i> 입고 완료
+            <i class="bi bi-check-circle"></i> 확정
         </button>
     </div>
 
@@ -66,14 +66,18 @@
             <tr>
                 <th>상태</th>
                 <td th:switch="${receipt.status.name}">
-                        <h6 th:case="'DRAFT'" class="mb-0">
+                    <h6 th:case="'DRAFT'" class="mb-0">
                             <span class="badge text-bg-secondary p-2 app-w-80"
                                   th:text="${receipt.status?.description}"></span>
-                        </h6>
-                        <h6 th:case="'COMPLETED'" class="mb-0">
+                    </h6>
+                    <h6 th:case="'CONFIRMED'" class="mb-0">
+                            <span class="badge text-bg-info p-2 app-w-80"
+                                  th:text="${receipt.status?.description}"></span>
+                    </h6>
+                    <h6 th:case="'COMPLETED'" class="mb-0">
                             <span class="badge text-bg-success p-2 app-w-80"
                                   th:text="${receipt.status?.description}"></span>
-                        </h6>
+                    </h6>
                 </td>
             </tr>
             </tbody>

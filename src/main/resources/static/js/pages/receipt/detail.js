@@ -4,19 +4,19 @@ import toast from "../../common/toast.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const completeBtn = document.querySelector('#receipt-complete-button');
+    const confirmBtn = document.querySelector('#receipt-confirm-button');
 
     const confirmModal = createConfirmModal();
 
-    completeBtn.addEventListener('click', function (e) {
+    confirmBtn.addEventListener('click', function (e) {
         const {id} = e.currentTarget.dataset;
 
         confirmModal.open({
-            title: '입고 완료 확인',
-            content: '입고를 완료하시겠습니까?\n완료 후 수정할 수 없습니다.',
+            title: '입고 확정 확인',
+            content: '입고를 확정하시겠습니까?\n완료 후 수정할 수 없습니다.',
             onConfirm: async () => {
                 try {
-                    const response = await ajax.post(`/api/receipts/${id}/complete`);
+                    const response = await ajax.post(`/api/receipts/${id}/confirm`);
 
                     toast.afterReload({
                         message: response.message

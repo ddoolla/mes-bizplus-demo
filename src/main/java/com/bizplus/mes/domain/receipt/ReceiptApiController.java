@@ -6,7 +6,7 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
-import com.bizplus.mes.domain.receipt.facade.ReceiptCompleteService;
+import com.bizplus.mes.domain.receipt.facade.ReceiptConfirmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,15 +20,15 @@ public class ReceiptApiController {
 
     private final MessageService messageService;
     private final ReceiptService receiptService;
-    private final ReceiptCompleteService receiptCompleteService;
+    private final ReceiptConfirmService receiptConfirmService;
 
-    @PostMapping("/api/receipts/{id}/complete")
+    @PostMapping("/api/receipts/{id}/confirm")
     @PreAuthorize("hasAuthority('RECEIPT_CREATE')")
-    public ResponseEntity<ApiResponse<Void>> complete(@PathVariable Long id) {
-        receiptCompleteService.complete(id);
+    public ResponseEntity<ApiResponse<Void>> confirm(@PathVariable Long id) {
+        receiptConfirmService.confirm(id);
 
         return ResponseEntity.ok(
-                ApiResponse.success(messageService.get(MessageCode.COMPLETED)));
+                ApiResponse.success(messageService.get(MessageCode.CONFIRMED)));
     }
 
     @DeleteMapping("/api/receipts")

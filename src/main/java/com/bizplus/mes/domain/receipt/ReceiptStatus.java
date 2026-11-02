@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ReceiptStatus {
 
     DRAFT("작성중"),
-    CONFIRM("확정"),
+    CONFIRMED("확정"),
     COMPLETED("입고 완료");
 
     private final String description;

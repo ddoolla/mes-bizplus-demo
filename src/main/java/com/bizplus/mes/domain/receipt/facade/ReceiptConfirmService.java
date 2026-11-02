@@ -17,9 +17,9 @@ import com.bizplus.mes.domain.receipt.ReceiptReader;
 import com.bizplus.mes.domain.receipt.ReceiptStatus;
 import com.bizplus.mes.domain.receipt.item.ReceiptItem;
 import com.bizplus.mes.domain.receipt.item.ReceiptItemReader;
+import com.bizplus.mes.domain.receipt.item.ReceiptItemStatus;
 import com.bizplus.mes.domain.uom.conversion.UomConversionService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +28,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
-public class ReceiptCompleteService {
+public class ReceiptConfirmService {
 
     private final LotRepository lotRepository;
 
@@ -45,21 +44,21 @@ public class ReceiptCompleteService {
     private final InspectionResultService inspectionResultService;
 
     @Transactional
-    public void complete(Long receiptId) {
+    public void confirm(Long receiptId) {
         Receipt receipt = receiptReader.getById(receiptId);
         LocalDate receiptDate = receipt.getDate();
 
         if (receipt.getStatus() != ReceiptStatus.DRAFT) {
-            throw new BusinessException("작성중 상태에서만 완료처리 가능합니다.");
+            throw new BusinessException("작성중 상태에서만 확정처리 가능합니다.");
         }
 
         List<ReceiptItem> receiptItems = receiptItemReader.getAll(receiptId);
 
         if (receiptItems.isEmpty()) {
-            throw new BusinessException("입고 자재가 등록되지 않아 완료할 수 없습니다.");
+            throw new BusinessException("입고 자재가 등록되지 않아 확정처리 할 수 없습니다.");
         }
 
-        receiptItems.forEach(receiptItem -> {
+        for (ReceiptItem receiptItem : receiptItems) {
             if (receiptItem.getQuantity() == null
                     || receiptItem.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
                 throw new BusinessException("입고 수량을 확인해 주세요.");
@@ -86,42 +85,60 @@ public class ReceiptCompleteService {
                 receiptItem.updateLot(lot);
             }
 
-            // 수입검사 데이터 자동생성
-            if (defaultIqcSpec != null) {
-                // 수입검사 데이터
-                Long newInspectionId = incomingInspectionService.autoCreate(
-                        receiptItem.getId(),
-                        defaultIqcSpec.getId(),
-                        receiptDate
+            // 입고검사 대상에 따라 입고검사 데이터 생성 또는 재고처리
+            if (receiptItem.isInspectionRequired()) {
+                // 검사 자동 생성 및 검사기준이 있는 경우에만 생성
+                if (receiptItem.isInspectionAutoCreate() && defaultIqcSpec != null) {
+                    // 수입검사 데이터
+                    Long newInspectionId = incomingInspectionService.autoCreate(
+                            receiptItem.getId(),
+                            defaultIqcSpec.getId(),
+                            receiptDate
+                    );
+
+                    // 검사 결과 데이터
+                    inspectionResultService.createAll(
+                            newInspectionId,
+                            defaultIqcSpec.getId()
+                    );
+                }
+
+                receiptItem.updateStatus(ReceiptItemStatus.PENDING);
+
+            } else {
+                // 검사 대상이 아닌경우 재고 처리
+
+                // 입고 수량 단위 환산
+                BigDecimal convertedQuantity = uomConversionService.convert(
+                        receiptItem.getQuantity(),
+                        receiptItem.getUom().getId(),
+                        item.getUom().getId()
                 );
 
-                // 검사 결과 데이터
-                inspectionResultService.createAll(
-                        newInspectionId,
-                        defaultIqcSpec.getId()
-                );
+                // 재고 처리
+                inventoryManager.changeStock(new InventoryChangeDto(
+                        item.getId(),
+                        lot != null ? lot.getId() : null,
+                        TransactionType.RECEIPT,
+                        convertedQuantity,
+                        LocalDateTime.now(), // 재고 처리 시각 (입고일 X)
+                        InventoryReferenceType.RECEIPT,
+                        receiptId
+                ));
+
+                receiptItem.updateStatus(ReceiptItemStatus.COMPLETED);
             }
+        }
 
-            // 입고 수량 단위 환산
-            BigDecimal convertedQuantity = uomConversionService.convert(
-                    receiptItem.getQuantity(),
-                    receiptItem.getUom().getId(),
-                    item.getUom().getId()
-            );
+        // 확정처리
+        receipt.confirm();
 
-            // 재고 처리
-            inventoryManager.changeStock(new InventoryChangeDto(
-                    item.getId(),
-                    lot != null ? lot.getId() : null,
-                    TransactionType.RECEIPT,
-                    convertedQuantity,
-                    LocalDateTime.now(), // 재고 처리 시각 (입고일 X)
-                    InventoryReferenceType.RECEIPT,
-                    receiptId
-            ));
-        });
+        // 모든 입고품목 입고완료 시 완료처리
+        boolean allCompleted = receiptItems.stream().allMatch(receiptItem ->
+                receiptItem.getStatus() == ReceiptItemStatus.COMPLETED);
 
-        // 입고 완료상태 업데이트
-        receipt.complete();
+        if (allCompleted) {
+            receipt.complete();
+        }
     }
 }

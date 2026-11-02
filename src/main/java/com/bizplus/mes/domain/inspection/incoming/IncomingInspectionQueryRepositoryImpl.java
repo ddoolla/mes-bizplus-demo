@@ -63,7 +63,7 @@ public class IncomingInspectionQueryRepositoryImpl implements IncomingInspection
                 .innerJoin(uom).on(receiptItem.uom.id.eq(uom.id))
                 .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id))
                 .where(searchCondition)
-                .orderBy(inspection.date.desc())
+                .orderBy(inspection.inspectionNo.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

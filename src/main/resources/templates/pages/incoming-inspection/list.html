@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('입고검사 목록', ~{}, ~{::script}, 'INCOMING_INSPECTION', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/incoming-inspection/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('입고검사 목록', '품질관리, 입고검사')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/incoming-inspection/fragments/filter :: filter ('/incoming-inspections', ${data.pagination.totalElements})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div id="incoming-inspection-table">
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 50px">
+                    <col style="width: 120px">
+                    <col style="width: 120px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 100px">
+                    <col style="width: auto">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 120px">
+                    <col style="width: 120px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="check-all"/></th>
+                    <th>검사 번호</th>
+                    <th>검사 일자</th>
+                    <th>품목 코드</th>
+                    <th>품목명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>LOT</th>
+                    <th>검사 수량</th>
+                    <th>상태</th>
+                    <th>판정</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(data.incomingInspections)}">
+                    <td colspan="11" class="p-4">등록된 입고검사 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="inspection : ${data.incomingInspections}">
+                    <td>
+                        <input type="checkbox"
+                               class="check-item"
+                               th:value="${inspection.id}"/>
+                    </td>
+                    <td class="fw-bold">
+                        <a th:href="@{/incoming-inspections/{id}(id=${inspection.id})}"
+                           th:text="${inspection.no}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${inspection.itemCode}"></td>
+                    <td th:text="${inspection.itemName}"></td>
+                    <td th:text="${inspection.itemType?.description}"></td>
+                    <td th:text="${inspection.itemSpec ?: '-'}"></td>
+                    <td th:text="${inspection.lotNo ?: '-'}"></td>
+                    <td th:text="|${#numbers.formatDecimal(inspection.quantity, 1, 'COMMA', inspection.uomScale, 'POINT') ?: '-'} ${inspection.uomCode}|"></td>
+                    <td th:switch="${inspection.status?.name}">
+                        <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="${inspection.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${inspection.status?.description}"></span>
+                        </h6>
+                    </td>
+                    <td th:switch="${inspection.judgement?.name}">
+                        <h6 th:case="'PASS'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${inspection.judgement?.description}"></span>
+                        </h6>
+                        <h6 th:case="'FAIL'" class="mb-0">
+                            <span class="badge text-bg-danger p-2 app-w-80"
+                                  th:text="${inspection.judgement?.description}"></span>
+                        </h6>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -14,6 +14,7 @@ public class ReceiptItemDto {
     private final BigDecimal unitPrice;
     private final BigDecimal amount;
     private final String remark;
+    private final ReceiptInfo receipt;
     private final ItemInfo item;
     private final UomInfo uom;
     private final LotInfo lot;
@@ -24,6 +25,8 @@ public class ReceiptItemDto {
                           BigDecimal unitPrice,
                           BigDecimal amount,
                           String remark,
+                          Long receiptId,
+                          String receiptNo,
                           Long itemId,
                           String itemCode,
                           String itemName,
@@ -42,6 +45,10 @@ public class ReceiptItemDto {
         this.unitPrice = unitPrice;
         this.amount = amount;
         this.remark = remark;
+        this.receipt = new ReceiptInfo(
+                receiptId,
+                receiptNo
+        );
         this.item = new ItemInfo(
                 itemId,
                 itemCode,
@@ -52,6 +59,9 @@ public class ReceiptItemDto {
         );
         this.uom = new UomInfo(uomId, uomCode, uomScale);
         this.lot = new LotInfo(lotId, lotNo);
+    }
+
+    public record ReceiptInfo(Long id, String no) {
     }
 
 

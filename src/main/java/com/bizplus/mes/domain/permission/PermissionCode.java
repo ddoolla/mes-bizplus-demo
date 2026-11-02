@@ -117,7 +117,12 @@ public enum PermissionCode {
     INVENTORY_TRANSACTION_READ(MenuCode.INVENTORY_TRANSACTION, "재고 내역 조회", PermissionAction.READ),
 
     LOT_READ(MenuCode.LOT, "로트 조회", PermissionAction.READ),
-    LOT_UPDATE(MenuCode.LOT, "로트 수정", PermissionAction.UPDATE);
+    LOT_UPDATE(MenuCode.LOT, "로트 수정", PermissionAction.UPDATE),
+
+    INCOMING_INSPECTION_READ(MenuCode.INCOMING_INSPECTION, "입고검사 조회", PermissionAction.READ),
+    INCOMING_INSPECTION_CREATE(MenuCode.INCOMING_INSPECTION, "입고검사 등록", PermissionAction.CREATE),
+    INCOMING_INSPECTION_UPDATE(MenuCode.INCOMING_INSPECTION, "입고검사 수정", PermissionAction.UPDATE),
+    INCOMING_INSPECTION_DELETE(MenuCode.INCOMING_INSPECTION, "입고검사 삭제", PermissionAction.DELETE);
 
     private final MenuCode menu;
     private final String name;

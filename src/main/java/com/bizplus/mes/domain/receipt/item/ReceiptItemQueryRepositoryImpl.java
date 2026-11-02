@@ -13,6 +13,7 @@ import static com.bizplus.mes.common.util.PredicateUtils.eq;
 import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.lot.QLot.lot;
+import static com.bizplus.mes.domain.receipt.QReceipt.receipt;
 import static com.bizplus.mes.domain.receipt.item.QReceiptItem.receiptItem;
 
 @Transactional(readOnly = true)
@@ -33,6 +34,8 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         receiptItem.unitPrice,
                         receiptItem.amount,
                         receiptItem.remark,
+                        receipt.id,
+                        receipt.receiptNo,
                         item.id,
                         item.code,
                         item.name,
@@ -48,6 +51,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         lot.no
                 ))
                 .from(receiptItem)
+                .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                 .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))

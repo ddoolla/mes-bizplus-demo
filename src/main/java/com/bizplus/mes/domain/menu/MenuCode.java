@@ -42,7 +42,10 @@ public enum MenuCode {
     INVENTORY(null, "재고 관리", MenuType.GROUP, null, 280),
     ITEM_INVENTORY(INVENTORY, "재고 현황", MenuType.MENU, "/inventories", 290),
     INVENTORY_TRANSACTION(INVENTORY, "재고 내역", MenuType.MENU, "/inventory-transactions", 300),
-    LOT(INVENTORY, "LOT 관리", MenuType.MENU, "/lots", 310);
+    LOT(INVENTORY, "LOT 관리", MenuType.MENU, "/lots", 310),
+
+    QUALITY(null, "품질 관리", MenuType.GROUP, null, 320),
+    INCOMING_INSPECTION(QUALITY, "입고검사", MenuType.MENU, "/incoming-inspections", 330);
 
     private final MenuCode parent;
     private final String name;

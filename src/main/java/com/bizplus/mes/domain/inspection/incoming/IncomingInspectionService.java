@@ -1,8 +1,17 @@
 package com.bizplus.mes.domain.inspection.incoming;
 
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionDto;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionListDto;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionSearchDto;
+import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
 
 public interface IncomingInspectionService {
+
+    IncomingInspectionListDto getAll(IncomingInspectionSearchDto dto, Pageable pageable);
+
+    IncomingInspectionDto getById(Long id);
 
     /**
      * 입고 시 검사 합격으로 자동생성

@@ -1,8 +1,13 @@
 package com.bizplus.mes.domain.inspection.incoming;
 
+import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.common.util.CodeGenerator;
 import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.inspection.*;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionDto;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionListDto;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionSearchDto;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionSummaryDto;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpecReader;
 import com.bizplus.mes.domain.receipt.item.ReceiptItem;
@@ -10,6 +15,8 @@ import com.bizplus.mes.domain.receipt.item.ReceiptItemReader;
 import com.bizplus.mes.domain.user.User;
 import com.bizplus.mes.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +31,24 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
 
     private final InspectionSpecReader inspectionSpecReader;
     private final ReceiptItemReader receiptItemReader;
+    private final IncomingInspectionReader incomingInspectionReader;
+
+    @Override
+    public IncomingInspectionListDto getAll(IncomingInspectionSearchDto dto, Pageable pageable) {
+        Page<IncomingInspectionSummaryDto> page = incomingInspectionRepository.fetchAll(dto, pageable);
+
+        return new IncomingInspectionListDto(page.getContent(), Pagination.of(page));
+    }
+
+    @Override
+    public IncomingInspectionDto getById(Long id) {
+        IncomingInspection incomingInspection = incomingInspectionReader.getById(id);
+
+        return new IncomingInspectionDto(
+                incomingInspection.getInspection().getId(),
+                incomingInspection.getReceiptItem().getId()
+        );
+    }
 
     @Transactional
     @Override

@@ -31,6 +31,7 @@ public class ItemCreateDto {
     @PositiveOrZero
     private BigDecimal unitPrice;
     private boolean lotManaged;
+    private boolean incomingInspectionRequired;
     private Integer shelfLife;
     private ShelfLifeUnit shelfLifeUnit;
     private String remark;

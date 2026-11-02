@@ -17,6 +17,7 @@ public class ItemDto {
     private final String specification;
     private final BigDecimal unitPrice;
     private final boolean lotManaged;
+    private final boolean incomingInspectionRequired;
     private final Integer shelfLife;
     private final ShelfLifeUnit shelfLifeUnit;
     private final String remark;
@@ -34,6 +35,7 @@ public class ItemDto {
                    String specification,
                    BigDecimal unitPrice,
                    boolean lotManaged,
+                   boolean incomingInspectionRequired,
                    Integer shelfLife,
                    ShelfLifeUnit shelfLifeUnit,
                    String remark,
@@ -55,6 +57,7 @@ public class ItemDto {
         this.type = type;
         this.specification = specification;
         this.unitPrice = unitPrice;
+        this.incomingInspectionRequired = incomingInspectionRequired;
         this.shelfLife = shelfLife;
         this.shelfLifeUnit = shelfLifeUnit;
         this.lotManaged = lotManaged;

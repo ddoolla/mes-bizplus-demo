@@ -18,6 +18,7 @@ public class ItemMapper {
                 dto.getType(),
                 dto.getSpecification(),
                 dto.getUnitPrice(),
+                dto.isIncomingInspectionRequired(),
                 dto.isLotManaged(),
                 dto.getShelfLife(),
                 dto.getShelfLifeUnit(),
@@ -37,6 +38,7 @@ public class ItemMapper {
                 dto.getType(),
                 dto.getSpecification(),
                 dto.getUnitPrice(),
+                dto.isIncomingInspectionRequired(),
                 dto.getShelfLife(),
                 dto.getShelfLifeUnit(),
                 dto.getRemark()

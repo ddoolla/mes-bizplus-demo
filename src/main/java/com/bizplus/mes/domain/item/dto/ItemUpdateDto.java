@@ -30,6 +30,7 @@ public class ItemUpdateDto {
 
     @PositiveOrZero
     private BigDecimal unitPrice;
+    private boolean incomingInspectionRequired;
     private Integer shelfLife;
     private ShelfLifeUnit shelfLifeUnit;
     private String remark;

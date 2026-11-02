@@ -163,6 +163,26 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>입고검사 대상</th>
+                    <td>
+                        <div>
+                            <label>
+                                <input type="radio"
+                                       name="incomingInspectionRequired"
+                                       value="true"
+                                       th:checked="*{incomingInspectionRequired}"/> 예
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="radio"
+                                       value="false"
+                                       name="incomingInspectionRequired"
+                                       th:checked="*{!incomingInspectionRequired}"/> 아니오
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <th>이미지1</th>
                     <td>
                         <div>

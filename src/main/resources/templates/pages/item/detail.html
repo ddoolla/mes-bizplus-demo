@@ -70,6 +70,11 @@
                 <td th:text="*{shelfLife} ? *{shelfLife + ' ' + shelfLifeUnit?.description} : '-'"></td>
             </tr>
             <tr>
+                <th>입고검사 대상</th>
+                <td colspan="3"
+                    th:text="${item.incomingInspectionRequired ? '예' : '아니오'}"></td>
+            </tr>
+            <tr>
                 <th>이미지1</th>
                 <td>
                     <div th:if="${image1 != null}">

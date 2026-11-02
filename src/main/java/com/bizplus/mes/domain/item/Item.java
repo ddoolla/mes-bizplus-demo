@@ -63,6 +63,8 @@ public class Item extends SoftDeletableEntity {
 
     private boolean lotManaged;
 
+    private boolean incomingInspectionRequired;
+
     private Integer shelfLife;
 
     @Enumerated(EnumType.STRING)
@@ -78,6 +80,7 @@ public class Item extends SoftDeletableEntity {
                 String specification,
                 BigDecimal unitPrice,
                 boolean lotManaged,
+                boolean incomingInspectionRequired,
                 Integer shelfLife,
                 ShelfLifeUnit shelfLifeUnit,
                 String remark) {
@@ -89,6 +92,7 @@ public class Item extends SoftDeletableEntity {
         this.specification = specification;
         this.unitPrice = unitPrice;
         this.lotManaged = lotManaged;
+        this.incomingInspectionRequired = incomingInspectionRequired;
         this.shelfLife = shelfLife;
         this.shelfLifeUnit = shelfLifeUnit;
         this.remark = remark;
@@ -101,6 +105,7 @@ public class Item extends SoftDeletableEntity {
                        ItemType type,
                        String specification,
                        BigDecimal unitPrice,
+                       boolean incomingInspectionRequired,
                        Integer shelfLife,
                        ShelfLifeUnit shelfLifeUnit,
                        String remark) {
@@ -111,13 +116,10 @@ public class Item extends SoftDeletableEntity {
         this.type = type;
         this.specification = specification;
         this.unitPrice = unitPrice;
+        this.incomingInspectionRequired = incomingInspectionRequired;
         this.shelfLife = shelfLife;
         this.shelfLifeUnit = shelfLifeUnit;
         this.remark = remark;
-    }
-
-    public void updateLotManaged(boolean lotManaged) {
-        this.lotManaged = lotManaged;
     }
 
     public void updateLifeShelf(Integer shelfLife, ShelfLifeUnit shelfLifeUnit) {

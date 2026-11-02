@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionSearchDt
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface IncomingInspectionService {
 
@@ -22,4 +23,6 @@ public interface IncomingInspectionService {
      * @return - 생성된 검사 아이디 (inspection.id)
      */
     Long autoCreate(Long receiptItemId, Long inspectionSpecId, LocalDate date);
+
+    void deleteAll(List<Long> ids);
 }

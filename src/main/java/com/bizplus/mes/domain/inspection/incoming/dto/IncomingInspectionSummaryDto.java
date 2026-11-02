@@ -16,6 +16,7 @@ public class IncomingInspectionSummaryDto {
     private final String no;
     private final LocalDate date;
     private final String receiptNo;
+    private final LocalDate receiptDate;
     private final String itemCode;
     private final String itemName;
     private final ItemType itemType;
@@ -32,6 +33,7 @@ public class IncomingInspectionSummaryDto {
                                         String no,
                                         LocalDate date,
                                         String receiptNo,
+                                        LocalDate receiptDate,
                                         String itemCode,
                                         String itemName,
                                         ItemType itemType,
@@ -46,6 +48,7 @@ public class IncomingInspectionSummaryDto {
         this.no = no;
         this.date = date;
         this.receiptNo = receiptNo;
+        this.receiptDate = receiptDate;
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.itemType = itemType;

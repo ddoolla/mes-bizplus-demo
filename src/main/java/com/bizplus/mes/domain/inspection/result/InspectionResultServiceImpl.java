@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.inspection.InspectionJudgement;
 import com.bizplus.mes.domain.inspection.InspectionReader;
 import com.bizplus.mes.domain.inspection.item.InspectionItem;
 import com.bizplus.mes.domain.inspection.result.dto.InspectionResultDto;
+import com.bizplus.mes.domain.inspection.result.dto.InspectionResultUpdateDto;
 import com.bizplus.mes.domain.inspection.spec.item.InspectionSpecItem;
 import com.bizplus.mes.domain.inspection.spec.item.InspectionSpecItemReader;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class InspectionResultServiceImpl implements InspectionResultService {
 
     private final InspectionSpecItemReader inspectionSpecItemReader;
     private final InspectionReader inspectionReader;
+    private final InspectionResultReader inspectionResultReader;
 
     @Override
     public List<InspectionResultDto> getAll(Long inspectionId) {
@@ -56,6 +58,23 @@ public class InspectionResultServiceImpl implements InspectionResultService {
                     InspectionJudgement.PASS,
                     null
             ));
+        });
+    }
+
+    @Transactional
+    @Override
+    public void updateAll(List<InspectionResultUpdateDto> dtoList) {
+        if (dtoList == null || dtoList.isEmpty()) {
+            return;
+        }
+
+        dtoList.forEach(dto -> {
+            InspectionResult inspectionResult = inspectionResultReader.getById(dto.getId());
+            inspectionResult.update(
+                    dto.getMeasuredValue(),
+                    dto.getJudgement(),
+                    dto.getRemark()
+            );
         });
     }
 }

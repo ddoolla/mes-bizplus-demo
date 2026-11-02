@@ -1,0 +1,89 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="form (inspection, inspectionResults)">
+    <div class="app-box app-box-bg mt-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="h5 fw-bold">검사항목</p>
+            </div>
+            <div></div>
+        </div>
+
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>검사 그룹</th>
+                    <th>검사 항목</th>
+                    <th>검사 기준</th>
+                    <th>검사 방법</th>
+                    <th>비고</th>
+                    <th>측정 값</th>
+                    <th>판정</th>
+                    <th>특이사항</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(inspectionResults)}">
+                    <td colspan="8" class="p-4">등록된 검사항목 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="result, stat : ${inspectionResults}">
+
+                    <input type="hidden"
+                           th:name="|inspectionResults[${stat.index}].id|"
+                           th:value="${result.id}"/>
+
+                    <td th:text="${@format.value(result.itemGroup)}"></td>
+                    <td th:text="${@format.value(result.itemName)}"></td>
+                    <td th:text="${@format.value(result.standard)}"></td>
+                    <td th:text="${@format.value(result.method)}"></td>
+                    <td th:text="${@format.value(result.specRemark)}"></td>
+                    <td>
+                        <input type="text"
+                               th:name="|inspectionResults[${stat.index}].measuredValue|"
+                               class="app-form-control app-xs "
+                               th:value="${result.measuredValue}"/>
+                    </td>
+                    <td>
+                        <label>
+                            <input type="radio"
+                                   th:name="|inspectionResults[${stat.index}].judgement|"
+                                   class="app-form-control app-xs "
+                                   th:value="PASS"
+                                   th:checked="${result.judgement?.name == 'PASS'}"/>
+                            합격
+                        </label>
+                        &nbsp;
+                        <label>
+                            <input type="radio"
+                                   th:name="|inspectionResults[${stat.index}].judgement|"
+                                   class="app-form-control app-xs "
+                                   th:value="FAIL"
+                                   th:checked="${result.judgement?.name == 'FAIL'}"/>
+                            불합격
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text"
+                               th:name="|inspectionResults[${stat.index}].remark|"
+                               class="app-form-control app-xs "
+                               th:value="${result.remark}"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

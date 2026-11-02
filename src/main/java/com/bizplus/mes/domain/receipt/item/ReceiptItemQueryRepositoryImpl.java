@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
 import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
@@ -78,5 +79,45 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 )
                 .fetch();
 
+    }
+
+    @Override
+    public Optional<ReceiptItemDto> fetchById(Long id) {
+        return Optional.ofNullable(
+                query
+                        .select(new QReceiptItemDto(
+                                receiptItem.id,
+                                receiptItem.quantity,
+                                receiptItem.unitPrice,
+                                receiptItem.amount,
+                                receiptItem.remark,
+                                receipt.id,
+                                receipt.receiptNo,
+                                item.id,
+                                item.code,
+                                item.name,
+                                item.type,
+                                item.specification,
+                                itemUom.id,
+                                itemUom.code,
+                                itemUom.scale,
+                                receiptUom.id,
+                                receiptUom.code,
+                                receiptUom.scale,
+                                lot.id,
+                                lot.no
+                        ))
+                        .from(receiptItem)
+                        .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                        .innerJoin(item).on(receiptItem.item.id.eq(item.id))
+                        .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
+                        .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
+                        .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id))
+                        .where(
+                                notDeleted(receiptItem.deletedAt),
+                                eq(receiptItem.id, id)
+                        )
+                        .fetchOne()
+        );
     }
 }

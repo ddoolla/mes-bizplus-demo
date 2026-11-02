@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Service
@@ -31,6 +32,7 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
 
     private final InspectionSpecReader inspectionSpecReader;
     private final ReceiptItemReader receiptItemReader;
+    private final InspectionReader inspectionReader;
     private final IncomingInspectionReader incomingInspectionReader;
 
     @Override
@@ -45,8 +47,9 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
         IncomingInspection incomingInspection = incomingInspectionReader.getById(id);
 
         return new IncomingInspectionDto(
-                incomingInspection.getInspection().getId(),
-                incomingInspection.getReceiptItem().getId()
+                incomingInspection.getId(),
+                inspectionReader.getDtoById(incomingInspection.getInspection().getId()),
+                receiptItemReader.getDtoById(incomingInspection.getReceiptItem().getId())
         );
     }
 
@@ -67,11 +70,15 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
         Inspection newInspection = inspectionRepository.save(new Inspection(
                 inspectionSpec,
                 inspector,
+                receiptItem.getUom(),
                 newInspectionNo,
                 InspectionType.INCOMING,
                 InspectionStatus.COMPLETED,
                 InspectionJudgement.PASS,
                 date,
+                receiptItem.getQuantity(),
+                receiptItem.getQuantity(),
+                BigDecimal.ZERO,
                 null
         ));
 

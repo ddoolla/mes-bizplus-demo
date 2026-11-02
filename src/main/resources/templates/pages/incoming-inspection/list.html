@@ -25,26 +25,24 @@
             <table class="app-table-list text-center">
                 <colgroup>
                     <col style="width: 50px">
-                    <col style="width: 120px">
-                    <col style="width: 120px">
-                    <col style="width: 200px">
-                    <col style="width: 200px">
-                    <col style="width: 100px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
                     <col style="width: auto">
                     <col style="width: 200px">
                     <col style="width: 150px">
-                    <col style="width: 120px">
-                    <col style="width: 120px">
+                    <col style="width: 100px">
+                    <col style="width: 100px">
                 </colgroup>
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="check-all"/></th>
                     <th>검사 번호</th>
                     <th>검사 일자</th>
+                    <th>입고 일자</th>
                     <th>품목 코드</th>
                     <th>품목명</th>
-                    <th>유형</th>
-                    <th>규격</th>
                     <th>LOT</th>
                     <th>검사 수량</th>
                     <th>상태</th>
@@ -53,7 +51,7 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(data.incomingInspections)}">
-                    <td colspan="11" class="p-4">등록된 입고검사 정보가 없습니다.</td>
+                    <td colspan="10" class="p-4">등록된 입고검사 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="inspection : ${data.incomingInspections}">
                     <td>
@@ -66,10 +64,9 @@
                            th:text="${inspection.no}"></a>
                     </td>
                     <td th:text="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(inspection.receiptDate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${inspection.itemCode}"></td>
                     <td th:text="${inspection.itemName}"></td>
-                    <td th:text="${inspection.itemType?.description}"></td>
-                    <td th:text="${inspection.itemSpec ?: '-'}"></td>
                     <td th:text="${inspection.lotNo ?: '-'}"></td>
                     <td th:text="|${#numbers.formatDecimal(inspection.quantity, 1, 'COMMA', inspection.uomScale, 'POINT') ?: '-'} ${inspection.uomCode}|"></td>
                     <td th:switch="${inspection.status?.name}">

@@ -14,10 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.inspection.QInspection.inspection;
 import static com.bizplus.mes.domain.inspection.spec.QInspectionSpec.inspectionSpec;
+import static com.bizplus.mes.domain.uom.QUom.uom;
 import static com.bizplus.mes.domain.user.QUser.user;
 
 @Transactional(readOnly = true)
@@ -42,6 +44,9 @@ public class InspectionQueryRepositoryImpl implements InspectionQueryRepository 
                         inspection.id,
                         inspection.inspectionNo,
                         inspection.date,
+                        inspection.inspectedQuantity,
+                        inspection.passedQuantity,
+                        inspection.failedQuantity,
                         inspection.type,
                         inspection.status,
                         inspection.judgement,
@@ -50,10 +55,14 @@ public class InspectionQueryRepositoryImpl implements InspectionQueryRepository 
                         inspectionSpec.code,
                         inspectionSpec.name,
                         user.id,
-                        user.name
+                        user.name,
+                        uom.id,
+                        uom.code,
+                        uom.scale
                 ))
                 .from(inspection)
-                .innerJoin(inspectionSpec).on(inspection.inspectionSpec.id.eq(inspection.id))
+                .innerJoin(inspectionSpec).on(inspection.inspectionSpec.id.eq(inspectionSpec.id))
+                .innerJoin(uom).on(inspection.uom.id.eq(uom.id))
                 .leftJoin(user).on(inspection.inspector.id.eq(user.id))
                 .where(searchCondition)
                 .orderBy(inspection.date.desc())
@@ -63,11 +72,48 @@ public class InspectionQueryRepositoryImpl implements InspectionQueryRepository 
 
         JPAQuery<Long> count = query.select(inspection.count())
                 .from(inspection)
-                .innerJoin(inspectionSpec).on(inspection.inspectionSpec.id.eq(inspection.id))
+                .innerJoin(inspectionSpec).on(inspection.inspectionSpec.id.eq(inspectionSpec.id))
+                .innerJoin(uom).on(inspection.uom.id.eq(uom.id))
                 .leftJoin(user).on(inspection.inspector.id.eq(user.id))
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Optional<InspectionDto> fetchById(Long id) {
+        return Optional.ofNullable(
+                query
+                        .select(new QInspectionDto(
+                                inspection.id,
+                                inspection.inspectionNo,
+                                inspection.date,
+                                inspection.inspectedQuantity,
+                                inspection.passedQuantity,
+                                inspection.failedQuantity,
+                                inspection.type,
+                                inspection.status,
+                                inspection.judgement,
+                                inspection.remark,
+                                inspectionSpec.id,
+                                inspectionSpec.code,
+                                inspectionSpec.name,
+                                user.id,
+                                user.name,
+                                uom.id,
+                                uom.code,
+                                uom.scale
+                        ))
+                        .from(inspection)
+                        .innerJoin(inspectionSpec).on(inspection.inspectionSpec.id.eq(inspectionSpec.id))
+                        .innerJoin(uom).on(inspection.uom.id.eq(uom.id))
+                        .leftJoin(user).on(inspection.inspector.id.eq(user.id))
+                        .where(
+                                notDeleted(inspection.deletedAt),
+                                eq(inspection.id, id)
+                        )
+                        .fetchOne()
+        );
     }
 
     @Override

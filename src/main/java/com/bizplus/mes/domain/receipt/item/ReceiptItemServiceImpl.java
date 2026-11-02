@@ -1,5 +1,7 @@
 package com.bizplus.mes.domain.receipt.item;
 
+import com.bizplus.mes.common.exception.BusinessException;
+import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.receipt.Receipt;
@@ -46,6 +48,15 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
                     return new ReceiptItemEditDto(dto, convertibleUoms);
                 })
                 .toList();
+    }
+
+    @Override
+    public ReceiptItemDto getById(Long id) {
+        return receiptItemRepository.fetchById(id)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.RECEIPT_ITEM_NOT_FOUND,
+                        "receipt id: %d".formatted(id)
+                ));
     }
 
     @Transactional

@@ -15,6 +15,8 @@ public interface ReceiptItemService {
     // 자재 입고 수정 페이지용
     List<ReceiptItemEditDto> getAllForEdit(Long receiptId);
 
+    ReceiptItemDto getById(Long id);
+
     void create(Long receiptId, ReceiptItemCreateDto dto);
 
     void update(List<ReceiptItemUpdateDto> dtoList);

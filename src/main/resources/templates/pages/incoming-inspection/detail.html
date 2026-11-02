@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('입고검사 상세', ~{}, ~{::script}, 'INCOMING_INSPECTION', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/receipt/detail.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('입고검사 상세', '품질관리, 입고검사, 상세')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/incoming-inspections}'|">
+            <i class="bi bi-list"></i> 목록
+        </button>
+
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                th:onclick="|location.href='@{/incoming-inspections/{id}/edit(id=${incomingInspection.id})}'|"
+                sec:authorize="hasAuthority('INCOMING_INSPECTION_UPDATE')">
+            <i class="bi bi-pencil-square"></i> 수정
+        </button>
+    </div>
+
+    <!--/* 상세 정보 */-->
+    <div class="app-box app-box-bg">
+        <table class="app-table-input" th:object="${incomingInspection}"
+               th:with="receiptItem=*{receiptItem}, inspection=*{inspection}">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: 500px">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>검사 번호</th>
+                <td th:text="*{inspection.inspectionNo}"></td>
+                <th>입고 번호</th>
+                <td>
+                    <a th:href="@{/receipts/{id}(id=*{receiptItem.receipt.id})}"
+                       th:text="*{receiptItem.receipt.no}"></a>
+                </td>
+            </tr>
+            <tr>
+                <th>검사 유형</th>
+                <td th:text="*{inspection.type?.description}"></td>
+                <th>품목 코드</th>
+                <td th:text="*{receiptItem.item.code}"></td>
+            </tr>
+            <tr>
+                <th>검사 일자</th>
+                <td th:text="${#temporals.format(incomingInspection.inspection.date, 'yyyy-MM-dd')}"></td>
+                <th>품목명</th>
+                <td th:text="*{receiptItem.item.name}"></td>
+            </tr>
+            <tr>
+                <th>검사 수량</th>
+                <td th:text="|${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 'COMMA', 0, 'POINT')} ${incomingInspection.inspection.uom.code}|"></td>
+                <th>유형</th>
+                <td th:text="*{receiptItem.item.type?.description}"></td>
+            </tr>
+            <tr>
+                <th>검사자</th>
+                <td th:text="${@format.value(inspection.inspector.name)}"></td>
+                <th>규격</th>
+                <td th:text="${@format.value(receiptItem.item.specification)}"></td>
+            </tr>
+            <tr>
+                <th>LOT</th>
+                <td colspan="3" th:text="${@format.value(receiptItem.lot.no)}"></td>
+            </tr>
+            <tr>
+                <th>비고</th>
+                <td colspan="3" th:text="${@format.value(inspection.remark)}"></td>
+            </tr>
+            <tr>
+                <th>상태</th>
+                <td th:switch="*{inspection.status?.name}">
+                    <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="*{inspection.status?.description}"></span>
+                    </h6>
+                    <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="*{inspection.status?.description}"></span>
+                    </h6>
+                </td>
+                <th>판정</th>
+                <td th:switch="*{inspection.judgement?.name}">
+                    <h6 th:case="'PASS'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="*{inspection.judgement?.description}"></span>
+                    </h6>
+                    <h6 th:case="'FAIL'" class="mb-0">
+                            <span class="badge text-bg-danger p-2 app-w-80"
+                                  th:text="*{inspection.judgement?.description}"></span>
+                    </h6>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 검사항목 */-->
+    <div th:replace="~{pages/inspection-result/fragments/list :: list (${inspectionResults})}"></div>
+</div>
+</body>
+</html>

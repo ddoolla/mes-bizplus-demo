@@ -43,6 +43,7 @@ public class IncomingInspectionQueryRepositoryImpl implements IncomingInspection
                         inspection.inspectionNo,
                         inspection.date,
                         receipt.receiptNo,
+                        receipt.date,
                         item.code,
                         item.name,
                         item.type,

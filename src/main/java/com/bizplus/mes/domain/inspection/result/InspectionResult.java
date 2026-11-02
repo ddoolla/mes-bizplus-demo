@@ -73,4 +73,12 @@ public class InspectionResult extends SoftDeletableEntity {
         this.judgement = judgement;
         this.remark = remark;
     }
+
+    public void update(String measuredValue,
+                       InspectionJudgement judgement,
+                       String remark) {
+        this.measuredValue = measuredValue;
+        this.judgement = judgement;
+        this.remark = remark;
+    }
 }

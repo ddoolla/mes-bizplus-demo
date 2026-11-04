@@ -1,0 +1,74 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 검사기준 선택 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'inspection-spec-select-modal',
+        '검사기준 선택',
+         ~{::.app-modal-content},
+         1200
+    )}">
+        <div class="app-modal-content p-2">
+            <div class="modal-body">
+                <!--/* 목록 */-->
+                <div class="list-content"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!--/* 모달 목록 콘텐츠 (재고 미포함) */-->
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${inspectionSpecs.size()} 건|">
+        </div>
+    </div>
+    <div>
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: 100px">
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: 80px">
+                <col style="width: 100px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>검사기준 코드</th>
+                <th>검사기준명</th>
+                <th>검사 유형</th>
+                <th>버전</th>
+                <th>공정명</th>
+                <th>기본 여부</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(inspectionSpecs)}">
+                <td colspan="7" class="p-4">등록된 검사기준 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="inspectionSpec : ${inspectionSpecs}">
+                <td th:text="${inspectionSpec.code}"></td>
+                <td th:text="${inspectionSpec.name}"></td>
+                <td th:text="${inspectionSpec.type?.description}"></td>
+                <td th:text="${@format.value(inspectionSpec.version)}"></td>
+                <td th:text="${@format.value(inspectionSpec.process.name)}"></td>
+                <td th:text="${inspectionSpec.isDefault ? '예' : '아니오'}"></td>
+                <td>
+                    <button type="button"
+                            class="select-button
+                                   btn btn-primary btn-sm app-w-80"
+                            th:data-id="${inspectionSpec.id}"
+                            th:data-name="${inspectionSpec.name}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</html>

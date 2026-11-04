@@ -1,9 +1,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<!--/* 입고검사 등록 모달 */-->
+<!--/* 입고 자재 선택 모달 */-->
 <th:block th:fragment="modal">
     <div th:replace="~{fragments/modal/default :: default (
-        'incoming-inspection-create-modal',
+        'receipt-item-select-modal',
         '입고 자재 선택',
          ~{::.app-modal-content},
          1200
@@ -15,7 +15,7 @@
                     <form id="receipt-item-search-form"
                           class="search-form"
                           method="GET"
-                          th:action="@{incoming-inspections/modal/create}">
+                          th:action="@{receipt-items/modal/create}">
                         <table class="app-table-input">
                             <colgroup>
                                 <col style="width: 100px">
@@ -120,7 +120,13 @@
                     <button type="button"
                             class="select-button
                                    btn btn-primary btn-sm app-w-80"
-                            th:data-id="${receiptItem.id}">
+                            th:data-id="${receiptItem.id}"
+                            th:data-quantity="${receiptItem.quantity}"
+                            th:data-item-id="${receiptItem.item.id}"
+                            th:data-item-name="${receiptItem.item.name}"
+                            th:data-default-iqc-spec-id="${receiptItem.item.defaultIqcSpecId}"
+                            th:data-default-iqc-spec-name="${receiptItem.item.defaultIqcSpecName}"
+                            th:data-item-uom-id="${receiptItem.item.uom.id}">
                         선택
                     </button>
                 </td>

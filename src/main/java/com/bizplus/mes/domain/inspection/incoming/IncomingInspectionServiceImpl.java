@@ -62,7 +62,7 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
         User inspector = SecurityUtils.getCurrentUser().getUser();
 
         String newInspectionNo = CodeGenerator.generate(
-                CodePrefix.RECEIPT,
+                CodePrefix.INCOMING_INSPECTION,
                 date,
                 inspectionRepository.findMaxInspectionNo(date, InspectionType.INCOMING)
         );

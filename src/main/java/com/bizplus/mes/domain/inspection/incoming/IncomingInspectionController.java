@@ -2,16 +2,16 @@ package com.bizplus.mes.domain.inspection.incoming;
 
 import com.bizplus.mes.common.message.MessageCode;
 import com.bizplus.mes.common.message.MessageService;
+import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionCreateDto;
 import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionDto;
 import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionSearchDto;
 import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionUpdateDto;
+import com.bizplus.mes.domain.inspection.incoming.facade.IncomingInspectionCreateService;
 import com.bizplus.mes.domain.inspection.incoming.facade.IncomingInspectionUpdateService;
 import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
-import com.bizplus.mes.domain.receipt.item.ReceiptItemService;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -32,8 +32,8 @@ public class IncomingInspectionController {
     private final MessageService messageService;
     private final IncomingInspectionService incomingInspectionService;
     private final InspectionResultService inspectionResultService;
-    private final ReceiptItemService receiptItemService;
 
+    private final IncomingInspectionCreateService incomingInspectionCreateService;
     private final IncomingInspectionUpdateService incomingInspectionUpdateService;
 
     @GetMapping
@@ -56,6 +56,12 @@ public class IncomingInspectionController {
         return "pages/incoming-inspection/detail";
     }
 
+    @GetMapping("/new")
+    @PreAuthorize("hasAuthority('INCOMING_INSPECTION_CREATE')")
+    public String viewNew(Model model) {
+        return "pages/incoming-inspection/new";
+    }
+
     @GetMapping("/{id}/edit")
     @PreAuthorize("hasAuthority('INCOMING_INSPECTION_UPDATE')")
     public String viewEdit(Model model, @PathVariable Long id) {
@@ -67,12 +73,16 @@ public class IncomingInspectionController {
         return "pages/incoming-inspection/edit";
     }
 
-    @GetMapping("/modal/create")
-    @PreAuthorize("hasAuthority('INCOMING_INSPECTION_READ')")
-    public String viewCreateModal(Model model, ReceiptItemSearchDto dto, @PageableDefault Pageable pageable) {
-        model.addAttribute("data", receiptItemService.getAllForInspection(dto, pageable));
+    @PostMapping
+    @PreAuthorize("hasAuthority('INCOMING_INSPECTION_CREATE')")
+    @UserAction(menu = MenuCode.INCOMING_INSPECTION, type = ActionType.CREATE)
+    public String create(IncomingInspectionCreateDto dto, RedirectAttributes reAtt) {
+        Long createdId = incomingInspectionCreateService.create(dto);
 
-        return "pages/incoming-inspection/modal/create :: list";
+        reAtt.addAttribute("id", createdId);
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
+
+        return "redirect:/incoming-inspections/{id}/edit";
     }
 
     @PostMapping("/{id}")

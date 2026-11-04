@@ -39,6 +39,8 @@ public class ReceiptItemDto {
                           String itemName,
                           ItemType itemType,
                           String itemSpec,
+                          Long defaultIqcSpecId,
+                          String defaultIqcSpecName,
                           Long itemUomId,
                           String itemUomCode,
                           Integer itemUomScale,
@@ -65,6 +67,8 @@ public class ReceiptItemDto {
                 itemName,
                 itemType,
                 itemSpec,
+                defaultIqcSpecId,
+                defaultIqcSpecName,
                 new ItemUomInfo(itemUomId, itemUomCode, itemUomScale)
         );
         this.uom = new UomInfo(uomId, uomCode, uomScale);
@@ -80,6 +84,8 @@ public class ReceiptItemDto {
                            String name,
                            ItemType type,
                            String specification,
+                           Long defaultIqcSpecId,
+                           String defaultIqcSpecName,
                            ItemUomInfo uom) {
 
     }

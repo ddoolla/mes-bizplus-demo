@@ -6,21 +6,37 @@
     <form id="incoming-inspection-search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
-                <col style="width: 150px">
+                <col style="width: 100px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 100px">
                 <col style="width: auto">
-                <col style="width: 150px">
+                <col style="width: 100px">
+                <col style="width: auto">
+                <col style="width: 100px">
                 <col style="width: 500px">
             </colgroup>
             <tbody>
             <tr>
+                <th>검사 번호</th>
+                <td>
+                    <input type="text"
+                           name="inspectionNo"
+                           class="app-form-control app-xs"
+                           th:value="${param.inspectionNo}">
+                </td>
                 <th>품목</th>
                 <td>
                     <input type="text"
                            name="item"
                            class="app-form-control app-xs"
                            th:value="${param.item}">
+                </td>
+                <th>LOT</th>
+                <td>
+                    <input type="text"
+                           name="lotNo"
+                           class="app-form-control app-xs"
+                           th:value="${param.lotNo}">
                 </td>
                 <th>검사 기간</th>
                 <td>
@@ -54,8 +70,8 @@
             </div>
             <div>
                 <button type="button"
-                        id="incoming-inspection-create-button"
                         class="btn btn-primary btn-sm"
+                        th:onclick="|location.href='@{/incoming-inspections/new}'|"
                         sec:authorize="hasAuthority('INCOMING_INSPECTION_CREATE')">
                     <i class="bi bi-plus-circle"></i> 등록
                 </button>

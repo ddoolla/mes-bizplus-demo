@@ -1,24 +1,15 @@
 import ajax from "../../../common/ajax.js";
 import toast from "../../../common/toast.js";
 import modal from "../../../common/modal/modal.js";
-import pagination from "../../../common/pagination.js";
-import datepicker from "../../../common/datepicker.js";
 
-const MODAL_ID = 'incoming-inspection-create-modal';
+const MODAL_ID = 'inspection-spec-select-modal';
 
-const createIncomingInspectionCreateModal = () => {
+const createInspectionSpecSelectModal = () => {
 
     const modalEl = document.querySelector(`#${MODAL_ID}`);
-    const searchForm = modalEl.querySelector('.search-form');
     const listContent = modalEl.querySelector('.list-content');
 
     let selectCallback = null;
-
-    datepicker.initRange({
-        formId: 'receipt-item-search-form',
-        from: 'startDate',
-        to: 'endDate',
-    });
 
     const render = (response) => {
         listContent.innerHTML = response;
@@ -33,7 +24,7 @@ const createIncomingInspectionCreateModal = () => {
 
         } catch (xhr) {
             toast.error({
-                message: xhr.responseJSON?.message ?? '품목 목록 조회에 실패했습니다.',
+                message: xhr.responseJSON?.message ?? '검사기준 목록 조회에 실패했습니다.',
             });
 
             return false;
@@ -60,7 +51,7 @@ const createIncomingInspectionCreateModal = () => {
         modal.close(MODAL_ID);
     };
 
-    // 품목 선택 이벤트
+    // 선택 이벤트
     listContent.addEventListener('click', function (e) {
         const button = e.target.closest('.select-button');
 
@@ -68,36 +59,17 @@ const createIncomingInspectionCreateModal = () => {
             return;
         }
 
-        const receiptItem = {
+        const inspectionSpec = {
             id: button.dataset.id,
+            name: button.dataset.name,
         };
 
-        selectCallback?.(receiptItem);
+        selectCallback?.(inspectionSpec);
     });
-
-    // 검색 폼 초기화
-    $(searchForm).validate({
-        submitHandler(form) {
-            const params = new URLSearchParams(
-                new FormData(form)
-            );
-
-            load({
-                url: form.action,
-                params: params.toString()
-            });
-        },
-    });
-
-    // 페이지네이션 리렌더링 후 이벤트 연결
-    pagination.bindEvents(listContent, render);
-
-    // 모달 닫기 시 폼 초기화
-    modal.resetFormOnHidden(MODAL_ID);
 
     return {
         open,
         close,
     };
 }
-export default createIncomingInspectionCreateModal;
+export default createInspectionSpecSelectModal;

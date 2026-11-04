@@ -39,6 +39,11 @@ public class InspectionSpecServiceImpl implements InspectionSpecService {
     }
 
     @Override
+    public List<InspectionSpecDto> getAll(Long itemId, InspectionType type, Long processId) {
+        return inspectionSpecRepository.fetchAll(itemId, type, processId);
+    }
+
+    @Override
     public InspectionSpecDto getInspectionSpec(Long id) {
         return inspectionSpecRepository.findInspectionSpec(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.INSPECTION_SPEC_NOT_FOUND, "id: " + id));

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class IncomingInspectionSearchDto {
 
+    private String inspectionNo;
     private String item;
     private String lotNo;
 

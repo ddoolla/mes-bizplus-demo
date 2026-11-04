@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.inspection.spec;
 
+import com.bizplus.mes.domain.inspection.InspectionType;
 import com.bizplus.mes.domain.inspection.spec.dto.*;
 import org.springframework.data.domain.Pageable;
 
@@ -8,6 +9,8 @@ import java.util.List;
 public interface InspectionSpecService {
 
     InspectionSpecListDto getInspectionSpecs(InspectionSpecSearchDto dto, Pageable pageable);
+
+    List<InspectionSpecDto> getAll(Long itemId, InspectionType type, Long processId);
 
     InspectionSpecDto getInspectionSpec(Long id);
 

@@ -80,7 +80,7 @@
                         <input type="number"
                                name="inspectedQuantity"
                                class="app-form-control app-xs"
-                               th:value="${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 'COMMA', 0, 'POINT')}"/>
+                               th:value="${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 0)}"/>
 
                         <input type="hidden" name="uomScale" th:value="*{inspection.uom.scale}"/>
                     </td>

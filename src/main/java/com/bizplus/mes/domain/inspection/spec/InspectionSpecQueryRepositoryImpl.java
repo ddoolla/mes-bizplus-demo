@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.inspection.spec;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
+import com.bizplus.mes.domain.inspection.InspectionType;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecDto;
 import com.bizplus.mes.domain.inspection.spec.dto.InspectionSpecSearchDto;
 import com.bizplus.mes.domain.inspection.spec.dto.QInspectionSpecDto;
@@ -76,6 +77,42 @@ public class InspectionSpecQueryRepositoryImpl implements InspectionSpecQueryRep
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public List<InspectionSpecDto> fetchAll(Long itemId, InspectionType type, Long processId) {
+        return query
+                .select(new QInspectionSpecDto(
+                        inspectionSpec.id,
+                        inspectionSpec.code,
+                        inspectionSpec.name,
+                        inspectionSpec.type,
+                        inspectionSpec.version,
+                        inspectionSpec.remark,
+                        item.id,
+                        item.defaultIqcSpec.id,
+                        item.defaultOqcSpec.id,
+                        item.code,
+                        item.name,
+                        itemCategoryCode.name,
+                        item.type,
+                        item.specification,
+                        process.id,
+                        process.code,
+                        process.name
+                ))
+                .from(inspectionSpec)
+                .innerJoin(item).on(inspectionSpec.item.id.eq(item.id))
+                .leftJoin(itemCategoryCode).on(item.category.id.eq(itemCategoryCode.id))
+                .leftJoin(process).on(inspectionSpec.process.id.eq(process.id))
+                .where(
+                        notDeleted(inspectionSpec.deletedAt),
+                        eq(inspectionSpec.item.id, itemId),
+                        eq(inspectionSpec.type, type),
+                        eq(inspectionSpec.process.id, processId)
+                )
+                .orderBy(inspectionSpec.code.asc(), inspectionSpec.name.asc())
+                .fetch();
     }
 
     @Override

@@ -78,6 +78,17 @@ public class InspectionSpecController {
         return "pages/inspection-spec/edit";
     }
 
+    @GetMapping("/modal/select")
+    @PreAuthorize("hasAuthority('INSPECTION_SPEC_READ')")
+    public String viewSelectModal(Model model,
+                                  @RequestParam Long itemId,
+                                  @RequestParam InspectionType type,
+                                  @RequestParam(required = false) Long processId) {
+        model.addAttribute("inspectionSpecs", inspectionSpecService.getAll(itemId, type, processId));
+
+        return "pages/inspection-spec/modal/select :: list";
+    }
+
     @GetMapping("/check-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('INSPECTION_SPEC_READ')")

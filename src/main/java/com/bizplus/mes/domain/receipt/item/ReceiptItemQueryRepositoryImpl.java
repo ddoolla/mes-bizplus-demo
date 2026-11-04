@@ -5,6 +5,7 @@ import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemDto;
 import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemSearchDto;
 import com.bizplus.mes.domain.uom.QUom;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
+import static com.bizplus.mes.domain.inspection.incoming.QIncomingInspection.incomingInspection;
+import static com.bizplus.mes.domain.inspection.spec.QInspectionSpec.inspectionSpec;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.lot.QLot.lot;
 import static com.bizplus.mes.domain.receipt.QReceipt.receipt;
@@ -39,6 +42,11 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .and(eq(receiptItem.inspectionRequired, true))
                 .and(eq(receiptItem.inspectionAutoCreate, false))
                 .and(eq(receiptItem.status, ReceiptItemStatus.PENDING))
+                .and(JPAExpressions
+                        .selectOne()
+                        .from(incomingInspection)
+                        .where(incomingInspection.receiptItem.id.eq(receiptItem.id))
+                        .notExists())
                 .and(contains(receipt.receiptNo, dto.getReceiptNo()))
                 .and(containsAny(dto.getItem(), item.code, item.name))
                 .and(startDateGoe(receipt.date, dto.getStartDate()))
@@ -61,6 +69,8 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         item.name,
                         item.type,
                         item.specification,
+                        inspectionSpec.id,
+                        inspectionSpec.name,
                         itemUom.id,
                         itemUom.code,
                         itemUom.scale,
@@ -74,6 +84,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
+                .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
                 .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
                 .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id))
                 .where(searchCondition)
@@ -87,6 +98,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
+                .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
                 .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
                 .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id));
 
@@ -112,6 +124,8 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         item.name,
                         item.type,
                         item.specification,
+                        inspectionSpec.id,
+                        inspectionSpec.name,
                         itemUom.id,
                         itemUom.code,
                         itemUom.scale,
@@ -125,6 +139,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
+                .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
                 .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
                 .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id))
                 .where(
@@ -171,6 +186,8 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                                 item.name,
                                 item.type,
                                 item.specification,
+                                inspectionSpec.id,
+                                inspectionSpec.name,
                                 itemUom.id,
                                 itemUom.code,
                                 itemUom.scale,
@@ -184,6 +201,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                         .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                         .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
+                        .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
                         .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
                         .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id))
                         .where(

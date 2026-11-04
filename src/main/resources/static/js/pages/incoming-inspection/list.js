@@ -3,7 +3,7 @@ import ajax from "../../common/ajax.js";
 import createConfirmModal from "../../common/modal/confirm.js";
 import toast from "../../common/toast.js";
 import datepicker from "../../common/datepicker.js";
-import createIncomingInspectionCreateModal from "../../domain/incoming-inspection/modal/create.js";
+import createIncomingInspectionCreateModal from "../../domain/receipt-item/modal/create.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 

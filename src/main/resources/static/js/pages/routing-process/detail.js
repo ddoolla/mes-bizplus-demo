@@ -1,7 +1,38 @@
+import createInspectionSpecSelectModal from "../../domain/inspection-spec/modal/select.js";
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const processMaterialEditForm = document.querySelector('#process-material-edit-form');
+    const inspectionSpecListButton = document.querySelector('#inspection-spec-list-button');
 
+    const inspectionSpecNameInput = document.querySelector('[name="inspectionSpecName"]');
+    const inspectionSpecIdInput = document.querySelector('[name="inspectionSpecId"]');
+
+    const itemId = document.querySelector('[name="itemId"]').value;
+    const processId = document.querySelector('[name="processId"]').value;
+
+    const inspectionSpecSelectModal = createInspectionSpecSelectModal();
+
+    /* 기본 검사기준 */
+    inspectionSpecListButton.addEventListener('click', function (e) {
+        inspectionSpecSelectModal.open({
+            title: '공정 검사기준 선택',
+            url: '/inspection-specs/modal/select',
+            params: {
+                itemId: itemId,
+                type: 'IN_PROCESS',
+                processId: processId,
+            },
+            onSelect: (inspectionSpec) => {
+                inspectionSpecIdInput.value = inspectionSpec.id;
+                inspectionSpecNameInput.value = inspectionSpec.name;
+
+                inspectionSpecSelectModal.close();
+            }
+        });
+    });
+
+    /* 폼 유효성 검사 */
     $(processMaterialEditForm).validate();
 
     /* 수량 소수점 자릿수 검사 */

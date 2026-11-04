@@ -1,6 +1,7 @@
 package com.bizplus.mes.domain.bom.item;
 
 import com.bizplus.mes.common.exception.BusinessException;
+import com.bizplus.mes.common.validator.QuantityValidator;
 import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.bom.BomReader;
 import com.bizplus.mes.domain.bom.item.dto.BomItemCreateDto;
@@ -13,7 +14,6 @@ import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
-import com.bizplus.mes.domain.uom.UomValidator;
 import com.bizplus.mes.domain.uom.conversion.UomConversionReader;
 import com.bizplus.mes.domain.uom.conversion.dto.ConvertibleUomDto;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +35,6 @@ public class BomItemServiceImpl implements BomItemService {
     private final ItemReader itemReader;
     private final BomReader bomReader;
     private final BomItemReader bomItemReader;
-
-    private final UomValidator uomValidator;
 
     @Override
     public List<BomItemDto> getBomItems(Long bomId) {
@@ -98,7 +96,7 @@ public class BomItemServiceImpl implements BomItemService {
             BomItem bomItem = bomItemReader.getById(dto.getId());
             Uom uom = uomReader.getById(dto.getUomId());
 
-            uomValidator.validateQuantity(dto.getQuantity(), uom);
+            QuantityValidator.validateScale(dto.getQuantity(), uom.getScale());
 
             BomItemMapper.apply(bomItem, uom, dto);
         });

@@ -2,7 +2,7 @@ package com.bizplus.mes.domain.routing.process;
 
 import com.bizplus.mes.domain.routing.process.dto.RoutingProcessCreateDto;
 import com.bizplus.mes.domain.routing.process.dto.RoutingProcessDto;
-import com.bizplus.mes.domain.routing.process.dto.RoutingProcessUpdateDto;
+import com.bizplus.mes.domain.routing.process.dto.RoutingProcessStepDto;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface RoutingProcessService {
 
     void createRoutingProcesses(Long routingId, RoutingProcessCreateDto dto);
 
-    void updateRoutingProcesses(List<RoutingProcessUpdateDto> dtos);
+    void updateSteps(List<RoutingProcessStepDto> dtos);
 
     void deleteRoutingProcesses(List<Long> ids);
 }

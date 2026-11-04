@@ -10,8 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /*
-* 동일 공정 여러 번 등록 가능
-* */
+ * 동일 공정 여러 번 등록 가능
+ * */
 @Entity
 @Table(name = "routing_processes")
 @Getter
@@ -30,9 +30,11 @@ public class RoutingProcess extends SoftDeletableEntity {
     @JoinColumn(name = "process_id", nullable = false)
     private Process process;
 
+    private boolean processInspectionRequired;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_ipqc_spec_id")
-    private InspectionSpec defaultIpqcSpec; // 공정 검사
+    private InspectionSpec defaultIpqcSpec; // 기본 공정 검사기준
 
     private int stepNo;
 
@@ -44,11 +46,13 @@ public class RoutingProcess extends SoftDeletableEntity {
         this.stepNo = stepNo;
     }
 
-    public void updateStep(int stepNo) {
-        this.stepNo = stepNo;
+    public void update(InspectionSpec defaultIpqcSpec,
+                       boolean processInspectionRequired) {
+        this.defaultIpqcSpec = defaultIpqcSpec;
+        this.processInspectionRequired = processInspectionRequired;
     }
 
-    public void updateDefaultIpqcSpec(InspectionSpec inspectionSpec) {
-        this.defaultIpqcSpec = inspectionSpec;
+    public void updateStep(int stepNo) {
+        this.stepNo = stepNo;
     }
 }

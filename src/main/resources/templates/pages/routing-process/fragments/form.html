@@ -30,6 +30,8 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
                     <col style="width: auto">
                 </colgroup>
                 <thead>
@@ -38,6 +40,8 @@
                     <th>공정 코드</th>
                     <th>공정명</th>
                     <th>공정 단계</th>
+                    <th>공정검사 대상</th>
+                    <th>기본 검사기준</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -64,11 +68,13 @@
                                th:name="|routingProcesses[${stat.index}].id|"
                                th:value="${routingProcess.id}"/>
                     </td>
+                    <td th:text="${routingProcess.processInspectionRequired ? '예' : '아니오'}"></td>
+                    <td th:text="${@format.value(routingProcess.defaultIpqcSpec.name)}"></td>
                     <td>
                         <button type="button"
                                 class="btn btn-secondary btn-sm"
                                 th:onclick="|location.href=
-                                    '@{/routings/{routingId}/processes/{id}(routingId=${routing.id}, id=${routingProcess.id})}'|">
+                                    '@{/routings/{routingId}/processes/{id}(routingId=${routing.id}, id=${routingProcess.id}, itemId=${routing.item.id})}'|">
                             상세보기
                         </button>
                     </td>

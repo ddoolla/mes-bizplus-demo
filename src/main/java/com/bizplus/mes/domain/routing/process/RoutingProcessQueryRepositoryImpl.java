@@ -10,6 +10,7 @@ import java.util.List;
 
 import static com.bizplus.mes.common.util.PredicateUtils.eq;
 import static com.bizplus.mes.common.util.PredicateUtils.notDeleted;
+import static com.bizplus.mes.domain.inspection.spec.QInspectionSpec.inspectionSpec;
 import static com.bizplus.mes.domain.process.QProcess.process;
 import static com.bizplus.mes.domain.routing.process.QRoutingProcess.routingProcess;
 
@@ -25,13 +26,17 @@ public class RoutingProcessQueryRepositoryImpl implements RoutingProcessQueryRep
                 .select(new QRoutingProcessDto(
                         routingProcess.id,
                         routingProcess.stepNo,
+                        routingProcess.processInspectionRequired,
                         process.id,
                         process.code,
                         process.name,
-                        process.description
+                        process.description,
+                        inspectionSpec.id,
+                        inspectionSpec.name
                 ))
                 .from(routingProcess)
                 .innerJoin(process).on(routingProcess.process.id.eq(process.id))
+                .leftJoin(inspectionSpec).on(routingProcess.defaultIpqcSpec.id.eq(inspectionSpec.id))
                 .where(
                         notDeleted(routingProcess.deletedAt),
                         eq(routingProcess.routing.id, routingId)
@@ -46,13 +51,17 @@ public class RoutingProcessQueryRepositoryImpl implements RoutingProcessQueryRep
                 .select(new QRoutingProcessDto(
                         routingProcess.id,
                         routingProcess.stepNo,
+                        routingProcess.processInspectionRequired,
                         process.id,
                         process.code,
                         process.name,
-                        process.description
+                        process.description,
+                        inspectionSpec.id,
+                        inspectionSpec.name
                 ))
                 .from(routingProcess)
                 .innerJoin(process).on(routingProcess.process.id.eq(process.id))
+                .leftJoin(inspectionSpec).on(routingProcess.defaultIpqcSpec.id.eq(inspectionSpec.id))
                 .where(
                         notDeleted(routingProcess.deletedAt),
                         eq(routingProcess.id, id)

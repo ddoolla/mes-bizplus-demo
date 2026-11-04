@@ -14,7 +14,7 @@ public interface ProcessMaterialService {
 
     void createProcessMaterialsByBom(Long routingProcessId, ProcessMaterialBomCreateDto dto);
 
-    void updateProcessMaterials(ProcessMaterialUpdateDto dto);
+    void updateAll(List<ProcessMaterialUpdateDto> dtoList);
 
     void deleteProcessMaterials(List<Long> ids);
 }

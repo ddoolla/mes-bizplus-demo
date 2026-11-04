@@ -16,6 +16,6 @@ public class RoutingUpdateService {
     @Transactional
     public void update(Long routingId, RoutingUpdateDto dto) {
         routingService.updateRouting(routingId, dto);
-        routingProcessService.updateRoutingProcesses(dto.getRoutingProcesses());
+        routingProcessService.updateSteps(dto.getRoutingProcesses());
     }
 }

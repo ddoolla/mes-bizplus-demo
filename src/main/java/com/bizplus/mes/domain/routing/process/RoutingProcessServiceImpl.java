@@ -6,7 +6,7 @@ import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.routing.RoutingReader;
 import com.bizplus.mes.domain.routing.process.dto.RoutingProcessCreateDto;
 import com.bizplus.mes.domain.routing.process.dto.RoutingProcessDto;
-import com.bizplus.mes.domain.routing.process.dto.RoutingProcessUpdateDto;
+import com.bizplus.mes.domain.routing.process.dto.RoutingProcessStepDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +49,7 @@ public class RoutingProcessServiceImpl implements RoutingProcessService {
 
     @Transactional
     @Override
-    public void updateRoutingProcesses(List<RoutingProcessUpdateDto> dtos) {
+    public void updateSteps(List<RoutingProcessStepDto> dtos) {
         dtos.forEach(dto -> {
             routingProcessReader.getById(dto.getId())
                     .updateStep(dto.getStepNo());

@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.process.material;
 
+import com.bizplus.mes.common.validator.QuantityValidator;
 import com.bizplus.mes.domain.bom.item.BomItem;
 import com.bizplus.mes.domain.bom.item.BomItemReader;
 import com.bizplus.mes.domain.item.Item;
@@ -9,7 +10,6 @@ import com.bizplus.mes.domain.routing.process.RoutingProcess;
 import com.bizplus.mes.domain.routing.process.RoutingProcessReader;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
-import com.bizplus.mes.domain.uom.UomValidator;
 import com.bizplus.mes.domain.uom.conversion.UomConversionReader;
 import com.bizplus.mes.domain.uom.conversion.dto.ConvertibleUomDto;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +31,6 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
     private final RoutingProcessReader routingProcessReader;
     private final ProcessMaterialReader processMaterialReader;
     private final UomConversionReader uomConversionReader;
-
-    private final UomValidator uomValidator;
 
     @Override
     public List<ProcessMaterialDto> getProcessMaterials(Long routingProcessId) {
@@ -105,17 +103,20 @@ public class ProcessMaterialServiceImpl implements ProcessMaterialService {
 
     @Transactional
     @Override
-    public void updateProcessMaterials(ProcessMaterialUpdateDto dto) {
-        dto.getProcessMaterials().forEach(params -> {
-            ProcessMaterial processMaterial = processMaterialReader.getById(params.id());
-            Uom uom = uomReader.getById(params.uomId());
+    public void updateAll(List<ProcessMaterialUpdateDto> dtoList) {
+        if (dtoList == null || dtoList.isEmpty()) {
+            return;
+        }
+        dtoList.forEach(dto -> {
+            ProcessMaterial processMaterial = processMaterialReader.getById(dto.getId());
+            Uom uom = uomReader.getById(dto.getUomId());
 
-            uomValidator.validateQuantity(params.quantity(), uom);
+            QuantityValidator.validateScale(dto.getQuantity(), uom.getScale());
 
             processMaterial.update(
                     uom,
-                    params.quantity(),
-                    params.consumptionMethod()
+                    dto.getQuantity(),
+                    dto.getConsumptionMethod()
             );
         });
     }

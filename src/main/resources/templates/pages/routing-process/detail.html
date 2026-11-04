@@ -41,10 +41,12 @@
 
     <form id="process-material-edit-form"
           method="post"
-          th:action="@{/routings/{routingId}/processes/{routingProcessId}/materials(routingId=${routing.id}, routingProcessId=${routingProcess.id})}"
+          th:action="@{/routings/{routingId}/processes/{routingProcessId}(routingId=${routing.id}, routingProcessId=${routingProcess.id})}"
           th:object="${routingProcess}">
 
         <input type="hidden" name="itemGroup" th:value="${itemGroup}"/>
+        <input type="hidden" name="itemId" th:value="${param.itemId}"/>
+        <input type="hidden" name="processId" th:value="*{process.id}"/>
 
         <!--/* 공정 단계 정보 */-->
         <div class="app-box app-box-bg">
@@ -63,8 +65,43 @@
                     <td th:text="*{process.name}"></td>
                 </tr>
                 <tr>
-                    <th>설명</th>
-                    <td th:text="${@format.value(routingProcess.process.description)}"></td>
+                    <th>검사 대상 여부</th>
+                    <td>
+                        <label>
+                            <input type="radio"
+                                   name="processInspectionRequired"
+                                   value="true"
+                                   th:checked="*{processInspectionRequired}"/>
+                            예
+                        </label>
+                        &nbsp;&nbsp;
+                        <label>
+                            <input type="radio"
+                                   name="processInspectionRequired"
+                                   value="false"
+                                   th:checked="*{!processInspectionRequired}"/>
+                            아니오
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>기본 검사기준</th>
+                    <td>
+                        <input type="text"
+                               name="inspectionSpecName"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               th:value="*{defaultIpqcSpec.name}"
+                               placeholder="검사기준을 선택해 주세요."
+                               readonly/>
+                        <input type="hidden"
+                               name="inspectionSpecId"
+                               th:value="*{defaultIpqcSpec.id}"/>
+                        <button type="button"
+                                id="inspection-spec-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 검사기준 목록
+                        </button>
+                    </td>
                 </tr>
                 <tr>
                     <th>공정 단계</th>
@@ -95,6 +132,9 @@
          @{/bom-items/modal/list/multiple},
          ${boms})}">
     </div>
+
+    <!--/* 검사기준 목록 모달 */-->
+    <div th:replace="~{pages/inspection-spec/modal/select :: modal}"></div>
 </div>
 </body>
 </html>

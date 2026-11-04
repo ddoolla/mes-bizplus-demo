@@ -5,14 +5,12 @@ import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.process.material.dto.ProcessMaterialBomCreateDto;
 import com.bizplus.mes.domain.process.material.dto.ProcessMaterialItemCreateDto;
-import com.bizplus.mes.domain.process.material.dto.ProcessMaterialUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -46,20 +44,6 @@ public class ProcessMaterialController {
 
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.CREATED)));
-    }
-
-    @PostMapping("/routings/{routingId}/processes/{routingProcessId}/materials")
-    public String updateProcessMaterials(RedirectAttributes reAtt,
-                                         @PathVariable Long routingId,
-                                         @PathVariable Long routingProcessId,
-                                         @Valid ProcessMaterialUpdateDto dto) {
-        processMaterialService.updateProcessMaterials(dto);
-
-        reAtt.addAttribute("routingId", routingId);
-        reAtt.addAttribute("routingProcessId", routingProcessId);
-        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
-
-        return "redirect:/routings/{routingId}/processes/{routingProcessId}";
     }
 
     @DeleteMapping("/process-materials")

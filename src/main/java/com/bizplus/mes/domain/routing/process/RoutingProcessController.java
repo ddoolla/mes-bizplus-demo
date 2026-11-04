@@ -13,12 +13,15 @@ import com.bizplus.mes.domain.process.material.ProcessMaterialService;
 import com.bizplus.mes.domain.routing.RoutingService;
 import com.bizplus.mes.domain.routing.dto.RoutingDto;
 import com.bizplus.mes.domain.routing.process.dto.RoutingProcessCreateDto;
+import com.bizplus.mes.domain.routing.process.dto.RoutingProcessUpdateDto;
+import com.bizplus.mes.domain.routing.process.facade.RoutingProcessUpdateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -26,12 +29,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoutingProcessController {
 
+    private final MessageService messageService;
     private final RoutingService routingService;
     private final RoutingProcessService routingProcessService;
     private final ProcessMaterialService processMaterialService;
     private final CommonCodeService commonCodeService;
     private final BomService bomService;
-    private final MessageService messageService;
+
+    private final RoutingProcessUpdateService routingProcessUpdateService;
 
     @GetMapping("/routings/{routingId}/processes/{id}")
     public String viewDetail(Model model,
@@ -71,6 +76,20 @@ public class RoutingProcessController {
 
         return ResponseEntity.ok(
                 ApiResponse.success(messageService.get(MessageCode.CREATED)));
+    }
+
+    @PostMapping("/routings/{routingId}/processes/{id}")
+    public String update(@PathVariable Long routingId,
+                         @PathVariable Long id,
+                         @Valid RoutingProcessUpdateDto dto,
+                         RedirectAttributes reAtt) {
+        routingProcessUpdateService.update(id, dto);
+
+        reAtt.addAttribute("routingId", routingId);
+        reAtt.addAttribute("id", id);
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
+
+        return "redirect:/routings/{routingId}/processes/{id}";
     }
 
     @DeleteMapping("/routing-processes")

@@ -12,6 +12,7 @@ import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.uom.conversion.UomConversionReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -28,6 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/incoming-inspections")
 @RequiredArgsConstructor
 public class IncomingInspectionController {
+
+    private final UomConversionReader uomConversionReader;
 
     private final MessageService messageService;
     private final IncomingInspectionService incomingInspectionService;
@@ -58,7 +61,7 @@ public class IncomingInspectionController {
 
     @GetMapping("/new")
     @PreAuthorize("hasAuthority('INCOMING_INSPECTION_CREATE')")
-    public String viewNew(Model model) {
+    public String viewNew() {
         return "pages/incoming-inspection/new";
     }
 
@@ -69,6 +72,7 @@ public class IncomingInspectionController {
 
         model.addAttribute("incomingInspection", incomingInspection);
         model.addAttribute("inspectionResults", inspectionResultService.getAll(incomingInspection.getInspection().getId()));
+        model.addAttribute("convertibleUoms", uomConversionReader.getConvertibleUoms(incomingInspection.getReceiptItem().getItem().uom().id()));
 
         return "pages/incoming-inspection/edit";
     }

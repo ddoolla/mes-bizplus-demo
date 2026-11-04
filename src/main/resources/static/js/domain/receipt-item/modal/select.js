@@ -70,9 +70,13 @@ const createReceiptItemSelectModal = () => {
 
         const receiptItem = {
             id: button.dataset.id,
+            receiptNo: button.dataset.receiptNo,
             quantity: button.dataset.quantity,
+            uomCode: button.dataset.uomCode,
+            lotNo: button.dataset.lotNo,
             item: {
                 id: button.dataset.itemId,
+                code: button.dataset.itemCode,
                 name: button.dataset.itemName,
                 defaultIqcSpecId: button.dataset.defaultIqcSpecId,
                 defaultIqcSpecName: button.dataset.defaultIqcSpecName,

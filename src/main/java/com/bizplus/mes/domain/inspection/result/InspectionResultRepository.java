@@ -1,6 +1,5 @@
 package com.bizplus.mes.domain.inspection.result;
 
-import com.bizplus.mes.domain.inspection.Inspection;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public interface InspectionResultRepository
 
     Optional<InspectionResult> findByIdAndDeletedAtIsNull(Long id);
 
-    List<InspectionResult> inspection(Inspection inspection);
+    List<InspectionResult> findAllByInspectionIdAndDeletedAtIsNull(Long inspectionId);
 }

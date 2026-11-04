@@ -6,8 +6,12 @@ import ajax from "../../common/ajax.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const itemNameInput = document.querySelector('[name="itemName"]');
+    const receiptNoInput = document.querySelector('[name="receiptNo"]');
     const receiptItemIdInput = document.querySelector('[name="receiptItemId"]');
+    const itemCodeInput = document.querySelector('[name="itemCode"]');
+    const itemNameInput = document.querySelector('[name="itemName"]');
+    const lotNoInput = document.querySelector('[name="lotNo"]');
+    const receiptQuantityInput = document.querySelector('[name="receiptQuantity"]');
 
     const inspectionSpecNameInput = document.querySelector('[name="inspectionSpecName"]');
     const inspectionSpecIdInput = document.querySelector('[name="inspectionSpecId"]');
@@ -35,8 +39,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 inspectionSpecNameInput.value = '';
 
                 // 입고 자재 정보 입력
-                itemNameInput.value = receiptItem.item.name;
+                receiptNoInput.value = receiptItem.receiptNo;
                 receiptItemIdInput.value = receiptItem.id;
+                itemCodeInput.value = receiptItem.item.code;
+                itemNameInput.value = receiptItem.item.name;
+                lotNoInput.value = receiptItem.lotNo;
+                receiptQuantityInput.value = Number(receiptItem.quantity).toFixed() + ' ' + receiptItem.uomCode;
 
                 // 기본 검사기준 정보 입력
                 if (receiptItem.item.defaultIqcSpecName) {

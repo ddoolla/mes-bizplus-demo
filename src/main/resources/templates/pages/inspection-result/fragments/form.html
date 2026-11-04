@@ -52,7 +52,8 @@
                         <input type="text"
                                th:name="|inspectionResults[${stat.index}].measuredValue|"
                                class="app-form-control app-xs "
-                               th:value="${result.measuredValue}"/>
+                               th:value="${result.measuredValue}"
+                               th:disabled="${inspection.status?.name == 'COMPLETED'}"/>
                     </td>
                     <td>
                         <label>
@@ -60,7 +61,8 @@
                                    th:name="|inspectionResults[${stat.index}].judgement|"
                                    class="app-form-control app-xs "
                                    th:value="PASS"
-                                   th:checked="${result.judgement?.name == 'PASS'}"/>
+                                   th:checked="${result.judgement?.name == 'PASS'}"
+                                   th:disabled="${inspection.status?.name == 'COMPLETED'}"/>
                             합격
                         </label>
                         &nbsp;
@@ -69,7 +71,8 @@
                                    th:name="|inspectionResults[${stat.index}].judgement|"
                                    class="app-form-control app-xs "
                                    th:value="FAIL"
-                                   th:checked="${result.judgement?.name == 'FAIL'}"/>
+                                   th:checked="${result.judgement?.name == 'FAIL'}"
+                                   th:disabled="${inspection.status?.name == 'COMPLETED'}"/>
                             불합격
                         </label>
                     </td>
@@ -77,7 +80,8 @@
                         <input type="text"
                                th:name="|inspectionResults[${stat.index}].remark|"
                                class="app-form-control app-xs "
-                               th:value="${result.remark}"/>
+                               th:value="${result.remark}"
+                               th:disabled="${inspection.status?.name == 'COMPLETED'}"/>
                     </td>
                 </tr>
                 </tbody>

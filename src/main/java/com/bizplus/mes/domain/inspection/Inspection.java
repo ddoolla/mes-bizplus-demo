@@ -88,9 +88,11 @@ public class Inspection extends SoftDeletableEntity {
         this.remark = remark;
     }
 
-    public void update(LocalDate date,
+    public void update(Uom uom,
+                       LocalDate date,
                        BigDecimal inspectedQuantity,
                        String remark) {
+        this.uom = uom;
         this.date = date;
         this.inspectedQuantity = inspectedQuantity;
         this.remark = remark;
@@ -98,5 +100,13 @@ public class Inspection extends SoftDeletableEntity {
 
     public void updateRemark(String remark) {
         this.remark = remark;
+    }
+
+    public void updateJudgement(InspectionJudgement judgement) {
+        this.judgement = judgement;
+    }
+
+    public void complete() {
+        this.status = InspectionStatus.COMPLETED;
     }
 }

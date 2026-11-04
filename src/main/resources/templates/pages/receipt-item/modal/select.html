@@ -121,12 +121,16 @@
                             class="select-button
                                    btn btn-primary btn-sm app-w-80"
                             th:data-id="${receiptItem.id}"
+                            th:data-receipt-no="${receiptItem.receipt.no}"
                             th:data-quantity="${receiptItem.quantity}"
                             th:data-item-id="${receiptItem.item.id}"
+                            th:data-item-code="${receiptItem.item.code}"
                             th:data-item-name="${receiptItem.item.name}"
                             th:data-default-iqc-spec-id="${receiptItem.item.defaultIqcSpecId}"
                             th:data-default-iqc-spec-name="${receiptItem.item.defaultIqcSpecName}"
-                            th:data-item-uom-id="${receiptItem.item.uom.id}">
+                            th:data-item-uom-id="${receiptItem.item.uom.id}"
+                            th:data-lot-no="${receiptItem.lot.no}"
+                            th:data-uom-code="${receiptItem.uom.code}">
                         선택
                     </button>
                 </td>

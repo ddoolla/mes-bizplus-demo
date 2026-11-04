@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class InspectionResultReader {
@@ -17,5 +19,9 @@ public class InspectionResultReader {
                         ErrorCode.INSPECTION_RESULT_NOT_FOUND,
                         String.format("id: %d", id)
                 ));
+    }
+
+    public List<InspectionResult> getAll(Long inspectionId) {
+        return inspectionResultRepository.findAllByInspectionIdAndDeletedAtIsNull(inspectionId);
     }
 }

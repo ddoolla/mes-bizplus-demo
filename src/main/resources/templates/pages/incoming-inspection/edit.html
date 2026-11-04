@@ -68,6 +68,7 @@
                                name="date"
                                class="app-form-control app-xs"
                                th:value="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"
+                               th:disabled="*{inspection.status.name == 'COMPLETED'}"
                                readonly/>
 
                     </td>
@@ -79,8 +80,19 @@
                     <td>
                         <input type="number"
                                name="inspectedQuantity"
-                               class="app-form-control app-xs"
-                               th:value="${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 0)}"/>
+                               class="app-form-control app-xs app-w-200"
+                               th:value="${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 0)}"
+                               th:disabled="*{inspection.status.name == 'COMPLETED'}"/>
+
+                        <select name="uomId"
+                                class="app-form-control app-xs app-w-100"
+                                th:disabled="*{inspection.status.name == 'COMPLETED'}">
+                            <option th:each="uom : ${convertibleUoms}"
+                                    th:value="${uom.id}"
+                                    th:text="${uom.code}"
+                                    th:selected="${uom.id == inspection.uom.id}">
+                            </option>
+                        </select>
 
                         <input type="hidden" name="uomScale" th:value="*{inspection.uom.scale}"/>
                     </td>
@@ -95,7 +107,9 @@
                 </tr>
                 <tr>
                     <th>LOT</th>
-                    <td colspan="3" th:text="${@format.value(receiptItem.lot.no)}"></td>
+                    <td th:text="${@format.value(receiptItem.lot.no)}"></td>
+                    <th>입고 수량</th>
+                    <td th:text="|${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT')} ${receiptItem.uom.code}|"></td>
                 </tr>
                 <tr>
                     <th>비고</th>

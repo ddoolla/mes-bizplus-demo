@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class IncomingInspectionUpdateDto {
 
+    private Long uomId;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 

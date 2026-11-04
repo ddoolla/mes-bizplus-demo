@@ -1,10 +1,13 @@
 package com.bizplus.mes.domain.inspection.incoming.facade;
 
 import com.bizplus.mes.domain.inspection.Inspection;
+import com.bizplus.mes.domain.inspection.InspectionStatus;
 import com.bizplus.mes.domain.inspection.incoming.IncomingInspection;
 import com.bizplus.mes.domain.inspection.incoming.IncomingInspectionReader;
 import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionUpdateDto;
 import com.bizplus.mes.domain.inspection.result.InspectionResultService;
+import com.bizplus.mes.domain.uom.Uom;
+import com.bizplus.mes.domain.uom.UomReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class IncomingInspectionUpdateService {
 
+    private final UomReader uomReader;
     private final IncomingInspectionReader incomingInspectionReader;
+
     private final InspectionResultService inspectionResultService;
 
     @Transactional
@@ -22,13 +27,16 @@ public class IncomingInspectionUpdateService {
         Inspection inspection = incomingInspection.getInspection();
 
         // 완료 상태일 경우 비고만 수정 가능
-//        if (inspection.getStatus() == InspectionStatus.COMPLETED) {
-//            inspection.updateRemark(dto.getRemark());
-//            return;
-//        }
+        if (inspection.getStatus() == InspectionStatus.COMPLETED) {
+            inspection.updateRemark(dto.getRemark());
+            return;
+        }
+
+        Uom uom = uomReader.getById(dto.getUomId());
 
         // 검사 정보 수정
         inspection.update(
+                uom,
                 dto.getDate(),
                 dto.getInspectedQuantity(),
                 dto.getRemark()

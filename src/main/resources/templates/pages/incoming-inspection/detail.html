@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="module" th:src="@{/js/pages/receipt/detail.js}"></script>
+    <script type="module" th:src="@{/js/pages/incoming-inspection/detail.js}"></script>
 </head>
 <body>
 <!--/* 콘텐츠 */-->
@@ -28,6 +28,14 @@
                 th:onclick="|location.href='@{/incoming-inspections/{id}/edit(id=${incomingInspection.id})}'|"
                 sec:authorize="hasAuthority('INCOMING_INSPECTION_UPDATE')">
             <i class="bi bi-pencil-square"></i> 수정
+        </button>
+        <button th:if="${incomingInspection.inspection.status?.name == 'PENDING'}"
+                type="button"
+                id="incoming-inspection-complete-button"
+                class="btn btn-success btn-sm"
+                th:data-id="${incomingInspection.id}"
+                sec:authorize="hasAuthority('INCOMING_INSPECTION_UPDATE')">
+            <i class="bi bi-check-circle"></i> 완료
         </button>
     </div>
 
@@ -77,7 +85,9 @@
             </tr>
             <tr>
                 <th>LOT</th>
-                <td colspan="3" th:text="${@format.value(receiptItem.lot.no)}"></td>
+                <td th:text="${@format.value(receiptItem.lot.no)}"></td>
+                <th>입고 수량</th>
+                <td th:text="|${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT')} ${receiptItem.uom.code}|"></td>
             </tr>
             <tr>
                 <th>비고</th>

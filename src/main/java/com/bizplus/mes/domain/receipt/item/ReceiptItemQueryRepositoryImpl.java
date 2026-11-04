@@ -45,7 +45,10 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .and(JPAExpressions
                         .selectOne()
                         .from(incomingInspection)
-                        .where(incomingInspection.receiptItem.id.eq(receiptItem.id))
+                        .where(
+                                incomingInspection.deletedAt.isNull(),
+                                incomingInspection.receiptItem.id.eq(receiptItem.id)
+                        )
                         .notExists())
                 .and(contains(receipt.receiptNo, dto.getReceiptNo()))
                 .and(containsAny(dto.getItem(), item.code, item.name))

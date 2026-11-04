@@ -1,0 +1,135 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 입고검사 등록 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'incoming-inspection-create-modal',
+        '입고 자재 선택',
+         ~{::.app-modal-content},
+         1200
+    )}">
+        <div class="app-modal-content p-2">
+            <div class="modal-body">
+                <!--/* 필터 */-->
+                <div>
+                    <form id="receipt-item-search-form"
+                          class="search-form"
+                          method="GET"
+                          th:action="@{incoming-inspections/modal/create}">
+                        <table class="app-table-input">
+                            <colgroup>
+                                <col style="width: 100px">
+                                <col style="width: auto">
+                                <col style="width: 100px">
+                                <col style="width: auto">
+                                <col style="width: 100px">
+                                <col style="width: 400px">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>입고 번호</th>
+                                <td>
+                                    <input type="text"
+                                           name="receiptNo"
+                                           class="app-form-control app-xs"
+                                           th:value="${param.receiptNo}">
+                                </td>
+                                <th>품목</th>
+                                <td>
+                                <input type="text"
+                                name="item"
+                                class="app-form-control app-xs"
+                                th:value="${param.item}">
+                                </td>
+                                <th>입고 기간</th>
+                                <td>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <input type="text"
+                                               name="startDate"
+                                               class="app-form-control app-xs"
+                                               th:value="${param.startDate}"
+                                               readonly autocomplete="off"/>
+                                        <span>-</span>
+                                        <input type="text"
+                                               name="endDate"
+                                               class="app-form-control app-xs"
+                                               th:value="${param.endDate}"
+                                               readonly autocomplete="off"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-search"></i> 조회
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!--/* 목록 */-->
+                <div class="list-content"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!--/* 모달 목록 콘텐츠 (재고 미포함) */-->
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div>
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: 200px">
+                <col style="width: 200px">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: 150px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>입고 번호</th>
+                <th>자재 코드</th>
+                <th>자재명</th>
+                <th>유형</th>
+                <th>규격</th>
+                <th>입고 수량</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(data.receiptItems)}">
+                <td colspan="7" class="p-4">등록된 입고 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="receiptItem : ${data.receiptItems}">
+                <td th:text="${receiptItem.receipt.no}"></td>
+                <td th:text="${receiptItem.item.code}"></td>
+                <td th:text="${receiptItem.item.name}"></td>
+                <td th:text="${receiptItem.item.type?.description}"></td>
+                <td th:text="${@format.value(receiptItem.item.specification)}"></td>
+                <td th:text="|${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT')} ${receiptItem.uom.code}|"></td>
+                <td>
+                    <button type="button"
+                            class="select-button
+                                   btn btn-primary btn-sm app-w-80"
+                            th:data-id="${receiptItem.id}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+</html>

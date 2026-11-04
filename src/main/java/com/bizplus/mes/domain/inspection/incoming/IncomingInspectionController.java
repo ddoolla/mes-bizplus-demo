@@ -10,6 +10,8 @@ import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.receipt.item.ReceiptItemService;
+import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -30,6 +32,7 @@ public class IncomingInspectionController {
     private final MessageService messageService;
     private final IncomingInspectionService incomingInspectionService;
     private final InspectionResultService inspectionResultService;
+    private final ReceiptItemService receiptItemService;
 
     private final IncomingInspectionUpdateService incomingInspectionUpdateService;
 
@@ -62,6 +65,14 @@ public class IncomingInspectionController {
         model.addAttribute("inspectionResults", inspectionResultService.getAll(incomingInspection.getInspection().getId()));
 
         return "pages/incoming-inspection/edit";
+    }
+
+    @GetMapping("/modal/create")
+    @PreAuthorize("hasAuthority('INCOMING_INSPECTION_READ')")
+    public String viewCreateModal(Model model, ReceiptItemSearchDto dto, @PageableDefault Pageable pageable) {
+        model.addAttribute("data", receiptItemService.getAllForInspection(dto, pageable));
+
+        return "pages/incoming-inspection/modal/create :: list";
     }
 
     @PostMapping("/{id}")

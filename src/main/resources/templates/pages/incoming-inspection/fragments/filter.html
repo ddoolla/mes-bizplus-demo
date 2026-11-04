@@ -22,13 +22,6 @@
                            class="app-form-control app-xs"
                            th:value="${param.item}">
                 </td>
-                <th>LOT</th>
-                <td>
-                    <input type="text"
-                           name="lotNo"
-                           class="app-form-control app-xs"
-                           th:value="${param.lotNo}">
-                </td>
                 <th>검사 기간</th>
                 <td>
                     <div class="d-flex gap-2 align-items-center">
@@ -60,16 +53,16 @@
                  th:text="|Total : ${count} 건|">
             </div>
             <div>
-<!--                <button type="button"-->
-<!--                        class="btn btn-primary btn-sm"-->
-<!--                        th:onclick="|location.href='@{/receipts/new}'|"-->
-<!--                        sec:authorize="hasAuthority('RECEIPT_CREATE')">-->
-<!--                    <i class="bi bi-plus-circle"></i> 등록-->
-<!--                </button>-->
+                <button type="button"
+                        id="incoming-inspection-create-button"
+                        class="btn btn-primary btn-sm"
+                        sec:authorize="hasAuthority('INCOMING_INSPECTION_CREATE')">
+                    <i class="bi bi-plus-circle"></i> 등록
+                </button>
                 <button type="button"
                         id="incoming-inspection-delete-button"
                         class="btn btn-danger btn-sm"
-                        sec:authorize="hasAuthority('RECEIPT_DELETE')">
+                        sec:authorize="hasAuthority('INCOMING_INSPECTION_DELETE')">
                     <i class="bi bi-trash"></i> 삭제
                 </button>
             </div>

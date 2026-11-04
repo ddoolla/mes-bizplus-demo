@@ -1,9 +1,7 @@
 package com.bizplus.mes.domain.receipt.item;
 
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemCreateDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemEditDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemUpdateDto;
+import com.bizplus.mes.domain.receipt.item.dto.*;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,6 +12,8 @@ public interface ReceiptItemService {
 
     // 자재 입고 수정 페이지용
     List<ReceiptItemEditDto> getAllForEdit(Long receiptId);
+
+    ReceiptItemListDto getAllForInspection(ReceiptItemSearchDto dto, Pageable pageable);
 
     ReceiptItemDto getById(Long id);
 

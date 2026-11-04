@@ -2,19 +2,19 @@ package com.bizplus.mes.domain.receipt.item;
 
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
+import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.receipt.Receipt;
 import com.bizplus.mes.domain.receipt.ReceiptReader;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemCreateDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemEditDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemUpdateDto;
+import com.bizplus.mes.domain.receipt.item.dto.*;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
 import com.bizplus.mes.domain.uom.conversion.UomConversionReader;
 import com.bizplus.mes.domain.uom.conversion.dto.ConvertibleUomDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +48,13 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
                     return new ReceiptItemEditDto(dto, convertibleUoms);
                 })
                 .toList();
+    }
+
+    @Override
+    public ReceiptItemListDto getAllForInspection(ReceiptItemSearchDto dto, Pageable pageable) {
+        Page<ReceiptItemDto> page = receiptItemRepository.fetchAllForInspection(dto, pageable);
+
+        return new ReceiptItemListDto(page.getContent(), Pagination.of(page));
     }
 
     @Override

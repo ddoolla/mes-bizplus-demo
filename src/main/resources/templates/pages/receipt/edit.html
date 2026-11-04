@@ -48,6 +48,10 @@
                 </colgroup>
                 <tbody>
                 <tr>
+                    <th>입고 번호</th>
+                    <td th:text="*{receiptNo}"></td>
+                </tr>
+                <tr>
                     <th>거래처 <span class="app-required">*</span></th>
                     <td>
                         <th:block th:if="*{status?.name == 'DRAFT'}">

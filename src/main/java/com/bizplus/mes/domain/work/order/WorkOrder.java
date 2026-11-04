@@ -46,6 +46,9 @@ public class WorkOrder extends SoftDeletableEntity {
     @Enumerated(EnumType.STRING)
     private WorkOrderStatus status;
 
+    private boolean processInspectionRequired; // 공정검사 대상 여부 스냅샷
+    private boolean processInspectionAutoCreate; // 공정검사 자동 생성 여부
+
     private String remark;
 
     public WorkOrder(ProductionOrderProcess productionOrderProcess,
@@ -55,6 +58,8 @@ public class WorkOrder extends SoftDeletableEntity {
                      BigDecimal quantity,
                      LocalDate date,
                      WorkOrderStatus status,
+                     boolean processInspectionRequired,
+                     boolean processInspectionAutoCreate,
                      String remark) {
         this.productionOrderProcess = productionOrderProcess;
         this.equipment = equipment;
@@ -63,6 +68,8 @@ public class WorkOrder extends SoftDeletableEntity {
         this.quantity = quantity;
         this.date = date;
         this.status = status;
+        this.processInspectionRequired = processInspectionRequired;
+        this.processInspectionAutoCreate = processInspectionAutoCreate;
         this.remark = remark;
     }
 
@@ -70,11 +77,13 @@ public class WorkOrder extends SoftDeletableEntity {
                        User user,
                        BigDecimal quantity,
                        LocalDate date,
+                       boolean processInspectionAutoCreate,
                        String remark) {
         this.equipment = equipment;
         this.user = user;
         this.quantity = quantity;
         this.date = date;
+        this.processInspectionAutoCreate = processInspectionAutoCreate;
         this.remark = remark;
     }
 

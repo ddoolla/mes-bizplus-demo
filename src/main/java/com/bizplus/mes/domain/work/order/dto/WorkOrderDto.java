@@ -16,6 +16,8 @@ public class WorkOrderDto {
     private final BigDecimal quantity;
     private final LocalDate date;
     private final WorkOrderStatus status;
+    private final boolean processInspectionRequired;
+    private final boolean processInspectionAutoCreate;
     private final String remark;
     private final ProductionOrderInfo productionOrder;
     private final ProductionOrderProcessInfo process;
@@ -31,6 +33,8 @@ public class WorkOrderDto {
                         BigDecimal quantity,
                         LocalDate date,
                         WorkOrderStatus status,
+                        boolean processInspectionRequired,
+                        boolean processInspectionAutoCreate,
                         String remark,
                         Long productionOrderId,
                         String productionOrderNo,
@@ -63,6 +67,8 @@ public class WorkOrderDto {
         this.quantity = quantity;
         this.date = date;
         this.status = status;
+        this.processInspectionRequired = processInspectionRequired;
+        this.processInspectionAutoCreate = processInspectionAutoCreate;
         this.remark = remark;
         this.productionOrder = new ProductionOrderInfo(
                 productionOrderId,

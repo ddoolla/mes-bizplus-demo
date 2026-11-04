@@ -34,7 +34,8 @@
                     <col style="width: 200px">
                     <col style="width: 200px">
                     <col style="width: auto">
-                    <col style="width: 100px">
+                    <col style="width: 80px">
+                    <col style="width: 80px">
                 </colgroup>
                 <thead>
                 <tr>
@@ -50,7 +51,8 @@
                     <th>설비</th>
                     <th>작업자</th>
                     <th>전달사항</th>
-                    <th>상태</th>
+                    <th>검사 대상</th>
+                    <th>자동 생성</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -133,23 +135,13 @@
                                th:value="${workOrder.remark}"
                                th:disabled="${workOrder.status.name == 'COMPLETED'}"/>
                     </td>
-                    <td th:switch="${workOrder.status?.name}">
-                        <h6 th:case="'PENDING'" class="mb-0">
-                            <span class="badge text-bg-secondary p-2 app-w-80"
-                                  th:text="${workOrder.status?.description}"></span>
-                        </h6>
-                        <h6 th:case="'IN_PROGRESS'" class="mb-0">
-                            <span class="badge text-bg-primary p-2 app-w-80"
-                                  th:text="${workOrder.status?.description}"></span>
-                        </h6>
-                        <h6 th:case="'PAUSED'" class="mb-0">
-                            <span class="badge text-bg-warning p-2 app-w-80"
-                                  th:text="${workOrder.status?.description}"></span>
-                        </h6>
-                        <h6 th:case="'COMPLETED'" class="mb-0">
-                            <span class="badge text-bg-success p-2 app-w-80"
-                                  th:text="${workOrder.status?.description}"></span>
-                        </h6>
+                    <td th:text="${workOrder.processInspectionRequired ? '예' : '아니오'}"></td>
+                    <td>
+                        <input type="checkbox"
+                               th:name="|workOrders[${stat.index}].processInspectionAutoCreate|"
+                               value="true"
+                               th:checked="${workOrder.processInspectionAutoCreate}"
+                               th:disabled="${!workOrder.processInspectionRequired}"/>
                     </td>
                 </tr>
                 </tbody>

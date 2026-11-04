@@ -99,6 +99,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
             String maxOrderNo = workOrderRepository.findMaxOrderNo(today);
 
+            boolean processInspectionRequired = pop.getRoutingProcess().isProcessInspectionRequired();
+
             workOrderRepository.save(new WorkOrder(
                     pop,
                     null,
@@ -107,6 +109,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     productionOrder.getQuantity(),
                     productionOrder.getDueDate(), // 일단 생산 예정일로 생성
                     WorkOrderStatus.PENDING,
+                    processInspectionRequired,
+                    processInspectionRequired, // 공정검사 대상이면 true 아니면 false 기본 생성
                     null
             ));
         });
@@ -122,6 +126,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
             String maxOrderNo = workOrderRepository.findMaxOrderNo(today);
 
+            boolean processInspectionRequired = pop.getRoutingProcess().isProcessInspectionRequired();
+
             workOrderRepository.save(new WorkOrder(
                     pop,
                     null,
@@ -130,6 +136,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     null,
                     null,
                     WorkOrderStatus.PENDING,
+                    processInspectionRequired,
+                    processInspectionRequired, // 공정검사 대상이면 true 아니면 false 기본 생성
                     null
             ));
         });
@@ -202,6 +210,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
                     user,
                     dto.getQuantity(),
                     dto.getDate(),
+                    dto.getProcessInspectionAutoCreate(),
                     dto.getRemark()
             );
         });

@@ -14,46 +14,37 @@
                 <colgroup>
                     <col style="width: 200px">
                     <col style="width: 200px">
-                    <col style="width: 150px">
                     <col style="width: 200px">
                     <col style="width: 150px">
                     <col style="width: 150px">
                     <col style="width: 150px">
                     <col style="width: auto">
-                    <col style="width: 80px">
-                    <col style="width: 80px">
                     <col style="width: 120px">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>자재 코드</th>
                     <th>자재명</th>
-                    <th>유형</th>
-                    <th>규격</th>
+                    <th>LOT</th>
                     <th>입고 수량</th>
                     <th>단가</th>
                     <th>금액</th>
                     <th>비고</th>
-                    <th>검사 대상</th>
-                    <th>자동 생성</th>
                     <th>상태</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(receiptItems)}">
-                    <td colspan="10" class="p-4">등록된 입고 자재 정보가 없습니다.</td>
+                    <td colspan="8" class="p-4">등록된 입고 자재 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="receiptItem : ${receiptItems}">
                     <td th:text="${receiptItem.item.code}"></td>
                     <td th:text="${receiptItem.item.name}"></td>
-                    <td th:text="${receiptItem.item.type?.description}"></td>
-                    <td th:text="${@format.value(receiptItem.item.specification)}"></td>
+                    <td th:text="${receiptItem.lot.no ?: '-'}"></td>
                     <td th:text="|${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT') ?: '-'} ${receiptItem.uom.code}|"></td>
                     <td th:text="${#numbers.formatDecimal(receiptItem.unitPrice, 1, 'COMMA', 0, 'POINT') ?: '-'}"></td>
                     <td th:text="${#numbers.formatDecimal(receiptItem.amount, 1, 'COMMA', 0, 'POINT') ?: '-'}"></td>
                     <td th:text="${@format.value(receiptItem.remark)}"></td>
-                    <td th:text="${receiptItem.inspectionRequired ? '예' : '아니오'}"></td>
-                    <td th:text="${receiptItem.inspectionAutoCreate ? '예' : '아니오'}"></td>
                     <td th:switch="${receiptItem.status.name}">
                         <h6 th:case="'PENDING'" class="mb-0">
                             <span class="badge text-bg-secondary p-2 app-w-80"
@@ -74,10 +65,10 @@
                     </td>
                 </tr>
                 <tr th:unless="${#lists.isEmpty(receiptItems)}">
-                    <td colspan="5"></td>
+                    <td colspan="4"></td>
                     <td class="pt-3 fw-bold">합계</td>
                     <td class="pt-3 fw-bold" th:text="${#numbers.formatDecimal(totalAmount, 1, 'COMMA', 0, 'POINT')}"></td>
-                    <td colspan="4"></td>
+                    <td colspan="2"></td>
                 </tr>
                 </tbody>
             </table>

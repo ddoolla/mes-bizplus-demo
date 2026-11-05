@@ -2,7 +2,7 @@ package com.bizplus.mes.domain.inspection.inprocess;
 
 import com.bizplus.mes.common.entity.SoftDeletableEntity;
 import com.bizplus.mes.domain.inspection.Inspection;
-import com.bizplus.mes.domain.work.order.WorkOrder;
+import com.bizplus.mes.domain.work.result.WorkResult;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,11 +23,11 @@ public class InProcessInspection extends SoftDeletableEntity {
     private Inspection inspection;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "work_order_id", nullable = false)
-    private WorkOrder workOrder;
+    @JoinColumn(name = "work_result_id", nullable = false)
+    private WorkResult workResult;
 
-    public InProcessInspection(Inspection inspection, WorkOrder workOrder) {
+    public InProcessInspection(Inspection inspection, WorkResult workResult) {
         this.inspection = inspection;
-        this.workOrder = workOrder;
+        this.workResult = workResult;
     }
 }

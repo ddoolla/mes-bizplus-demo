@@ -22,6 +22,7 @@ import static com.bizplus.mes.domain.lot.QLot.lot;
 import static com.bizplus.mes.domain.production.order.QProductionOrder.productionOrder;
 import static com.bizplus.mes.domain.production.order.process.QProductionOrderProcess.productionOrderProcess;
 import static com.bizplus.mes.domain.work.order.QWorkOrder.workOrder;
+import static com.bizplus.mes.domain.work.result.QWorkResult.workResult;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -45,6 +46,7 @@ public class InProcessInspectionQueryRepositoryImpl implements InProcessInspecti
                         inspection.inspectionNo,
                         inspection.date,
                         workOrder.date,
+                        productionOrderProcess.processName,
                         item.code,
                         item.name,
                         lot.no,
@@ -53,8 +55,9 @@ public class InProcessInspectionQueryRepositoryImpl implements InProcessInspecti
                         inspection.judgement
                 ))
                 .from(inProcessInspection)
+                .innerJoin(workResult).on(inProcessInspection.workResult.id.eq(workResult.id))
                 .innerJoin(inspection).on(inProcessInspection.inspection.id.eq(inspection.id))
-                .innerJoin(workOrder).on(inProcessInspection.workOrder.id.eq(workOrder.id))
+                .innerJoin(workOrder).on(workResult.workOrder.id.eq(workOrder.id))
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))
@@ -68,8 +71,9 @@ public class InProcessInspectionQueryRepositoryImpl implements InProcessInspecti
         JPAQuery<Long> count = query
                 .select(inProcessInspection.count())
                 .from(inProcessInspection)
+                .innerJoin(workResult).on(inProcessInspection.workResult.id.eq(workResult.id))
                 .innerJoin(inspection).on(inProcessInspection.inspection.id.eq(inspection.id))
-                .innerJoin(workOrder).on(inProcessInspection.workOrder.id.eq(workOrder.id))
+                .innerJoin(workOrder).on(workResult.workOrder.id.eq(workOrder.id))
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
                 .innerJoin(item).on(productionOrder.item.id.eq(item.id))

@@ -15,6 +15,7 @@ public class InProcessInspectionSummaryDto {
     private final String no;
     private final LocalDate date;
     private final LocalDate workDate;
+    private final String processName;
     private final String itemCode;
     private final String itemName;
     private final String lotNo;
@@ -27,6 +28,7 @@ public class InProcessInspectionSummaryDto {
                                          String no,
                                          LocalDate date,
                                          LocalDate workDate,
+                                         String processName,
                                          String itemCode,
                                          String itemName,
                                          String lotNo,
@@ -37,6 +39,7 @@ public class InProcessInspectionSummaryDto {
         this.no = no;
         this.date = date;
         this.workDate = workDate;
+        this.processName = processName;
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.lotNo = lotNo;

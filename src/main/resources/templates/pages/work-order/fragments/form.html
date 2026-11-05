@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(workOrders)}">
-                    <td colspan="9" class="p-4">등록된 작업지시 정보가 없습니다.</td>
+                    <td colspan="10" class="p-4">등록된 작업지시 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="workOrder, stat : ${workOrders}">
                     <input type="hidden"

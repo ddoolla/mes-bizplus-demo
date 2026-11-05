@@ -45,7 +45,8 @@ public enum MenuCode {
     LOT(INVENTORY, "LOT 관리", MenuType.MENU, "/lots", 310),
 
     QUALITY(null, "품질 관리", MenuType.GROUP, null, 320),
-    INCOMING_INSPECTION(QUALITY, "입고검사", MenuType.MENU, "/incoming-inspections", 330);
+    INCOMING_INSPECTION(QUALITY, "입고검사", MenuType.MENU, "/incoming-inspections", 330),
+    IN_PROCESS_INSPECTION(QUALITY, "공정검사", MenuType.MENU, "/in-process-inspections", 340);
 
     private final MenuCode parent;
     private final String name;

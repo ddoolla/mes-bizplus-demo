@@ -122,7 +122,12 @@ public enum PermissionCode {
     INCOMING_INSPECTION_READ(MenuCode.INCOMING_INSPECTION, "입고검사 조회", PermissionAction.READ),
     INCOMING_INSPECTION_CREATE(MenuCode.INCOMING_INSPECTION, "입고검사 등록", PermissionAction.CREATE),
     INCOMING_INSPECTION_UPDATE(MenuCode.INCOMING_INSPECTION, "입고검사 수정", PermissionAction.UPDATE),
-    INCOMING_INSPECTION_DELETE(MenuCode.INCOMING_INSPECTION, "입고검사 삭제", PermissionAction.DELETE);
+    INCOMING_INSPECTION_DELETE(MenuCode.INCOMING_INSPECTION, "입고검사 삭제", PermissionAction.DELETE),
+
+    IN_PROCESS_INSPECTION_READ(MenuCode.IN_PROCESS_INSPECTION, "공정검사 조회", PermissionAction.READ),
+    IN_PROCESS_INSPECTION_CREATE(MenuCode.IN_PROCESS_INSPECTION, "공정검사 등록", PermissionAction.CREATE),
+    IN_PROCESS_INSPECTION_UPDATE(MenuCode.IN_PROCESS_INSPECTION, "공정검사 수정", PermissionAction.UPDATE),
+    IN_PROCESS_INSPECTION_DELETE(MenuCode.IN_PROCESS_INSPECTION, "공정검사 삭제", PermissionAction.DELETE);
 
     private final MenuCode menu;
     private final String name;

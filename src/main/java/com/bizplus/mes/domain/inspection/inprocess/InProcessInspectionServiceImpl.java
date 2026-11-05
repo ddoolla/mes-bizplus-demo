@@ -3,10 +3,9 @@ package com.bizplus.mes.domain.inspection.inprocess;
 import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.common.util.CodeGenerator;
 import com.bizplus.mes.common.util.CodePrefix;
-import com.bizplus.mes.domain.inspection.Inspection;
-import com.bizplus.mes.domain.inspection.InspectionRepository;
-import com.bizplus.mes.domain.inspection.InspectionStatus;
-import com.bizplus.mes.domain.inspection.InspectionType;
+import com.bizplus.mes.domain.inspection.*;
+import com.bizplus.mes.domain.inspection.dto.InspectionDto;
+import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionDto;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionListDto;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionSearchDto;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionSummaryDto;
@@ -14,6 +13,8 @@ import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpecReader;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.user.User;
+import com.bizplus.mes.domain.work.order.WorkOrderReader;
+import com.bizplus.mes.domain.work.order.dto.WorkOrderDto;
 import com.bizplus.mes.domain.work.result.WorkResult;
 import com.bizplus.mes.domain.work.result.WorkResultReader;
 import com.bizplus.mes.security.SecurityUtils;
@@ -33,14 +34,31 @@ public class InProcessInspectionServiceImpl implements InProcessInspectionServic
     private final InspectionRepository inspectionRepository;
     private final InProcessInspectionRepository inProcessInspectionRepository;
 
+    private final InProcessInspectionReader inProcessInspectionReader;
     private final InspectionSpecReader inspectionSpecReader;
     private final WorkResultReader workResultReader;
+    private final InspectionReader inspectionReader;
+    private final WorkOrderReader workOrderReader;
 
     @Override
     public InProcessInspectionListDto getAll(InProcessInspectionSearchDto dto, Pageable pageable) {
         Page<InProcessInspectionSummaryDto> page = inProcessInspectionRepository.fetchAllSummaries(dto, pageable);
 
         return new InProcessInspectionListDto(page.getContent(), Pagination.of(page));
+    }
+
+    @Transactional
+    @Override
+    public InProcessInspectionDto getById(Long id) {
+        InProcessInspection inProcessInspection = inProcessInspectionReader.getById(id);
+        InspectionDto inspectionDto = inspectionReader.getDtoById(inProcessInspection.getInspection().getId());
+        WorkOrderDto workOrderDto = workOrderReader.getDtoById(inProcessInspection.getWorkResult().getWorkOrder().getId());
+
+        return new InProcessInspectionDto(
+                inProcessInspection.getId(),
+                inspectionDto,
+                workOrderDto
+        );
     }
 
     @Transactional

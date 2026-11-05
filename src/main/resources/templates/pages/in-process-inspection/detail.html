@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('공정검사 상세', ~{}, ~{::script}, 'IN_PROCESS_INSPECTION', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/in-process-inspection/detail.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('공정검사 상세', '품질관리, 공정검사, 상세')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/in-process-inspections}'|">
+            <i class="bi bi-list"></i> 목록
+        </button>
+
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                th:onclick="|location.href='@{/in-prcess-inspections/{id}/edit(id=${inProcessInspection.id})}'|"
+                sec:authorize="hasAuthority('IN_PROCESS_INSPECTION_UPDATE')">
+            <i class="bi bi-pencil-square"></i> 수정
+        </button>
+        <button th:if="${inProcessInspection.inspection.status?.name == 'PENDING'}"
+                type="button"
+                id="incoming-inspection-complete-button"
+                class="btn btn-success btn-sm"
+                th:data-id="${inProcessInspection.id}"
+                sec:authorize="hasAuthority('IN_PROCESS_INSPECTION_UPDATE')">
+            <i class="bi bi-check-circle"></i> 완료
+        </button>
+    </div>
+
+    <!--/* 상세 정보 */-->
+    <div class="app-box app-box-bg">
+        <table class="app-table-input" th:object="${inProcessInspection}"
+               th:with="workOrder=*{workOrder}, inspection=*{inspection}">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: 500px">
+                <col style="width: 150px">
+                <col style="width: auto">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>검사 번호</th>
+                <td th:text="*{inspection.inspectionNo}"></td>
+                <th>작업지시 번호</th>
+                <td>
+                    <a th:href="@{/work-orders/{id}(id=*{workOrder.id})}"
+                       th:text="*{workOrder.orderNo}"></a>
+                </td>
+            </tr>
+            <tr>
+                <th>검사 유형</th>
+                <td th:text="*{inspection.type?.description}"></td>
+                <th>품목 코드</th>
+                <td th:text="*{workOrder.item.code}"></td>
+            </tr>
+            <tr>
+                <th>검사 일자</th>
+                <td th:text="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"></td>
+                <th>품목명</th>
+                <td th:text="*{workOrder.item.name}"></td>
+            </tr>
+            <tr>
+                <th>검사 수량</th>
+                <td th:text="|${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 'COMMA', 0, 'POINT')} ${inspection.uom.code}|"></td>
+                <th>유형</th>
+                <td th:text="*{workOrder.item.type?.description}"></td>
+            </tr>
+            <tr>
+                <th>검사자</th>
+                <td th:text="${@format.value(inspection.inspector.name)}"></td>
+                <th>규격</th>
+                <td th:text="${@format.value(workOrder.item.specification)}"></td>
+            </tr>
+            <tr>
+                <th>LOT</th>
+                <td th:text="${@format.value(workOrder.lot.no)}"></td>
+                <th>작업 수량</th>
+                <td th:text="|${#numbers.formatDecimal(workOrder.result.goodQuantity, 1, 'COMMA', workOrder.item.uom.scale, 'POINT')} ${workOrder.item.uom.code}|"></td>
+            </tr>
+            <tr>
+                <th>비고</th>
+                <td colspan="3" th:text="${@format.value(inspection.remark)}"></td>
+            </tr>
+            <tr>
+                <th>상태</th>
+                <td th:switch="*{inspection.status?.name}">
+                    <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="*{inspection.status?.description}"></span>
+                    </h6>
+                    <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="*{inspection.status?.description}"></span>
+                    </h6>
+                </td>
+                <th>판정</th>
+                <td th:switch="*{inspection.judgement?.name}">
+                    <h6 th:case="'PASS'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="*{inspection.judgement?.description}"></span>
+                    </h6>
+                    <h6 th:case="'FAIL'" class="mb-0">
+                            <span class="badge text-bg-danger p-2 app-w-80"
+                                  th:text="*{inspection.judgement?.description}"></span>
+                    </h6>
+                    <h6 th:case="*" class="mb-0">
+                        <span class="badge text-bg-secondary p-2 app-w-80">미판정</span>
+                    </h6>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 검사항목 */-->
+    <div th:replace="~{pages/inspection-result/fragments/list :: list (${inspectionResults})}"></div>
+</div>
+</body>
+</html>

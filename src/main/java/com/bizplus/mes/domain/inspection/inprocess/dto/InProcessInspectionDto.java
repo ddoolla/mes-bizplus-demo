@@ -9,6 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class InProcessInspectionDto {
 
+    private Long id;
     private InspectionDto inspection;
     private WorkOrderDto workOrder;
 }

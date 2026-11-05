@@ -63,7 +63,7 @@
                                th:value="${inspection.id}"/>
                     </td>
                     <td class="fw-bold">
-                        <a th:href="@{/incoming-inspections/{id}(id=${inspection.id})}"
+                        <a th:href="@{/in-process-inspections/{id}(id=${inspection.id})}"
                            th:text="${inspection.no}"></a>
                     </td>
                     <td th:text="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"></td>

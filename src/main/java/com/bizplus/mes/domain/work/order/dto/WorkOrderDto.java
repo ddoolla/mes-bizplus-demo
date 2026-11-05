@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.work.order.dto;
 
+import com.bizplus.mes.domain.item.ItemType;
 import com.bizplus.mes.domain.work.order.WorkOrderStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -50,6 +51,7 @@ public class WorkOrderDto {
                         Long itemId,
                         String itemCode,
                         String itemName,
+                        ItemType itemType,
                         String itemSpec,
                         boolean lotManaged,
                         String uomCode,
@@ -93,6 +95,7 @@ public class WorkOrderDto {
                 itemId,
                 itemCode,
                 itemName,
+                itemType,
                 itemSpec,
                 lotManaged,
                 new ItemUomInfo(uomCode, uomScale)
@@ -112,53 +115,33 @@ public class WorkOrderDto {
 
     }
 
-    public record ProductionOrderInfo(
-            Long id,
-            String orderNo
-    ) {
+    public record ProductionOrderInfo(Long id, String orderNo) {
     }
 
-    public record ProductionOrderProcessInfo(
-            Long id,
-            Long routingProcessId,
-            String code,
-            String name
-    ) {
+    public record ProductionOrderProcessInfo(Long id, Long routingProcessId, String code, String name) {
     }
 
-    public record EquipmentInfo(
-            Long id,
-            String code,
-            String name
-    ) {
+    public record EquipmentInfo(Long id, String code, String name) {
     }
 
-    public record UserInfo(
-            Long id,
-            String name
-    ) {
+    public record UserInfo(Long id, String name) {
     }
 
     public record ItemInfo(
             Long id,
             String code,
             String name,
+            ItemType type,
             String specification,
             boolean lotManaged,
             ItemUomInfo uom
     ) {
     }
 
-    public record ItemUomInfo(
-            String code,
-            Integer scale
-    ) {
+    public record ItemUomInfo(String code, Integer scale) {
     }
 
-    public record LotInfo(
-            Long id,
-            String no
-    ) {
+    public record LotInfo(Long id, String no) {
     }
 
     public record ResultInfo(

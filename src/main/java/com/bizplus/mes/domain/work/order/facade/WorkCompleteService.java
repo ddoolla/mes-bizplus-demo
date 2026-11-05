@@ -1,6 +1,9 @@
 package com.bizplus.mes.domain.work.order.facade;
 
 import com.bizplus.mes.common.exception.BusinessException;
+import com.bizplus.mes.domain.inspection.inprocess.InProcessInspectionService;
+import com.bizplus.mes.domain.inspection.result.InspectionResultService;
+import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inventory.InventoryManager;
 import com.bizplus.mes.domain.inventory.dto.InventoryChangeDto;
 import com.bizplus.mes.domain.inventory.transaction.InventoryReferenceType;
@@ -42,6 +45,8 @@ public class WorkCompleteService {
     private final WorkOrderService workOrderService;
     private final WorkResultService workResultService;
     private final MaterialInputAutoCreateService materialInputAutoCreateService;
+    private final InProcessInspectionService inProcessInspectionService;
+    private final InspectionResultService inspectionResultService;
 
     @Transactional
     public void complete(Long workOrderId, WorkCompleteDto dto) {
@@ -76,23 +81,47 @@ public class WorkCompleteService {
         // 소모자재 자동 투입
         materialInputAutoCreateService.create(workOrderId, productionOrder.getQuantity());
 
+        // 공정검사 자동 생성
+        InspectionSpec defaultIpqcSpec = workOrder.getProductionOrderProcess().getRoutingProcess().getDefaultIpqcSpec();
+        boolean inspectionRequired = workOrder.isProcessInspectionRequired();
+        boolean inspectionAutoCreate = workOrder.isProcessInspectionAutoCreate();
+
+        if (inspectionRequired && inspectionAutoCreate) {
+            if (defaultIpqcSpec == null) {
+                throw new BusinessException("기본 공정 검사기준이 설정되어 있지 않습니다.");
+            }
+
+            Long newInspectionId = inProcessInspectionService.autoCreate(
+                    workOrderId,
+                    defaultIpqcSpec.getId(),
+                    manufacturedDateTime.toLocalDate()
+            );
+
+            inspectionResultService.createAll(
+                    newInspectionId,
+                    defaultIpqcSpec.getId()
+            );
+        }
+
         // 마지막 공정일 경우
         Long processId = workOrder.getProductionOrderProcess().getId();
         boolean isLastProcess = productionOrderProcessService.isLastProcess(processId);
 
         if (isLastProcess) {
             // 5. 재고 증가
-            inventoryManager.changeStock(new InventoryChangeDto(
-                    productionOrder.getItem().getId(),
-                    productionOrder.getLot() != null
-                            ? productionOrder.getLot().getId()
-                            : null,
-                    TransactionType.PRODUCTION_IN,
-                    dto.getGoodQuantity(),
-                    manufacturedDateTime,
-                    InventoryReferenceType.WORK_ORDER,
-                    workOrderId
-            ));
+            if (!inspectionRequired) { // 공정검사 진행 안하면 바로 재고처리
+                inventoryManager.changeStock(new InventoryChangeDto(
+                        productionOrder.getItem().getId(),
+                        productionOrder.getLot() != null
+                                ? productionOrder.getLot().getId()
+                                : null,
+                        TransactionType.PRODUCTION_IN,
+                        dto.getGoodQuantity(),
+                        manufacturedDateTime,
+                        InventoryReferenceType.WORK_ORDER,
+                        workOrderId
+                ));
+            }
 
             // 6. 생산실적 생성
             productionResultService.create(new ProductionResultCreateDto(

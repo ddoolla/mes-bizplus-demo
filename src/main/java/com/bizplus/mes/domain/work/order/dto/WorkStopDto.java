@@ -12,4 +12,5 @@ public class WorkStopDto {
     private BigDecimal productionQuantity;
     private BigDecimal goodQuantity;
     private BigDecimal defectQuantity;
+    private String remark;
 }

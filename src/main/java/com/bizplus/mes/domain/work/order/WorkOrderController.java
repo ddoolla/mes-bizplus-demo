@@ -83,7 +83,7 @@ public class WorkOrderController {
 
     @PatchMapping("/{id}/stop")
     @ResponseBody
-    public ResponseEntity<ApiResponse<Void>> stopWork(@PathVariable Long id, @RequestBody WorkStopDto dto) {
+    public ResponseEntity<ApiResponse<Void>> stopWork(@PathVariable Long id, @Valid WorkStopDto dto) {
         workStopService.stop(id, dto);
 
         return ResponseEntity.ok(ApiResponse.success("작업을 중지합니다."));

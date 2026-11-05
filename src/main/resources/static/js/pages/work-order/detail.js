@@ -2,8 +2,8 @@ import ajax from "../../common/ajax.js";
 import createConfirmModal from "../../common/modal/confirm.js";
 import toast from "../../common/toast.js";
 import createEquipmentSingleListModal from "../../domain/equipment/modal/list/single.js";
-import createWorkCompleteModal from "../../domain/work-order/modal/complete.js";
 import createMaterialInputModal from "../../domain/material-input/modal/input.js";
+import createWorkResultInputModal from "../../domain/work-result/modal/input.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const confirmModal = createConfirmModal();
     const equipmentSingleListModal = createEquipmentSingleListModal();
-    const workCompleteModal = createWorkCompleteModal();
+    const workResultInputModal = createWorkResultInputModal();
     const materialInputModal = createMaterialInputModal();
 
     /* 설비 변경 */
@@ -156,28 +156,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            confirmModal.open({
-                title: '작업 중지 확인',
-                content: '작업을 중지하시겠습니까?',
-                onConfirm: async () => {
+            workResultInputModal.open({
+                title: '작업 중지 - 작업 실적 저장',
+                prodQty: Number(productionCountSpan.textContent.replaceAll(/[,.]/g, '')),
+                goodQty: Number(goodCountSpan.textContent.replaceAll(/[,.]/g, '')),
+                defectQty: Number(defectCountSpan.textContent.replaceAll(/[,.]/g, '')),
+                onSubmit: async (form) => {
                     try {
-                        const data = {
-                            productionQuantity: Number(productionCountSpan.textContent.replaceAll(/[,.]/g, '')),
-                            goodQuantity: Number(goodCountSpan.textContent.replaceAll(/[,.]/g, '')),
-                            defectQuantity: Number(defectCountSpan.textContent.replaceAll(/[,.]/g, ''))
-                        };
-
-                        const response = await ajax.patch(`/work-orders/${workOrderId}/stop`, data)
+                        const response = await ajax.patch(
+                            `/work-orders/${workOrderId}/stop`,
+                            new FormData(form)
+                        );
 
                         toast.afterReload({
                             message: response.message,
                         });
 
+                        workResultInputModal.close();
+
                         location.reload();
 
                     } catch (xhr) {
                         toast.error({
-                            message: xhr.responseJSON?.message,
+                            message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
                         });
                     }
                 }
@@ -229,16 +230,33 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const form = document.querySelector('#work-complete-form');
-        const prodQtyInput = form.querySelector('[name="productionQuantity"]');
-        const goodQtyInput = form.querySelector('[name="goodQuantity"]');
-        const defectQtyInput = form.querySelector('[name="defectQuantity"]');
+        workResultInputModal.open({
+            title: '작업 완료 - 작업 실적 저장',
+            prodQty: Number(productionCountSpan.textContent.replaceAll(/[,.]/g, '')),
+            goodQty: Number(goodCountSpan.textContent.replaceAll(/[,.]/g, '')),
+            defectQty: Number(defectCountSpan.textContent.replaceAll(/[,.]/g, '')),
+            onSubmit: async (form) => {
+                try {
+                    const response = await ajax.patch(
+                        `/work-orders/${workOrderId}/complete`,
+                        new FormData(form)
+                    );
 
-        prodQtyInput.value = Number(productionCountSpan.textContent.replaceAll(/[,.]/g, ''));
-        goodQtyInput.value = Number(goodCountSpan.textContent.replaceAll(/[,.]/g, ''));
-        defectQtyInput.value = Number(defectCountSpan.textContent.replaceAll(/[,.]/g, ''));
+                    toast.afterReload({
+                        message: response.message,
+                    });
 
-        workCompleteModal.open();
+                    workResultInputModal.close();
+
+                    location.reload();
+
+                } catch (xhr) {
+                    toast.error({
+                        message: xhr.responseJSON?.message || '처리 중 오류가 발생하였습니다.',
+                    });
+                }
+            }
+        });
     });
 
     /* 자재 투입 */

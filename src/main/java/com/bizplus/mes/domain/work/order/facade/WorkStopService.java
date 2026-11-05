@@ -40,7 +40,7 @@ public class WorkStopService {
                         dto.getGoodQuantity(),
                         dto.getDefectQuantity(),
                         null,
-                        null
+                        dto.getRemark()
                 ));
     }
 }

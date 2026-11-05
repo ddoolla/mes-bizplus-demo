@@ -1,18 +1,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<!--/* 작업 완료 모달 */-->
+<!--/* 작업 내역 등록/수정 모달 */-->
 <th:block th:fragment="modal (workOrder)">
     <div th:replace="~{fragments/modal/default :: default (
-        'work-complete-modal',
+        'work-result-input-modal',
         '작업 완료',
          ~{::content},
          null
     )}">
         <div th:fragment="content" class="p-2">
             <div class="modal-body pt-0">
-                <form id="work-complete-form"
-                      method="post"
-                      th:action="@{/work-orders/{id}/complete(id=${workOrder.id})}">
+                <form id="work-result-input-form" method="post">
 
                     <input type="hidden" name="productionOrderId" th:value="${workOrder.productionOrder.id}"/>
 
@@ -57,11 +55,6 @@
                                        class="app-form-control app-xs"/>
                             </td>
                         </tr>
-                        <tr>
-                            <th>종료 시간</th>
-                            <td th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}">
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </form>
@@ -73,7 +66,7 @@
                     <i class="bi bi-x-circle"></i> 취소
                 </button>
                 <button type="submit"
-                        form="work-complete-form"
+                        form="work-result-input-form"
                         class="btn btn-primary btn-sm">
                     <i class="bi bi-floppy"></i> 저장
                 </button>

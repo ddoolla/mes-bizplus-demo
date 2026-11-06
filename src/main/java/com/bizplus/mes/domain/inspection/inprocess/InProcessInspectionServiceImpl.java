@@ -13,10 +13,9 @@ import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpecReader;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.user.User;
-import com.bizplus.mes.domain.work.order.WorkOrderReader;
-import com.bizplus.mes.domain.work.order.dto.WorkOrderDto;
 import com.bizplus.mes.domain.work.result.WorkResult;
 import com.bizplus.mes.domain.work.result.WorkResultReader;
+import com.bizplus.mes.domain.work.result.dto.WorkResultDto;
 import com.bizplus.mes.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,7 +37,6 @@ public class InProcessInspectionServiceImpl implements InProcessInspectionServic
     private final InspectionSpecReader inspectionSpecReader;
     private final WorkResultReader workResultReader;
     private final InspectionReader inspectionReader;
-    private final WorkOrderReader workOrderReader;
 
     @Override
     public InProcessInspectionListDto getAll(InProcessInspectionSearchDto dto, Pageable pageable) {
@@ -52,12 +50,12 @@ public class InProcessInspectionServiceImpl implements InProcessInspectionServic
     public InProcessInspectionDto getById(Long id) {
         InProcessInspection inProcessInspection = inProcessInspectionReader.getById(id);
         InspectionDto inspectionDto = inspectionReader.getDtoById(inProcessInspection.getInspection().getId());
-        WorkOrderDto workOrderDto = workOrderReader.getDtoById(inProcessInspection.getWorkResult().getWorkOrder().getId());
+        WorkResultDto workResultDto = workResultReader.getDtoById(inProcessInspection.getWorkResult().getId());
 
         return new InProcessInspectionDto(
                 inProcessInspection.getId(),
                 inspectionDto,
-                workOrderDto
+                workResultDto
         );
     }
 

@@ -71,8 +71,9 @@ public class IncomingInspectionCreateService {
 
         // 검사 + 입고 저장
         return incomingInspectionRepository.save(new IncomingInspection(
-                newInspection,
-                receiptItem
-        )).getId();
+                        newInspection,
+                        receiptItem
+                ))
+                .getId();
     }
 }

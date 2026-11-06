@@ -1,0 +1,148 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* 입고 자재 선택 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'work-result-select-modal',
+        '작업 실적 선택',
+         ~{::.app-modal-content},
+         1200
+    )}">
+        <div class="app-modal-content p-2">
+            <div class="modal-body">
+                <!--/* 필터 */-->
+                <div>
+                    <form id="work-result-search-form"
+                          class="search-form"
+                          method="GET"
+                          th:action="@{receipt-items/modal/create}">
+                        <table class="app-table-input">
+                            <colgroup>
+                                <col style="width: 100px">
+                                <col style="width: auto">
+                                <col style="width: 100px">
+                                <col style="width: auto">
+                                <col style="width: 100px">
+                                <col style="width: 400px">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>작업지시 번호</th>
+                                <td>
+                                    <input type="text"
+                                           name="workOrderNo"
+                                           class="app-form-control app-xs"
+                                           th:value="${param.workOrderNo}">
+                                </td>
+                                <th>품목</th>
+                                <td>
+                                    <input type="text"
+                                           name="item"
+                                           class="app-form-control app-xs"
+                                           th:value="${param.item}">
+                                </td>
+                                <th>작업 기간</th>
+                                <td>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <input type="text"
+                                               name="startDate"
+                                               class="app-form-control app-xs"
+                                               th:value="${param.startDate}"
+                                               readonly autocomplete="off"/>
+                                        <span>-</span>
+                                        <input type="text"
+                                               name="endDate"
+                                               class="app-form-control app-xs"
+                                               th:value="${param.endDate}"
+                                               readonly autocomplete="off"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-search"></i> 조회
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!--/* 목록 */-->
+                <div class="list-content"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!--/* 모달 목록 콘텐츠 (재고 미포함) */-->
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div>
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: auto">
+                <col style="width: auto">
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: 150px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>작업지시 번호</th>
+                <th>작업 공정</th>
+                <th>제품 코드</th>
+                <th>제품명</th>
+                <th>LOT</th>
+                <th>작업 수량</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(data.workResults)}">
+                <td colspan="7" class="p-4">등록된 입고 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="result : ${data.workResults}">
+                <td th:text="${result.workOrder.orderNo}"></td>
+                <td th:text="${result.process.name}"></td>
+                <td th:text="${result.item.code}"></td>
+                <td th:text="${result.item.name}"></td>
+                <td th:text="${@format.value(result.lot.no)}"></td>
+                <td th:text="|${#numbers.formatDecimal(result.goodQuantity, 1, 'COMMA', result.item.uom.scale, 'POINT')} ${result.item.uom.code}|"></td>
+                <td>
+                    <button type="button"
+                            class="select-button
+                                   btn btn-primary btn-sm app-w-80"
+                            th:data-id="${result.id}"
+                            th:data-work-order-no="${result.workOrder.orderNo}"
+                            th:data-good-quantity="${result.goodQuantity}"
+                            th:data-process-id="${result.process.id}"
+                            th:data-process-name="${result.process.name}"
+                            th:data-item-id="${result.item.id}"
+                            th:data-item-code="${result.item.code}"
+                            th:data-item-name="${result.item.name}"
+                            th:data-lot-no="${result.lot.no}"
+                            th:data-default-ipqc-spec-id="${result.process.defaultIpqcSpecId}"
+                            th:data-default-ipqc-spec-name="${result.process.defaultIpqcSpecName}"
+                            th:data-item-uom-id="${result.item.uom.id}"
+                            th:data-item-uom-code="${result.item.uom.code}"
+                            th:data-item-uom-scale="${result.item.uom.scale}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+</html>

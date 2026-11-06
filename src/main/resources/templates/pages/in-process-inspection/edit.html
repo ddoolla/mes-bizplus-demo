@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('공정검사 수정', ~{}, ~{::script}, 'IN_PROCESS_INSPECTION', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/in-process-inspection/edit.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('공정검사 수정', '품질관리, 공정검사, 상세, 수정')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/in-process-inspections/{id}(id=${inProcessInspection.id})}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="in-process-inspection-edit-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('IN_PROCESS_INSPECTION_UPDATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <form id="in-process-inspection-edit-form"
+          method="post"
+          th:action="@{/in-prcess-inspections/{id}(id=${inProcessInspection.id})}"
+          th:object="${inProcessInspection}"
+          th:with="workResult=*{workResult}, inspection=*{inspection}">
+
+        <input type="hidden" name="id" th:value="*{id}"/>
+
+        <!--/* 수정 양식 */-->
+        <div class="app-box app-box-bg">
+            <div class="row g-2">
+                <div class="col">
+                    <div>
+                        <h5 class="fw-bold">공정검사 정보</h5>
+                    </div>
+                    <div>
+                        <table class="app-table-input">
+                            <colgroup>
+                                <col style="width: 120px">
+                                <col style="width: auto">
+                                <col style="width: 120px">
+                                <col style="width: auto">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>검사 번호</th>
+                                <td colspan="3" th:text="*{inspection.inspectionNo}"></td>
+                            </tr>
+                            <tr>
+                                <th>검사 일자 <span class="app-required">*</span></th>
+                                <td colspan="3">
+                                    <input type="text"
+                                           name="date"
+                                           class="app-form-control app-xs"
+                                           th:value="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"
+                                           th:disabled="*{inspection.status.name == 'COMPLETED'}"
+                                           readonly/>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>검사 수량 <span class="app-required">*</span></th>
+                                <td colspan="3">
+                                    <input type="number"
+                                           name="inspectedQuantity"
+                                           class="app-form-control app-xs app-w-200"
+                                           th:value="${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 0)}"
+                                           th:disabled="*{inspection.status.name == 'COMPLETED'}"/>
+
+                                    <select name="uomId"
+                                            class="app-form-control app-xs app-w-100"
+                                            th:disabled="*{inspection.status.name == 'COMPLETED'}">
+                                        <option th:each="uom : ${convertibleUoms}"
+                                                th:value="${uom.id}"
+                                                th:text="${uom.code}"
+                                                th:selected="${uom.id == inspection.uom.id}">
+                                        </option>
+                                    </select>
+
+                                    <input type="hidden" name="uomScale" th:value="*{inspection.uom.scale}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>검사자</th>
+                                <td colspan="3" th:text="${@format.value(inspection.inspector.name)}"></td>
+                            </tr>
+                            <tr>
+                                <th>LOT</th>
+                                <td colspan="3" th:text="${@format.value(workResult.lot.no)}"></td>
+                            </tr>
+                            <tr>
+                                <th>비고</th>
+                                <td colspan="3">
+                                    <input type="text"
+                                           name="remark"
+                                           class="app-form-control app-xs"
+                                           th:value="${inspection.remark}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>상태</th>
+                                <td th:switch="*{inspection.status?.name}">
+                                    <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="*{inspection.status?.description}"></span>
+                                    </h6>
+                                    <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="*{inspection.status?.description}"></span>
+                                    </h6>
+                                </td>
+                                <th>판정</th>
+                                <td th:switch="*{inspection.judgement?.name}">
+                                    <h6 th:case="'PASS'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="*{inspection.judgement?.description}"></span>
+                                    </h6>
+                                    <h6 th:case="'FAIL'" class="mb-0">
+                            <span class="badge text-bg-danger p-2 app-w-80"
+                                  th:text="*{inspection.judgement?.description}"></span>
+                                    </h6>
+                                    <h6 th:case="*" class="mb-0">
+                                        <span class="badge text-bg-secondary p-2 app-w-80">미판정</span>
+                                    </h6>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <h5 class="fw-bold">작업 정보</h5>
+                    </div>
+                    <div>
+                        <table class="app-table-input" th:object="${inProcessInspection}"
+                               th:with="workResult=*{workResult}, inspection=*{inspection}">
+                            <colgroup>
+                                <col style="width: 120px">
+                                <col style="width: auto">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>작업지시 번호</th>
+                                <td>
+                                    <a th:href="@{/work-orders/{id}(id=*{workResult.workOrder.id})}"
+                                       th:text="*{workResult.workOrder.orderNo}"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>작업 공정</th>
+                                <td th:text="*{workResult.process.name}"></td>
+                            </tr>
+                            <tr>
+                                <th>품목 코드</th>
+                                <td th:text="*{workResult.item.code}"></td>
+                            </tr>
+                            <tr>
+                                <th>품목명</th>
+                                <td th:text="*{workResult.item.name}"></td>
+                            </tr>
+                            <tr>
+                                <th>유형</th>
+                                <td th:text="*{workResult.item.type?.description}"></td>
+                            </tr>
+                            <tr>
+                                <th>규격</th>
+                                <td th:text="${@format.value(workResult.item.specification)}"></td>
+                            </tr>
+                            <tr>
+                                <th>작업 수량</th>
+                                <td th:text="|${#numbers.formatDecimal(workResult.goodQuantity, 1, 'COMMA', workResult.item.uom.scale, 'POINT')} ${workResult.item.uom.code}|"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--/* 검사항목 */-->
+        <div th:replace="~{pages/inspection-result/fragments/form :: form (${inProcessInspection.inspection}, ${inspectionResults})}"></div>
+    </form>
+</div>
+</body>
+</html>

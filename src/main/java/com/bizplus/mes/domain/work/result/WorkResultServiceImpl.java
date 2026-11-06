@@ -1,9 +1,15 @@
 package com.bizplus.mes.domain.work.result;
 
+import com.bizplus.mes.common.pagination.Pagination;
 import com.bizplus.mes.domain.work.order.WorkOrder;
 import com.bizplus.mes.domain.work.order.WorkOrderReader;
+import com.bizplus.mes.domain.work.result.dto.WorkResultDto;
+import com.bizplus.mes.domain.work.result.dto.WorkResultListDto;
+import com.bizplus.mes.domain.work.result.dto.WorkResultSearchDto;
 import com.bizplus.mes.domain.work.result.dto.WorkResultUpdateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +24,13 @@ public class WorkResultServiceImpl implements WorkResultService {
 
     private final WorkOrderReader workOrderReader;
     private final WorkResultReader workResultReader;
+
+    @Override
+    public WorkResultListDto getAll(WorkResultSearchDto dto, Pageable pageable) {
+        Page<WorkResultDto> page = workResultRepository.fetchAll(dto, pageable);
+
+        return new WorkResultListDto(page.getContent(), Pagination.of(page));
+    }
 
     @Override
     public void create(Long workOrderId) {

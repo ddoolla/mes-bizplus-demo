@@ -1,7 +1,7 @@
 package com.bizplus.mes.domain.inspection.inprocess.dto;
 
 import com.bizplus.mes.domain.inspection.dto.InspectionDto;
-import com.bizplus.mes.domain.work.order.dto.WorkOrderDto;
+import com.bizplus.mes.domain.work.result.dto.WorkResultDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,5 +11,5 @@ public class InProcessInspectionDto {
 
     private Long id;
     private InspectionDto inspection;
-    private WorkOrderDto workOrder;
+    private WorkResultDto workResult;
 }

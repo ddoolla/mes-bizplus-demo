@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface WorkResultRepository extends JpaRepository<WorkResult, Long>, WorkResultQueryRepository {
 
+    Optional<WorkResult> findByIdAndDeletedAtIsNull(Long id);
+
     Optional<WorkResult> findByWorkOrderId(Long workOrderId);
 
     boolean existsByWorkOrderId(Long workOrderId);

@@ -4,7 +4,7 @@ import toast from "../../common/toast.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const completeBtn = document.querySelector('#incoming-inspection-complete-button');
+    const completeBtn = document.querySelector('#in-process-inspection-complete-button');
 
     const confirmModal = createConfirmModal();
 
@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const {id} = e.currentTarget.dataset;
 
         confirmModal.open({
-            title: '입고검사 완료 확인',
-            content: '입고검사를 완료하시겠습니까?\n완료 후 수정할 수 없습니다.',
+            title: '공정검사 완료 확인',
+            content: '공정검사를 완료하시겠습니까?\n완료 후 수정할 수 없습니다.',
             onConfirm: async () => {
                 try {
-                    const response = await ajax.patch(`/api/incoming-inspections/${id}/complete`);
+                    const response = await ajax.patch(`/api/in-process-inspections/${id}/complete`);
 
                     toast.afterReload({
                         message: response.message

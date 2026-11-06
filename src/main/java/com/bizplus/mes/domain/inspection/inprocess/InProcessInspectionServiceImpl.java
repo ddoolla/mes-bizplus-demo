@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -96,5 +97,11 @@ public class InProcessInspectionServiceImpl implements InProcessInspectionServic
         ));
 
         return newInspection.getId();
+    }
+
+    @Transactional
+    @Override
+    public void deleteAll(List<Long> ids) {
+        ids.forEach(id -> inProcessInspectionReader.getById(id).delete());
     }
 }

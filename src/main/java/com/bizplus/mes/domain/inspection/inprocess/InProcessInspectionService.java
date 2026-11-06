@@ -6,6 +6,7 @@ import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionSearch
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface InProcessInspectionService {
 
@@ -14,4 +15,6 @@ public interface InProcessInspectionService {
     InProcessInspectionDto getById(Long id);
 
     Long autoCreate(Long workOrderId, Long inspectionSpecId, LocalDate date);
+
+    void deleteAll(List<Long> ids);
 }

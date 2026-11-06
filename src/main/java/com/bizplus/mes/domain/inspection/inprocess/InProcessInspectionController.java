@@ -5,7 +5,9 @@ import com.bizplus.mes.common.message.MessageService;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionCreateDto;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionDto;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionSearchDto;
+import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionUpdateDto;
 import com.bizplus.mes.domain.inspection.inprocess.facade.InProcessInspectionCreateService;
+import com.bizplus.mes.domain.inspection.inprocess.facade.InProcessInspectionUpdateService;
 import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
@@ -34,6 +36,7 @@ public class InProcessInspectionController {
     private final InspectionResultService inspectionResultService;
 
     private final InProcessInspectionCreateService inProcessInspectionCreateService;
+    private final InProcessInspectionUpdateService inProcessInspectionUpdateService;
 
     private final UomConversionReader uomConversionReader;
 
@@ -85,5 +88,17 @@ public class InProcessInspectionController {
         reAtt.addFlashAttribute("message", messageService.get(MessageCode.CREATED));
 
         return "redirect:/in-process-inspections/{id}/edit";
+    }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority('IN_PROCESS_INSPECTION_UPDATE')")
+    @UserAction(menu = MenuCode.IN_PROCESS_INSPECTION, type = ActionType.UPDATE)
+    public String update(@PathVariable Long id, @Valid InProcessInspectionUpdateDto dto, RedirectAttributes reAtt) {
+        inProcessInspectionUpdateService.update(id, dto);
+
+        reAtt.addAttribute("id", id);
+        reAtt.addFlashAttribute("message", messageService.get(MessageCode.UPDATED));
+
+        return "redirect:/in-process-inspections/{id}";
     }
 }

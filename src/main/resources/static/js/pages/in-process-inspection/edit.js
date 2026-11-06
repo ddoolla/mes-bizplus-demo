@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     datepicker.init('[name="date"]');
 
     /* 폼 유효성 검사 */
-    $('#incoming-inspection-edit-form').validate({
+    $('#in-process-inspection-edit-form').validate({
         rules: {
             date: 'required',
             inspectedQuantity: {
@@ -21,6 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 number: '숫자만 입력해 주세요.',
                 positive: '0보다 큰 값을 입력해 주세요.',
             },
+        }, errorPlacement: function (error, element) {
+            const errorContainers = {
+                inspectedQuantity: '#quantity-error-container',
+            };
+
+            const container = errorContainers[element.attr('name')];
+
+            if (container) {
+                error.appendTo(container);
+            } else {
+                error.insertAfter(element);
+            }
         },
     });
 

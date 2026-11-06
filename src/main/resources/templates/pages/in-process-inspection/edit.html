@@ -33,7 +33,7 @@
 
     <form id="in-process-inspection-edit-form"
           method="post"
-          th:action="@{/in-prcess-inspections/{id}(id=${inProcessInspection.id})}"
+          th:action="@{/in-process-inspections/{id}(id=${inProcessInspection.id})}"
           th:object="${inProcessInspection}"
           th:with="workResult=*{workResult}, inspection=*{inspection}">
 
@@ -78,7 +78,7 @@
                                            name="inspectedQuantity"
                                            class="app-form-control app-xs app-w-200"
                                            th:value="${#numbers.formatDecimal(inspection.inspectedQuantity, 1, 0)}"
-                                           th:disabled="*{inspection.status.name == 'COMPLETED'}"/>
+                                    th:disabled="*{inspection.status.name == 'COMPLETED'}"/>
 
                                     <select name="uomId"
                                             class="app-form-control app-xs app-w-100"
@@ -91,6 +91,8 @@
                                     </select>
 
                                     <input type="hidden" name="uomScale" th:value="*{inspection.uom.scale}"/>
+
+                                    <div id="quantity-error-container"></div>
                                 </td>
                             </tr>
                             <tr>

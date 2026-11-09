@@ -79,6 +79,7 @@ public class ReceiptConfirmService {
                         ),
                         null,
                         null,
+                        null,
                         null
                 ));
 
@@ -125,6 +126,10 @@ public class ReceiptConfirmService {
                         InventoryReferenceType.RECEIPT,
                         receiptId
                 ));
+
+                if (lot != null) {
+                    lot.updateInitialQuantity(receiptItem.getQuantity());
+                }
 
                 receiptItem.updateStatus(ReceiptItemStatus.COMPLETED);
             }

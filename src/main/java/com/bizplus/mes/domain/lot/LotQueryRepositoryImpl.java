@@ -39,6 +39,7 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                 .select(new QLotDto(
                         lot.id,
                         lot.no,
+                        lot.initialQuantity,
                         lot.manufactureDate,
                         lot.expirationDate,
                         lot.remark,
@@ -81,6 +82,7 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                         .select(new QLotDto(
                                 lot.id,
                                 lot.no,
+                                lot.initialQuantity,
                                 lot.manufactureDate,
                                 lot.expirationDate,
                                 lot.remark,
@@ -114,6 +116,7 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                         .select(new QLotDto(
                                 lot.id,
                                 lot.no,
+                                lot.initialQuantity,
                                 lot.manufactureDate,
                                 lot.expirationDate,
                                 lot.remark,

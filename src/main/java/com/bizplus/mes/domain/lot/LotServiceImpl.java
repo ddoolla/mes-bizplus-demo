@@ -58,6 +58,7 @@ public class LotServiceImpl implements LotService {
         return lotRepository.save(new Lot(
                         item,
                         dto.getNo(),
+                        dto.getInitialQuantity(),
                         dto.getManufactureDate(),
                         dto.getExpirationDate(),
                         null

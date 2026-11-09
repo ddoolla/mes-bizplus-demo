@@ -96,6 +96,9 @@ public class IncomingInspectionCompleteService {
                     receipt.getId()
             ));
 
+            // 로트 입고 수량 초기화
+            receiptItem.getLot().updateInitialQuantity(receiptItem.getQuantity());
+
             // 입고 자재 완료
             receiptItem.updateStatus(ReceiptItemStatus.COMPLETED);
 

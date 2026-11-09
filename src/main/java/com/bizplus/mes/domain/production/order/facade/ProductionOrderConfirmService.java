@@ -44,6 +44,7 @@ public class ProductionOrderConfirmService {
                         dto.getItemId(),
                         lotNoGenerator.generate("LOT", LocalDate.now()),
                             null,
+                            null,
                             null
                     )
             );

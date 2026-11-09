@@ -13,6 +13,7 @@ public class LotDto {
 
     private final Long id;
     private final String no;
+    private final BigDecimal initialQuantity;
     private final LocalDate manufactureDate;
     private final LocalDate expirationDate;
     private final String remark;
@@ -23,6 +24,7 @@ public class LotDto {
     @QueryProjection
     public LotDto(Long id,
                   String no,
+                  BigDecimal initialQuantity,
                   LocalDate manufactureDate,
                   LocalDate expirationDate,
                   String remark,
@@ -38,6 +40,7 @@ public class LotDto {
                   BigDecimal quantity) {
         this.id = id;
         this.no = no;
+        this.initialQuantity = initialQuantity;
         this.manufactureDate = manufactureDate;
         this.expirationDate = expirationDate;
         this.expirationStatus = ExpirationStatus.from(expirationDate);

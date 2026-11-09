@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -26,6 +27,9 @@ public class Lot extends SoftDeletableEntity {
     @Column(unique = true, nullable = false)
     private String no;
 
+    @Column(precision = 38, scale = 10)
+    private BigDecimal initialQuantity; // 초기 수량 저장 (재고로 사용 X)
+
     private LocalDate manufactureDate; // 제조일
     private LocalDate expirationDate; // 유효기간
 
@@ -33,10 +37,12 @@ public class Lot extends SoftDeletableEntity {
 
     public Lot(Item item,
                String no,
+               BigDecimal initialQuantity,
                LocalDate manufactureDate,
                LocalDate expirationDate,
                String remark) {
         this.item = item;
+        this.initialQuantity = initialQuantity;
         this.no = no;
         this.manufactureDate = manufactureDate;
         this.expirationDate = expirationDate;
@@ -48,9 +54,12 @@ public class Lot extends SoftDeletableEntity {
         this.remark = remark;
     }
 
+    public void updateInitialQuantity(BigDecimal initialQuantity) {
+        this.initialQuantity = initialQuantity;
+    }
+
     public void updateDates(LocalDate manufactureDate, LocalDate expirationDate) {
         this.manufactureDate = manufactureDate;
         this.expirationDate = expirationDate;
     }
-
 }

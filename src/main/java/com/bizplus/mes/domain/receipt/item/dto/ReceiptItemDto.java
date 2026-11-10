@@ -6,6 +6,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 public class ReceiptItemDto {
@@ -34,6 +35,7 @@ public class ReceiptItemDto {
                           String remark,
                           Long receiptId,
                           String receiptNo,
+                          LocalDate receiptDate,
                           Long itemId,
                           String itemCode,
                           String itemName,
@@ -59,7 +61,8 @@ public class ReceiptItemDto {
         this.remark = remark;
         this.receipt = new ReceiptInfo(
                 receiptId,
-                receiptNo
+                receiptNo,
+                receiptDate
         );
         this.item = new ItemInfo(
                 itemId,
@@ -75,7 +78,7 @@ public class ReceiptItemDto {
         this.lot = new LotInfo(lotId, lotNo);
     }
 
-    public record ReceiptInfo(Long id, String no) {
+    public record ReceiptInfo(Long id, String no, LocalDate date) {
     }
 
 

@@ -1,0 +1,56 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (productionLots)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">생산 LOT 정보</p>
+            </div>
+        </div>
+
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>LOT</th>
+                    <th>제품 코드</th>
+                    <th>제품명</th>
+                    <th>유형</th>
+                    <th>규격</th>
+                    <th>생산 수량</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(productionLots)}">
+                    <td colspan="7" class="p-4">등록된 생산 LOT 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="lot : ${productionLots}">
+                    <td class="fw-bold">
+                        <a th:href="@{/lots/{id}(id=${lot.lotId})}"
+                           th:text="${lot.lotNo}"></a>
+                    </td>
+                    <td th:text="${lot.itemCode}"></td>
+                    <td th:text="${lot.itemName}"></td>
+                    <td th:text="${lot.itemType?.description}"></td>
+                    <td th:text="${@format.value(lot.itemSpec)}"></td>
+                    <td th:text="|${#numbers.formatDecimal(lot.productionQuantity, 1, 'COMMA', lot.uomScale, 'POINT') ?: '-'} ${lot.uomCode}|"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

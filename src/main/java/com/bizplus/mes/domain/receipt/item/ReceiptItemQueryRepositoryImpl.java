@@ -34,6 +34,35 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
     private static final QUom itemUom = new QUom("itemUom");
     private static final QUom receiptUom = new QUom("receiptUom");
 
+    private final QReceiptItemDto receiptItemProjection = new QReceiptItemDto(
+            receiptItem.id,
+            receiptItem.quantity,
+            receiptItem.unitPrice,
+            receiptItem.amount,
+            receiptItem.inspectionRequired,
+            receiptItem.inspectionAutoCreate,
+            receiptItem.status,
+            receiptItem.remark,
+            receipt.id,
+            receipt.receiptNo,
+            receipt.date,
+            item.id,
+            item.code,
+            item.name,
+            item.type,
+            item.specification,
+            inspectionSpec.id,
+            inspectionSpec.name,
+            itemUom.id,
+            itemUom.code,
+            itemUom.scale,
+            receiptUom.id,
+            receiptUom.code,
+            receiptUom.scale,
+            lot.id,
+            lot.no
+    );
+
     @Override
     public Page<ReceiptItemDto> fetchAllForInspection(ReceiptItemSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
@@ -56,33 +85,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .and(endDateLoe(receipt.date, dto.getEndDate()));
 
         List<ReceiptItemDto> content = query
-                .select(new QReceiptItemDto(
-                        receiptItem.id,
-                        receiptItem.quantity,
-                        receiptItem.unitPrice,
-                        receiptItem.amount,
-                        receiptItem.inspectionRequired,
-                        receiptItem.inspectionAutoCreate,
-                        receiptItem.status,
-                        receiptItem.remark,
-                        receipt.id,
-                        receipt.receiptNo,
-                        item.id,
-                        item.code,
-                        item.name,
-                        item.type,
-                        item.specification,
-                        inspectionSpec.id,
-                        inspectionSpec.name,
-                        itemUom.id,
-                        itemUom.code,
-                        itemUom.scale,
-                        receiptUom.id,
-                        receiptUom.code,
-                        receiptUom.scale,
-                        lot.id,
-                        lot.no
-                ))
+                .select(receiptItemProjection)
                 .from(receiptItem)
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
@@ -111,33 +114,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
     @Override
     public List<ReceiptItemDto> fetchReceiptItems(Long receiptId) {
         return query
-                .select(new QReceiptItemDto(
-                        receiptItem.id,
-                        receiptItem.quantity,
-                        receiptItem.unitPrice,
-                        receiptItem.amount,
-                        receiptItem.inspectionRequired,
-                        receiptItem.inspectionAutoCreate,
-                        receiptItem.status,
-                        receiptItem.remark,
-                        receipt.id,
-                        receipt.receiptNo,
-                        item.id,
-                        item.code,
-                        item.name,
-                        item.type,
-                        item.specification,
-                        inspectionSpec.id,
-                        inspectionSpec.name,
-                        itemUom.id,
-                        itemUom.code,
-                        itemUom.scale,
-                        receiptUom.id,
-                        receiptUom.code,
-                        receiptUom.scale,
-                        lot.id,
-                        lot.no
-                ))
+                .select(receiptItemProjection)
                 .from(receiptItem)
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
@@ -173,33 +150,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
     public Optional<ReceiptItemDto> fetchById(Long id) {
         return Optional.ofNullable(
                 query
-                        .select(new QReceiptItemDto(
-                                receiptItem.id,
-                                receiptItem.quantity,
-                                receiptItem.unitPrice,
-                                receiptItem.amount,
-                                receiptItem.inspectionRequired,
-                                receiptItem.inspectionAutoCreate,
-                                receiptItem.status,
-                                receiptItem.remark,
-                                receipt.id,
-                                receipt.receiptNo,
-                                item.id,
-                                item.code,
-                                item.name,
-                                item.type,
-                                item.specification,
-                                inspectionSpec.id,
-                                inspectionSpec.name,
-                                itemUom.id,
-                                itemUom.code,
-                                itemUom.scale,
-                                receiptUom.id,
-                                receiptUom.code,
-                                receiptUom.scale,
-                                lot.id,
-                                lot.no
-                        ))
+                        .select(receiptItemProjection)
                         .from(receiptItem)
                         .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                         .innerJoin(item).on(receiptItem.item.id.eq(item.id))
@@ -210,6 +161,27 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         .where(
                                 notDeleted(receiptItem.deletedAt),
                                 eq(receiptItem.id, id)
+                        )
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<ReceiptItemDto> fetchByLotId(Long lotId) {
+        return Optional.ofNullable(
+                query
+                        .select(receiptItemProjection)
+                        .from(receiptItem)
+                        .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                        .innerJoin(item).on(receiptItem.item.id.eq(item.id))
+                        .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
+                        .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
+                        .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
+                        .innerJoin(lot).on(receiptItem.lot.id.eq(lot.id))
+                        .where(
+                                notDeleted(receipt.deletedAt),
+                                notDeleted(receiptItem.deletedAt),
+                                eq(receiptItem.lot.id, lotId)
                         )
                         .fetchOne()
         );

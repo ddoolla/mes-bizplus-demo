@@ -1,0 +1,82 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (workOrders)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">생산 정보</p>
+            </div>
+        </div>
+
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 120px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>작업지시 번호</th>
+                    <th>작업일</th>
+                    <th>작업 공정</th>
+                    <th>작업 설비</th>
+                    <th>작업자</th>
+                    <th>작업 수량</th>
+                    <th>양품 수량</th>
+                    <th>불량 수량</th>
+                    <th>상태</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(workOrders)}">
+                    <td colspan="10" class="p-4">등록된 생산 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="workOrder : ${workOrders}">
+                    <td class="fw-bold">
+                        <a th:href="@{/work-orders/{id}(id=${workOrder.id})}"
+                           th:text="${workOrder.orderNo}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(workOrder.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${workOrder.process.name}"></td>
+                    <td th:text="${@format.value(workOrder.equipment.name)}"></td>
+                    <td th:text="${@format.value(workOrder.user.name)}"></td>
+                    <td th:text="|${#numbers.formatDecimal(workOrder.result.productionQuantity, 1, 'COMMA', workOrder.item.uom.scale, 'POINT') ?: '-'} ${workOrder.item.uom.code}|"></td>
+                    <td th:text="|${#numbers.formatDecimal(workOrder.result.goodQuantity, 1, 'COMMA', workOrder.item.uom.scale, 'POINT') ?: '-'} ${workOrder.item.uom.code}|"></td>
+                    <td th:text="|${#numbers.formatDecimal(workOrder.result.defectQuantity, 1, 'COMMA', workOrder.item.uom.scale, 'POINT') ?: '-'} ${workOrder.item.uom.code}|"></td>
+                    <td th:switch="${workOrder.status?.name}">
+                        <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="${workOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'IN_PROGRESS'" class="mb-0">
+                            <span class="badge text-bg-primary p-2 app-w-80"
+                                  th:text="${workOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'PAUSED'" class="mb-0">
+                                    <span class="badge text-bg-warning p-2 app-w-80"
+                                          th:text="${workOrder.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${workOrder.status?.description}"></span>
+                        </h6>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

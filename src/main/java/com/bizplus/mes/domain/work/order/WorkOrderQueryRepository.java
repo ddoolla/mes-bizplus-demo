@@ -17,6 +17,8 @@ public interface WorkOrderQueryRepository {
 
     List<WorkOrderDto> fetchWorkOrders(Long productionOrderId);
 
+    List<WorkOrderDto> fetchAllByLotId(Long lotId);
+
     Optional<WorkOrderDto> fetchWorkOrder(Long id);
 
     Optional<WorkOrder> findWorkOrderForUpdate(Long id);

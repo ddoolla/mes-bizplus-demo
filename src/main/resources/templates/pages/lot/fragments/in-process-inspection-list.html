@@ -1,0 +1,80 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (inProcessInspections)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">공정검사 정보</p>
+            </div>
+        </div>
+
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 120px">
+                    <col style="width: 120px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>공정검사 번호</th>
+                    <th>검사일</th>
+                    <th>검사 공정</th>
+                    <th>검사자</th>
+                    <th>검사 수량</th>
+                    <th>상태</th>
+                    <th>판정</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(inProcessInspections)}">
+                    <td colspan="8" class="p-4">등록된 공정검사 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="inspection : ${inProcessInspections}">
+                    <td class="fw-bold">
+                        <a th:href="@{/in-process-inspections/{id}(id=${inspection.id})}"
+                           th:text="${inspection.no}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(inspection.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${inspection.processName}"></td>
+                    <td th:text="${inspection.inspector}"></td>
+                    <td th:text="|${#numbers.formatDecimal(inspection.quantity, 1, 'COMMA', inspection.uomScale, 'POINT') ?: '-'} ${inspection.uomCode}|"></td>
+                    <td th:switch="${inspection.status?.name}">
+                        <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="${inspection.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${inspection.status?.description}"></span>
+                        </h6>
+                    </td>
+                    <td th:switch="${inspection.judgement?.name}">
+                        <h6 th:case="'PASS'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${inspection.judgement?.description}"></span>
+                        </h6>
+                        <h6 th:case="'FAIL'" class="mb-0">
+                            <span class="badge text-bg-danger p-2 app-w-80"
+                                  th:text="${inspection.judgement?.description}"></span>
+                        </h6>
+                        <h6 th:case="*" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80">미판정</span>
+                        </h6>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

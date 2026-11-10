@@ -77,6 +77,37 @@
         </table>
     </div>
 
+    <th:block th:if="${lot.item.type.name == 'FINISHED_GOODS' || lot.item.type.name == 'SEMI_FINISHED_GOODS'}">
+        <!--/* 생산 정보 */-->
+        <div th:replace="~{pages/lot/fragments/production-list :: list (${lotTraceData.workOrders})}"></div>
+
+        <!--/* 투입 자재 정보 */-->
+        <div th:replace="~{pages/lot/fragments/material-input-list :: list ('투입 자재 정보',${lotTraceData.materialInputs}, true)}"></div>
+
+        <!--/* 공정검사 정보 */-->
+        <div th:replace="~{pages/lot/fragments/in-process-inspection-list :: list (${lotTraceData.inProcessInspections})}"></div>
+
+        <!--/* 출고 정보 */-->
+        <div th:replace="~{pages/lot/fragments/shipment-list :: list (${lotTraceData.shipmentItems}, false)}"></div>
+    </th:block>
+
+    <th:block th:if="${lot.item.type.name == 'RAW_MATERIAL' || lot.item.type.name == 'SUB_MATERIAL'}">
+        <!--/* 입고 정보 */-->
+        <div th:replace="~{pages/lot/fragments/receipt-info :: info (${lotTraceData.receiptItem})}"></div>
+
+        <!--/* 입고검사 정보 */-->
+        <div th:replace="~{pages/lot/fragments/incoming-inspection-info :: info (${lotTraceData.incomingInspection})}"></div>
+
+        <!--/* 생산 투입 정보 */-->
+        <div th:replace="~{pages/lot/fragments/material-input-list :: list ('생산 투입 정보', ${lotTraceData.materialInputs}, false)}"></div>
+
+        <!--/* 생산 LOT 정보 */-->
+        <div th:replace="~{pages/lot/fragments/production-lot-list :: list (${lotTraceData.productionLots})}"></div>
+
+        <!--/* 출고 정보 */-->
+        <div th:replace="~{pages/lot/fragments/shipment-list :: list (${lotTraceData.shipmentItems}, true)}"></div>
+    </th:block>
+
     <!--/* 재고 변동 내역 */-->
     <div th:replace="~{pages/lot/fragments/inspection-transaction-list :: list (
         ${lot},

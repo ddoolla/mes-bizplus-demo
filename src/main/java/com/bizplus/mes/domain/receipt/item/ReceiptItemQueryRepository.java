@@ -17,4 +17,6 @@ public interface ReceiptItemQueryRepository {
     List<ReceiptItem> findReceiptItems(Long receiptId);
 
     Optional<ReceiptItemDto> fetchById(Long id);
+
+    Optional<ReceiptItemDto> fetchByLotId(Long lotId);
 }

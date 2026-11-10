@@ -35,6 +35,44 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
 
     private final JPAQueryFactory query;
 
+    private final QWorkOrderDto workOrderProjection = new QWorkOrderDto(
+            workOrder.id,
+            workOrder.orderNo,
+            workOrder.quantity,
+            workOrder.date,
+            workOrder.status,
+            workOrder.processInspectionRequired,
+            workOrder.processInspectionAutoCreate,
+            workOrder.remark,
+            productionOrder.id,
+            productionOrder.orderNo,
+            productionOrderProcess.id,
+            productionOrderProcess.routingProcess.id,
+            productionOrderProcess.processCode,
+            productionOrderProcess.processName,
+            equipment.id,
+            equipment.code,
+            equipment.name,
+            user.id,
+            user.name,
+            item.id,
+            item.code,
+            item.name,
+            item.type,
+            item.specification,
+            item.lotManaged,
+            uom.code,
+            uom.scale,
+            lot.id,
+            lot.no,
+            workResult.productionQuantity,
+            workResult.goodQuantity,
+            workResult.defectQuantity,
+            workResult.startedAt,
+            workResult.completedAt,
+            workResult.remark
+    );
+
     @Override
     public Page<WorkOrderDto> fetchWorkOrders(WorkOrderSearchDto dto,
                                               Pageable pageable) {
@@ -81,43 +119,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
         }
 
         List<WorkOrderDto> content = query
-                .select(new QWorkOrderDto(
-                        workOrder.id,
-                        workOrder.orderNo,
-                        workOrder.quantity,
-                        workOrder.date,
-                        workOrder.status,
-                        workOrder.processInspectionRequired,
-                        workOrder.processInspectionAutoCreate,
-                        workOrder.remark,
-                        productionOrder.id,
-                        productionOrder.orderNo,
-                        productionOrderProcess.id,
-                        productionOrderProcess.routingProcess.id,
-                        productionOrderProcess.processCode,
-                        productionOrderProcess.processName,
-                        equipment.id,
-                        equipment.code,
-                        equipment.name,
-                        user.id,
-                        user.name,
-                        item.id,
-                        item.code,
-                        item.name,
-                        item.type,
-                        item.specification,
-                        item.lotManaged,
-                        uom.code,
-                        uom.scale,
-                        lot.id,
-                        lot.no,
-                        workResult.productionQuantity,
-                        workResult.goodQuantity,
-                        workResult.defectQuantity,
-                        workResult.startedAt,
-                        workResult.completedAt,
-                        workResult.remark
-                ))
+                .select(workOrderProjection)
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
@@ -152,43 +154,7 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     @Override
     public List<WorkOrderDto> fetchWorkOrders(Long productionOrderId) {
         return query
-                .select(new QWorkOrderDto(
-                        workOrder.id,
-                        workOrder.orderNo,
-                        workOrder.quantity,
-                        workOrder.date,
-                        workOrder.status,
-                        workOrder.processInspectionRequired,
-                        workOrder.processInspectionAutoCreate,
-                        workOrder.remark,
-                        productionOrder.id,
-                        productionOrder.orderNo,
-                        productionOrderProcess.id,
-                        productionOrderProcess.routingProcess.id,
-                        productionOrderProcess.processCode,
-                        productionOrderProcess.processName,
-                        equipment.id,
-                        equipment.code,
-                        equipment.name,
-                        user.id,
-                        user.name,
-                        item.id,
-                        item.code,
-                        item.name,
-                        item.type,
-                        item.specification,
-                        item.lotManaged,
-                        uom.code,
-                        uom.scale,
-                        lot.id,
-                        lot.no,
-                        workResult.productionQuantity,
-                        workResult.goodQuantity,
-                        workResult.defectQuantity,
-                        workResult.startedAt,
-                        workResult.completedAt,
-                        workResult.remark
-                ))
+                .select(workOrderProjection)
                 .from(workOrder)
                 .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                 .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
@@ -207,46 +173,31 @@ public class WorkOrderQueryRepositoryImpl implements WorkOrderQueryRepository {
     }
 
     @Override
+    public List<WorkOrderDto> fetchAllByLotId(Long lotId) {
+        return query
+                .select(workOrderProjection)
+                .from(workOrder)
+                .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
+                .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))
+                .leftJoin(workResult).on(workResult.workOrder.id.eq(workOrder.id))
+                .innerJoin(lot).on(productionOrder.lot.id.eq(lot.id))
+                .leftJoin(equipment).on(workOrder.equipment.id.eq(equipment.id))
+                .leftJoin(user).on(workOrder.user.id.eq(user.id))
+                .innerJoin(item).on(productionOrder.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .where(
+                        notDeleted(workOrder.deletedAt),
+                        eq(productionOrder.lot.id, lotId)
+                )
+                .orderBy(productionOrderProcess.processStepNo.asc())
+                .fetch();
+    }
+
+    @Override
     public Optional<WorkOrderDto> fetchWorkOrder(Long id) {
         return Optional.ofNullable(
                 query
-                        .select(new QWorkOrderDto(
-                                workOrder.id,
-                                workOrder.orderNo,
-                                workOrder.quantity,
-                                workOrder.date,
-                                workOrder.status,
-                                workOrder.processInspectionRequired,
-                                workOrder.processInspectionAutoCreate,
-                                workOrder.remark,
-                                productionOrder.id,
-                                productionOrder.orderNo,
-                                productionOrderProcess.id,
-                                productionOrderProcess.routingProcess.id,
-                                productionOrderProcess.processCode,
-                                productionOrderProcess.processName,
-                                equipment.id,
-                                equipment.code,
-                                equipment.name,
-                                user.id,
-                                user.name,
-                                item.id,
-                                item.code,
-                                item.name,
-                                item.type,
-                                item.specification,
-                                item.lotManaged,
-                                uom.code,
-                                uom.scale,
-                                lot.id,
-                                lot.no,
-                                workResult.productionQuantity,
-                                workResult.goodQuantity,
-                                workResult.defectQuantity,
-                                workResult.startedAt,
-                                workResult.completedAt,
-                                workResult.remark
-                        ))
+                        .select(workOrderProjection)
                         .from(workOrder)
                         .innerJoin(productionOrderProcess).on(workOrder.productionOrderProcess.id.eq(productionOrderProcess.id))
                         .innerJoin(productionOrder).on(productionOrderProcess.productionOrder.id.eq(productionOrder.id))

@@ -22,6 +22,7 @@ public class InProcessInspectionSummaryDto {
     private final BigDecimal quantity;
     private final String uomCode;
     private final Integer uomScale;
+    private final String inspector;
     private final InspectionStatus status;
     private final InspectionJudgement judgement;
 
@@ -37,6 +38,7 @@ public class InProcessInspectionSummaryDto {
                                          BigDecimal quantity,
                                          String uomCode,
                                          Integer uomScale,
+                                         String inspector,
                                          InspectionStatus status,
                                          InspectionJudgement judgement) {
         this.id = id;
@@ -50,6 +52,7 @@ public class InProcessInspectionSummaryDto {
         this.quantity = quantity;
         this.uomCode = uomCode;
         this.uomScale = uomScale;
+        this.inspector = inspector;
         this.status = status;
         this.judgement = judgement;
     }

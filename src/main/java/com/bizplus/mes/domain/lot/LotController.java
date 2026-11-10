@@ -8,6 +8,7 @@ import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.lot.dto.LotSearchDto;
 import com.bizplus.mes.domain.lot.dto.LotUpdateDto;
+import com.bizplus.mes.domain.lot.facade.LotTraceService;
 import com.bizplus.mes.domain.menu.MenuCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,8 @@ public class LotController {
     private final LotService lotService;
     private final InventoryTransactionService inventoryTransactionService;
 
+    private final LotTraceService lotTraceService;
+
     @GetMapping
     @PreAuthorize("hasAuthority('LOT_READ')")
     @UserAction(menu = MenuCode.LOT, type = ActionType.READ)
@@ -50,6 +53,7 @@ public class LotController {
 
         model.addAttribute("lot", lotService.getById(id));
         model.addAttribute("inventoryTransactions", inventoryTransactions);
+        model.addAttribute("lotTraceData", lotTraceService.getById(id));
         model.addAttribute(
                 "totalInventoryQuantity",
                 inventoryTransactions.stream()

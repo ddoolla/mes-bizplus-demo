@@ -1,0 +1,66 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (shipmentItems, viewLot)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">출고 정보</p>
+            </div>
+        </div>
+
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col th:if="${viewLot}" style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 120px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>출고 번호</th>
+                    <th>출고일</th>
+                    <th>거래처</th>
+                    <th th:if="${viewLot}">출고 로트</th>
+                    <th>출고 수량</th>
+                    <th>상태</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(shipmentItems)}">
+                    <td colspan="7" class="p-4">등록된 출고 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="shipmentItem : ${shipmentItems}">
+                    <td class="fw-bold">
+                        <a th:href="@{/shipments/{id}(id=${shipmentItem.shipment.id})}"
+                           th:text="${shipmentItem.shipment.shipmentNo}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(shipmentItem.shipment.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${shipmentItem.shipment.partner.name}"></td>
+                    <td th:if="${viewLot}"
+                        th:text="${shipmentItem.lot.no}"></td>
+                    <td th:text="|${#numbers.formatDecimal(shipmentItem.quantity, 1, 'COMMA', shipmentItem.item.uom.scale, 'POINT') ?: '-'} ${shipmentItem.item.uom.code}|"></td>
+                    <td th:switch="${shipmentItem.shipment.status.name}">
+                        <h6 th:case="'DRAFT'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="${shipmentItem.shipment.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${shipmentItem.shipment.status?.description}"></span>
+                        </h6>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

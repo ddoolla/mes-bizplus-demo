@@ -13,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.inspection.QInspection.inspection;
@@ -22,6 +23,7 @@ import static com.bizplus.mes.domain.lot.QLot.lot;
 import static com.bizplus.mes.domain.receipt.QReceipt.receipt;
 import static com.bizplus.mes.domain.receipt.item.QReceiptItem.receiptItem;
 import static com.bizplus.mes.domain.uom.QUom.uom;
+import static com.bizplus.mes.domain.user.QUser.user;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -52,11 +54,13 @@ public class IncomingInspectionQueryRepositoryImpl implements IncomingInspection
                         receiptItem.quantity,
                         uom.code,
                         uom.scale,
+                        user.name,
                         inspection.status,
                         inspection.judgement
                 ))
                 .from(incomingInspection)
                 .innerJoin(inspection).on(incomingInspection.inspection.id.eq(inspection.id))
+                .innerJoin(user).on(inspection.inspector.id.eq(user.id))
                 .innerJoin(receiptItem).on(incomingInspection.receiptItem.id.eq(receiptItem.id))
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
@@ -72,6 +76,7 @@ public class IncomingInspectionQueryRepositoryImpl implements IncomingInspection
                 .select(incomingInspection.count())
                 .from(incomingInspection)
                 .innerJoin(inspection).on(incomingInspection.inspection.id.eq(inspection.id))
+                .innerJoin(user).on(inspection.inspector.id.eq(user.id))
                 .innerJoin(receiptItem).on(incomingInspection.receiptItem.id.eq(receiptItem.id))
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
@@ -80,5 +85,42 @@ public class IncomingInspectionQueryRepositoryImpl implements IncomingInspection
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Optional<IncomingInspectionSummaryDto> fetchByLotId(Long lotId) {
+        return Optional.ofNullable(
+                query.select(new QIncomingInspectionSummaryDto(
+                                incomingInspection.id,
+                                inspection.inspectionNo,
+                                inspection.date,
+                                receipt.receiptNo,
+                                receipt.date,
+                                item.code,
+                                item.name,
+                                item.type,
+                                item.specification,
+                                lot.no,
+                                receiptItem.quantity,
+                                uom.code,
+                                uom.scale,
+                                user.name,
+                                inspection.status,
+                                inspection.judgement
+                        ))
+                        .from(incomingInspection)
+                        .innerJoin(inspection).on(incomingInspection.inspection.id.eq(inspection.id))
+                        .innerJoin(user).on(inspection.inspector.id.eq(user.id))
+                        .innerJoin(receiptItem).on(incomingInspection.receiptItem.id.eq(receiptItem.id))
+                        .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                        .innerJoin(item).on(receiptItem.item.id.eq(item.id))
+                        .innerJoin(uom).on(receiptItem.uom.id.eq(uom.id))
+                        .innerJoin(lot).on(receiptItem.lot.id.eq(lot.id))
+                        .where(
+                                notDeleted(incomingInspection.deletedAt),
+                                eq(receiptItem.lot.id, lotId)
+                        )
+                        .fetchOne()
+        );
     }
 }

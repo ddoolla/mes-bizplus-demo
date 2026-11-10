@@ -1,0 +1,107 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="list (title, materialInputs, viewMaterialInfo)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold" th:text="${title}"></p>
+            </div>
+        </div>
+
+        <th:block th:if="${viewMaterialInfo}">
+            <div>
+                <table class="app-table-list text-center">
+                    <colgroup>
+                        <col style="width: 150px">
+                        <col style="width: 200px">
+                        <col style="width: 200px">
+                        <col style="width: 150px">
+                        <col style="width: 200px">
+                        <col style="width: 150px">
+                        <col style="width: 150px">
+                        <col style="width: 150px">
+                        <col style="width: 120px">
+                        <col style="width: auto">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>LOT</th>
+                        <th>자재 코드</th>
+                        <th>자재명</th>
+                        <th>유형</th>
+                        <th>규격</th>
+                        <th>투입 공정</th>
+                        <th>투입 일시</th>
+                        <th>투입 수량</th>
+                        <th>투입 유형</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(materialInputs)}">
+                        <td colspan="10" class="p-4">등록된 투입자재 정보가 없습니다.</td>
+                    </tr>
+                    <tr th:each="input : ${materialInputs}">
+                        <td class="fw-bold">
+                            <a th:href="@{/lots/{id}(id=${input.lot.id})}"
+                               th:text="${input.lot.no}"></a>
+                        </td>
+                        <td th:text="${input.item.code}"></td>
+                        <td th:text="${input.item.name}"></td>
+                        <td th:text="${input.item.type?.description}"></td>
+                        <td th:text="${@format.value(input.item.specification)}"></td>
+                        <td th:text="${input.workOrder.processName}"></td>
+                        <td th:text="${#temporals.format(input.inputAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="|${#numbers.formatDecimal(input.quantity, 1, 'COMMA', input.uom.scale, 'POINT') ?: '-'} ${input.uom.code}|"></td>
+                        <td th:text="${input.type?.description}"></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+        <th:block th:if="${!viewMaterialInfo}">
+            <div>
+                <table class="app-table-list text-center">
+                    <colgroup>
+                        <col style="width: 150px">
+                        <col style="width: 150px">
+                        <col style="width: 150px">
+                        <col style="width: 150px">
+                        <col style="width: 120px">
+                        <col style="width: auto">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>작업지시 번호</th>
+                        <th>작업 공정</th>
+                        <th>투입 일시</th>
+                        <th>투입 수량</th>
+                        <th>투입 유형</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(materialInputs)}">
+                        <td colspan="6" class="p-4">등록된 투입자재 정보가 없습니다.</td>
+                    </tr>
+                    <tr th:each="input : ${materialInputs}">
+                        <td class="fw-bold">
+                            <a th:href="@{/work-orders/{id}(id=${input.workOrder.id})}"
+                               th:text="${input.workOrder.orderNo}"></a>
+                        </td>
+                        <td th:text="${input.workOrder.processName}"></td>
+                        <td th:text="${#temporals.format(input.inputAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="|${#numbers.formatDecimal(input.quantity, 1, 'COMMA', input.uom.scale, 'POINT') ?: '-'} ${input.uom.code}|"></td>
+                        <td th:text="${input.type?.description}"></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+    </div>
+</th:block>
+
+</html>

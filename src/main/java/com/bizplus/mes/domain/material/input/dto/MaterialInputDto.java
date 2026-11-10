@@ -15,6 +15,7 @@ public class MaterialInputDto {
     private final MaterialInputType type;
     private final BigDecimal quantity;
     private final LocalDateTime inputAt;
+    private final WorkOrderInfo workOrder;
     private final ItemInfo item;
     private final UomInfo uom;
     private final LotInfo lot;
@@ -24,6 +25,9 @@ public class MaterialInputDto {
                             MaterialInputType type,
                             BigDecimal quantity,
                             LocalDateTime inputAt,
+                            Long workOrderId,
+                            String workOrderNo,
+                            String processName,
                             Long itemId,
                             String itemCode,
                             String itemName,
@@ -38,6 +42,11 @@ public class MaterialInputDto {
         this.type = type;
         this.quantity = quantity;
         this.inputAt = inputAt;
+        this.workOrder = new WorkOrderInfo(
+                workOrderId,
+                workOrderNo,
+                processName
+        );
         this.item = new ItemInfo(
                 itemId,
                 itemCode,
@@ -54,6 +63,9 @@ public class MaterialInputDto {
                 lotId,
                 lotNo
         );
+    }
+
+    public record WorkOrderInfo(Long id, String orderNo, String processName) {
     }
 
     public record ItemInfo(Long id,

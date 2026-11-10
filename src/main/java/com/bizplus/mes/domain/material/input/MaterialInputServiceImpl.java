@@ -1,6 +1,5 @@
 package com.bizplus.mes.domain.material.input;
 
-import com.bizplus.mes.domain.inventory.InventoryReader;
 import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.material.input.dto.MaterialConsumptionDto;
 import com.bizplus.mes.domain.material.input.dto.MaterialInputDto;
@@ -24,7 +23,6 @@ public class MaterialInputServiceImpl implements MaterialInputService {
 
     private final MaterialInputRepository materialInputRepository;
 
-    private final InventoryReader inventoryReader;
     private final WorkOrderReader workOrderReader;
     private final ProcessMaterialReader processMaterialReader;
 

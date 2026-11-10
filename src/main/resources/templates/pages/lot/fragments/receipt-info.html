@@ -1,0 +1,67 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="info (receiptItem)">
+    <div class="app-box app-box-bg mt-2">
+        <div>
+            <div>
+                <p class="h5 fw-bold">입고 정보</p>
+            </div>
+        </div>
+
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: 120px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>입고 번호</th>
+                    <th>입고일</th>
+                    <th>입고 수량</th>
+                    <th>상태</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${receiptItem == null}">
+                    <td colspan="5" class="p-4">등록된 입고 정보가 없습니다.</td>
+                </tr>
+                <tr th:if="${receiptItem != null}">
+                    <td class="fw-bold">
+                        <a th:href="@{/receipts/{id}(id=${receiptItem.receipt.id})}"
+                           th:text="${receiptItem.receipt.no}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(receiptItem.receipt.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="|${#numbers.formatDecimal(receiptItem.quantity, 1, 'COMMA', receiptItem.uom.scale, 'POINT') ?: '-'} ${receiptItem.uom.code}|"></td>
+                    <td th:switch="${receiptItem.status.name}">
+                        <h6 th:case="'PENDING'" class="mb-0">
+                            <span class="badge text-bg-secondary p-2 app-w-80"
+                                  th:text="${receiptItem.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'ON_HOLD'" class="mb-0">
+                            <span class="badge text-bg-warning p-2 app-w-80"
+                                  th:text="${receiptItem.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'RETURNED'" class="mb-0">
+                            <span class="badge text-bg-danger p-2 app-w-80"
+                                  th:text="${receiptItem.status?.description}"></span>
+                        </h6>
+                        <h6 th:case="'COMPLETED'" class="mb-0">
+                            <span class="badge text-bg-success p-2 app-w-80"
+                                  th:text="${receiptItem.status?.description}"></span>
+                        </h6>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+</html>

@@ -12,6 +12,8 @@ public interface LotQueryRepository {
 
     Page<LotDto> fetchAll(LotSearchDto dto, Pageable pageable);
 
+    Page<LotDto> fetchAllByItemId(Long itemId, LotSearchDto dto, Pageable pageable);
+
     Optional<LotDto> fetchById(Long id);
 
     Optional<LotDto> fetchByLotNo(String lotNo);

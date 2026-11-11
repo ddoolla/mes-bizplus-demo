@@ -7,6 +7,8 @@ public interface LotService {
 
     LotListDto getAll(LotSearchDto dto, Pageable pageable);
 
+    LotListDto getAllByItemId(Long itemId, LotSearchDto dto, Pageable pageable);
+
     LotDto getById(Long id);
 
     LotDto getByLotNo(String lotNo);

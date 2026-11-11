@@ -7,6 +7,7 @@ import com.bizplus.mes.domain.item.Item;
 import com.bizplus.mes.domain.item.ItemReader;
 import com.bizplus.mes.domain.lot.Lot;
 import com.bizplus.mes.domain.lot.LotReader;
+import com.bizplus.mes.domain.lot.LotValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,14 +25,31 @@ public class InventoryManager {
 
     private final ItemReader itemReader;
     private final LotReader lotReader;
+    private final LotValidator lotValidator;
 
+    /**
+     * 재고 잠금 조회
+     */
+    public Inventory getForUpdate(Long itemId, Long lotId) {
+        itemReader.getForUpdate(itemId);
+
+        return inventoryRepository.findInventoryForUpdate(itemId, lotId)
+                .orElse(null);
+    }
+
+    /**
+     * 락 얻는 순서 ★★★
+     * 1. item - 동일 품목 재고 변경이 동시에 일어나는 것을 방지
+     * 2. inventory - 락을 얻으면서 최신 재고를 조회
+     */
     @Transactional
     public void changeStock(@Valid InventoryChangeDto dto) {
         // 1. 품목 조회 및 잠금 (동시 입력 방지)
         Item item = itemReader.getForUpdate(dto.getItemId());
+        Lot lot = lotReader.getByIdOrNull(dto.getLotId());
 
         // 2. LOT 검증
-        Lot lot = validateAndGetLot(item, dto.getLotId());
+        lotValidator.validate(item, lot);
 
         // 3. 증감 수량 계산
         BigDecimal signedQuantity = dto.getType().getSignedQuantity(dto.getQuantity());
@@ -67,23 +85,5 @@ public class InventoryManager {
                 dto.getReferenceType(),
                 dto.getReferenceId()
         ));
-    }
-
-    private Lot validateAndGetLot(Item item, Long lotId) {
-        if (item.isLotManaged()) {
-            if (lotId == null) {
-                throw new IllegalArgumentException("LOT 관리 품목은 LOT가 필수입니다.");
-            }
-
-            Lot lot = lotReader.getById(lotId);
-
-            if (!lot.getItem().getId().equals(item.getId())) {
-                throw new IllegalArgumentException("해당 품목의 LOT가 아닙니다.");
-            }
-
-            return lot;
-        }
-
-        return null;
     }
 }

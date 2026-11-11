@@ -29,6 +29,13 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
+    public LotListDto getAllByItemId(Long itemId, LotSearchDto dto, Pageable pageable) {
+        Page<LotDto> page = lotRepository.fetchAllByItemId(itemId, dto, pageable);
+
+        return new LotListDto(page.getContent(), Pagination.of(page));
+    }
+
+    @Override
     public LotDto getById(Long id) {
         return lotRepository.fetchById(id)
                 .orElseThrow(() -> new BusinessException(

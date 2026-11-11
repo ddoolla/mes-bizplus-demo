@@ -28,14 +28,6 @@ public class InventoryReader {
                         String.format("itemId: %d, lotId: %d", itemId, lotId)));
     }
 
-    public Inventory getForUpdate(Long itemId, Long lotId) {
-        return inventoryRepository.findInventoryForUpdate(itemId, lotId)
-                .orElseThrow(() -> new BusinessException(
-                        ErrorCode.INVENTORY_NOT_FOUND,
-                        String.format("itemId: %d, lotId: %d", itemId, lotId)));
-
-    }
-
     public List<Inventory> getAllAvailable(Long itemId) {
         return inventoryRepository.findAvailableInventories(itemId);
     }

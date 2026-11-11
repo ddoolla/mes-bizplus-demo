@@ -17,10 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -70,6 +67,17 @@ public class LotController {
         model.addAttribute("lot", lotService.getById(id));
 
         return "pages/lot/edit";
+    }
+
+    @GetMapping("/modal/select/list")
+    @PreAuthorize("hasAuthority('LOT_READ')")
+    public String viewSelectModal(Model model,
+                                  LotSearchDto dto,
+                                  @RequestParam Long itemId,
+                                  @PageableDefault Pageable pageable) {
+        model.addAttribute("data", lotService.getAllByItemId(itemId, dto, pageable));
+
+        return "pages/lot/modal/select :: list";
     }
 
     @PostMapping("/{id}")

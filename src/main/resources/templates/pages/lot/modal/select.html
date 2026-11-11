@@ -1,0 +1,103 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/* LOT 선택 모달 */-->
+<th:block th:fragment="modal">
+    <div th:replace="~{fragments/modal/default :: default (
+        'lot-select-modal',
+        'LOT 선택',
+         ~{::.app-modal-content},
+         800
+    )}">
+        <div class="app-modal-content p-2">
+            <div class="modal-body">
+                <!--/* 필터 */-->
+                <div>
+                    <form class="search-form" method="GET">
+                        <table class="app-table-input">
+                            <colgroup>
+                                <col style="width: 80px">
+                                <col style="width: auto">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>LOT</th>
+                                <td>
+                                    <input type="text"
+                                           name="lotNo"
+                                           class="app-form-control app-xs"
+                                           th:value="${param.lotNo}">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-search"></i> 조회
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!--/* 목록 */-->
+                <div class="list-content"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!--/* 모달 목록 콘텐츠 */-->
+<th:block th:fragment="list">
+    <div class="d-flex justify-content-start">
+        <div class="fw-bold"
+             th:text="|Total : ${data.pagination.totalElements} 건|">
+        </div>
+    </div>
+    <div>
+        <table class="app-table-list text-center">
+            <colgroup>
+                <col style="width: 200px">
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: 150px">
+                <col style="width: 120px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>LOT</th>
+                <th>제조 일자</th>
+                <th>유효 기간</th>
+                <th>재고 수량</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(data.lots)}">
+                <td colspan="5" class="p-4">등록된 LOT 정보가 없습니다.</td>
+            </tr>
+            <tr th:each="lot : ${data.lots}">
+                <td th:text="${lot.no}"></td>
+                <td th:text="${#temporals.format(lot.manufactureDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(lot.expirationDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="|${#numbers.formatDecimal(lot.inventory?.quantity, 1, 'COMMA', lot.item.uom.scale, 'POINT') ?: '-'} ${lot.item.uom.code}|"></td>
+                <td>
+                    <button type="button"
+                            class="select-button
+                                   btn btn-primary btn-sm app-w-80"
+                            th:data-id="${lot.id}"
+                            th:data-no="${lot.no}"
+                            th:data-quantity-display="|${#numbers.formatDecimal(lot.inventory?.quantity, 1, 'COMMA', lot.item.uom.scale, 'POINT') ?: '-'} ${lot.item.uom.code}|"
+                            th:data-quantity="${lot.inventory?.quantity}">
+                        선택
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--/* 페이지네이션 */-->
+    <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+</th:block>
+
+</html>

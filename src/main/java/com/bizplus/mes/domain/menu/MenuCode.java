@@ -42,11 +42,12 @@ public enum MenuCode {
     INVENTORY(null, "재고 관리", MenuType.GROUP, null, 280),
     ITEM_INVENTORY(INVENTORY, "재고 현황", MenuType.MENU, "/inventories", 290),
     INVENTORY_TRANSACTION(INVENTORY, "재고 내역", MenuType.MENU, "/inventory-transactions", 300),
-    LOT(INVENTORY, "LOT 관리", MenuType.MENU, "/lots", 310),
+    INVENTORY_ADJUSTMENT(INVENTORY, "재고 조정", MenuType.MENU, "/inventory-adjustments", 310),
+    LOT(INVENTORY, "LOT 관리", MenuType.MENU, "/lots", 320),
 
-    QUALITY(null, "품질 관리", MenuType.GROUP, null, 320),
-    INCOMING_INSPECTION(QUALITY, "입고검사", MenuType.MENU, "/incoming-inspections", 330),
-    IN_PROCESS_INSPECTION(QUALITY, "공정검사", MenuType.MENU, "/in-process-inspections", 340);
+    QUALITY(null, "품질 관리", MenuType.GROUP, null, 330),
+    INCOMING_INSPECTION(QUALITY, "입고검사", MenuType.MENU, "/incoming-inspections", 340),
+    IN_PROCESS_INSPECTION(QUALITY, "공정검사", MenuType.MENU, "/in-process-inspections", 350);
 
     private final MenuCode parent;
     private final String name;

@@ -116,6 +116,9 @@ public enum PermissionCode {
 
     INVENTORY_TRANSACTION_READ(MenuCode.INVENTORY_TRANSACTION, "재고 내역 조회", PermissionAction.READ),
 
+    INVENTORY_ADJUSTMENT_READ(MenuCode.INVENTORY_ADJUSTMENT, "재고 조정 조회", PermissionAction.READ),
+    INVENTORY_ADJUSTMENT_CREATE(MenuCode.INVENTORY_ADJUSTMENT, "재고 조정 등록", PermissionAction.CREATE),
+
     LOT_READ(MenuCode.LOT, "로트 조회", PermissionAction.READ),
     LOT_UPDATE(MenuCode.LOT, "로트 수정", PermissionAction.UPDATE),
 

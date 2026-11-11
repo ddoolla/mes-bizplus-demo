@@ -28,6 +28,25 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
 
     private final JPAQueryFactory query;
 
+    private final QLotDto lotProjection = new QLotDto(
+            lot.id,
+            lot.no,
+            lot.initialQuantity,
+            lot.manufactureDate,
+            lot.expirationDate,
+            lot.remark,
+            item.id,
+            item.code,
+            item.name,
+            item.type,
+            item.specification,
+            uom.id,
+            uom.code,
+            uom.scale,
+            inventory.id,
+            inventory.quantity
+    );
+
     @Override
     public Page<LotDto> fetchAll(LotSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
@@ -36,28 +55,11 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                 .and(contains(lot.no, dto.getLotNo()));
 
         List<LotDto> content = query
-                .select(new QLotDto(
-                        lot.id,
-                        lot.no,
-                        lot.initialQuantity,
-                        lot.manufactureDate,
-                        lot.expirationDate,
-                        lot.remark,
-                        item.id,
-                        item.code,
-                        item.name,
-                        item.type,
-                        item.specification,
-                        uom.id,
-                        uom.code,
-                        uom.scale,
-                        inventory.id,
-                        inventory.quantity
-                ))
+                .select(lotProjection)
                 .from(lot)
                 .innerJoin(item).on(lot.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
-                .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
+                .leftJoin(inventory).on(inventory.lot.id.eq(lot.id))
                 .where(searchCondition)
                 .orderBy(lot.no.desc())
                 .limit(pageable.getPageSize())
@@ -69,7 +71,37 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
                 .from(lot)
                 .innerJoin(item).on(lot.item.id.eq(item.id))
                 .innerJoin(uom).on(item.uom.id.eq(uom.id))
-                .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
+                .leftJoin(inventory).on(inventory.lot.id.eq(lot.id))
+                .where(searchCondition);
+
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Page<LotDto> fetchAllByItemId(Long itemId, LotSearchDto dto, Pageable pageable) {
+        BooleanBuilder searchCondition = new BooleanBuilder()
+                .and(notDeleted(lot.deletedAt))
+                .and(contains(lot.no, dto.getLotNo()))
+                .and(eq(lot.item.id, itemId));
+
+        List<LotDto> content = query
+                .select(lotProjection)
+                .from(lot)
+                .innerJoin(item).on(lot.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(inventory).on(inventory.lot.id.eq(lot.id))
+                .where(searchCondition)
+                .orderBy(lot.no.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+
+        JPAQuery<Long> count = query
+                .select(lot.count())
+                .from(lot)
+                .innerJoin(item).on(lot.item.id.eq(item.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .leftJoin(inventory).on(inventory.lot.id.eq(lot.id))
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
@@ -79,28 +111,11 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
     public Optional<LotDto> fetchById(Long id) {
         return Optional.ofNullable(
                 query
-                        .select(new QLotDto(
-                                lot.id,
-                                lot.no,
-                                lot.initialQuantity,
-                                lot.manufactureDate,
-                                lot.expirationDate,
-                                lot.remark,
-                                item.id,
-                                item.code,
-                                item.name,
-                                item.type,
-                                item.specification,
-                                uom.id,
-                                uom.code,
-                                uom.scale,
-                                inventory.id,
-                                inventory.quantity
-                        ))
+                        .select(lotProjection)
                         .from(lot)
                         .innerJoin(item).on(lot.item.id.eq(item.id))
                         .innerJoin(uom).on(item.uom.id.eq(uom.id))
-                        .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
+                        .leftJoin(inventory).on(inventory.lot.id.eq(lot.id))
                         .where(
                                 notDeleted(lot.deletedAt),
                                 eq(lot.id, id)
@@ -113,28 +128,11 @@ public class LotQueryRepositoryImpl implements LotQueryRepository {
     public Optional<LotDto> fetchByLotNo(String lotNo) {
         return Optional.ofNullable(
                 query
-                        .select(new QLotDto(
-                                lot.id,
-                                lot.no,
-                                lot.initialQuantity,
-                                lot.manufactureDate,
-                                lot.expirationDate,
-                                lot.remark,
-                                item.id,
-                                item.code,
-                                item.name,
-                                item.type,
-                                item.specification,
-                                uom.id,
-                                uom.code,
-                                uom.scale,
-                                inventory.id,
-                                inventory.quantity
-                        ))
+                        .select(lotProjection)
                         .from(lot)
                         .innerJoin(item).on(lot.item.id.eq(item.id))
                         .innerJoin(uom).on(item.uom.id.eq(uom.id))
-                        .innerJoin(inventory).on(inventory.lot.id.eq(lot.id))
+                        .leftJoin(inventory).on(inventory.lot.id.eq(lot.id))
                         .where(
                                 notDeleted(lot.deletedAt),
                                 eq(lot.no, lotNo)

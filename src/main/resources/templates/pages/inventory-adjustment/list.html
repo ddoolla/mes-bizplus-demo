@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main :: layout ('재고 조정 목록', ~{}, ~{::script}, 'INVENTORY_ADJUSTMENT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/inventory-adjustment/list.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('재고 조정 목록', '재고관리, 재고조정')}">
+    </div>
+
+    <!--/* 바디 */-->
+    <div class="app-box app-box-bg">
+        <!--/* 필터 */-->
+        <div th:replace="~{pages/inventory-adjustment/fragments/filter :: filter ('/inventory-adjustments', ${data.pagination.totalElements})}">
+        </div>
+
+        <!--/* 목록 */-->
+        <div>
+            <table class="app-table-list text-center">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 200px">
+                    <col style="width: 150px">
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>조정 일자</th>
+                    <th>품목 코드</th>
+                    <th>품목명</th>
+                    <th>LOT</th>
+                    <th>조정 전 수량</th>
+                    <th>조정 후 수량</th>
+                    <th>조정 사유</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(data.inventoryAdjustments)}">
+                    <td colspan="7" class="p-4">등록된 재고 조정 정보가 없습니다.</td>
+                </tr>
+                <tr th:each="adjustment : ${data.inventoryAdjustments}">
+                    <td th:text="${#temporals.format(adjustment.date, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${adjustment.item.code}"></td>
+                    <td th:text="${adjustment.item.name}"></td>
+                    <td th:text="${@format.value(adjustment.lot.no)}"></td>
+                    <td th:text="|${#numbers.formatDecimal(adjustment.beforeQuantity, 1, 'COMMA', adjustment.item.uom.scale, 'POINT')} ${adjustment.item.uom.code}|"></td>
+                    <td th:text="|${#numbers.formatDecimal(adjustment.afterQuantity, 1, 'COMMA', adjustment.item.uom.scale, 'POINT')} ${adjustment.item.uom.code}|"></td>
+                    <td th:text="${@format.value(adjustment.reason)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/* 페이지네이션 */-->
+        <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
+    </div>
+</div>
+</body>
+</html>

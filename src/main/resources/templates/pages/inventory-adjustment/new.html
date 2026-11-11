@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main :: layout ('재고 조정 등록', ~{}, ~{::script}, 'INVENTORY_ADJUSTMENT', ~{::#app-content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" th:src="@{/js/pages/inventory-adjustment/new.js}"></script>
+</head>
+<body>
+<!--/* 콘텐츠 */-->
+<div id="app-content">
+    <!--/* 헤더 */-->
+    <div th:replace="~{fragments/content :: header ('재고 조정 등록', '재고관리, 자재조정, 등록')}">
+    </div>
+
+    <!--/* 버튼 영역 */-->
+    <div class="action-bar">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                th:onclick="|location.href='@{/inventory-adjustments}'|">
+            <i class="bi bi-x-circle"></i> 취소
+        </button>
+
+        <button type="submit"
+                form="new-form"
+                class="btn btn-primary btn-sm"
+                sec:authorize="hasAuthority('INVENTORY_ADJUSTMENT_CREATE')">
+            <i class="bi bi-floppy"></i> 저장
+        </button>
+    </div>
+
+    <!--/* 등록 양식 */-->
+    <div class="app-box app-box-bg">
+        <form id="new-form" method="post" th:action="@{/inventory-adjustments}">
+            <table class="app-table-input">
+                <colgroup>
+                    <col style="width: 150px">
+                    <col style="width: auto">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>품목 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="itemName"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               placeholder="품목을 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="itemId"/>
+                        <button type="button"
+                                id="item-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> 품목 목록
+                        </button>
+                        <div id="item-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>LOT</th>
+                    <td>
+                        <input type="text"
+                               name="lotNo"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               placeholder="LOT를 선택해 주세요."
+                               readonly/>
+                        <input type="hidden" name="lotId"/>
+                        <button type="button"
+                                id="lot-list-button"
+                                class="btn btn-secondary app-btn-xs">
+                            <i class="bi bi-list"></i> LOT 목록
+                        </button>
+                        <div id="lot-error-container"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>조정일 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="text"
+                               name="date"
+                               class="app-form-control app-xs app-w-400"
+                               th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"
+                               readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>조정 전 수량</th>
+                    <td>
+                        <input type="text"
+                               name="beforeQuantityDisplay"
+                               class="app-form-control app-xs app-readonly-bg app-w-400"
+                               readonly/>
+                        <input type="hidden" name="beforeQuantity"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>조정 후 수량 <span class="app-required">*</span></th>
+                    <td>
+                        <input type="number"
+                               name="afterQuantity"
+                               class="app-form-control app-xs app-w-400"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>조정 사유</th>
+                    <td>
+                        <input type="text"
+                               name="reason"
+                               class="app-form-control app-xs app-w-400"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!--/* 품목 선택 모달 */-->
+    <div th:replace="~{pages/item/modal/select :: modal (
+        @{/items/modal/select/list},
+        '',
+        ${itemCategories},
+        ${itemTypes})}">
+    </div>
+
+    <!--/* LOT 선택 모달 */-->
+    <div th:replace="~{pages/lot/modal/select :: modal}"></div>
+</div>
+</body>
+</html>

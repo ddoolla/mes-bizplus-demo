@@ -27,6 +27,9 @@ dependencies {
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 
+	// excel
+	implementation("org.apache.poi:poi-ooxml:6.0.0")
+
 	// query-dsl
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
 	annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     type: 'get',
                     data: {
                         id: function () {
-                            return $('#id').val();
+                            return $('[name="id"]').val();
                         }
                     }
                 },

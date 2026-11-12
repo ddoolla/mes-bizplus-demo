@@ -40,32 +40,22 @@
             <table class="app-table-input">
                 <colgroup>
                     <col style="width: 150px">
-                    <col style="width: auto">
+                    <col style="width: 500px">
                     <col style="width: 150px">
                     <col style="width: auto">
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th>
-                        <label for="partner-code">
-                            거래처 코드 <span class="app-required">*</span>
-                        </label>
-                    </th>
+                    <th>거래처 코드 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
-                               id="partner-code"
                                name="code"
                                class="app-form-control app-xs"
                                placeholder="거래처 코드를 입력해 주세요."/>
                     </td>
-                    <th>
-                        <label for="partner-type">
-                            거래처 유형 <span class="app-required">*</span>
-                        </label>
-                    </th>
+                    <th>거래처 유형 <span class="app-required">*</span></th>
                     <td>
                         <select name="type"
-                                id="partner-type"
                                 class="app-form-control app-xs">
                             <option th:each="type: ${partnerTypes}"
                                     th:value="${type?.name()}"
@@ -75,113 +65,68 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="partner-name">
-                            거래처명 <span class="app-required">*</span>
-                        </label>
-                    </th>
+                    <th>거래처명 <span class="app-required">*</span></th>
                     <td>
                         <input type="text"
-                               id="partner-name"
                                name="name"
                                class="app-form-control app-xs"
                                placeholder="거래처명을 입력해 주세요."/>
                     </td>
-                    <th>
-                        <label for="partner-ceoName">
-                            대표자명
-                        </label>
-                    </th>
+                    <th>대표자명</th>
                     <td>
                         <input type="text"
-                               id="partner-ceoName"
                                name="ceoName"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="business-no">
-                            사업자등록번호
-                        </label>
-                    </th>
+                    <th>사업자등록번호</th>
                     <td>
                         <input type="text"
-                               id="business-no"
                                name="businessNo"
                                class="app-form-control app-xs"/>
                     </td>
-                    <th>
-                        <label for="corporate-no">
-                            법인등록번호
-                        </label>
-                    </th>
+                    <th>법인등록번호</th>
                     <td>
                         <input type="text"
-                               id="corporate-no"
                                name="corporateNo"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="tel">
-                            전화번호
-                        </label>
-                    </th>
+                    <th>전화번호</th>
                     <td>
                         <input type="text"
-                               id="tel"
                                name="tel"
                                class="app-form-control app-xs"/>
                     </td>
-                    <th>
-                        <label for="fax">
-                            팩스번호
-                        </label>
-                    </th>
+                    <th>팩스번호</th>
                     <td>
                         <input type="text"
-                               id="fax"
                                name="fax"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="partner-email">
-                            이메일
-                        </label>
-                    </th>
+                    <th>이메일</th>
                     <td>
                         <input type="text"
-                               id="partner-email"
                                name="email"
                                class="app-form-control app-xs"/>
                     </td>
-                    <th>
-                        <label for="home-page">
-                            홈페이지
-                        </label>
-                    </th>
+                    <th>홈페이지</th>
                     <td>
                         <input type="text"
-                               id="home-page"
                                name="home-page"
                                class="app-form-control app-xs"/>
                     </td>
                 </tr>
                 <tr>
-                    <th rowspan="3">
-                        <label for="partner-address">
-                            주소
-                        </label>
-                    </th>
+                    <th rowspan="3">주소</th>
                     <td colspan="3">
                         <input type="text"
-                               id="partner-address"
                                name="zipCode"
-                               class="app-form-control app-xs w-25"
+                               class="app-form-control app-xs app-w-400"
                                placeholder="우편번호"/>
                         <button type="button"
                                 id="address-search-button"
@@ -207,12 +152,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        <label for="partner-remark">비고</label>
-                    </th>
+                    <th>비고</th>
                     <td colspan="3">
                         <input type="text"
-                               id="partner-remark"
                                name="remark"
                                class="app-form-control app-xs"/>
                     </td>

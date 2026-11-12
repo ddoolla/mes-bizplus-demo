@@ -23,18 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* 거래처 선택 모달 */
-    partnerListButton.addEventListener('click', function () {
-        partnerSingleListModal.open({
-            title: '매출처 목록',
-            url: '/partners/modal/list/single',
-            params: {type: 'CUSTOMER'},
-            onSelect: (partner) => {
-                partnerIdInput.value = partner.id;
-                partnerNameInput.value = partner.name;
-                partnerSingleListModal.close();
-            }
+    if (partnerListButton) {
+        partnerListButton.addEventListener('click', function () {
+            partnerSingleListModal.open({
+                title: '매출처 목록',
+                url: '/partners/modal/list/single',
+                params: {type: 'CUSTOMER'},
+                onSelect: (partner) => {
+                    partnerIdInput.value = partner.id;
+                    partnerNameInput.value = partner.name;
+                    partnerSingleListModal.close();
+                }
+            });
         });
-    });
+    }
 
     /* 폼 유효성 검사 */
     $(salesOrderEditForm).validate({

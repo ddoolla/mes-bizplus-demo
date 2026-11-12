@@ -17,70 +17,74 @@ document.addEventListener('DOMContentLoaded', function () {
     checkbox.init(checkboxGroup);
 
     /* 수주 품목 등록 */
-    createButton.addEventListener('click', function () {
-        itemMultiSelectModal.open({
-            title: '제품 목록',
-            url: `/items/modal/multi-select/stock-list`,
-            params: {group: 'PRODUCT'},
-            onRegister: async (selectedIds) => {
-                const salesOrderId = salesOrderEditForm.querySelector('[name="id"]').value;
+    if (createButton) {
+        createButton.addEventListener('click', function () {
+            itemMultiSelectModal.open({
+                title: '제품 목록',
+                url: `/items/modal/multi-select/stock-list`,
+                params: {group: 'PRODUCT'},
+                onRegister: async (selectedIds) => {
+                    const salesOrderId = salesOrderEditForm.querySelector('[name="id"]').value;
 
-                try {
-                    const response = await ajax.post(
-                        `/sales-orders/${salesOrderId}/items`,
-                        {itemIds: selectedIds}
-                    );
+                    try {
+                        const response = await ajax.post(
+                            `/sales-orders/${salesOrderId}/items`,
+                            {itemIds: selectedIds}
+                        );
 
-                    itemMultiSelectModal.close();
+                        itemMultiSelectModal.close();
 
-                    toast.afterReload({
-                        message: response.message,
-                    });
+                        toast.afterReload({
+                            message: response.message,
+                        });
 
-                    location.reload();
+                        location.reload();
 
-                } catch (xhr) {
-                    toast.error({
-                        message: xhr.responseJSON.message,
-                    });
+                    } catch (xhr) {
+                        toast.error({
+                            message: xhr.responseJSON.message,
+                        });
+                    }
                 }
-            }
+            });
         });
-    });
+    }
 
     /* 수주 품목 삭제 */
-    deleteButton.addEventListener('click', async function () {
-        const selectedIds = checkbox.getCheckedValues(checkboxGroup);
+    if (deleteButton) {
+        deleteButton.addEventListener('click', async function () {
+            const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 
-        if (!selectedIds.length) {
-            toast.error({
-                message: '항목을 선택해 주세요.'
-            });
+            if (!selectedIds.length) {
+                toast.error({
+                    message: '항목을 선택해 주세요.'
+                });
 
-            return;
-        }
-
-        confirmModal.open({
-            title: '삭제 확인',
-            content: '정말 삭제하시겠습니까?',
-            onConfirm: async () => {
-                try {
-                    const response = await ajax.delete('/sales-order-items', selectedIds);
-
-                    toast.afterReload({
-                        message: response.message,
-                    });
-
-                    location.reload();
-
-                } catch (xhr) {
-                    toast.error({
-                        message: xhr.responseJSON.message,
-                    });
-                }
+                return;
             }
+
+            confirmModal.open({
+                title: '삭제 확인',
+                content: '정말 삭제하시겠습니까?',
+                onConfirm: async () => {
+                    try {
+                        const response = await ajax.delete('/sales-order-items', selectedIds);
+
+                        toast.afterReload({
+                            message: response.message,
+                        });
+
+                        location.reload();
+
+                    } catch (xhr) {
+                        toast.error({
+                            message: xhr.responseJSON.message,
+                        });
+                    }
+                }
+            });
         });
-    });
+    }
 
     /* 금액 계산 */
     const calculateAmount = (row) => {

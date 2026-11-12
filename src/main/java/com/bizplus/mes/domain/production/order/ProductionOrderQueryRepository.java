@@ -5,7 +5,6 @@ import com.bizplus.mes.domain.production.order.dto.ProductionOrderSearchDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 public interface ProductionOrderQueryRepository {
@@ -15,6 +14,4 @@ public interface ProductionOrderQueryRepository {
     Optional<ProductionOrderDto> findProductionOrder(Long id);
 
     Optional<ProductionOrder> findProductionOrderForUpdate(Long id);
-
-    String findMaxOrderNo(LocalDate date);
 }

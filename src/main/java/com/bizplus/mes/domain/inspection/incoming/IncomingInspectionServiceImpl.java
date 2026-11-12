@@ -1,8 +1,6 @@
 package com.bizplus.mes.domain.inspection.incoming;
 
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.inspection.*;
 import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionDto;
 import com.bizplus.mes.domain.inspection.incoming.dto.IncomingInspectionListDto;
@@ -12,6 +10,8 @@ import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpecReader;
 import com.bizplus.mes.domain.receipt.item.ReceiptItem;
 import com.bizplus.mes.domain.receipt.item.ReceiptItemReader;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import com.bizplus.mes.domain.user.User;
 import com.bizplus.mes.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +35,8 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
     private final ReceiptItemReader receiptItemReader;
     private final InspectionReader inspectionReader;
     private final IncomingInspectionReader incomingInspectionReader;
+
+    private final CodeGenerator codeGenerator;
 
     @Override
     public IncomingInspectionListDto getAll(IncomingInspectionSearchDto dto, Pageable pageable) {
@@ -61,11 +63,7 @@ public class IncomingInspectionServiceImpl implements IncomingInspectionService 
         InspectionSpec inspectionSpec = inspectionSpecReader.getById(inspectionSpecId);
         User inspector = SecurityUtils.getCurrentUser().getUser();
 
-        String newInspectionNo = CodeGenerator.generate(
-                CodePrefix.INCOMING_INSPECTION,
-                date,
-                inspectionRepository.findMaxInspectionNo(date, InspectionType.INCOMING)
-        );
+        String newInspectionNo = codeGenerator.generate(CodePrefix.INCOMING_INSPECTION, date);
 
         // 검사 정보 생성
         Inspection newInspection = inspectionRepository.save(new Inspection(

@@ -3,14 +3,14 @@ package com.bizplus.mes.domain.work.order;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.equipment.Equipment;
 import com.bizplus.mes.domain.equipment.EquipmentReader;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
 import com.bizplus.mes.domain.production.order.ProductionOrderReader;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcess;
 import com.bizplus.mes.domain.production.order.process.ProductionOrderProcessReader;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import com.bizplus.mes.domain.user.User;
 import com.bizplus.mes.domain.user.UserReader;
 import com.bizplus.mes.domain.work.order.dto.*;
@@ -39,6 +39,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     private final ProductionOrderReader productionOrderReader;
     private final ProductionOrderProcessReader productionOrderProcessReader;
     private final WorkOrderReader workOrderReader;
+
+    private final CodeGenerator codeGenerator;
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -90,22 +92,24 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Override
     public void autoCreateWorkOrders(Long productionOrderId, WorkOrderCreateDto dto) {
         List<Long> popIds = dto.getProductionOrderProcessIds();
-        LocalDate today = LocalDate.now();
 
         ProductionOrder productionOrder = productionOrderReader.getById(productionOrderId);
 
         popIds.forEach(popId -> {
             ProductionOrderProcess pop = productionOrderProcessReader.getById(popId);
 
-            String maxOrderNo = workOrderRepository.findMaxOrderNo(today);
-
             boolean processInspectionRequired = pop.getRoutingProcess().isProcessInspectionRequired();
+
+            String newOrderNo = codeGenerator.generate(
+                    CodePrefix.WORK_ORDER,
+                    LocalDate.now()
+            );
 
             workOrderRepository.save(new WorkOrder(
                     pop,
                     null,
                     null,
-                    CodeGenerator.generate(CodePrefix.WORK_ORDER, today, maxOrderNo),
+                    newOrderNo,
                     productionOrder.getQuantity(),
                     productionOrder.getDueDate(), // 일단 생산 예정일로 생성
                     WorkOrderStatus.PENDING,
@@ -119,20 +123,21 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Transactional
     @Override
     public void createWorkOrders(WorkOrderCreateDto dto) {
-        LocalDate today = LocalDate.now();
-
         dto.getProductionOrderProcessIds().forEach(popId -> {
             ProductionOrderProcess pop = productionOrderProcessReader.getById(popId);
 
-            String maxOrderNo = workOrderRepository.findMaxOrderNo(today);
-
             boolean processInspectionRequired = pop.getRoutingProcess().isProcessInspectionRequired();
+
+            String newOrderNo = codeGenerator.generate(
+                    CodePrefix.WORK_ORDER,
+                    LocalDate.now()
+            );
 
             workOrderRepository.save(new WorkOrder(
                     pop,
                     null,
                     null,
-                    CodeGenerator.generate(CodePrefix.WORK_ORDER, today, maxOrderNo),
+                    newOrderNo,
                     null,
                     null,
                     WorkOrderStatus.PENDING,

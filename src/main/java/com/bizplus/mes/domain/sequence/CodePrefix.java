@@ -1,4 +1,4 @@
-package com.bizplus.mes.common.util;
+package com.bizplus.mes.domain.sequence;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ public enum CodePrefix {
     RECEIPT("MR"),
     INCOMING_INSPECTION("IQC"),
     IN_PROCESS_INSPECTION("IPQC"),
-    Shipment("S");
+    SHIPMENT("S");
 
     private final String value;
 }

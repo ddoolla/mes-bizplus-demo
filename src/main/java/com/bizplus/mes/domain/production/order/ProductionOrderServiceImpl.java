@@ -3,8 +3,6 @@ package com.bizplus.mes.domain.production.order;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.bom.Bom;
 import com.bizplus.mes.domain.bom.BomReader;
 import com.bizplus.mes.domain.item.Item;
@@ -17,6 +15,8 @@ import com.bizplus.mes.domain.production.order.dto.ProductionOrderListDto;
 import com.bizplus.mes.domain.production.order.dto.ProductionOrderSearchDto;
 import com.bizplus.mes.domain.routing.Routing;
 import com.bizplus.mes.domain.routing.RoutingReader;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +38,8 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
     private final RoutingReader routingReader;
     private final ProductionOrderReader productionOrderReader;
 
+    private final CodeGenerator codeGenerator;
+
     @Override
     public ProductionOrderListDto getAll(ProductionOrderSearchDto dto, Pageable pageable) {
         Page<ProductionOrderDto> page = productionOrderRepository.fetchProductionOrders(dto, pageable);
@@ -57,18 +59,13 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
         Bom bom = bomReader.getById(dto.getBomId());
         Routing routing = routingReader.getById(dto.getRoutingId());
 
-        LocalDate today = LocalDate.now();
-        String maxOrderNo = productionOrderRepository.findMaxOrderNo(today);
+        String newOrderNo = codeGenerator.generate(CodePrefix.PRODUCTION_ORDER, LocalDate.now());
 
         return productionOrderRepository.save(new ProductionOrder(
                         item,
                         bom,
                         routing,
-                        CodeGenerator.generate(
-                                CodePrefix.PRODUCTION_ORDER,
-                                today,
-                                maxOrderNo
-                        ),
+                        newOrderNo,
                         dto.getQuantity(),
                         dto.getDueDate(),
                         ProductionOrderStatus.DRAFT,

@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,17 +114,5 @@ public class SalesOrderQueryRepositoryImpl implements SalesOrderQueryRepository 
                         )
                         .fetchOne()
         );
-    }
-
-    @Override
-    public String findMaxOrderNo(LocalDate date) {
-        return query
-                .select(salesOrder.orderNo.max())
-                .from(salesOrder)
-                .where(
-                        startDateGoe(salesOrder.createdAt, date),
-                        endDateLoe(salesOrder.createdAt, date)
-                )
-                .fetchFirst();
     }
 }

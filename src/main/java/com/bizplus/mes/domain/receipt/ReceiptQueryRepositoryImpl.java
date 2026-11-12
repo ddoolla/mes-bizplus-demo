@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,17 +82,5 @@ public class ReceiptQueryRepositoryImpl implements ReceiptQueryRepository {
                         )
                         .fetchOne()
         );
-    }
-
-    @Override
-    public String findMaxReceiptNo(LocalDate date) {
-        return query
-                .select(receipt.receiptNo.max())
-                .from(receipt)
-                .where(
-                        startDateGoe(receipt.date, date),
-                        endDateLoe(receipt.date, date)
-                )
-                .fetchFirst();
     }
 }

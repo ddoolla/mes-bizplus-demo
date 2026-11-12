@@ -1,7 +1,5 @@
 package com.bizplus.mes.domain.inspection.inprocess.facade;
 
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.inspection.Inspection;
 import com.bizplus.mes.domain.inspection.InspectionRepository;
 import com.bizplus.mes.domain.inspection.InspectionStatus;
@@ -12,6 +10,8 @@ import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionCreate
 import com.bizplus.mes.domain.inspection.result.InspectionResultService;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpecReader;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import com.bizplus.mes.domain.uom.Uom;
 import com.bizplus.mes.domain.uom.UomReader;
 import com.bizplus.mes.domain.work.result.WorkResult;
@@ -34,17 +34,15 @@ public class InProcessInspectionCreateService {
 
     private final InspectionResultService inspectionResultService;
 
+    private final CodeGenerator codeGenerator;
+
     @Transactional
     public Long create(InProcessInspectionCreateDto dto) {
         WorkResult workResult = workResultReader.getById(dto.getWorkResultId());
         InspectionSpec inspectionSpec = inspectionSpecReader.getById(dto.getInspectionSpecId());
         Uom uom = uomReader.getById(dto.getUomId());
 
-        String newInspectionNo = CodeGenerator.generate(
-                CodePrefix.IN_PROCESS_INSPECTION,
-                dto.getDate(),
-                inspectionRepository.findMaxInspectionNo(dto.getDate(), InspectionType.IN_PROCESS)
-        );
+        String newInspectionNo = codeGenerator.generate(CodePrefix.IN_PROCESS_INSPECTION, dto.getDate());
 
         // 검사 정보 생성
         Inspection newInspection = inspectionRepository.save(new Inspection(

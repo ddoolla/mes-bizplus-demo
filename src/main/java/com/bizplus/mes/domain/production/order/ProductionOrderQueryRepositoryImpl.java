@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,17 +152,5 @@ public class ProductionOrderQueryRepositoryImpl implements ProductionOrderQueryR
                         .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 쓰기 잠금 조회
                         .fetchOne()
         );
-    }
-
-    @Override
-    public String findMaxOrderNo(LocalDate date) {
-        return query
-                .select(productionOrder.orderNo.max())
-                .from(productionOrder)
-                .where(
-                        startDateGoe(productionOrder.createdAt, date),
-                        endDateLoe(productionOrder.createdAt, date)
-                )
-                .fetchFirst();
     }
 }

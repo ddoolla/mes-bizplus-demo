@@ -1,8 +1,6 @@
 package com.bizplus.mes.domain.inspection.inprocess;
 
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.inspection.*;
 import com.bizplus.mes.domain.inspection.dto.InspectionDto;
 import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionDto;
@@ -12,6 +10,8 @@ import com.bizplus.mes.domain.inspection.inprocess.dto.InProcessInspectionSummar
 import com.bizplus.mes.domain.inspection.spec.InspectionSpec;
 import com.bizplus.mes.domain.inspection.spec.InspectionSpecReader;
 import com.bizplus.mes.domain.production.order.ProductionOrder;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import com.bizplus.mes.domain.user.User;
 import com.bizplus.mes.domain.work.result.WorkResult;
 import com.bizplus.mes.domain.work.result.WorkResultReader;
@@ -38,6 +38,8 @@ public class InProcessInspectionServiceImpl implements InProcessInspectionServic
     private final InspectionSpecReader inspectionSpecReader;
     private final WorkResultReader workResultReader;
     private final InspectionReader inspectionReader;
+
+    private final CodeGenerator codeGenerator;
 
     @Override
     public InProcessInspectionListDto getAll(InProcessInspectionSearchDto dto, Pageable pageable) {
@@ -69,11 +71,7 @@ public class InProcessInspectionServiceImpl implements InProcessInspectionServic
 
         ProductionOrder productionOrder = workResult.getWorkOrder().getProductionOrderProcess().getProductionOrder();
 
-        String newInspectionNo = CodeGenerator.generate(
-                CodePrefix.IN_PROCESS_INSPECTION,
-                date,
-                inspectionRepository.findMaxInspectionNo(date, InspectionType.IN_PROCESS)
-        );
+        String newInspectionNo = codeGenerator.generate(CodePrefix.IN_PROCESS_INSPECTION, date);
 
         // 검사 정보 생성
         Inspection newInspection = inspectionRepository.save(new Inspection(

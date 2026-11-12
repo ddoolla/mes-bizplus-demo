@@ -3,14 +3,14 @@ package com.bizplus.mes.domain.sales.order;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.partner.Partner;
 import com.bizplus.mes.domain.partner.PartnerReader;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderCreateDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderListDto;
 import com.bizplus.mes.domain.sales.order.dto.SalesOrderSearchDto;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +28,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 
     private final PartnerReader partnerReader;
     private final SalesOrderReader salesOrderReader;
+
+    private final CodeGenerator codeGenerator;
 
     @Override
     public SalesOrderListDto getSalesOrders(SalesOrderSearchDto dto, Pageable pageable) {
@@ -51,12 +53,10 @@ public class SalesOrderServiceImpl implements SalesOrderService {
     public Long createSalesOrder(SalesOrderCreateDto dto) {
         Partner partner = partnerReader.getById(dto.getPartnerId());
 
-        LocalDate today = LocalDate.now();
-
-        String nextOrderNo = CodeGenerator.generate(
+        String nextOrderNo = codeGenerator.generate(
                 CodePrefix.SALES_ORDER,
-                today,
-                salesOrderRepository.findMaxOrderNo(today));
+                LocalDate.now()
+        );
 
         return salesOrderRepository.save(
                 SalesOrderMapper.toEntity(

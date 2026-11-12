@@ -3,12 +3,12 @@ package com.bizplus.mes.domain.shipment;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.exception.ErrorCode;
 import com.bizplus.mes.common.pagination.Pagination;
-import com.bizplus.mes.common.util.CodeGenerator;
-import com.bizplus.mes.common.util.CodePrefix;
 import com.bizplus.mes.domain.partner.Partner;
 import com.bizplus.mes.domain.partner.PartnerReader;
 import com.bizplus.mes.domain.sales.order.SalesOrder;
 import com.bizplus.mes.domain.sales.order.SalesOrderReader;
+import com.bizplus.mes.domain.sequence.CodeGenerator;
+import com.bizplus.mes.domain.sequence.CodePrefix;
 import com.bizplus.mes.domain.shipment.dto.ShipmentCreateDto;
 import com.bizplus.mes.domain.shipment.dto.ShipmentDto;
 import com.bizplus.mes.domain.shipment.dto.ShipmentListDto;
@@ -31,6 +31,8 @@ public class ShipmentServiceImpl implements ShipmentService {
     private final SalesOrderReader salesOrderReader;
     private final ShipmentReader shipmentReader;
 
+    private final CodeGenerator codeGenerator;
+
     @Override
     public ShipmentListDto getAll(ShipmentSearchDto dto, Pageable pageable) {
         Page<ShipmentDto> page = shipmentRepository.fetchShipments(dto, pageable);
@@ -52,11 +54,7 @@ public class ShipmentServiceImpl implements ShipmentService {
         Partner partner = partnerReader.getById(dto.getPartnerId());
         SalesOrder salesOrder = salesOrderReader.getByIdOrNull(dto.getSalesOrderId());
 
-        String newShipmentNo = CodeGenerator.generate(
-                CodePrefix.Shipment,
-                dto.getDate(),
-                shipmentRepository.findMaxShipmentNo(dto.getDate())
-        );
+        String newShipmentNo = codeGenerator.generate(CodePrefix.SHIPMENT, dto.getDate());
 
         return shipmentRepository.save(new Shipment(
                         partner,

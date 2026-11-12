@@ -52,7 +52,7 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(data.workOrders)}">
-                    <td colspan="8" class="p-4">등록된 작업지시 정보가 없습니다.</td>
+                    <td colspan="9" class="p-4">등록된 작업지시 정보가 없습니다.</td>
                 </tr>
                 <tr th:each="workOrder : ${data.workOrders}">
                     <td class="fw-bold">

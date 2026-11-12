@@ -22,7 +22,7 @@ public class RoutingProcessUpdateService {
     @Transactional
     public void update(Long id, RoutingProcessUpdateDto dto) {
         RoutingProcess routingProcess = routingProcessReader.getById(id);
-        InspectionSpec inspectionSpec = inspectionSpecReader.getById(dto.getInspectionSpecId());
+        InspectionSpec inspectionSpec = inspectionSpecReader.getByIdOrNull(dto.getInspectionSpecId());
 
         routingProcess.update(
                 inspectionSpec,

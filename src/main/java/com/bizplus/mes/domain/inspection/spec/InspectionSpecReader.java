@@ -15,4 +15,11 @@ public class InspectionSpecReader {
         return inspectionSpecRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.INSPECTION_SPEC_NOT_FOUND, "id: " + id));
     }
+
+    public InspectionSpec getByIdOrNull(Long id) {
+        return id == null
+                ? null
+                : inspectionSpecRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.INSPECTION_SPEC_NOT_FOUND, "id: " + id));
+    }
 }

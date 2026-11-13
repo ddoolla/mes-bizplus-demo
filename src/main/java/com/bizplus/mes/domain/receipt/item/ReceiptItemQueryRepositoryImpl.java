@@ -69,7 +69,6 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .and(notDeleted(receipt.deletedAt))
                 .and(notDeleted(receiptItem.deletedAt))
                 .and(eq(receiptItem.inspectionRequired, true))
-                .and(eq(receiptItem.inspectionAutoCreate, false))
                 .and(eq(receiptItem.status, ReceiptItemStatus.PENDING))
                 .and(JPAExpressions
                         .selectOne()

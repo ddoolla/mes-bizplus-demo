@@ -61,6 +61,12 @@
             </div>
             <div>
                 <button type="button"
+                        id="shipment-excel-button"
+                        class="btn btn-success btn-sm"
+                        sec:authorize="hasAuthority('SHIPMENT_READ')">
+                    <i class="bi bi-file-earmark-excel"></i> 엑셀 다운로드
+                </button>
+                <button type="button"
                         class="btn btn-primary btn-sm"
                         th:onclick="|location.href='@{/shipments/new}'|"
                         sec:authorize="hasAuthority('SHIPMENT_CREATE')">

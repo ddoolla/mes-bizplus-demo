@@ -30,6 +30,7 @@ public class ShipmentItemDetailDto {
                                  String shipmentNo,
                                  LocalDate shipmentDate,
                                  ShipmentStatus shipmentStatus,
+                                 String createdBy,
                                  Long partnerId,
                                  String partnerName,
                                  Long itemId,
@@ -42,6 +43,11 @@ public class ShipmentItemDetailDto {
                                  Integer itemUomScale,
                                  Long lotId,
                                  String lotNo) {
+        if (createdBy != null) {
+            int index = createdBy.indexOf("[");
+            createdBy = createdBy.substring(0, index).trim();
+        }
+
         this.id = id;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
@@ -52,6 +58,7 @@ public class ShipmentItemDetailDto {
                 shipmentNo,
                 shipmentDate,
                 shipmentStatus,
+                createdBy,
                 new PartnerInfo(partnerId, partnerName)
         );
         this.item = new ItemInfo(
@@ -71,6 +78,7 @@ public class ShipmentItemDetailDto {
                                String shipmentNo,
                                LocalDate date,
                                ShipmentStatus status,
+                               String createdBy,
                                PartnerInfo partner) {
     }
 

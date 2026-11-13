@@ -67,6 +67,35 @@ public class ShipmentQueryRepositoryImpl implements ShipmentQueryRepository {
     }
 
     @Override
+    public List<ShipmentDto> fetchAll(ShipmentSearchDto dto) {
+        BooleanBuilder searchCondition = new BooleanBuilder()
+                .and(notDeleted(shipment.deletedAt))
+                .and(contains(shipment.shipmentNo, dto.getShipmentNo()))
+                .and(containsAny(dto.getPartner(), partner.code, partner.name))
+                .and(startDateGoe(shipment.date, dto.getStartDate()))
+                .and(endDateLoe(shipment.date, dto.getEndDate()));
+
+        return query
+                .select(new QShipmentDto(
+                        shipment.id,
+                        shipment.shipmentNo,
+                        shipment.date,
+                        shipment.status,
+                        shipment.remark,
+                        partner.id,
+                        partner.name,
+                        salesOrder.id,
+                        salesOrder.orderNo
+                ))
+                .from(shipment)
+                .innerJoin(partner).on(shipment.partner.id.eq(partner.id))
+                .leftJoin(salesOrder).on(shipment.salesOrder.id.eq(salesOrder.id))
+                .where(searchCondition)
+                .orderBy(shipment.date.desc())
+                .fetch();
+    }
+
+    @Override
     public Optional<ShipmentDto> fetchShipment(Long id) {
         return Optional.ofNullable(
                 query

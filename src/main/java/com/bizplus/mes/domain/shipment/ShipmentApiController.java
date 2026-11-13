@@ -6,12 +6,16 @@ import com.bizplus.mes.common.response.ApiResponse;
 import com.bizplus.mes.domain.log.action.ActionType;
 import com.bizplus.mes.domain.log.action.UserAction;
 import com.bizplus.mes.domain.menu.MenuCode;
+import com.bizplus.mes.domain.shipment.dto.ShipmentSearchDto;
 import com.bizplus.mes.domain.shipment.facade.ShipmentCompleteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,8 +25,28 @@ public class ShipmentApiController {
 
     private final MessageService messageService;
     private final ShipmentService shipmentService;
+    private final ShipmentExcelService shipmentExcelService;
 
     private final ShipmentCompleteService shipmentCompleteService;
+
+    @GetMapping("/excel")
+    @PreAuthorize("hasAuthority('SHIPMENT_READ')")
+    public ResponseEntity<byte[]> downloadExcel(ShipmentSearchDto dto) {
+        byte[] excelData = shipmentExcelService.downloadExcel(dto);
+
+        String fileName = "shipments_" + LocalDate.now() + ".xlsx";
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + fileName + "\""
+                )
+                .contentType(MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ))
+                .contentLength(excelData.length)
+                .body(excelData);
+    }
 
     @DeleteMapping
     @PreAuthorize("hasAuthority('SHIPMENT_DELETE')")

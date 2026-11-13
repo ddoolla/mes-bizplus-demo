@@ -1,5 +1,6 @@
 package com.bizplus.mes.domain.shipment.item;
 
+import com.bizplus.mes.domain.shipment.dto.ShipmentSearchDto;
 import com.bizplus.mes.domain.shipment.item.dto.ShipmentItemDetailDto;
 import com.bizplus.mes.domain.shipment.item.dto.ShipmentItemDto;
 
@@ -10,6 +11,8 @@ public interface ShipmentItemQueryRepository {
     List<ShipmentItemDto> fetchShipmentItems(Long shipmentId);
 
     List<ShipmentItemDetailDto> fetchAllByLotId(Long lotId);
+
+    List<ShipmentItemDetailDto> fetchAllForExcel(ShipmentSearchDto dto);
 
     List<ShipmentItemDetailDto> fetchAllInLotId(List<Long> lotIds);
 

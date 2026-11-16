@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ReceiptItemStatus {
 
+    UNCONFIRMED("미확정"),
     PENDING("입고 대기"),
     COMPLETED("입고 완료"),
     ON_HOLD("입고 보류"),

@@ -1,4 +1,3 @@
-import tooltip from "../../../common/tooltip.js";
 import createConfirmModal from "../../../common/modal/confirm.js";
 import ajax from "../../../common/ajax.js";
 import checkbox from "../../../common/checkbox.js";
@@ -82,8 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
-    /* 툴팁 */
-    tooltip.init();
     checkbox.init(checkboxGroup);
 
     /* 출고 제품 추가 모달 */

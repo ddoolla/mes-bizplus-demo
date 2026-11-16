@@ -87,7 +87,7 @@ public class ReceiptItemServiceImpl implements ReceiptItemService {
                     amount,
                     item.isIncomingInspectionRequired(),
                     true,
-                    ReceiptItemStatus.PENDING,
+                    ReceiptItemStatus.UNCONFIRMED,
                     null
             ));
         });

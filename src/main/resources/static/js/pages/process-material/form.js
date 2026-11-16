@@ -1,7 +1,6 @@
 import checkbox from "../../common/checkbox.js";
 import ajax from "../../common/ajax.js";
 import createBomItemMultipleListModal from "../../domain/bom-item/modal/list/multiple.js";
-import tooltip from "../../common/tooltip.js";
 import toast from "../../common/toast.js";
 import createConfirmModal from "../../common/modal/confirm.js";
 import createItemMultiSelectModal from "../../domain/item/modal/multi-select.js";
@@ -18,9 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmModal = createConfirmModal();
     const itemMultiSelectModal = createItemMultiSelectModal();
     const bomItemMultipleListModal = createBomItemMultipleListModal();
-
-    /* 툴팁 */
-    tooltip.init();
 
     /* 자재 목록 모달 */
     materialListButton.addEventListener('click', function () {

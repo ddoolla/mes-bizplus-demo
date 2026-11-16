@@ -1,6 +1,8 @@
 package com.bizplus.mes.domain.receipt.item;
 
+import com.bizplus.mes.domain.receipt.dto.ReceiptSearchDto;
 import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemDto;
+import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemExcelDto;
 import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemSearchDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,8 @@ import java.util.Optional;
 public interface ReceiptItemQueryRepository {
 
     Page<ReceiptItemDto> fetchAllForInspection(ReceiptItemSearchDto dto, Pageable pageable);
+
+    List<ReceiptItemExcelDto> fetchAllForExcel(ReceiptSearchDto dto);
 
     List<ReceiptItemDto> fetchReceiptItems(Long receiptId);
 

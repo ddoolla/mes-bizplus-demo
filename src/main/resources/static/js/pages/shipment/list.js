@@ -10,14 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteButton = document.querySelector('#shipment-delete-button');
     const excelButton = document.querySelector('#shipment-excel-button');
 
-    excelButton?.addEventListener("click", () => {
-        const form = document.getElementById("shipment-search-form");
-
-        const params = new URLSearchParams(new FormData(form));
-
-        window.location.href = `/api/shipments/excel?${params.toString()}`;
-    });
-
     const confirmModal = createConfirmModal();
 
     datepicker.initRange({
@@ -28,6 +20,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     checkbox.init(checkboxGroup);
 
+    // 엑셀 다운로드
+    excelButton?.addEventListener("click", () => {
+        const form = document.getElementById("shipment-search-form");
+        const params = new URLSearchParams(new FormData(form));
+
+        window.location.href = `/api/shipments/excel?${params.toString()}`;
+    });
+
+    // 삭제
     deleteButton.addEventListener('click', async function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 

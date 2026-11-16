@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const checkboxGroup = document.querySelector('#receipt-table');
     const deleteButton = document.querySelector('#receipt-delete-button');
+    const excelButton = document.querySelector('#excel-download-button');
 
     const confirmModal = createConfirmModal();
 
@@ -19,6 +20,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     checkbox.init(checkboxGroup);
 
+    // 엑셀 다운로드
+    excelButton.addEventListener('click', function () {
+        const form = document.querySelector('#receipt-search-form');
+        const params = new URLSearchParams(new FormData(form));
+
+        window.location.href = `/api/receipts/excel?${params.toString()}`;
+    });
+
+    // 삭제
     deleteButton.addEventListener('click', async function () {
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);
 

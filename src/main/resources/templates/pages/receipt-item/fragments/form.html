@@ -7,19 +7,19 @@
                 <p class="h5 fw-bold">입고 자재</p>
             </div>
             <div>
-                <th:block th:if="${receipt.status?.name == 'DRAFT'}">
-                    <button type="button"
-                            id="receipt-item-create-button"
-                            class="btn btn-primary btn-sm me-1"
-                            th:data-receipt-id="${receipt.id}">
-                        <i class="bi bi-plus-circle"></i> 추가
-                    </button>
-                    <button type="button"
-                            id="receipt-item-delete-button"
-                            class="btn btn-danger btn-sm">
-                        <i class="bi bi-trash"></i> 삭제
-                    </button>
-                </th:block>
+                <button type="button"
+                        id="receipt-item-create-button"
+                        class="btn btn-primary btn-sm me-1"
+                        th:data-receipt-id="${receipt.id}"
+                        th:disabled="${receipt.status?.name != 'DRAFT'}">
+                    <i class="bi bi-plus-circle"></i> 추가
+                </button>
+                <button type="button"
+                        id="receipt-item-delete-button"
+                        class="btn btn-danger btn-sm"
+                        th:disabled="${receipt.status?.name != 'DRAFT'}">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
             </div>
         </div>
 

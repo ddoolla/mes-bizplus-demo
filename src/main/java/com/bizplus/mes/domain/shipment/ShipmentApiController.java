@@ -9,12 +9,14 @@ import com.bizplus.mes.domain.menu.MenuCode;
 import com.bizplus.mes.domain.shipment.dto.ShipmentSearchDto;
 import com.bizplus.mes.domain.shipment.facade.ShipmentCompleteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,13 +36,14 @@ public class ShipmentApiController {
     public ResponseEntity<byte[]> downloadExcel(ShipmentSearchDto dto) {
         byte[] excelData = shipmentExcelService.downloadExcel(dto);
 
-        String fileName = "shipments_" + LocalDate.now() + ".xlsx";
+        String fileName = "출고목록_" + LocalDate.now() + ".xlsx";
+
+        ContentDisposition disposition = ContentDisposition.attachment()
+                .filename(fileName, StandardCharsets.UTF_8)
+                .build();
 
         return ResponseEntity.ok()
-                .header(
-                        HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + fileName + "\""
-                )
+                .header(HttpHeaders.CONTENT_DISPOSITION, disposition.toString())
                 .contentType(MediaType.parseMediaType(
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 ))

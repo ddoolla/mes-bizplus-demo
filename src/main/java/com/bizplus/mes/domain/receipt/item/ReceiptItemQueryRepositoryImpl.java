@@ -1,8 +1,7 @@
 package com.bizplus.mes.domain.receipt.item;
 
-import com.bizplus.mes.domain.receipt.item.dto.QReceiptItemDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemDto;
-import com.bizplus.mes.domain.receipt.item.dto.ReceiptItemSearchDto;
+import com.bizplus.mes.domain.receipt.dto.ReceiptSearchDto;
+import com.bizplus.mes.domain.receipt.item.dto.*;
 import com.bizplus.mes.domain.uom.QUom;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPAExpressions;
@@ -22,6 +21,7 @@ import static com.bizplus.mes.domain.inspection.incoming.QIncomingInspection.inc
 import static com.bizplus.mes.domain.inspection.spec.QInspectionSpec.inspectionSpec;
 import static com.bizplus.mes.domain.item.QItem.item;
 import static com.bizplus.mes.domain.lot.QLot.lot;
+import static com.bizplus.mes.domain.partner.QPartner.partner;
 import static com.bizplus.mes.domain.receipt.QReceipt.receipt;
 import static com.bizplus.mes.domain.receipt.item.QReceiptItem.receiptItem;
 
@@ -46,6 +46,8 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
             receipt.id,
             receipt.receiptNo,
             receipt.date,
+            receipt.createdBy,
+            partner.name,
             item.id,
             item.code,
             item.name,
@@ -87,6 +89,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                 .select(receiptItemProjection)
                 .from(receiptItem)
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                 .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
@@ -101,6 +104,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
         JPAQuery<Long> count = query.select(receiptItem.count())
                 .from(receiptItem)
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                 .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
@@ -111,11 +115,49 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
     }
 
     @Override
+    public List<ReceiptItemExcelDto> fetchAllForExcel(ReceiptSearchDto dto) {
+        BooleanBuilder searchCondition = new BooleanBuilder()
+                .and(notDeleted(receipt.deletedAt))
+                .and(notDeleted(receiptItem.deletedAt))
+                .and(eq(receiptItem.status, ReceiptItemStatus.COMPLETED))
+                .and(contains(receipt.receiptNo, dto.getReceiptNo()))
+                .and(contains(partner.name, dto.getPartner()))
+                .and(startDateGoe(receipt.date, dto.getStartDate()))
+                .and(endDateLoe(receipt.date, dto.getEndDate()));
+
+        return query
+                .select(new QReceiptItemExcelDto(
+                        receipt.date,
+                        partner.name,
+                        item.code,
+                        item.name,
+                        lot.no,
+                        receiptUom.code,
+                        receiptUom.scale,
+                        receiptItem.quantity,
+                        receiptItem.unitPrice,
+                        receiptItem.amount,
+                        receipt.createdBy,
+                        receiptItem.remark
+                ))
+                .from(receiptItem)
+                .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
+                .innerJoin(item).on(receiptItem.item.id.eq(item.id))
+                .innerJoin(receiptUom).on(receiptItem.uom.id.eq(receiptUom.id))
+                .leftJoin(lot).on(receiptItem.lot.id.eq(lot.id))
+                .where(searchCondition)
+                .orderBy(receipt.receiptNo.desc())
+                .fetch();
+    }
+
+    @Override
     public List<ReceiptItemDto> fetchReceiptItems(Long receiptId) {
         return query
                 .select(receiptItemProjection)
                 .from(receiptItem)
                 .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
                 .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                 .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                 .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
@@ -152,6 +194,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         .select(receiptItemProjection)
                         .from(receiptItem)
                         .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                        .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
                         .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                         .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                         .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))
@@ -172,6 +215,7 @@ public class ReceiptItemQueryRepositoryImpl implements ReceiptItemQueryRepositor
                         .select(receiptItemProjection)
                         .from(receiptItem)
                         .innerJoin(receipt).on(receiptItem.receipt.id.eq(receipt.id))
+                        .innerJoin(partner).on(receipt.partner.id.eq(partner.id))
                         .innerJoin(item).on(receiptItem.item.id.eq(item.id))
                         .innerJoin(itemUom).on(item.uom.id.eq(itemUom.id))
                         .leftJoin(inspectionSpec).on(item.defaultIqcSpec.id.eq(inspectionSpec.id))

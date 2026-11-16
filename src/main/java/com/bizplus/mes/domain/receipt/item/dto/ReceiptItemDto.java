@@ -36,6 +36,8 @@ public class ReceiptItemDto {
                           Long receiptId,
                           String receiptNo,
                           LocalDate receiptDate,
+                          String createdBy,
+                          String partnerName,
                           Long itemId,
                           String itemCode,
                           String itemName,
@@ -62,7 +64,9 @@ public class ReceiptItemDto {
         this.receipt = new ReceiptInfo(
                 receiptId,
                 receiptNo,
-                receiptDate
+                receiptDate,
+                createdBy,
+                partnerName
         );
         this.item = new ItemInfo(
                 itemId,
@@ -78,7 +82,11 @@ public class ReceiptItemDto {
         this.lot = new LotInfo(lotId, lotNo);
     }
 
-    public record ReceiptInfo(Long id, String no, LocalDate date) {
+    public record ReceiptInfo(Long id,
+                              String no,
+                              LocalDate date,
+                              String createdBy,
+                              String partnerName) {
     }
 
 

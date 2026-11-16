@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ExcelUtils {
 
@@ -61,8 +62,7 @@ public class ExcelUtils {
 
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
-
-        headerCs.setFillForegroundColor(new XSSFColor(new java.awt.Color(217, 225, 242), new DefaultIndexedColorMap()));
+        headerCs.setFillForegroundColor(getColor(217, 225, 242));
         headerCs.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         headerCs.setBorderTop(BorderStyle.THIN);
         headerCs.setBorderRight(BorderStyle.THIN);
@@ -73,6 +73,19 @@ public class ExcelUtils {
         headerCs.setFont(headerFont);
 
         return headerCs;
+    }
+
+    public static Color getColor(int r, int g, int b) {
+        return new XSSFColor(new java.awt.Color(r, g, b), new DefaultIndexedColorMap());
+    }
+
+    public static void autoSizeColumns(Sheet sheet, int columnCount) {
+        for (int i = 0; i < columnCount; i++) {
+            sheet.autoSizeColumn(i);
+
+            int customWidth = sheet.getColumnWidth(i) * 2; // 한글 너비에 맞춤 (약 2배)
+            sheet.setColumnWidth(i, Math.min(customWidth, 255 * 256)); // 최대 너비: 255 * 256
+        }
     }
 
     public static void setCell(Row row, int col, Object value, CellStyle cs) {
@@ -200,5 +213,17 @@ public class ExcelUtils {
 
         // 셀 병합
         sheet.addMergedRegion(region);
+    }
+
+    public static void setHeader(Sheet sheet, int headerRow, List<String> columns, CellStyle style) {
+        Row row = sheet.createRow(headerRow);
+        int i = 0;
+
+        for (String column : columns) {
+            Cell cell = row.createCell(i++);
+            cell.setCellValue(column);
+            cell.setCellStyle(style);
+        }
+
     }
 }

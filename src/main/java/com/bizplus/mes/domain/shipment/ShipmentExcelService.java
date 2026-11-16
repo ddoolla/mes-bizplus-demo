@@ -6,7 +6,6 @@ import com.bizplus.mes.domain.shipment.dto.ShipmentSearchDto;
 import com.bizplus.mes.domain.shipment.item.ShipmentItemRepository;
 import com.bizplus.mes.domain.shipment.item.dto.ShipmentItemDetailDto;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -43,13 +42,12 @@ public class ShipmentExcelService {
                     "출고 일자", "거래처", "제품 코드", "제품명", "수량", " 단가", "금액", "출고자", "비고"
             );
 
-            Row columnRow = sheet.createRow(1);
-
-            for (int i = 0; i < headerColumns.size(); i++) {
-                Cell cell = columnRow.createCell(i);
-                cell.setCellValue(headerColumns.get(i));
-                cell.setCellStyle(styles.header());
-            }
+            ExcelUtils.setHeader(
+                    sheet,
+                    1,
+                    headerColumns,
+                    styles.header()
+            );
 
             // 본문
             List<ShipmentItemDetailDto> shipmentItems = shipmentItemRepository.fetchAllForExcel(dto);
@@ -72,12 +70,7 @@ public class ShipmentExcelService {
                 ExcelUtils.setCell(row, 8, "", styles.body());
             }
 
-            // 열 너비 자동 조정
-            for (int i = 0; i < headerColumns.size(); i++) {
-                sheet.autoSizeColumn(i);
-                int width = sheet.getColumnWidth(i);
-                sheet.setColumnWidth(i, Math.max(width, 15 * 256));
-            }
+            ExcelUtils.autoSizeColumns(sheet, headerColumns.size());
 
             workbook.write(out);
 

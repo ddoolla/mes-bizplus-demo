@@ -13,6 +13,35 @@ import java.util.List;
 
 public class ExcelUtils {
 
+    public static String getCellValue(Row row, int columnIndex, DataFormatter formatter) {
+        Cell cell = row.getCell(columnIndex);
+
+        return cell == null
+                ? ""
+                : formatter.formatCellValue(cell).trim();
+    }
+
+    public static String[] getRowValue(Row row, int columnCount) {
+        DataFormatter formatter = new DataFormatter();
+        String[] values = new String[columnCount];
+
+        for (int i = 0; i <columnCount; i++) {
+            values[i] = getCellValue(row, i, formatter);
+        }
+
+        return values;
+    }
+
+    public static boolean isEmptyRow(String[] values) {
+        for (String value : values) {
+            if (!value.isBlank()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static CellStyle getDefaultBodyStyle(Workbook workbook) {
         CellStyle cs = workbook.createCellStyle();
 

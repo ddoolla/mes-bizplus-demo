@@ -22,7 +22,7 @@ public class PartnerQueryRepositoryImpl implements PartnerQueryRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public Page<Partner> findPartners(PartnerSearchDto dto, Pageable pageable) {
+    public Page<Partner> fetchAll(PartnerSearchDto dto, Pageable pageable) {
         BooleanBuilder searchCondition = new BooleanBuilder()
                 .and(notDeleted(partner.deletedAt))
                 .and(contains(partner.code, dto.getCode()))
@@ -54,5 +54,31 @@ public class PartnerQueryRepositoryImpl implements PartnerQueryRepository {
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public List<Partner> fetchAll(PartnerSearchDto dto) {
+        BooleanBuilder searchCondition = new BooleanBuilder()
+                .and(notDeleted(partner.deletedAt))
+                .and(contains(partner.code, dto.getCode()))
+                .and(contains(partner.name, dto.getName()));
+
+        if (dto.getType() == PartnerType.SUPPLIER) {
+            searchCondition.and(
+                    in(partner.type, List.of(PartnerType.SUPPLIER, PartnerType.BOTH))
+            );
+        }
+
+        if (dto.getType() == PartnerType.CUSTOMER) {
+            searchCondition.and(
+                    in(partner.type, List.of(PartnerType.CUSTOMER, PartnerType.BOTH))
+            );
+        }
+
+        return query
+                .selectFrom(partner)
+                .where(searchCondition)
+                .orderBy(partner.code.asc(), partner.name.asc())
+                .fetch();
     }
 }

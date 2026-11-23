@@ -8,5 +8,10 @@ public interface PartnerRepository extends JpaRepository<Partner, Long>, Partner
 
     Optional<Partner> findByIdAndDeletedAtIsNull(Long id);
 
+    Optional<Partner> findByCodeAndDeletedAtIsNull(String code);
+
+    boolean existsByCode(String code);
+
     boolean existsByCodeAndIdNot(String code, Long id);
+
 }

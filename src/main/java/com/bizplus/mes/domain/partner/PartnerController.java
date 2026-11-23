@@ -30,6 +30,7 @@ public class PartnerController {
 
     private final PartnerService partnerService;
     private final PartnerContactService partnerContactService;
+    private final PartnerExcelService partnerExcelService;
     private final MessageService messageService;
 
     @GetMapping

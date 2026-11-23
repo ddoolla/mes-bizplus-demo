@@ -19,7 +19,7 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public PartnerListDto getPartners(PartnerSearchDto dto, Pageable pageable) {
-        Page<PartnerDto> partnerPage = partnerRepository.findPartners(dto, pageable)
+        Page<PartnerDto> partnerPage = partnerRepository.fetchAll(dto, pageable)
                 .map(PartnerMapper::toDto);
 
         return new PartnerListDto(

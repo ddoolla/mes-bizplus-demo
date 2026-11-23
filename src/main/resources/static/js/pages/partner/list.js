@@ -10,8 +10,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkboxGroup = document.querySelector('#partner-table');
     const deleteButton = document.querySelector('#partner-delete-button');
 
+    const searchForm = document.querySelector('#search-form');
+    const excelDownloadButton = document.querySelector('#excel-download-button');
+
     checkbox.init(checkboxGroup);
 
+    /* 거래처 목록 엑셀 다운로드 */
+    excelDownloadButton.addEventListener('click', async function () {
+        const params = new URLSearchParams(new FormData(searchForm));
+
+        window.location.href = `/api/partners/excel/download?${params.toString()}`;
+    });
+
+    /* 거래처 삭제 */
     deleteButton.addEventListener('click', async function () {
 
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);

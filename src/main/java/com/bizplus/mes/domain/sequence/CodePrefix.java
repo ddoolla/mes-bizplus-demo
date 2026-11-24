@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CodePrefix {
 
+    COMMON_CODE("CC"),
     SALES_ORDER("SO"),
     PRODUCTION_ORDER("PO"),
     WORK_ORDER("WO"),

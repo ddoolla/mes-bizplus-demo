@@ -54,11 +54,10 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     }
 
     @Override
-    public void createCommonCode(Long groupId, CommonCodeCreateDto dto) {
-
+    public Long createCommonCode(Long groupId, CommonCodeCreateDto dto) {
         CodeGroup codeGroup = codeGroupReader.getById(groupId);
 
-        commonCodeRepository.save(CommonCodeMapper.toEntity(dto, codeGroup));
+        return commonCodeRepository.save(CommonCodeMapper.toEntity(dto, codeGroup)).getId();
     }
 
     @Transactional

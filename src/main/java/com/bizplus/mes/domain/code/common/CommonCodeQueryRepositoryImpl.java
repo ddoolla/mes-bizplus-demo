@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.bizplus.mes.common.util.PredicateUtils.*;
 import static com.bizplus.mes.domain.code.common.QCommonCode.commonCode;
@@ -60,5 +61,20 @@ public class CommonCodeQueryRepositoryImpl implements CommonCodeQueryRepository 
                 )
                 .orderBy(commonCode.code.asc(), commonCode.name.asc())
                 .fetch();
+    }
+
+    @Override
+    public Optional<CommonCode> findCommonCode(CodeGroupKey groupKey, String name) {
+        return Optional.ofNullable(
+                query
+                        .selectFrom(commonCode)
+                        .innerJoin(codeGroup).on(commonCode.group.id.eq(codeGroup.id))
+                        .where(
+                                notDeleted(commonCode.deletedAt),
+                                eq(codeGroup.groupKey, groupKey),
+                                eq(commonCode.name, name)
+                        )
+                        .fetchOne()
+        );
     }
 }

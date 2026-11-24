@@ -17,7 +17,7 @@ public interface CommonCodeService {
 
     boolean checkCode(Long groupId, Long id, String code);
 
-    void createCommonCode(Long groupId, CommonCodeCreateDto dto);
+    Long createCommonCode(Long groupId, CommonCodeCreateDto dto);
 
     void updateCommonCode(Long id, CommonCodeUpdateDto dto);
 

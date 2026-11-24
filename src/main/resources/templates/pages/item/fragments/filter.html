@@ -2,8 +2,8 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
-<div th:fragment="filter (url, count, showActions)">
-    <form id="item-search-form" method="GET" th:action="${url}">
+<div th:fragment="filter (url, count)">
+    <form id="search-form" method="GET" th:action="${url}">
         <table class="app-table-input">
             <colgroup>
                 <col style="width: 120px">
@@ -75,20 +75,30 @@
                  th:text="|Total : ${count} 건|">
             </div>
             <div>
-                <th:block th:if="${showActions}">
-                    <button type="button"
-                            class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/items/new}'|"
-                            sec:authorize="hasAuthority('ITEM_CREATE')">
-                        <i class="bi bi-plus-circle"></i> 등록
-                    </button>
-                    <button type="button"
-                            id="item-delete-button"
-                            class="btn btn-danger btn-sm"
-                            sec:authorize="hasAuthority('ITEM_DELETE')">
-                        <i class="bi bi-trash"></i> 삭제
-                    </button>
-                </th:block>
+                <button type="button"
+                        id="excel-download-button"
+                        class="btn btn-success btn-sm"
+                        sec:authorize="hasAuthority('ITEM_READ')">
+                    <i class="bi bi-download"></i> 엑셀 다운로드
+                </button>
+                <button type="button"
+                        id="excel-upload-button"
+                        class="btn btn-secondary btn-sm"
+                        sec:authorize="hasAuthority('ITEM_CREATE')">
+                    <i class="bi bi-upload"></i> 엑셀 업로드
+                </button>
+                <button type="button"
+                        class="btn btn-primary btn-sm"
+                        th:onclick="|location.href='@{/items/new}'|"
+                        sec:authorize="hasAuthority('ITEM_CREATE')">
+                    <i class="bi bi-plus-circle"></i> 등록
+                </button>
+                <button type="button"
+                        id="item-delete-button"
+                        class="btn btn-danger btn-sm"
+                        sec:authorize="hasAuthority('ITEM_DELETE')">
+                    <i class="bi bi-trash"></i> 삭제
+                </button>
             </div>
         </div>
     </form>

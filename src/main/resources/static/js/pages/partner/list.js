@@ -6,14 +6,14 @@ import modal from "../../common/modal/modal.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const confirmModal = createConfirmModal();
 
     const checkboxGroup = document.querySelector('#partner-table');
     const deleteButton = document.querySelector('#partner-delete-button');
-
     const searchForm = document.querySelector('#search-form');
     const excelDownloadButton = document.querySelector('#excel-download-button');
     const excelUploadButton = document.querySelector('#excel-upload-button');
+
+    const confirmModal = createConfirmModal();
 
     checkbox.init(checkboxGroup);
 

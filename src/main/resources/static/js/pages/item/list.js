@@ -5,13 +5,24 @@ import createConfirmModal from "../../common/modal/confirm.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const confirmModal = createConfirmModal();
-
     const checkboxGroup = document.querySelector('#item-table');
     const deleteButton = document.querySelector('#item-delete-button');
+    const searchForm = document.querySelector('#search-form');
+    const excelDownloadButton = document.querySelector('#excel-download-button');
+    const excelUploadButton = document.querySelector('#excel-upload-button');
+
+    const confirmModal = createConfirmModal();
 
     checkbox.init(checkboxGroup);
 
+    /* 품목 목록 엑셀 다운로드 */
+    excelDownloadButton.addEventListener('click', async function () {
+        const params = new URLSearchParams(new FormData(searchForm));
+
+        window.location.href = `/api/items/excel/download?${params.toString()}`;
+    });
+
+    /* 품목 삭제 */
     deleteButton.addEventListener('click', async function () {
 
         const selectedIds = checkbox.getCheckedValues(checkboxGroup);

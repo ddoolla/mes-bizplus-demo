@@ -5,6 +5,8 @@ import com.bizplus.mes.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class UomReader {
@@ -15,5 +17,9 @@ public class UomReader {
 
         return uomRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.UOM_NOT_FOUND, "id: " + id));
+    }
+
+    public List<Uom> getAll() {
+        return uomRepository.findUoms(null, null);
     }
 }

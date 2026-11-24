@@ -1,9 +1,7 @@
 package com.bizplus.mes.domain.item;
 
 import com.bizplus.mes.domain.code.common.QCommonCode;
-import com.bizplus.mes.domain.item.dto.ItemDto;
-import com.bizplus.mes.domain.item.dto.ItemSearchDto;
-import com.bizplus.mes.domain.item.dto.QItemDto;
+import com.bizplus.mes.domain.item.dto.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -96,6 +94,37 @@ public class ItemQueryRepositoryImpl implements ItemQueryRepository {
                 .where(searchCondition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public List<ItemExcelDto> fetchForExcel(ItemSearchDto dto) {
+        return query
+                .select(new QItemExcelDto(
+                        item.code,
+                        item.name,
+                        item.type,
+                        categoryCode.name,
+                        item.specification,
+                        uom.code,
+                        item.unitPrice,
+                        item.lotManaged,
+                        item.shelfLife,
+                        item.shelfLifeUnit,
+                        item.incomingInspectionRequired,
+                        item.remark
+                ))
+                .from(item)
+                .leftJoin(categoryCode).on(item.category.id.eq(categoryCode.id))
+                .innerJoin(uom).on(item.uom.id.eq(uom.id))
+                .where(
+                        notDeleted(item.deletedAt),
+                        contains(item.code, dto.getCode()),
+                        contains(item.name, dto.getName()),
+                        eq(item.type, dto.getType()),
+                        eq(categoryCode.id, dto.getCategoryId())
+                )
+                .orderBy(item.code.asc(), item.name.asc())
+                .fetch();
     }
 
     @Override

@@ -17,7 +17,7 @@
     <!--/* 바디 */-->
     <div class="app-box app-box-bg">
         <!--/* 필터 */-->
-        <div th:replace="~{pages/item/fragments/filter :: filter ('/items', ${data.pagination.totalElements}, true)}">
+        <div th:replace="~{pages/item/fragments/filter :: filter ('/items', ${data.pagination.totalElements})}">
         </div>
 
         <!--/* 목록 */-->

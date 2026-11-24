@@ -5,7 +5,7 @@ public class PhoneNumberFormatter {
     public static String format(String number) {
 
         if (number == null || number.isBlank()) {
-            return "-";
+            return null;
         }
 
         String tel = number.replaceAll("-", "");

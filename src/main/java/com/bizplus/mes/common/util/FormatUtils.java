@@ -50,14 +50,14 @@ public class FormatUtils {
     }
 
     public String businessNo(String value) {
-        return BusinessNumberFormatter.format(value);
+        return value(BusinessNumberFormatter.format(value));
     }
 
     public String corporateNo(String value) {
-        return CorporateNumberFormatter.format(value);
+        return value(CorporateNumberFormatter.format(value));
     }
 
     public String phoneNo(String value) {
-        return PhoneNumberFormatter.format(value);
+        return value(PhoneNumberFormatter.format(value));
     }
 }

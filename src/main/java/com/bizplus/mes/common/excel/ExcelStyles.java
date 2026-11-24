@@ -17,8 +17,8 @@ public class ExcelStyles {
 
     public ExcelStyles(Workbook workbook) {
         this.workbook = workbook;
-        this.header = createHeaderStyle();
         this.body = createBodyStyle();
+        this.header = createHeaderStyle();
         this.number = createNumberStyle();
         this.date = createDateStyle();
     }

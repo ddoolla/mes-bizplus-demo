@@ -21,7 +21,7 @@ public class ExcelUtils {
                 : formatter.formatCellValue(cell).trim();
     }
 
-    public static String[] getRowValue(Row row, int columnCount) {
+    public static String[] getRowValues(Row row, int columnCount) {
         DataFormatter formatter = new DataFormatter();
         String[] values = new String[columnCount];
 

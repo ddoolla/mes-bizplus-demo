@@ -32,6 +32,10 @@ public class ExcelUtils {
         return values;
     }
 
+    public static Color getColor(int r, int g, int b) {
+        return new XSSFColor(new java.awt.Color(r, g, b), new DefaultIndexedColorMap());
+    }
+
     public static boolean isEmptyRow(String[] values) {
         for (String value : values) {
             if (!value.isBlank()) {
@@ -40,72 +44,6 @@ public class ExcelUtils {
         }
 
         return true;
-    }
-
-    public static CellStyle getDefaultBodyStyle(Workbook workbook) {
-        CellStyle cs = workbook.createCellStyle();
-
-        cs.setBorderTop(BorderStyle.THIN);
-        cs.setBorderRight(BorderStyle.THIN);
-        cs.setBorderBottom(BorderStyle.THIN);
-        cs.setBorderLeft(BorderStyle.THIN);
-
-        cs.setAlignment(HorizontalAlignment.CENTER);
-        cs.setVerticalAlignment(VerticalAlignment.CENTER);
-
-        return cs;
-    }
-
-    public static CellStyle getDefaultNumberStyle(Workbook workbook) {
-        CellStyle cs = getDefaultBodyStyle(workbook);
-        cs.setAlignment(HorizontalAlignment.RIGHT);
-        cs.setDataFormat(workbook.createDataFormat().getFormat("#,##0"));
-
-        return cs;
-    }
-
-    public static CellStyle getDefaultDecimalStyle(Workbook workbook, int scale) {
-        CellStyle cs = getDefaultBodyStyle(workbook);
-        cs.setAlignment(HorizontalAlignment.RIGHT);
-
-        String format = "#,##0";
-
-        if (scale > 0) {
-            format += "." + "0".repeat(scale);
-        }
-
-        cs.setDataFormat(workbook.createDataFormat().getFormat(format));
-
-        return cs;
-    }
-
-    public static CellStyle getDefaultDateStyle(Workbook workbook) {
-        CellStyle cs = getDefaultBodyStyle(workbook);
-        cs.setDataFormat(workbook.createDataFormat().getFormat("yyyy-mm-dd"));
-
-        return cs;
-    }
-
-    public static CellStyle getDefaultHeaderStyle(Workbook workbook) {
-        CellStyle headerCs = workbook.createCellStyle();
-
-        Font headerFont = workbook.createFont();
-        headerFont.setBold(true);
-        headerCs.setFillForegroundColor(getColor(217, 225, 242));
-        headerCs.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        headerCs.setBorderTop(BorderStyle.THIN);
-        headerCs.setBorderRight(BorderStyle.THIN);
-        headerCs.setBorderBottom(BorderStyle.THIN);
-        headerCs.setBorderLeft(BorderStyle.THIN);
-        headerCs.setAlignment(HorizontalAlignment.CENTER);
-        headerCs.setVerticalAlignment(VerticalAlignment.CENTER);
-        headerCs.setFont(headerFont);
-
-        return headerCs;
-    }
-
-    public static Color getColor(int r, int g, int b) {
-        return new XSSFColor(new java.awt.Color(r, g, b), new DefaultIndexedColorMap());
     }
 
     public static void autoSizeColumns(Sheet sheet, int columnCount) {

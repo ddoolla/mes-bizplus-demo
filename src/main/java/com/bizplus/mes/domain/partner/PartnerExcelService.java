@@ -2,6 +2,7 @@ package com.bizplus.mes.domain.partner;
 
 import com.bizplus.mes.common.excel.ExcelStyles;
 import com.bizplus.mes.common.excel.ExcelUtils;
+import com.bizplus.mes.common.excel.ExcelValidationUtils;
 import com.bizplus.mes.common.excel.ExcelValidator;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.formatter.BusinessNumberFormatter;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,10 +32,12 @@ public class PartnerExcelService {
 
     private static final int DATA_STRAT_ROW_INDEX = 2;
 
+    private static final int TYPE_COLUMN_INDEX = 2;
+
     private static final List<String> HEADER_COLUMNS = List.of(
-            "코드",
-            "거래처명",
-            "유형",
+            "코드 *",
+            "거래처명 *",
+            "유형 *",
             "대표자명",
             "사업자등록번호",
             "법인등록번호",
@@ -57,6 +61,7 @@ public class PartnerExcelService {
             XSSFSheet sheet = workbook.createSheet();
             ExcelStyles styles = new ExcelStyles(workbook);
 
+            // 타이틀
             ExcelUtils.setTitle(
                     workbook,
                     sheet,
@@ -64,6 +69,7 @@ public class PartnerExcelService {
                     "A1:M1"
             );
 
+            // 항목
             ExcelUtils.setHeader(
                     sheet,
                     HEADER_ROW_INDEX,
@@ -71,6 +77,19 @@ public class PartnerExcelService {
                     styles.header()
             );
 
+            // 거래처 유형 드롭다운 적용
+            List<String> partnerTypes = Arrays.stream(PartnerType.values())
+                    .map(PartnerType::getDescription)
+                    .toList();
+
+            ExcelValidationUtils.addListValidation(
+                    sheet,
+                    DATA_STRAT_ROW_INDEX,
+                    TYPE_COLUMN_INDEX,
+                    partnerTypes
+            );
+
+            // 데이터
             List<Partner> partners = partnerRepository.fetchAll(dto);
 
             int rowIndex = DATA_STRAT_ROW_INDEX;
@@ -129,7 +148,7 @@ public class PartnerExcelService {
                     continue;
                 }
 
-                String[] values = ExcelUtils.getRowValue(row, HEADER_COLUMNS.size());
+                String[] values = ExcelUtils.getRowValues(row, HEADER_COLUMNS.size());
 
                 // 빈 행인 경우 건너뛰기
                 if (ExcelUtils.isEmptyRow(values)) {

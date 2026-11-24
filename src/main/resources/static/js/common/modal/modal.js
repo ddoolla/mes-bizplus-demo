@@ -51,6 +51,9 @@ const modal = {
             if (validator) {
                 validator.resetForm();
             }
+
+            $(form).find('.is-invalid, .is-valid')
+                .removeClass('is-invalid is-valid');
         });
     }
 };

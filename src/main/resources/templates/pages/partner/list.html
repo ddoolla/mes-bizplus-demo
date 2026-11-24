@@ -77,6 +77,9 @@
         <!--/* 페이지네이션 */-->
         <div th:replace="~{fragments/pagination :: pagination (${data.pagination})}"></div>
     </div>
+
+    <!--/* 엑셀 업로드 모달 */-->
+    <div th:replace="~{pages/partner/modal/upload :: modal}"></div>
 </div>
 </body>
 </html>

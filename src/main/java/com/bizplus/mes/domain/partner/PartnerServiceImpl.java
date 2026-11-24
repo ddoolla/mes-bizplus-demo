@@ -41,6 +41,7 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public void createPartner(PartnerCreateDto dto) {
+        // todo 서버 유효성 검사 추가 (사업자 번호, 전화번호 등)
         partnerRepository.save(PartnerMapper.toEntity(dto));
     }
 

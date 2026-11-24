@@ -2,6 +2,7 @@ package com.bizplus.mes.common.excel;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
@@ -25,7 +26,7 @@ public class ExcelUtils {
         DataFormatter formatter = new DataFormatter();
         String[] values = new String[columnCount];
 
-        for (int i = 0; i <columnCount; i++) {
+        for (int i = 0; i < columnCount; i++) {
             values[i] = getCellValue(row, i, formatter);
         }
 
@@ -34,6 +35,21 @@ public class ExcelUtils {
 
     public static Color getColor(int r, int g, int b) {
         return new XSSFColor(new java.awt.Color(r, g, b), new DefaultIndexedColorMap());
+    }
+
+
+    /**
+     * 첫 행 기준 셀 병합 범위 문자열 반환
+     *
+     * @param columnCount - 헤더 컬럼 수 (2개 이상)
+     * @return - ex) "A1:N1"
+     */
+    public static String titleRange(int columnCount) {
+        if (columnCount < 1) {
+            throw new IllegalArgumentException("columnCount는 1 이상이어야 합니다.");
+        }
+
+        return "A1:%s1".formatted(CellReference.convertNumToColString(columnCount - 1));
     }
 
     public static boolean isEmptyRow(String[] values) {
@@ -191,6 +207,5 @@ public class ExcelUtils {
             cell.setCellValue(column);
             cell.setCellStyle(style);
         }
-
     }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MessageCode {
 
+    SAVED("common.saved"),
     CREATED("common.created"),
     UPDATED("common.updated"),
     DELETED("common.deleted"),

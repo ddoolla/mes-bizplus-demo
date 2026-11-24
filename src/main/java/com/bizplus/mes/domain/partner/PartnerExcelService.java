@@ -1,8 +1,8 @@
 package com.bizplus.mes.domain.partner;
 
+import com.bizplus.mes.common.excel.ExcelDataValidationUtils;
 import com.bizplus.mes.common.excel.ExcelStyles;
 import com.bizplus.mes.common.excel.ExcelUtils;
-import com.bizplus.mes.common.excel.ExcelValidationUtils;
 import com.bizplus.mes.common.excel.ExcelValidator;
 import com.bizplus.mes.common.exception.BusinessException;
 import com.bizplus.mes.common.formatter.BusinessNumberFormatter;
@@ -30,7 +30,7 @@ public class PartnerExcelService {
 
     private static final int HEADER_ROW_INDEX = 1;
 
-    private static final int DATA_STRAT_ROW_INDEX = 2;
+    private static final int DATA_START_ROW_INDEX = 2;
 
     private static final int TYPE_COLUMN_INDEX = 2;
 
@@ -66,10 +66,10 @@ public class PartnerExcelService {
                     workbook,
                     sheet,
                     "거래처 목록",
-                    "A1:M1"
+                    ExcelUtils.titleRange(HEADER_COLUMNS.size())
             );
 
-            // 항목
+            // 헤더 항목
             ExcelUtils.setHeader(
                     sheet,
                     HEADER_ROW_INDEX,
@@ -82,35 +82,36 @@ public class PartnerExcelService {
                     .map(PartnerType::getDescription)
                     .toList();
 
-            ExcelValidationUtils.addListValidation(
+            ExcelDataValidationUtils.addDropdownList(
                     sheet,
-                    DATA_STRAT_ROW_INDEX,
+                    DATA_START_ROW_INDEX,
                     TYPE_COLUMN_INDEX,
                     partnerTypes
             );
 
-            // 데이터
+            // 바디 데이터
             List<Partner> partners = partnerRepository.fetchAll(dto);
 
-            int rowIndex = DATA_STRAT_ROW_INDEX;
+            int rowIndex = DATA_START_ROW_INDEX;
 
             for (Partner partner : partners) {
                 Row row = sheet.createRow(rowIndex++);
+                int col = 0;
 
-                ExcelUtils.setCell(row, 0, partner.getCode(), styles.body());
-                ExcelUtils.setCell(row, 1, partner.getName(), styles.body());
-                ExcelUtils.setCell(row, 2, partner.getType().getDescription(), styles.body());
-                ExcelUtils.setCell(row, 3, partner.getCeoName(), styles.body());
-                ExcelUtils.setCell(row, 4, BusinessNumberFormatter.format(partner.getBusinessNo()), styles.body());
-                ExcelUtils.setCell(row, 5, CorporateNumberFormatter.format(partner.getCorporateNo()), styles.body());
-                ExcelUtils.setCell(row, 6, partner.getTel(), styles.body());
-                ExcelUtils.setCell(row, 7, partner.getFax(), styles.body());
-                ExcelUtils.setCell(row, 8, partner.getEmail(), styles.body());
-                ExcelUtils.setCell(row, 9, partner.getHomePage(), styles.body());
-                ExcelUtils.setCell(row, 10, partner.getZipCode(), styles.body());
-                ExcelUtils.setCell(row, 11, partner.getAddress(), styles.body());
-                ExcelUtils.setCell(row, 12, partner.getAddressDetail(), styles.body());
-                ExcelUtils.setCell(row, 13, partner.getRemark(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getCode(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getName(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getType().getDescription(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getCeoName(), styles.body());
+                ExcelUtils.setCell(row, col++, BusinessNumberFormatter.format(partner.getBusinessNo()), styles.body());
+                ExcelUtils.setCell(row, col++, CorporateNumberFormatter.format(partner.getCorporateNo()), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getTel(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getFax(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getEmail(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getHomePage(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getZipCode(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getAddress(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getAddressDetail(), styles.body());
+                ExcelUtils.setCell(row, col++, partner.getRemark(), styles.body());
             }
 
             ExcelUtils.autoSizeColumns(sheet, HEADER_COLUMNS.size());
@@ -141,7 +142,7 @@ public class PartnerExcelService {
             Set<String> codeSet = new HashSet<>();
 
             // 3행부터 데이터
-            for (int rowIndex = DATA_STRAT_ROW_INDEX; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+            for (int rowIndex = DATA_START_ROW_INDEX; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
 
                 if (row == null) {
@@ -177,7 +178,7 @@ public class PartnerExcelService {
 
                 if (type == null) {
                     throw new BusinessException(
-                            "%d행: 올바르지 않은 거래처 유형입니다. (%s)".formatted(rowIndex + 1, type));
+                            "%d행: 올바르지 않은 거래처 유형입니다. (%s)".formatted(rowIndex + 1, values[2]));
                 }
 
                 String ceoName = values[3];

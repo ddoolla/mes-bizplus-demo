@@ -9,9 +9,9 @@ import org.apache.poi.ss.util.CellRangeAddressList;
 
 import java.util.List;
 
-public class ExcelValidationUtils {
+public class ExcelDataValidationUtils {
 
-    public static void addListValidation(Sheet sheet, int startRow, int columnIndex, List<String> values) {
+    public static void addDropdownList(Sheet sheet, int startRow, int columnIndex, List<String> values) {
         CellRangeAddressList range = new CellRangeAddressList(
                 startRow,
                 SpreadsheetVersion.EXCEL2007.getLastRowIndex(),

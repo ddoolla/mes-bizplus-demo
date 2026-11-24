@@ -73,6 +73,12 @@
                     <i class="bi bi-download"></i> 엑셀 다운로드
                 </button>
                 <button type="button"
+                        id="excel-upload-button"
+                        class="btn btn-secondary btn-sm"
+                        sec:authorize="hasAuthority('PARTNER_CREATE')">
+                    <i class="bi bi-upload"></i> 엑셀 업로드
+                </button>
+                <button type="button"
                         class="btn btn-primary btn-sm"
                         th:onclick="|location.href='@{/partners/new}'|"
                         sec:authorize="hasAuthority('PARTNER_CREATE')">
